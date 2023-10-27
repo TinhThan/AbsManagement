@@ -1,0 +1,95 @@
+# Visual Studio temporary files
+AbsManagementAPI/.vs/
+AbsManagementAPI/AbsManagementAPI/bin/
+AbsManagementAPI/AbsManagementAPI/obj/
+
+# Rider
+.idea/
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# NuGet
+AbsManagementAPI/packages/
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Compiled Object files
+*.sbr
+*.dll
+*.exe
+*.ncb
+
+# Dependency directories
+bower_components/
+jspm_packages/
+node_modules/
+package-lock.json
+yarn.lock
+
+# Visual Studio files
+AbsManagementAPI/.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+[Bb]in
+[Dd]ebug*/
+[Dd]ebugPublic/
+[Rr]elease*/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Ll]og/
+[Ll]ogs/
+
+# Rider
+.idea/
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+.idea/
+.cache/
+output/
+node_modules/
+bower_components/
+.DS_Store
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
