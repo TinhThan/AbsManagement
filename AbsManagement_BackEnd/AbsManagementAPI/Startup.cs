@@ -21,7 +21,7 @@ namespace AbsManagementAPI
             CurrentOption.AuthenticationString = appsetting.AuthenticationStrings;
         }
 
-        public void ConfigureService(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddCore();
             services.AddControllers(options => options.Filters.Add(new ApiExceptionFilter()));

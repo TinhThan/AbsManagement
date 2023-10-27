@@ -1,7 +1,6 @@
 # Visual Studio temporary files
-AbsManagementAPI/.vs/
-AbsManagementAPI/AbsManagementAPI/bin/
-AbsManagementAPI/AbsManagementAPI/obj/
+AbsManagement_BackEnd/AbsManagementAPI/bin/
+AbsManagement_BackEnd/AbsManagementAPI/obj/
 
 # Rider
 .idea/
