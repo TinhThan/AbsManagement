@@ -11,7 +11,7 @@ AbsManagement_BackEnd/AbsManagementAPI/obj/
 *.sln.docstates
 
 # NuGet
-AbsManagementAPI/packages/
+AbsManagement_BackEnd/packages/
 
 # User-specific files
 *.suo
@@ -37,11 +37,9 @@ package-lock.json
 yarn.lock
 
 # Visual Studio files
-AbsManagementAPI/.vscode/
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
 *.sw?
 [Bb]in
 [Dd]ebug*/
