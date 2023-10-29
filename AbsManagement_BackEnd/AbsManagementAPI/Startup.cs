@@ -1,7 +1,9 @@
 ﻿using AbsManagementAPI.Core;
 using AbsManagementAPI.Core.Constants;
+using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;

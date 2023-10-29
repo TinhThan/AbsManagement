@@ -53,7 +53,12 @@ namespace AbsManagementAPI.Core.Exceptions
         private static void HandleMessageException(ExceptionContext exceptionContext)
         {
             var exception = (CustomMessageException)exceptionContext.Exception ?? new CustomMessageException(MessageSystem.DATA_INVALID);
-            exceptionContext.Result = new JsonResult(new CustomException(exception.Title, exception.Detail, exception.Description))
+            exceptionContext.Result = new JsonResult(new ExceptionResponse()
+            {
+                Title = exception.Title,
+                Description = exception.Description,
+                Detail = exception.Detail,
+            })
             {
                 StatusCode = StatusCodes.Status400BadRequest
             };
