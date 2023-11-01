@@ -4,6 +4,7 @@ using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
 {
@@ -15,36 +16,31 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
 
         public async Task<string> Handle(CapNhatBangQuangCaoCommand request, CancellationToken cancellationToken)
         {
-            var capNhat = _mapper.Map<BangQuangCaoEntity>(request.CapNhatBangQuangCaoModel);
+            var bangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
+            if (bangQuangCao.NgayCapNhat != request.CapNhatBangQuangCaoModel.NgayCapNhat)
+            {
+                throw new CustomMessageException(MessageSystem.VERSION_UPDATE, MessageSystem.VERSION_UPDATE, new object[]
+                {
+                    bangQuangCao.NhanVienCapNhat,bangQuangCao.NgayCapNhat
+                });
+            }
             try
             {
-                var thongTinBangBaoCap = await _dataContext.BangQuangCaos.FindAsync(capNhat.Id);
-                if (!string.IsNullOrEmpty(thongTinBangBaoCap?.Id.ToString()))
-                {
-                    return MessageSystem.ADD_FAIL;
-                }
-                thongTinBangBaoCap.DiaChi = capNhat.DiaChi;
-                thongTinBangBaoCap.Phuong = capNhat.Phuong;
-                thongTinBangBaoCap.Quan = capNhat.Quan; 
-                thongTinBangBaoCap.ViTri = capNhat.ViTri;
-                thongTinBangBaoCap.DanhSachHinhAnh = capNhat.DanhSachHinhAnh;
-                thongTinBangBaoCap.MaLoaiViTri = capNhat.MaLoaiViTri;
-                thongTinBangBaoCap.MaHinhThucQuangCao = capNhat.MaHinhThucQuangCao;
-                thongTinBangBaoCap.MaLoaiBangQuangCao = capNhat.MaLoaiBangQuangCao;
-                thongTinBangBaoCap.KichThuoc = capNhat.KichThuoc;
-                thongTinBangBaoCap.NgayHetHan = (DateTimeOffset)(capNhat.NgayHetHan);
-                thongTinBangBaoCap.NgayCapNhat = DateTime.Now;
-                _dataContext.Update(thongTinBangBaoCap);
+                var bangQuangCaoCapNhat = _mapper.Map(request.CapNhatBangQuangCaoModel, bangQuangCao);
+
+                bangQuangCaoCapNhat.NhanVienCapNhat = "Hệ Thống";
+                bangQuangCaoCapNhat.NgayCapNhat = DateTimeOffset.UtcNow;
+                _dataContext.Update(bangQuangCaoCapNhat);
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 if (resultCapNhat > 0)
                 {
                     return MessageSystem.UPDATE_SUCCESS;
                 }
-                throw new CustomMessageException(MessageSystem.ADD_FAIL);
+                throw new CustomMessageException(MessageSystem.UPDATE_FAIL);
             }
             catch (Exception ex)
             {
-                throw new CustomMessageException(MessageSystem.UPDATE_SUCCESS, ex.Message);
+                throw new CustomMessageException(MessageSystem.UPDATE_FAIL, ex.Message);
             }
         }
     }

@@ -25,6 +25,16 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.HinhThucQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)))
                 .ForMember(src => src.ViTri, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachViTri)));
+
+            CreateMap<CapNhatBangQuangCaoModel, BangQuangCaoEntity>()
+                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.NhanVienCapNhat, desc => desc.Ignore())
+                .ForMember(src => src.LoaiViTri, desc => desc.Ignore())
+                .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.HinhThucQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)))
+                .ForMember(src => src.ViTri, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachViTri)));
         }
     }
 }

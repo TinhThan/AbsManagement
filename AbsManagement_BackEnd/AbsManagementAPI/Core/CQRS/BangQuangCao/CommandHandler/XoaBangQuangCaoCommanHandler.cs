@@ -4,6 +4,7 @@ using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
@@ -16,27 +17,27 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
 
         public async Task<string> Handle(XoaBangQuangCaoCommand request, CancellationToken cancellationToken)
         {
-            var bangQuangCao= _mapper.Map<BangQuangCaoEntity>(request.XoaBangQuangCaoModel);
-
+            var bangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == request.XoaBangQuangCaoModel.Id, cancellationToken);
+            if (bangQuangCao.NgayCapNhat != request.XoaBangQuangCaoModel.NgayCapNhat)
+            {
+                throw new CustomMessageException(MessageSystem.VERSION_UPDATE, MessageSystem.VERSION_UPDATE, new object[]
+                {
+                    bangQuangCao.NhanVienCapNhat, bangQuangCao.NgayCapNhat
+                });
+            }
             try
             {
-                var thongTinBangBaoCap = await _dataContext.BangQuangCaos.FindAsync(bangQuangCao.Id);
-                if(!string.IsNullOrEmpty(thongTinBangBaoCap?.Id.ToString()))
-                {
-                    return MessageSystem.ADD_FAIL;
-                }
-                thongTinBangBaoCap.TrangThai = TrangThaiBangQuangCao.DAQUYHOACH;
-                _dataContext.Update(thongTinBangBaoCap);
+                _dataContext.Remove(bangQuangCao);
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 if (resultCapNhat > 0)
                 {
-                    return MessageSystem.UPDATE_SUCCESS;
+                    return MessageSystem.DELETE_SUCCESS;
                 }
-                throw new CustomMessageException(MessageSystem.ADD_FAIL);
+                throw new CustomMessageException(MessageSystem.DELETE_FAIL);
             }
             catch (Exception ex)
             {
-                throw new CustomMessageException(MessageSystem.UPDATE_SUCCESS, ex.Message);
+                throw new CustomMessageException(MessageSystem.DELETE_FAIL, ex.Message);
             }
         }
     }

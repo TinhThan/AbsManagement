@@ -15,6 +15,17 @@ namespace AbsManagementAPI.Validations.BangQuangCao
         {
             _dataContext = dataContext;
 
+            RuleFor(t => t.Id)
+                .GreaterThan(0).WithMessage(MessageBangQuangCao.BANGQUANGCAO_ID_IS_NULL_OR_EMPTY)
+                .MustAsync(async (id, canncellationToken) =>
+                {
+                    if (id != 0)
+                    {
+                        return await _dataContext.BangQuangCaos.AnyAsync(t => t.Id == id, canncellationToken);
+                    }
+                    return true;
+                }).WithMessage(MessageBangQuangCao.BANGQUANGCAO_NOT_EXISTS);
+
             RuleFor(t => t.CapNhatBangQuangCaoModel.DiaChi)
                 .NotNull().WithMessage(MessageBangQuangCao.BANGQUANGCAO_DIACHI_IS_NULL_OR_EMPTY)
                 .NotEmpty().WithMessage(MessageBangQuangCao.BANGQUANGCAO_DIACHI_IS_NULL_OR_EMPTY);

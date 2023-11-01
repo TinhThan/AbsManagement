@@ -5,6 +5,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.Command
 {
     public class CapNhatBangQuangCaoCommand : IRequest<string>
     {
+        public int Id { get; set; }
         public CapNhatBangQuangCaoModel CapNhatBangQuangCaoModel { get; set; }
     }
 }
