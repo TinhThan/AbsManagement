@@ -1,9 +1,9 @@
 ﻿using AbsManagementAPI.Core.Entities;
+using AbsManagementAPI.Core.HubSignalR;
 using AbsManagementAPI.Validations;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace AbsManagementAPI.Core
@@ -13,6 +13,9 @@ namespace AbsManagementAPI.Core
         public static IServiceCollection AddCore(this IServiceCollection services)
         {
             services.AddDbContext<DataContext>();
+
+            services.AddScoped<INotifyService, NotifyService>();
+
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));

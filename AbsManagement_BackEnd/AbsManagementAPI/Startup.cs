@@ -2,6 +2,7 @@
 using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions;
+using AbsManagementAPI.Core.HubSignalR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -26,6 +27,7 @@ namespace AbsManagementAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCore();
+            services.AddSignalR();
             services.AddControllers(options => options.Filters.Add(new ApiExceptionFilter()));
 
             services.AddEndpointsApiExplorer();
@@ -59,6 +61,7 @@ namespace AbsManagementAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotifyHub>("/notify");
             });
         }
     }

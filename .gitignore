@@ -1,7 +1,7 @@
 # Visual Studio temporary files
 AbsManagement_BackEnd/AbsManagementAPI/bin/
 AbsManagement_BackEnd/AbsManagementAPI/obj/
-
+AbsManagement_BackEnd/.vs
 # Rider
 .idea/
 
@@ -90,3 +90,4 @@ bower_components/
 *.user
 *.userosscache
 *.sln.docstates
+/AbsManagement_BackEnd/.vs
