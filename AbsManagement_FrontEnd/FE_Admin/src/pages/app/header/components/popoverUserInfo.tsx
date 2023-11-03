@@ -3,10 +3,11 @@ import { Avatar, Col, Popover, Space, Typography } from 'antd';
 import { AppstoreAddOutlined, LogoutOutlined, ProfileOutlined, UserSwitchOutlined } from '@ant-design/icons';
 import avatar from 'assets/images/avatar.webp';
 import { UserStorage } from '../../../../apis/models/user';
-import { useNavigate } from 'react-router-dom';
 import { useResponsive } from '../../../../hooks/useResponsive';
 import { MessageBox } from '../../../../utils/messagebox';
 import { ConfigRoute } from '../../../../routes/ConfigRoute';
+import { useGoRoute } from '../../../../hooks/useGoRoute';
+import { messageSystem } from '../../../constant/messageSystem';
 
 
 interface Props {
@@ -15,7 +16,7 @@ interface Props {
 }
 export function PopoverUserInfo(props: Props): JSX.Element {
   const { userInfo, logOutClick } = props;
-  const  navigagte = useNavigate();
+  const  {goRoute} = useGoRoute();
   const [isVisible, setIsVisible] = useState(false);
   const screens = useResponsive();
 
@@ -51,15 +52,15 @@ export function PopoverUserInfo(props: Props): JSX.Element {
           <Space direction='vertical' className='popover-info-user'>
             <span
               onClick={() => {
-                navigagte(ConfigRoute.ThongTinCaNhan);
+                goRoute("ThongTinCaNhan");
                 setIsVisible(false);
               }}
               className='btn-info'
             >
-              <ProfileOutlined /> Thông tin cá nhân
+              <ProfileOutlined rev={undefined} /> {messageSystem.ThongTinCaNhan}
             </span>
             <span role='button' tabIndex={0} onClick={onLogOut} className='btn-info' aria-hidden='true'>
-              <LogoutOutlined /> Đăng xuất
+              <LogoutOutlined rev={undefined} /> {messageSystem.DangXuat}
             </span>
           </Space>
         </>

@@ -1,28 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import LoginForm from '../../components/LoginForm';
 import { message } from 'antd';
 import { authAPI } from '../../apis/authAPI';
 import TokenStorage from '../../apis/storages/tokenStorage';
 import RefreshTokenStorage from '../../apis/storages/refreshTokenStorage';
-import { useNavigate } from 'react-router-dom';
+import { useGoRoute } from '../../hooks/useGoRoute';
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
-  const accessToken = TokenStorage.get();
-
-  useEffect(() => {
-    if(accessToken)
-      {
-        navigate('/home');
-      }
-  })
-
+  const { goRoute } = useGoRoute();
   const handleLogin = async (values: any) => {
     try {
       const response = await authAPI.Login(values);
       TokenStorage.set(response.accessToken);
       RefreshTokenStorage.set(response.refreshToken);
-      navigate('/home')
+      goRoute('Home')
     } catch (error: any) {
       console.error('Login error:', error);
       message.error(error.message);

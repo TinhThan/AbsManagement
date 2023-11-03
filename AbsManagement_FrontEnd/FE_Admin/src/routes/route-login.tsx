@@ -1,16 +1,17 @@
 import { Suspense, lazy } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { ConfigRoute } from "./ConfigRoute";
+import { PageLoading } from "@ant-design/pro-components";
 
 export default function RouteAuth(): JSX.Element {
   return (
-    <Suspense>
-      <Routes>
+    <Suspense fallback={<PageLoading/>}>
+      <Switch>
         <Route
           path={ConfigRoute.Login}
           Component={lazy(() => import("../pages/auth/Login"))}
         />
-      </Routes>
+      </Switch>
     </Suspense>
   );
 }

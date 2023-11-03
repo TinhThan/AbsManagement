@@ -1,0 +1,241 @@
+$color: #eaedf0;
+$radius-border: 40px;
+
+.ant-menu {
+  .title-feature {
+    width: 180px;
+    // .ant-typography {
+    //   color: white;
+    // }
+  }
+  background: transparent !important;
+  .anticon-home {
+    color: $color;
+  }
+  .ant-menu-title-content {
+    font-size: 14px;
+    color: $color;
+    line-height: 22px;
+    font-weight: 400 !important;
+    i {
+      color: $color;
+    }
+  }
+  .ant-menu-item-selected {
+    background: linear-gradient(90deg, rgba(151, 183, 255, 0.3) 0%, rgba(151, 183, 255, 0.015) 100%) !important;
+    border-top-left-radius: $radius-border;
+    border-bottom-left-radius: $radius-border;
+  }
+  .menu-parent-title {
+    font-weight: bold;
+    background: transparent !important;
+    cursor: default;
+    .b-menu-title-parent {
+      color: white;
+    }
+  }
+  .ant-menu-item-active:active {
+    background-color: transparent;
+    border-top-left-radius: $radius-border;
+    border-bottom-left-radius: $radius-border;
+  }
+  .ant-menu-submenu-title:active {
+    background-color: transparent;
+  }
+  .ant-menu-submenu .ant-menu-submenu-inline .ant-menu-submenu-open .ant-menu-submenu-selected {
+    background-color: transparent !important;
+  }
+  .ant-menu-item-icon {
+    color: $color !important;
+  }
+  .ant-menu-submenu-arrow {
+    color: $color !important;
+  }
+
+  .fa-users-cog {
+    color: black;
+  }
+  .ant-menu-item {
+    align-items: center;
+    display: grid;
+  }
+}
+.ant-menu-submenu-popup {
+  background: linear-gradient(to bottom, #57ade1, #3155a6) !important;
+}
+.link {
+  color: $color !important;
+  font-size: 14px;
+}
+.icon-info {
+  float: right;
+  // margin-top: 12px;
+  color: #f2994a !important;
+}
+
+.divider-space {
+  background: #63a5d9;
+  margin: 0 !important;
+}
+
+
+.ant-layout-sider {
+  background: linear-gradient(180deg, #58b0e3 0%, #3155a6 43.75%) !important;
+  .ant-layout-content {
+    margin: 10px 15px !important;
+  }
+}
+.ant-layout-content {
+  margin: 10px 15px !important;
+}
+.menu-hierarchy {
+  background: white;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.logo {
+  cursor: pointer;
+}
+.input-search-menu {
+  border-radius: 50px !important;
+  .ant-input{
+    font-size: 14px !important;
+  }
+}
+
+@mixin scroll {
+  // overflow: auto auto !important;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #eef5ff;
+    border-radius: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #cbe1ff;
+  }
+}
+
+.site-layout-background {
+  background-color: white !important;
+  /* padding: 10px; */
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.btn-info:hover {
+  cursor: pointer;
+}
+
+.btn-info {
+  display: block;
+}
+
+.space-title {
+  font-size: 11px;
+  margin-bottom: 40px !important;
+  gap: 5px;
+
+  .ant-space-item {
+    height: 9px !important;
+  }
+}
+
+.title-user-name {
+  font-weight: bold;
+}
+
+.row-header-layout {
+  margin-bottom: 1px;
+}
+
+.space-header-layout {
+  height: 50px;
+  float: right;
+
+  .anticon-bell {
+    color: #3155a6;
+  }
+}
+
+.ant-popover-placement-bottom {
+  top: 45px !important;
+}
+
+.space-user {
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.title-page-name {
+  float: left;
+}
+
+.icon-menu-fold {
+  margin-right: 25px;
+}
+
+.icon-header-changedPass {
+  height: 16px;
+  width: 16px;
+}
+
+.ant-popover-custom {
+  position: fixed !important;
+  .ant-popover-inner {
+    border-radius: 5px !important;
+  }
+  .ant-input-affix-wrapper {
+    border-radius: 0;
+  }
+}
+
+.notifincation-tabs {
+  .ant-popover-title {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .ant-list-item-meta-title {
+    margin-bottom: 0px;
+    font-size: 15px;
+  }
+  .ant-popover-inner-content {
+    padding: 0 5px !important;
+  }
+  width: 336px;
+  .ls-message {
+    @include scroll;
+    height: 420px;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-bottom: 5px;
+
+    .ant-list-item {
+      .date-messsage {
+        font-size: 12px;
+      }
+      border-bottom: 1px solid #e7eeff;
+      padding: 5px 8px;
+      margin: 5px 5px;
+      .icon-excel {
+        width: 30px;
+        height: 30px;
+        padding: 7px;
+        border-radius: 10px;
+        background: linear-gradient(to top right, #7bc57f, #3b893f);
+      }
+    }
+  }
+  .ant-btn {
+    border-radius: 5px;
+  }
+  .ant-list-header {
+    border-bottom: 1px solid #e7eeff !important;
+    padding-top: 0;
+    // padding-bottom: 10px;
+  }
+}
+
+

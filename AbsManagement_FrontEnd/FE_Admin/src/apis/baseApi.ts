@@ -17,19 +17,19 @@ import { LoginResponse } from "./authAPI";
 
 const cancelToken = axios.CancelToken.source();
 
-function isTokenValid(token : string) {
-    const tokenInfo:JwtPayload = jwt_decode(token);
-    if (tokenInfo?.exp) {
-        const expirationTimeUTC = new Date(tokenInfo.exp * 1000 - 10000).toUTCString();
+// function isTokenValid(token : string) {
+//     const tokenInfo:JwtPayload = jwt_decode(token);
+//     if (tokenInfo?.exp) {
+//         const expirationTimeUTC = new Date(tokenInfo.exp * 1000 - 10000).toUTCString();
 
 
-        const currentTimeUTC = new Date().toUTCString();
-        console.log("currentTimeUTC",currentTimeUTC);
-        console.log("expirationTimeUTC",expirationTimeUTC);
-        return expirationTimeUTC > currentTimeUTC;
-    }
-    return false;
-}
+//         const currentTimeUTC = new Date().toUTCString();
+//         console.log("currentTimeUTC",currentTimeUTC);
+//         console.log("expirationTimeUTC",expirationTimeUTC);
+//         return expirationTimeUTC > currentTimeUTC;
+//     }
+//     return false;
+// }
 
 export class BaseApi {
     private api: AxiosInstance;

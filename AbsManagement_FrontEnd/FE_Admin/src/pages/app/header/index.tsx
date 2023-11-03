@@ -18,20 +18,18 @@ export function HeaderLayout(props: Props): JSX.Element {
                 {collapse ? (
                 <span title={"Mở menu"}>
                     <MenuUnfoldOutlined
-                    className='icon-menu-fold'
-                    onClick={() => {
-                        onCollapse();
-                    }}
-                    />
+                            className='icon-menu-fold'
+                            onClick={() => {
+                                onCollapse();
+                            } } rev={undefined}                    />
                 </span>
                 ) : (
                 <span title={"Đóng menu"}>
                     <MenuFoldOutlined
-                    className='icon-menu-fold'
-                    onClick={() => {
-                        onCollapse();
-                    }}
-                    />
+                                className='icon-menu-fold'
+                                onClick={() => {
+                                    onCollapse();
+                                } } rev={undefined}                    />
                 </span>
                 )}
             </Col>
