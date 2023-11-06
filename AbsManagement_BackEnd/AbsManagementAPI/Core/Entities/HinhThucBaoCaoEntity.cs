@@ -8,6 +8,8 @@ namespace AbsManagementAPI.Core.Entities
         {
             BaoCaoViPhams = new HashSet<BaoCaoViPhamEntity>();
         }
+        public int Id { get; set; }
+
         public string Ma { get; set; }
 
         public string Ten { get; set; }

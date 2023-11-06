@@ -21,14 +21,13 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
             {
                 throw new CustomMessageException(MessageSystem.VERSION_UPDATE, MessageSystem.VERSION_UPDATE, new object[]
                 {
-                    bangQuangCao.NhanVienCapNhat,bangQuangCao.NgayCapNhat
+                    bangQuangCao.NgayCapNhat
                 });
             }
             try
             {
                 var bangQuangCaoCapNhat = _mapper.Map(request.CapNhatBangQuangCaoModel, bangQuangCao);
 
-                bangQuangCaoCapNhat.NhanVienCapNhat = "Hệ Thống";
                 bangQuangCaoCapNhat.NgayCapNhat = DateTimeOffset.UtcNow;
                 _dataContext.Update(bangQuangCaoCapNhat);
                 var resultCapNhat = await _dataContext.SaveChangesAsync();

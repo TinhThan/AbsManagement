@@ -22,7 +22,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
             {
                 throw new CustomMessageException(MessageSystem.VERSION_UPDATE, MessageSystem.VERSION_UPDATE, new object[]
                 {
-                    bangQuangCao.NhanVienCapNhat, bangQuangCao.NgayCapNhat
+                    bangQuangCao.NgayCapNhat
                 });
             }
             try

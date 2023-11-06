@@ -30,12 +30,28 @@ namespace AbsManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BangQuangCaoModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        public async Task<BangQuangCaoModel> TaoMoi(int id)
+        public async Task<BangQuangCaoModel> ChiTiet(int id)
         {
             return await _mediator.Send(new ChiTietBangQuangCaoQuery()
             {
                 Id = id
             });
+        }
+
+        /// <summary>
+        /// Danh sách bảng quảng cáo
+        /// </summary>
+        /// <param name="id"></param>
+        /// <response code="200">Lấy danh sách bảng quảng cáo thành công</response>
+        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
+        /// <response code="500">Lỗi đến từ server</response>
+        [HttpGet()]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<BangQuangCaoModel>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
+        public async Task<List<BangQuangCaoModel>> DanhSach(int id)
+        {
+            return await _mediator.Send(new DanhSachBangquangCaoQuery());
         }
 
         /// <summary>
