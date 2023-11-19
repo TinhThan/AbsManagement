@@ -4,6 +4,11 @@
     {
         public const string DATA_INVALID = "Dữ liệu không hợp lệ.";
         public const string SERVER_ERROR = "Đã xảy ra lỗi ở hệ thống.";
+        public const string TOKEN_EXPIRED = "Token đã hết hạn.";
+        public const string AUTH_AUTHENTICATED_ERROR = "Đăng nhập thất bại.";
+        public const string AUTH_INVALID = "Thông tin tài khoản không hợp lệ.";
+        public const string REFRESH_TOKEN_INVALID = "Refresh token không hợp lệ.";
+        public const string REFRESH_TOKEN_EXPIRED = "Phiên làm việc của bạn đã hết hạn.";
 
         public const string ADD_FAIL = "Thêm mới thất bại.";
         public const string ADD_SUCCESS = "Thêm mới thành công.";
