@@ -1,26 +1,23 @@
 interface BaseBangQuangCao {
-    DiaChi: string;
-    Phuong: string;
-    Quan: string;
-    DanhSachViTri: string[];
-    MaLoaiViTri: string;
-    MaHinhThucQuangCao: string;
-    MaLoaiBangQuangCao: string;
+    IdDiemDatQuangCao:number;
+    IdLoaiBangQuangCao:number;
     DanhSachHinhAnh: string[];
     KichThuoc: string;
     NgayHetHan: Date;
+    NgayCapNhat: Date;
+    IdTinhTrang:string;
 }
 
 export interface BangQuangCaoModel extends BaseBangQuangCao{
     Id: number;
-    TrangThai: number;
-    NgayCapNhat: Date | null;
-    NhanVienCapNhat: string;
+    DiaChi: string;
+    Phuong: string;
+    Quan: string;
+    TenLoaiBangQuangCao:string;
+    DanhSachViTri: string[];
 }
 
 export interface CapNhatBangQuangCaoModel extends BaseBangQuangCao{
-    TrangThai: number;
-    NgayCapNhat: Date | null;
 }
 
 export interface ThemMoiBangQuangCaoModel extends BaseBangQuangCao{

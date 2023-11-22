@@ -1,6 +1,6 @@
 ﻿using AbsManagementAPI.Core.Authentication;
 using AbsManagementAPI.Core.Constants;
-using AbsManagementAPI.Core.CQRS.User.Command;
+using AbsManagementAPI.Core.CQRS.Auth.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AutoMapper;
@@ -8,7 +8,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
-namespace AbsManagementAPI.Core.CQRS.User.CommandHandler
+namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
 {
     public class RefreshTokenCommandHandler : BaseHandler, IRequestHandler<RefreshTokenCommand, string>
     {

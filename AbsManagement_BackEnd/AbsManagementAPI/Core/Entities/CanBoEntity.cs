@@ -18,7 +18,7 @@
         public DateTimeOffset NgaySinh { get; set; }
         public string Role { get; set; }
         public string MatKhau { get; set; }
-        public string RefreshToken { get; set; }
+        public string? RefreshToken { get; set; }
         public DateTimeOffset? RefreshTokenExpiryTime { get; set; }
 
         public virtual ICollection<BaoCaoViPhamEntity> BaoCaoViPhams { get; set; }

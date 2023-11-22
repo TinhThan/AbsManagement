@@ -1,4 +1,5 @@
-﻿using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
+﻿using AbsManagementAPI.Core.Authentication;
+using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.BangQuangCao.Query;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AbsManagementAPI.Core.Models.BangQuangCao;
@@ -12,6 +13,7 @@ namespace AbsManagementAPI.Controllers
     /// Controller Bảng quảng cáo
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("api/bangquangcao")]
     public class BangQuangCaoController : BaseController
     {

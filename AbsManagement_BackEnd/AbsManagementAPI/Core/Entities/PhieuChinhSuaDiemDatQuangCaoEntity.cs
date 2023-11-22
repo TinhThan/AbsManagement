@@ -9,7 +9,7 @@
 
         public int Id { get; set; }
         public int IdCanBoTao { get; set; }
-        public int IdCanBoDuyet { get; set; }
+        public int? IdCanBoDuyet { get; set; }
         public string LyDo { get; set; }
         public DateTimeOffset NgayCapNhat { get; set; }
 

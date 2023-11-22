@@ -1,12 +1,13 @@
 export const ConfigUrlApi = {
     Urls: {
         User:{
-            Login: '/user/login',
+            Login: '/auth/login',
             Logout: '/logout',
-            RefreshToken:'/user/refreshtoken'
+            RefreshToken:'/auth/refreshtoken'
         },
         BangQuangCao:{
             ChiTiet:'/bangquangcao/chitiet/',
+            DanhSach:'/bangquangcao',
             TaoMoi:'/bangquangcao/taomoi',
             CapNhat:'/bangquangcao/capnhat/',
             Xoa:'/bangquangcao/xoa'

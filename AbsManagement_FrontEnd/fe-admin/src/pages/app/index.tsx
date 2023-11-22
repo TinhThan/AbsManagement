@@ -92,7 +92,9 @@ export default function App(): JSX.Element {
             menuHeaderRender={()=> renderMenuHeaderRender(Boolean(collapse))}
             menuContentRender={renderMenu}
             >
-            {accessToken ? <Outlet/> : <Navigate to='login'/>}
+            {accessToken ? 
+            <Outlet/> 
+            : <Navigate to='login'/>}
             </ProLayout>
     );
 }

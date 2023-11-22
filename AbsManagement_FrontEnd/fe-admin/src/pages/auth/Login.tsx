@@ -4,18 +4,17 @@ import { message } from 'antd';
 import { authAPI } from '../../apis/authAPI';
 import TokenStorage from '../../apis/storages/tokenStorage';
 import RefreshTokenStorage from '../../apis/storages/refreshTokenStorage';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PageLoading } from '@ant-design/pro-components';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const handleLogin = async (values: any) => {
     try {
-      // const response = await authAPI.Login(values);
-      // TokenStorage.set(response.accessToken);
-      // RefreshTokenStorage.set(response.refreshToken);
-      console.log("login")
-      TokenStorage.set("Token example")
+      const response = await authAPI.Login(values);
+      console.log(response);
+      TokenStorage.set(response.accessToken);
+      RefreshTokenStorage.set(response.refreshToken);
       navigate('/')
     } catch (error: any) {
       console.error('Login error:', error);

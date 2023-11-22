@@ -14,6 +14,12 @@ class BangQuangCaoAPI extends BaseApi {
         );
     }
 
+    async DanhSach() {
+      return this.get<BangQuangCaoModel[]>(
+      API_URL + ConfigUrlApi.Urls.BangQuangCao.DanhSach
+      );
+  }
+
     async TaoMoi(model: ThemMoiBangQuangCaoModel) {
         return this.post<string>(
         API_URL + ConfigUrlApi.Urls.BangQuangCao.TaoMoi,
@@ -24,6 +30,7 @@ class BangQuangCaoAPI extends BaseApi {
 
 export interface IBangQuangCaoAPI {
   ChiTiet(id: number): Promise<BangQuangCaoModel>;
+  DanhSach(): Promise<BangQuangCaoModel[]>;
   TaoMoi(model: ThemMoiBangQuangCaoModel): Promise<string>;
 }
 

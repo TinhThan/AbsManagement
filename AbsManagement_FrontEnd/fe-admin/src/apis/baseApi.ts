@@ -1,4 +1,4 @@
-import  jwt_decode, { JwtPayload }  from "jwt-decode";
+import  { JwtPayload,jwtDecode  }  from "jwt-decode";
 import axios, {
 AxiosError,
 AxiosInstance,
@@ -6,7 +6,6 @@ AxiosRequestConfig,
 AxiosResponse,
 } from "axios";
 import {
-Language,
 Notification,
 } from "../utils";
 import { ErrorInfo } from "./models/base-api";
@@ -17,24 +16,22 @@ import { LoginResponse } from "./authAPI";
 
 const cancelToken = axios.CancelToken.source();
 
-// function isTokenValid(token : string) {
-//     const tokenInfo:JwtPayload = jwt_decode(token);
-//     if (tokenInfo?.exp) {
-//         const expirationTimeUTC = new Date(tokenInfo.exp * 1000 - 10000).toUTCString();
+function isTokenValid(token : string) {
+    const tokenInfo: JwtPayload = jwtDecode(token);
+    if (tokenInfo?.exp) {
+        const expirationTimeUTC = new Date(tokenInfo.exp * 1000 - 10000).toUTCString();
 
 
-//         const currentTimeUTC = new Date().toUTCString();
-//         console.log("currentTimeUTC",currentTimeUTC);
-//         console.log("expirationTimeUTC",expirationTimeUTC);
-//         return expirationTimeUTC > currentTimeUTC;
-//     }
-//     return false;
-// }
+        const currentTimeUTC = new Date().toUTCString();
+        return expirationTimeUTC > currentTimeUTC;
+    }
+    return false;
+}
 
 export class BaseApi {
     private api: AxiosInstance;
     public constructor(config?: AxiosRequestConfig) {
-        const _baseUrl = "https://localhost:44354/api";
+        const _baseUrl = "https://localhost:44394/api";
         axios.defaults.headers.post["Content-Type"] =
         "application/json;charset=utf-8";
         axios.defaults.headers.baseURL = _baseUrl;
@@ -47,28 +44,26 @@ export class BaseApi {
     private handleRequest() {
         this.api.interceptors.request.use(
         async (config)=> {
-            // const isLogin = config.url?.includes(ConfigUrlApi.Urls.User.Login);
-            // if (isLogin) {
-            // return config;
-            // }
+            const isLogin = config.url?.includes(ConfigUrlApi.Urls.User.Login);
+            if (isLogin) {
+                return config;
+            }
 
-            // let token = TokenStorage.get();
-            // const refresh = RefreshTokenStorage.get();
-            // if (token && refresh) {
-            //     console.log("check new token");
-            //     const checkToken = isTokenValid(token);
-            //     if (!checkToken) {
-            //         console.log("Get new token");
-            //         const dataRefresh: LoginResponse = {
-            //             accessToken: token,
-            //             refreshToken: refresh
-            //         }
-            //         token = (await axios.post<string>("https://localhost:44354/api"+ConfigUrlApi.Urls.User.RefreshToken, dataRefresh)).data;
-            //         TokenStorage.set(token);
-            //     }
-            //     config.headers.common["AccessToken"] = token;
-            //     config.headers.common["RefreshAccessToken"] = refresh;
-            // }
+            let token = TokenStorage.get();
+            console.log("token",token)
+            if (token) {
+                const checkToken = isTokenValid(token);
+                if (!checkToken) {
+                    const refresh = RefreshTokenStorage.get();
+                    const dataRefresh: LoginResponse = {
+                        accessToken: token,
+                        refreshToken: refresh
+                    }
+                    token = (await axios.post<string>("https://localhost:44394/api"+ConfigUrlApi.Urls.User.RefreshToken, dataRefresh)).data;
+                    TokenStorage.set(token);
+                }
+                config.headers['Authorization'] = 'Bearer ' + token;
+            }
             return config;
         },
         function (error: AxiosError) {
@@ -80,7 +75,9 @@ export class BaseApi {
     private handleResponse() {
         this.api.interceptors.response.use(
         (response: AxiosResponse) => {
+            console.log("response",response)
             if (response.status === 200) {
+            console.log("response",response)
             const isLogout = response.config.url === ConfigUrlApi.Urls.User.Login;
             const isLogIn = response.config.url === ConfigUrlApi.Urls.User.Login;
 
@@ -116,6 +113,8 @@ export class BaseApi {
             }
         },
         async(error: AxiosError<ErrorInfo>) => {
+            
+            console.log("error",error)
             if (axios.isCancel(error)) {
             return Promise.reject(error);
             }
@@ -190,7 +189,7 @@ export class BaseApi {
             accessToken: TokenStorage.get(),
             refreshToken: RefreshTokenStorage.get()
         }
-        return this.api.post("https://localhost:44354/api"+ConfigUrlApi.Urls.User.RefreshToken, data);
+        return this.api.post("https://localhost:44394/api"+ConfigUrlApi.Urls.User.RefreshToken, data);
     }
 
     public getReportPdfArrayBuffer<T, R = AxiosResponse<T>>(

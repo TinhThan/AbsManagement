@@ -1,4 +1,4 @@
-﻿namespace AbsManagementAPI.Core.Models.User
+﻿namespace AbsManagementAPI.Core.Models.Auth
 {
     public class LoginResponseModel : RefreshTokenModel
     {

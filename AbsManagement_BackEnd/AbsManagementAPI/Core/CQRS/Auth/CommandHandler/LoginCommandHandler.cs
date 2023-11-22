@@ -1,16 +1,16 @@
 ﻿using AbsManagementAPI.Core.Authentication;
 using AbsManagementAPI.Core.Constants;
-using AbsManagementAPI.Core.CQRS.User.Command;
+using AbsManagementAPI.Core.CQRS.Auth.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AbsManagementAPI.Core.HubSignalR;
-using AbsManagementAPI.Core.Models.User;
+using AbsManagementAPI.Core.Models.Auth;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
-namespace AbsManagementAPI.Core.CQRS.User.CommandHandler
+namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
 {
     public class LoginCommandHandler : BaseHandler, IRequestHandler<LoginCommand, LoginResponseModel>
     {
@@ -22,7 +22,7 @@ namespace AbsManagementAPI.Core.CQRS.User.CommandHandler
         {
             var password = HelperIdentity.HashPasswordSalt(request.LoginModel.Password);
             var userExists = await _dataContext.CanBos.FirstOrDefaultAsync(t => t.Email == request.LoginModel.Email &&
-                                        t.MatKhau == request.LoginModel.Password, cancellationToken);
+                                        t.MatKhau == password, cancellationToken);
             if(userExists == null)
             {
                 throw new CustomMessageException(MessageSystem.AUTH_AUTHENTICATED_ERROR, MessageSystem.AUTH_INVALID);

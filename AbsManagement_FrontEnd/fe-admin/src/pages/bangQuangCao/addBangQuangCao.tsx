@@ -5,7 +5,7 @@ interface LoginFormProps {
   onSubmit: (values: any) => void;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+const BangQuangCaoForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const onFinish = (values: any) => {
     console.log(values)
     onSubmit(values);
@@ -38,11 +38,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         onFinish={onFinish}
       >
         <Form.Item
-          name="email"
+          name="diachi"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
           <Input
-            placeholder="Email"
+            placeholder="Địa chỉ"
             style={{
               backgroundColor: 'white',
               border: '1px solid #d9d9d9',
@@ -53,11 +53,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         </Form.Item>
 
         <Form.Item
-          name="password"
+          name="quan"
           rules={[{ required: true, message: 'Please input your password!' }]}
         >
           <Input.Password
-            placeholder="Password"
+            placeholder="Quận"
             style={{
               backgroundColor: 'white',
               border: '1px solid #d9d9d9',
@@ -78,7 +78,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
               borderRadius: '4px',
             }}
           >
-            Log in
+            tạo mới
           </Button>
         </Form.Item>
       </Form>
@@ -86,4 +86,4 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   );
 };
 
-export default LoginForm;
+export default BangQuangCaoForm;

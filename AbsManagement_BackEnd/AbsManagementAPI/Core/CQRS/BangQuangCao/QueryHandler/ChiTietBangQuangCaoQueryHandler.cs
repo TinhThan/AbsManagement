@@ -15,7 +15,11 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.QueryHandler
         }
 
         public async Task<BangQuangCaoModel> Handle(ChiTietBangQuangCaoQuery request, CancellationToken cancellationToken)
-        => await _dataContext.BangQuangCaos.ProjectTo<BangQuangCaoModel>(_mapper.ConfigurationProvider)
-                            .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
+        {
+            return await _dataContext.BangQuangCaos.Include(t => t.DiemDatQuangCao).Include(t => t.LoaiBangQuangCao)
+                                                    .AsSplitQuery()
+                                                    .ProjectTo<BangQuangCaoModel>(_mapper.ConfigurationProvider)
+                                                    .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
+        }
     }
 }

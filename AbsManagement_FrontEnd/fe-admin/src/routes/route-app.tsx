@@ -3,34 +3,45 @@ import { ConfigRoute } from "./ConfigRoute";
 import { lazy } from "react";
 import App from "../pages/app";
 import TokenStorage from "../apis/storages/tokenStorage";
+import BangQuangCaoFeature from "../pages/bangQuangCao";
+import Home from "../pages/home";
+import Login from "../pages/auth/Login";
+import NotFoundFeature from '../pages/notFound/index';
+
 const router = createBrowserRouter([
   {
     id: "root",
     path: "/",
     Component: App,  
+    errorElement: <NotFoundFeature/>,
     children: [
       {
         index: true,
         element: <h1>Trang chủ</h1>,
       },
       {
+        path:"*",
+        Component: NotFoundFeature,
+      },
+      {
         path: ConfigRoute.CanBoSo.BangQuangCao,
         loader:protectedLoader,
-        Component:lazy(()=>import('../pages/bangQuangCao'))
+        Component:BangQuangCaoFeature
       },
       {
         path: ConfigRoute.CanBoSo.DiemDatQuangCao,
         loader:protectedLoader,
-        Component:lazy(()=>import('../pages/home'))
+        Component:Home
       }
     ],
   },
   {
     path: ConfigRoute.Login,
     loader: loginLoader,
-    Component: lazy(()=> import('../pages/auth/Login')),
+    Component: Login,
   }
 ]);
+
 export default router;
 
 async function loginLoader() {

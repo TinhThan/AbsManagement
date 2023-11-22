@@ -1,7 +1,7 @@
-﻿using AbsManagementAPI.Core.Models.User;
+﻿using AbsManagementAPI.Core.Models.Auth;
 using MediatR;
 
-namespace AbsManagementAPI.Core.CQRS.User.Command
+namespace AbsManagementAPI.Core.CQRS.Auth.Command
 {
     public class RefreshTokenCommand : IRequest<string>
     {

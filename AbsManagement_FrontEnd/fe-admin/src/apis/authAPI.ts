@@ -13,11 +13,11 @@ export interface LoginResponse{
 
 class AuthApi extends BaseApi {
   async Login(loginInfo: LoginInfo) {
-    return this.post<LoginResponse>("https://localhost:44354/api"+ConfigUrlApi.Urls.User.Login, loginInfo);
+    return this.post<LoginResponse>("https://localhost:44394/api"+ConfigUrlApi.Urls.User.Login, loginInfo);
   }
 
   async RefreshToken(data: LoginResponse) {
-    return this.post<string>("https://localhost:44354/api"+ConfigUrlApi.Urls.User.RefreshToken, data);
+    return this.post<string>("https://localhost:44394/api"+ConfigUrlApi.Urls.User.RefreshToken, data);
   }
 }
 
