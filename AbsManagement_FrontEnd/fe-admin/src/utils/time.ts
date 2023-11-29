@@ -1,11 +1,11 @@
-import moment, {Moment } from 'moment-timezone'
+import dayjs from "dayjs";
 
 export function GetDateTimeByFormat(value?: Date | null, format?: string) : string{
-    return value ? moment(value).format(format) : '';
+    return value ? dayjs(value).format(format) : '';
 }
 
-export function GetDateTime(value?:Date): Moment{
-    return moment(value);
+export function GetDateTime(value?:Date){
+    return dayjs(value);
 }
 
 export const FormatTime = {

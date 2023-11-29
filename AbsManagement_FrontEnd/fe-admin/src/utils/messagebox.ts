@@ -63,6 +63,8 @@ export class MessageBox {
       Modal.warning({
         centered: true,
         focusTriggerAfterClose: false,
+        okText:"Ok",
+        cancelText: "Hủy",
         title: "Thông báo",
         onCancel() {
           countMessage = 0;

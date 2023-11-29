@@ -20,6 +20,8 @@
         public string MatKhau { get; set; }
         public string? RefreshToken { get; set; }
         public DateTimeOffset? RefreshTokenExpiryTime { get; set; }
+        public string NoiCongTac { get; set; }
+        public DateTimeOffset NgayCapNhat { get; set; }
 
         public virtual ICollection<BaoCaoViPhamEntity> BaoCaoViPhams { get; set; }
         public virtual ICollection<PhieuChinhSuaBangQuangCaoEntity> PhieuChinhSuaBangQuangCao_Taos { get; set; }

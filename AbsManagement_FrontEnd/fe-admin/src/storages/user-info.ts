@@ -1,7 +1,7 @@
-import { Base64ToJson, JsonToBase64 } from '../../utils/base64';
-import { UserStorage } from '../models/user';
-import { StorageKey } from '../../constants/storageKey';
-import LocalStore from '../../utils/store';
+import { Base64ToJson, JsonToBase64 } from '../utils/base64';
+import { UserStorage } from '../apis/auth/user';
+import { StorageKey } from '../constants/storageKey';
+import LocalStore from '../utils/store';
 
 interface IUserInfoStorage {
   get(): UserStorage;

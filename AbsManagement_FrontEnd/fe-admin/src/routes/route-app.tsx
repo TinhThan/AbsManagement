@@ -2,11 +2,12 @@ import {  createBrowserRouter,redirect, useNavigate  } from "react-router-dom";
 import { ConfigRoute } from "./ConfigRoute";
 import { lazy } from "react";
 import App from "../pages/app";
-import TokenStorage from "../apis/storages/tokenStorage";
+import TokenStorage from "../storages/tokenStorage";
 import BangQuangCaoFeature from "../pages/bangQuangCao";
 import Home from "../pages/home";
 import Login from "../pages/auth/Login";
 import NotFoundFeature from '../pages/notFound/index';
+import CanBoFeature from "../pages/canBo";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
         path: ConfigRoute.CanBoSo.DiemDatQuangCao,
         loader:protectedLoader,
         Component:Home
+      },
+      {
+        path: ConfigRoute.CanBoSo.CanBo,
+        loader:protectedLoader,
+        Component:CanBoFeature
       }
     ],
   },

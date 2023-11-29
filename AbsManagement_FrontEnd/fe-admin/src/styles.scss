@@ -1,0 +1,46 @@
+$color-primary: #4d99d7;
+$background-color-scroll: white;
+$hover-bg-color: #eef5ff;
+$border-radius: 10px;
+
+@mixin scroll {
+    // overflow: auto auto !important;
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+      background-color: #eef5ff;
+      border-radius: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: #cbe1ff;
+    }
+}
+
+.b-code{
+    color:  $color-primary;
+    cursor: pointer
+}
+
+.drop-down-button {
+    .icon-ellips {
+      cursor: pointer;
+    }
+    .icon-edit {
+      color: #6fcf97 !important;
+    }
+    .icon-delete {
+      color: red !important;
+    }
+  
+    .icon-changedPass {
+      color: orange;
+    }
+  }
+.ant-dropdown-trigger {
+    height: 100% !important;
+  }
+.disabled-button {
+    opacity: 0.4;
+  }
+  

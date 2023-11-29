@@ -1,5 +1,7 @@
-﻿using AbsManagementAPI.Core.CQRS.CanBo.Command;
+﻿using AbsManagementAPI.Core.Authentication;
+using AbsManagementAPI.Core.CQRS.CanBo.Command;
 using AbsManagementAPI.Core.Entities;
+using AbsManagementAPI.Core.Models.CanBo;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,8 +36,15 @@ namespace AbsManagementAPI.Validations.CanBo
             RuleFor(t => t.TaoCanBoModel.Role)
                 .NotEmpty().WithMessage("Chức vụ không được rỗng.");
 
-            RuleFor(t => t.TaoCanBoModel.MatKhau)
-                .NotEmpty().WithMessage("Mật khẩu không được rỗng.");
+            RuleFor(t => t.TaoCanBoModel.Role)
+                .Must((role) =>
+                {
+                    if (RoleSystem.RoleCanBos.Contains(role))
+                    {
+                        return true;
+                    }
+                    return false;
+                }).WithMessage("Quyền cán bộ không hợp lệ.");
         }
     }
 }

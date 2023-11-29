@@ -1,9 +1,8 @@
 import { Suspense, useState,useEffect } from 'react';
 import { PageLoading } from '@ant-design/pro-components';
 import { Button, Table, TableColumnType } from 'antd';
-import { DiemDatQuangCaoModel } from '../../apis/models/diemDatQuangCaoModel';
-import { BangQuangCaoModel } from '../../apis/models/bangQuangCaoModel';
-import { bangQuangCaoAPI } from '../../apis/bangQuangCaoAPI';
+import { BangQuangCaoModel } from '../../apis/bangQuangCao/bangQuangCaoModel';
+import { bangQuangCaoAPI } from '../../apis/bangQuangCao/bangQuangCaoAPI';
 import BangQuangCaoForm from './addBangQuangCao';
 
 export default function BangQuangCaoFeature(): JSX.Element {

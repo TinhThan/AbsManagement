@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Avatar, Popover, Space, Typography } from 'antd';
 import { LogoutOutlined, ProfileOutlined } from '@ant-design/icons';
-import { UserStorage } from '../../../../apis/models/user';
+import { UserStorage } from '../../../../apis/auth/user';
 import { useResponsive } from '../../../../hooks/useResponsive';
 import { MessageBox } from '../../../../utils/messagebox';
-import { messageSystem } from '../../../constant/messageSystem';
+import { messageSystem } from '../../../../constants/messageSystem';
 import { redirect } from 'react-router-dom';
 
 

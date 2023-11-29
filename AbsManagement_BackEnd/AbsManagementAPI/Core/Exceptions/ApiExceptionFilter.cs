@@ -56,8 +56,8 @@ namespace AbsManagementAPI.Core.Exceptions
             exceptionContext.Result = new JsonResult(new ExceptionResponse()
             {
                 Title = exception.Title,
-                Description = exception.Description,
-                Detail = exception.Detail,
+                Description = exception.Description ?? exception.Message,
+                Detail = exception.Detail ?? exception.Message,
             })
             {
                 StatusCode = StatusCodes.Status400BadRequest

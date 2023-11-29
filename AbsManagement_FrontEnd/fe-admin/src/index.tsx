@@ -4,6 +4,7 @@ import reportWebVitals from './reportWebVitals';
 import {RouterProvider} from 'react-router-dom'
 import router from './routes/route-app';
 import { PageLoading } from '@ant-design/pro-components';
+import "./styles.scss"
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

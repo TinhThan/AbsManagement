@@ -2,7 +2,7 @@ import { Divider, Menu, MenuProps, Space, Spin, Tooltip } from "antd";
 import { useLocation,NavLink } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { menuCanBoSos, menuDefaults } from "./menuData";
-import { messageSystem } from "../../constant/messageSystem";
+import { messageSystem } from "../../../constants/messageSystem";
 import { RenderTitle } from "./renderTitle";
 
 type MenuItem = Required<MenuProps>['items'][number];

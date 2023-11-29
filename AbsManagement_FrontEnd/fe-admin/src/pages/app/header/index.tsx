@@ -1,7 +1,7 @@
 import { Col, Row, Space } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { PopoverUserInfo } from './components/popoverUserInfo';
-import { UserStorage } from '../../../apis/models/user';
+import { UserStorage } from '../../../apis/auth/user';
 
 interface Props {
     logOutClick: () => void;

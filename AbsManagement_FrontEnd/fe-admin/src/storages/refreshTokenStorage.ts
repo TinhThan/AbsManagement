@@ -1,5 +1,5 @@
-import { StorageKey } from "../../constants/storageKey";
-import LocalStore from "../../utils/store";
+import { StorageKey } from "../constants/storageKey";
+import LocalStore from "../utils/store";
 
 interface IRefreshTokenStorage{
     get(): string;

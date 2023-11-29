@@ -1,8 +1,8 @@
 import { ProLayout } from "@ant-design/pro-components";
 import { useEffect, useState } from "react";
-import TokenStorage from "../../apis/storages/tokenStorage";
+import TokenStorage from "../../storages/tokenStorage";
 import MenuLayout from "./menu";
-import UserInfoStorage from "../../apis/storages/user-info";
+import UserInfoStorage from "../../storages/user-info";
 import { HeaderLayout } from "./header";
 import { Button, Space } from "antd";
 import { useResponsive } from "../../hooks/useResponsive";
