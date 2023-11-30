@@ -5,13 +5,13 @@ import { UserStorage } from '../../../../apis/auth/user';
 import { useResponsive } from '../../../../hooks/useResponsive';
 import { MessageBox } from '../../../../utils/messagebox';
 import { messageSystem } from '../../../../constants/messageSystem';
-import { redirect } from 'react-router-dom';
 
 
 interface Props {
   userInfo: UserStorage;
   logOutClick: () => void;
 }
+
 export function PopoverUserInfo(props: Props): JSX.Element {
   const { userInfo, logOutClick } = props;
   const [isVisible, setIsVisible] = useState(false);
@@ -49,7 +49,7 @@ export function PopoverUserInfo(props: Props): JSX.Element {
           <Space direction='vertical' className='popover-info-user'>
             <span
               onClick={() => {
-                redirect("ThongTinCaNhan");
+                // redirect("ThongTinCaNhan");
                 setIsVisible(false);
               }}
               className='btn-info'

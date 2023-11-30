@@ -34,30 +34,28 @@ namespace AbsManagementAPI
 
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new OpenApiInfo { Title = "SakilaAPI", Version = "v1" });
+                s.SwaggerDoc("v1", new OpenApiInfo { Title = "AbsManagement", Version = "v1" });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 s.IncludeXmlComments(xmlPath);
-            });
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy(AllOrigins,
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                    });
             });
         }
 
         public void Configure(IApplicationBuilder app)
         {
             app.UseSwagger();
-            app.UseSwaggerUI(s => s.SwaggerEndpoint("/swagger/v1/swagger.json", "Sakila API v1"));
+            app.UseSwaggerUI(s => s.SwaggerEndpoint("/swagger/v1/swagger.json", "AbsManagement API v1"));
             app.UseHttpsRedirection();
-            app.UseRouting();
 
-            app.UseCors("AllOrigins");
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .WithMethods("GET", "POST")
+                    .AllowCredentials();
+            });
+
+            app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -18,7 +18,7 @@ namespace AbsManagementAPI.Core.HubSignalR
 
         public async Task SendMessageNotify(string title, string message)
         {
-            await _hubContext.Clients.All.SendAsync(title, message);
+            await _hubContext.Clients.All.SendAsync("onNotify", title, message);
         }
     }
 }

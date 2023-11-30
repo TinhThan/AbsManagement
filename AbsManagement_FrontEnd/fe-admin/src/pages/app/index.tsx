@@ -6,8 +6,11 @@ import UserInfoStorage from "../../storages/user-info";
 import { HeaderLayout } from "./header";
 import { Button, Space } from "antd";
 import { useResponsive } from "../../hooks/useResponsive";
-import { Outlet, Navigate, redirect, useNavigate } from 'react-router-dom';
+import { Outlet, Navigate, useNavigate } from 'react-router-dom';
 import './styles.scss';
+import useSignalr from "../../hooks/useSignalr";
+import { HubConnection } from "@microsoft/signalr";
+import { Notification } from "../../utils";
 
 export default function App(): JSX.Element {
     const [collapse, setCollapse] = useState(false);
@@ -16,63 +19,84 @@ export default function App(): JSX.Element {
 
     const accessToken = TokenStorage.get();
 
-    async function logOutClick() {
-        // await authApi
-        //   .LogOut()
-        //   .then((response) => Notification.Success(t(response)))
-        //   .finally(() => {
-        //     setIsLogout(true);
-        // });
-        localStorage.clear();
-        navigate('/login');
-      }
+    const { connection } = useSignalr();
 
-    function renderHeader() {
+
+  useEffect(() => {
+    if (connection) {
+      singalStart(connection);
+    }
+    return () => {
+      connection?.stop();
+      connection?.onclose((err) => {
+        console.log(err);
+      });
+    };
+  }, [connection]);
+
+  async function singalStart(_connection: HubConnection) {
+    try {
+      await _connection.start();
+      _connection.on('onNotify', (title:string,message: string) => {
+        console.log("Message",message)
+          Notification.Success(message);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function logOutClick() {
+      localStorage.clear();
+      navigate('/login');
+  }
+
+  function renderHeader() {
+      return (
+        <HeaderLayout
+          collapse={collapse}
+          onCollapse={() => {
+            setCollapse(!collapse);
+          }}
+          logOutClick={logOutClick}
+          userInfo={UserInfoStorage.get()}
+        />
+      );
+    }
+
+  function renderMenuExtraRender(collapsed?: boolean) {
+  if (collapsed) {
+      return <></>;
+  }
+  return (
+      <Space direction='vertical' size={10} align='center'>
+      <Button
+          onClick={() => {
+            navigate('/');
+          }}
+          style={{ cursor: 'pointer' }}
+      />
+      </Space>
+      
+  );
+  }
+
+  function renderMenu() {
+      return <MenuLayout collapse={collapse}/>;
+    }
+
+  function renderMenuHeaderRender(collapsed?: boolean) {
+      if (!(screens.xs || screens.md) && collapsed) {
         return (
-          <HeaderLayout
-            collapse={collapse}
-            onCollapse={() => {
-              setCollapse(!collapse);
+          <Button
+            onClick={() => {
+              navigate('/');
             }}
-            logOutClick={logOutClick}
-            userInfo={UserInfoStorage.get()}
           />
         );
       }
-
-    function renderMenuExtraRender(collapsed?: boolean) {
-    if (collapsed) {
-        return <></>;
+      return <></>;
     }
-    return (
-        <Space direction='vertical' size={10} align='center'>
-        <Button
-            onClick={() => {
-              redirect('Home');
-            }}
-            style={{ cursor: 'pointer' }}
-        />
-        </Space>
-        
-    );
-    }
-
-    function renderMenu() {
-        return <MenuLayout collapse={collapse}/>;
-      }
-
-    function renderMenuHeaderRender(collapsed?: boolean) {
-        if (!(screens.xs || screens.md) && collapsed) {
-          return (
-            <Button
-              onClick={() => {
-                navigate('/');
-              }}
-            />
-          );
-        }
-        return <></>;
-      }
 
     return (
             <ProLayout        

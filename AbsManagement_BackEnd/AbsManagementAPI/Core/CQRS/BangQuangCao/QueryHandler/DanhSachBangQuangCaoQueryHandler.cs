@@ -1,5 +1,6 @@
 ﻿using AbsManagementAPI.Core.CQRS.BangQuangCao.Query;
 using AbsManagementAPI.Core.Entities;
+using AbsManagementAPI.Core.HubSignalR;
 using AbsManagementAPI.Core.Models.BangQuangCao;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -10,11 +11,16 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.QueryHandler
 {
     public class DanhSachBangQuangCaoQueryHandler : BaseHandler, IRequestHandler<DanhSachBangquangCaoQuery, List<BangQuangCaoModel>>
     {
-        public DanhSachBangQuangCaoQueryHandler(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        private readonly INotifyService _notifyService;
+        public DanhSachBangQuangCaoQueryHandler(DataContext dataContext, IMapper mapper, INotifyService notifyService) : base(dataContext, mapper)
         {
+            _notifyService = notifyService;
         }
 
         public async Task<List<BangQuangCaoModel>> Handle(DanhSachBangquangCaoQuery request, CancellationToken cancellationToken)
-        => await _dataContext.BangQuangCaos.ProjectTo<BangQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+        {
+            await _notifyService.SendMessageNotify("Thông báo", "Lấy danh sách thành công");
+            return await _dataContext.BangQuangCaos.ProjectTo<BangQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+        }
     }
 }

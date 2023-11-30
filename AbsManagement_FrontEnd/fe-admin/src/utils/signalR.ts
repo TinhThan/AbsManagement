@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 
-interface Props {
-  url: string;
-}
-
 export default function useSignalr(): { connection: HubConnection | undefined } {
   const [connection, setConnection] = useState<HubConnection>();
 
