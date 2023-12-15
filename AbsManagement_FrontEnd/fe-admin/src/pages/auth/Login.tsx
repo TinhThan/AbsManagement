@@ -9,23 +9,23 @@ import { PageLoading } from '@ant-design/pro-components';
 import UserInfoStorage from '../../storages/user-info';
 import { RoleCanBo } from '../canBo';
 import { MessageBox } from '../../utils/messagebox';
+import { authAPI } from '../../apis/auth/authAPI';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const handleLogin = async (values: any) => {
     try {
-      // const response = await authAPI.Login(values);
-      // TokenStorage.set(response.data.accessToken);
-      // RefreshTokenStorage.set(response.data.refreshToken);
+      const response = await authAPI.Login(values);
+      if(response && response.status !== 200)
+      {
+        console.log("reospone ! 200",response)
+        MessageBox.Fail(response.message);
+      }
+      TokenStorage.set(response.data.accessToken);
+      RefreshTokenStorage.set(response.data.refreshToken);
       TokenStorage.set("1");
       RefreshTokenStorage.set("2");
-      UserInfoStorage.set({
-        taiKhoan: '1',
-        noiCongTac: [],
-        email: '1',
-        hoTen: '1',
-        role:RoleCanBo.CanBoSo
-      });
+      UserInfoStorage.set({...response.data});
       navigate('/')
     } catch (error: any) {
       console.log("error",error)

@@ -20,6 +20,7 @@ namespace AbsManagementAPI.Core
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 
+            services.AddHttpContextAccessor();
             #region Config automapper
 
             var mappingConfig = new MapperConfiguration(mc =>

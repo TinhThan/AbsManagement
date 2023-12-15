@@ -22,8 +22,7 @@ namespace AbsManagementAPI.Core.Authentication
         {
             try
             {
-                var accessToken = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault().Split(" ")[1];
-                if (accessToken == null)
+                if (string.IsNullOrEmpty(context.HttpContext.Request.Headers["Authorization"].FirstOrDefault()))
                 {
                     context.Result = new JsonResult(new ExceptionResponse
                     {
@@ -36,6 +35,7 @@ namespace AbsManagementAPI.Core.Authentication
                     };
                     return;
                 }
+                var accessToken = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ")[1];
 
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(CurrentOption.AuthenticationString.PrivateKey);

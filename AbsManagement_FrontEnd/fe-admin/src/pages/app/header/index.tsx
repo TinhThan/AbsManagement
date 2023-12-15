@@ -22,7 +22,8 @@ export function HeaderLayout(props: Props): JSX.Element {
                             className='icon-menu-fold'
                             onClick={() => {
                                 onCollapse();
-                            } } rev={undefined}                    />
+                            } } rev={undefined}                    
+                            />
                 </span>
                 ) : (
                 <span title={"Đóng menu"}>
@@ -30,7 +31,8 @@ export function HeaderLayout(props: Props): JSX.Element {
                                 className='icon-menu-fold'
                                 onClick={() => {
                                     onCollapse();
-                                } } rev={undefined}                    />
+                                } } rev={undefined}                    
+                                />
                 </span>
                 )}
             </Col>

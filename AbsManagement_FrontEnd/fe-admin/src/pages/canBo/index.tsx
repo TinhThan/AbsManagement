@@ -15,9 +15,9 @@ import { ModalCreateCanBo } from './create';
 const { Search } = Input;
 
 export const RoleCanBo = {
-  CanBoPhuong: "Cán bộ phường",
-  CanBoQuan: "Cán bộ quận",
-  CanBoSo: "Cán bộ sở"
+  CanBoPhuong: "CanBoPhuong",
+  CanBoQuan: "CanBoQuan",
+  CanBoSo: "CanBoSo"
 }
 
 export default function CanBoFeature(): JSX.Element {
