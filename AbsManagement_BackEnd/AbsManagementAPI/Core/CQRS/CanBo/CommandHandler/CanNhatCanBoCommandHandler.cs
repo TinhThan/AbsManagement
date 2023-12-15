@@ -11,7 +11,7 @@ namespace AbsManagementAPI.Core.CQRS.CanBo.CommandHandler
 {
     public class CanNhatCanBoCommandHandler : BaseHandler, IRequestHandler<CanNhatCanBoCommand, string>
     {
-        public CanNhatCanBoCommandHandler(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public CanNhatCanBoCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
         }
 

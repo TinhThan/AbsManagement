@@ -10,7 +10,7 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
 {
     public class ThemBaoCaoViPhamCommandHandler : BaseHandler, IRequestHandler<ThemBaoCaoViPhamCommand, string>
     {
-        public ThemBaoCaoViPhamCommandHandler(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public ThemBaoCaoViPhamCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
         }
         public async Task<string> Handle(ThemBaoCaoViPhamCommand request, CancellationToken cancellationToken)

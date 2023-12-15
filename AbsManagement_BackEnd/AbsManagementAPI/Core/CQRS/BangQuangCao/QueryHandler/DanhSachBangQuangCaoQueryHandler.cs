@@ -12,7 +12,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.QueryHandler
     public class DanhSachBangQuangCaoQueryHandler : BaseHandler, IRequestHandler<DanhSachBangquangCaoQuery, List<BangQuangCaoModel>>
     {
         private readonly INotifyService _notifyService;
-        public DanhSachBangQuangCaoQueryHandler(DataContext dataContext, IMapper mapper, INotifyService notifyService) : base(dataContext, mapper)
+        public DanhSachBangQuangCaoQueryHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper, INotifyService notifyService) : base(httpContextAccessor, dataContext, mapper)
         {
             _notifyService = notifyService;
         }

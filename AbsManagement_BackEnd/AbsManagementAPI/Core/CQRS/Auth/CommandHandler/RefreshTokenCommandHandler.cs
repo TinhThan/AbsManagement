@@ -12,7 +12,7 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
 {
     public class RefreshTokenCommandHandler : BaseHandler, IRequestHandler<RefreshTokenCommand, string>
     {
-        public RefreshTokenCommandHandler(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public RefreshTokenCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
         }
 

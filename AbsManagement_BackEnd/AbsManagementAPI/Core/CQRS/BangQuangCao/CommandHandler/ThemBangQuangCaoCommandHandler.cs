@@ -9,7 +9,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
 {
     public class ThemBangQuangCaoCommandHandler : BaseHandler, IRequestHandler<ThemBangQuangCaoCommand, string>
     {
-        public ThemBangQuangCaoCommandHandler(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public ThemBangQuangCaoCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
         }
 

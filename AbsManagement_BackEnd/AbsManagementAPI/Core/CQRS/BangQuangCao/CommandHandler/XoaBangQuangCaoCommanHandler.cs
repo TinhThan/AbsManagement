@@ -11,20 +11,13 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
 {
     public class XoaBangQuangCaoCommanHandler : BaseHandler, IRequestHandler<XoaBangQuangCaoCommand, string>
     {
-        public XoaBangQuangCaoCommanHandler(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public XoaBangQuangCaoCommanHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
         }
 
         public async Task<string> Handle(XoaBangQuangCaoCommand request, CancellationToken cancellationToken)
         {
             var bangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == request.XoaBangQuangCaoModel.Id, cancellationToken);
-            if (bangQuangCao.NgayCapNhat != request.XoaBangQuangCaoModel.NgayCapNhat)
-            {
-                throw new CustomMessageException(MessageSystem.VERSION_UPDATE, MessageSystem.VERSION_UPDATE, new object[]
-                {
-                    bangQuangCao.NgayCapNhat
-                });
-            }
             try
             {
                 _dataContext.Remove(bangQuangCao);

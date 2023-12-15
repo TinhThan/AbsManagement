@@ -1,6 +1,8 @@
 ﻿using AbsManagementAPI.Core.Constants;
+using AbsManagementAPI.Core.Entities;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -14,6 +16,38 @@ namespace AbsManagementAPI.Core.Authentication
         private const int _iterCount = 10000;
 
         const string strExpiredDate = "IDX10223";
+
+        public static AuthInfo GetUserContext(HttpContext context)
+        {
+            var auth = new AuthInfo();
+            if (context == null) return auth;
+            auth.Id = int.Parse(context.User.Claims.FirstOrDefault(t => t.Type == nameof(CanBoEntity.Id))?.Value ?? "0");
+            auth.Email = context.User.Claims.FirstOrDefault(t => t.Type == ClaimTypes.Email)?.Value ?? "";
+            auth.HoTen = context.User.Claims.FirstOrDefault(t => t.Type == ClaimTypes.Name)?.Value ?? "";
+            auth.Role = context.User.Claims.FirstOrDefault(t => t.Type == ClaimTypes.Role)?.Value ?? "";
+            auth.NoiCongTac = JsonConvert.DeserializeObject<List<string>>(context.User.Claims.FirstOrDefault(t => t.Type == nameof(CanBoEntity.NoiCongTac))?.Value ?? "[]");
+            return auth;
+        }
+
+        //public static List<Claim> GetClaimsFromClient(HttpContext context)
+        //{
+        //    var claims = new List<Claim>
+        //        {
+        //            GetClaimFromClient(context, "sub"),
+        //            GetClaimFromClient(context, "name"),
+        //            GetClaimFromClient(context, nameof(UserContext.ID).ToLower(),"sub"),
+        //            GetClaimFromClient(context, nameof(UserContext.UID).ToLower()),
+        //            GetClaimFromClient(context, nameof(UserContext.GUID).ToLower()),
+        //            GetClaimFromClient(context, nameof(UserContext.ShopID).ToLower())
+        //        };
+        //    return claims;
+        //}
+
+        //public static Claim GetClaimFromClient(HttpContext context, string key)
+        //        => new Claim(key, (GetClaimValue(context, $"client_{key}") ?? ""));
+
+        //public static string GetClaimValue(HttpContext context, string key)
+        //    => context.User.Claims.FirstOrDefault(t => t.Type == key)?.Value;
 
         public static async Task ThrowAuthException(HttpContext context, string message, string detail)
         {
@@ -71,6 +105,12 @@ namespace AbsManagementAPI.Core.Authentication
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        public static JwtSecurityToken ReadToken(string accessToken)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.ReadJwtToken(accessToken);
         }
 
         public static ClaimsPrincipal GetPrincipalFromExpiredToken(string token)

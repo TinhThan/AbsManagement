@@ -1,7 +1,8 @@
-﻿namespace AbsManagementAPI.Core.Models.Auth
+﻿namespace AbsManagementAPI.Core.Authentication
 {
-    public class LoginResponseModel : RefreshTokenModel
+    public class AuthInfo
     {
+        public int Id { get; set; }
         public string Email { get; set; }
         public string HoTen { get; set; }
         public string SoDienThoai { get; set; }

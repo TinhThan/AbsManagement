@@ -10,7 +10,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.QueryHandler
 {
     public class ChiTietBangQuangCaoQueryHandler : BaseHandler, IRequestHandler<ChiTietBangQuangCaoQuery, BangQuangCaoModel>
     {
-        public ChiTietBangQuangCaoQueryHandler(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public ChiTietBangQuangCaoQueryHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
         }
 

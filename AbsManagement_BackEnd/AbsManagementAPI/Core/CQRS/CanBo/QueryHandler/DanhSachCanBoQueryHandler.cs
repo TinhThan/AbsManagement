@@ -10,7 +10,7 @@ namespace AbsManagementAPI.Core.CQRS.CanBo.QueryHandler
 {
     public class DanhSachCanBoQueryHandler : BaseHandler, IRequestHandler<DanhSachCanBoQuery, List<CanBoModel>>
     {
-        public DanhSachCanBoQueryHandler(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public DanhSachCanBoQueryHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
         }
 

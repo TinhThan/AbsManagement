@@ -9,7 +9,7 @@ namespace AbsManagementAPI.Core.CQRS.CanBo.CommandHandler
 {
     public class TaoCanBoCommandHandler : BaseHandler, IRequestHandler<TaoCanBoCommand, string>
     {
-        public TaoCanBoCommandHandler(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public TaoCanBoCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
         }
 

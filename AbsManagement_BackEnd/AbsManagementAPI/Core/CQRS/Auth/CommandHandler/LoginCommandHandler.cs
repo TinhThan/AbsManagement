@@ -8,13 +8,14 @@ using AbsManagementAPI.Core.Models.Auth;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
 {
     public class LoginCommandHandler : BaseHandler, IRequestHandler<LoginCommand, LoginResponseModel>
     {
-        public LoginCommandHandler(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public LoginCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
         }
 
@@ -23,7 +24,7 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
             var password = HelperIdentity.HashPasswordSalt(request.LoginModel.Password);
             var userExists = await _dataContext.CanBos.FirstOrDefaultAsync(t => t.Email == request.LoginModel.Email &&
                                         t.MatKhau == password, cancellationToken);
-            if(userExists == null)
+            if (userExists == null)
             {
                 throw new CustomMessageException(MessageSystem.AUTH_AUTHENTICATED_ERROR, MessageSystem.AUTH_INVALID);
             }
@@ -33,7 +34,8 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
                 new Claim(nameof(CanBoEntity.Id),userExists.Id.ToString()),
                 new Claim(ClaimTypes.Email,userExists.Email),
                 new Claim(ClaimTypes.Name,userExists.HoTen),
-                new Claim(ClaimTypes.Role,userExists.Role)
+                new Claim(ClaimTypes.Role,userExists.Role),
+                new Claim(nameof(CanBoEntity.NoiCongTac),userExists.NoiCongTac),
             };
 
             var refreshToken = userExists.RefreshToken = HelperIdentity.GenerateRefreshToken();
@@ -51,7 +53,9 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
                         RefreshToken = refreshToken,
                         Email = userExists.Email,
                         HoTen = userExists.HoTen,
-                        SoDienThoai = userExists.SoDienThoai
+                        SoDienThoai = userExists.SoDienThoai,
+                        Role = userExists.Role,
+                        NoiCongTac = string.IsNullOrEmpty(userExists.NoiCongTac) ? new List<string>() : JsonConvert.DeserializeObject<List<string>>(userExists.NoiCongTac)
                     };
                 }
                 throw new CustomMessageException(MessageSystem.AUTH_AUTHENTICATED_ERROR);

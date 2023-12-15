@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace AbsManagementAPI.Core.Authentication
@@ -60,6 +61,12 @@ namespace AbsManagementAPI.Core.Authentication
                         StatusCode = StatusCodes.Status403Forbidden
                     };
                     return;
+                }
+
+                if (!context.HttpContext.User.Claims.Any())
+                {
+                    var token = HelperIdentity.ReadToken(accessToken);
+                    context.HttpContext.User.AddIdentity(new ClaimsIdentity(token.Claims));
                 }
             }
             catch (Exception ex)
