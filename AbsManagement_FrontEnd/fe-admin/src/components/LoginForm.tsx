@@ -7,7 +7,6 @@ interface LoginFormProps {
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const onFinish = (values: any) => {
-    console.log(values)
     onSubmit(values);
   };
 

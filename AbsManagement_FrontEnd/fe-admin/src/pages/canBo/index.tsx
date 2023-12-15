@@ -1,4 +1,5 @@
 import { Suspense, useState,useEffect } from 'react';
+import React from 'react';
 import { PageLoading } from '@ant-design/pro-components';
 import { Button, Col, Dropdown, Input, Row, Space, Table, TableColumnType } from 'antd';
 import { CanBoModel, CapNhatCanBoModel } from '../../apis/canBo/canBoModel';
@@ -13,16 +14,14 @@ import { ModalCreateCanBo } from './create';
 
 const { Search } = Input;
 
-export const RoleCanBo = [
-  "Cán bộ phường",
-  "Cán bộ quận",
-  "Cán bọ sở"
-]
+export const RoleCanBo = {
+  CanBoPhuong: "Cán bộ phường",
+  CanBoQuan: "Cán bộ quận",
+  CanBoSo: "Cán bộ sở"
+}
 
 export default function CanBoFeature(): JSX.Element {
     const [canBos,setCanBos] = useState<CanBoModel[]>([]);
-    const [loading,setLoading] = useState(false);
-
     function onDetailClick(model) {
       const _root = renderModal(<ModalDetailCanBo onCancel={() => _root?.unmount()} canBo={model} />);
     }
@@ -59,16 +58,14 @@ export default function CanBoFeature(): JSX.Element {
     
 
     async function getCanBos() {
-      setLoading(true);
       canBoAPI
         .DanhSach()
         .then((response) => {
-            if(response.status === 200)
+            if(response && response.status === 200)
             {
               setCanBos(response.data || []);
             }
-        })
-        .finally(() => setLoading(false));
+        });
     }
     
     const columns: TableColumnType<CanBoModel>[] = [

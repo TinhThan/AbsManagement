@@ -5,6 +5,13 @@ export const ConfigUrlApi = {
             Logout: '/logout',
             RefreshToken:'/auth/refreshtoken'
         },
+        LoaiViTri:{
+            ChiTiet:'/loaivitri/chitiet/',
+            DanhSach:'/loaivitri',
+            TaoMoi:'/loaivitri/taomoi',
+            CapNhat:'/loaivitri/capnhat/',
+            Xoa:'/loaivitri/xoa'
+        },
         BangQuangCao:{
             ChiTiet:'/bangquangcao/chitiet/',
             DanhSach:'/bangquangcao',

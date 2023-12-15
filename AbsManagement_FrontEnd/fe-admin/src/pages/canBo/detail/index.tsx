@@ -1,4 +1,5 @@
 import { Col, DatePicker, Form, Input, Row, Tooltip } from 'antd';
+import React from 'react';
 import { CanBoModel } from '../../../apis/canBo/canBoModel';
 import { FormatTime, GetDateTimeByFormat } from '../../../utils';
 import ModalDetail from '../../../components/Modal/modalDetail';

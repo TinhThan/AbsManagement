@@ -1,11 +1,12 @@
 import { Col, Row, Space } from 'antd';
+import React from 'react';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { PopoverUserInfo } from './components/popoverUserInfo';
 import { UserStorage } from '../../../apis/auth/user';
 
 interface Props {
     logOutClick: () => void;
-    userInfo: UserStorage;
+    userInfo: UserStorage | null;
     collapse: boolean;
     onCollapse: () => void;
 }

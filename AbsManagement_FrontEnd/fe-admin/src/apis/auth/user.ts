@@ -1,4 +1,7 @@
 export interface UserStorage {
     taiKhoan: string;
-    tenNhanVien: string;
+    email: string;
+    hoTen: string;
+    role: string;
+    noiCongTac: string[];
 }

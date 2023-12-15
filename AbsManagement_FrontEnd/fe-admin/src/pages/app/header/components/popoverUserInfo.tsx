@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 import { Avatar, Popover, Space, Typography } from 'antd';
 import { LogoutOutlined, ProfileOutlined } from '@ant-design/icons';
 import { UserStorage } from '../../../../apis/auth/user';
@@ -8,7 +9,7 @@ import { messageSystem } from '../../../../constants/messageSystem';
 
 
 interface Props {
-  userInfo: UserStorage;
+  userInfo: UserStorage | null;
   logOutClick: () => void;
 }
 
@@ -33,7 +34,7 @@ export function PopoverUserInfo(props: Props): JSX.Element {
       title={
         <Space direction='vertical' align='start' style={{ width: '100%' }}>
           <b>Thông tin cá nhân</b>
-          <Typography.Text ellipsis>{`Xin chào ${userInfo.tenNhanVien}!`}</Typography.Text>
+          <Typography.Text ellipsis>{`Xin chào ${userInfo?.hoTen}!`}</Typography.Text>
           {/* <Col xs={24} sm={24} md={24} lg={0} xl={0} xxl={0}>
             <Space direction='vertical' size={0}>
               <TitleActiveComponent title={userInfo.tenGoiLicense} />
@@ -68,7 +69,7 @@ export function PopoverUserInfo(props: Props): JSX.Element {
     >
       <Space direction='horizontal' align='center' className='space-user'>
         <Avatar src={<img width='100%' height='100%' srcSet={"linkavatar"} alt='avatar' />} />
-        {!screens.xs && <span className='title-user-name'>{userInfo.tenNhanVien}</span>}
+        {!screens.xs && <span className='title-user-name'>{userInfo?.hoTen}</span>}
       </Space>
     </Popover>
   );

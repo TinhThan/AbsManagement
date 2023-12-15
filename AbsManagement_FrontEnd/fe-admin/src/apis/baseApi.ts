@@ -51,25 +51,25 @@ export class BaseApi {
     private handleRequest() {
         this.api.interceptors.request.use(
         async (config)=> {
-            const isLogin = config.url?.includes(ConfigUrlApi.Urls.User.Login);
-            if (isLogin || this.isPublic_API) {
-                return config;
-            }
+            // const isLogin = config.url?.includes(ConfigUrlApi.Urls.User.Login);
+            // if (isLogin || this.isPublic_API) {
+            //     return config;
+            // }
 
-            let token = TokenStorage.get();
-            if (token) {
-                const checkToken = isTokenValid(token);
-                if (!checkToken) {
-                    const refresh = RefreshTokenStorage.get();
-                    const dataRefresh: LoginResponse = {
-                        accessToken: token,
-                        refreshToken: refresh
-                    }
-                    token = (await axios.post<string>("https://localhost:44394/api"+ConfigUrlApi.Urls.User.RefreshToken, dataRefresh)).data;
-                    TokenStorage.set(token);
-                }
-                config.headers['Authorization'] = 'Bearer ' + token;
-            }
+            // let token = TokenStorage.get();
+            // if (token) {
+            //     const checkToken = isTokenValid(token);
+            //     if (!checkToken) {
+            //         const refresh = RefreshTokenStorage.get();
+            //         const dataRefresh: LoginResponse = {
+            //             accessToken: token,
+            //             refreshToken: refresh
+            //         }
+            //         token = (await axios.post<string>("https://localhost:44394/api"+ConfigUrlApi.Urls.User.RefreshToken, dataRefresh)).data;
+            //         TokenStorage.set(token);
+            //     }
+            //     config.headers['Authorization'] = 'Bearer ' + token;
+            // }
             return config;
         },
         function (error: AxiosError) {
@@ -82,7 +82,7 @@ export class BaseApi {
         this.api.interceptors.response.use(
         (response: AxiosResponse) => {
             console.log("AxiosResponse",response)
-            if (response.status === 200) {
+            if (response && response.status === 200) {
                 if (typeof response.data === 'string' && response.data ) {
                     Notification.Success(response.data)
                 }

@@ -1,13 +1,18 @@
-import {  createBrowserRouter,redirect, useNavigate  } from "react-router-dom";
+import {  createBrowserRouter,redirect  } from "react-router-dom";
 import { ConfigRoute } from "./ConfigRoute";
-import { lazy } from "react";
+import React from 'react';
 import App from "../pages/app";
 import TokenStorage from "../storages/tokenStorage";
 import BangQuangCaoFeature from "../pages/bangQuangCao";
 import Home from "../pages/home";
 import Login from "../pages/auth/Login";
 import NotFoundFeature from '../pages/notFound/index';
-import CanBoFeature from "../pages/canBo";
+import CanBoFeature, { RoleCanBo } from "../pages/canBo";
+import UserInfoStorage from "../storages/user-info";
+import LoaiViTriFeature from "../pages/loaiViTri";
+import LoaiBangQuangCaoFeature from "../pages/loaiBangQuangCao";
+import HinhThucQuangCaoFeature from "../pages/hinhThucQuangCao";
+import HinhThucBaoCaoFeature from "../pages/hinhThucBaoCao";
 
 const router = createBrowserRouter([
   {
@@ -34,17 +39,38 @@ const router = createBrowserRouter([
         loader:protectedLoader,
         Component:Home
       },
+      //Route cán bộ sở
       {
         path: ConfigRoute.CanBoSo.CanBo,
-        loader:protectedLoader,
+        loader:protectedCanBoLoader,
         Component:CanBoFeature
+      },
+      {
+        path: ConfigRoute.CanBoSo.LoaiViTri,
+        loader:protectedCanBoLoader,
+        Component:LoaiViTriFeature
+      },
+      {
+        path: ConfigRoute.CanBoSo.LoaiBangQuangCao,
+        loader:protectedCanBoLoader,
+        Component:LoaiBangQuangCaoFeature
+      },
+      {
+        path: ConfigRoute.CanBoSo.HinhThucQuangCao,
+        loader:protectedCanBoLoader,
+        Component:HinhThucQuangCaoFeature
+      },
+      {
+        path: ConfigRoute.CanBoSo.HinhThucBaoCao,
+        loader:protectedCanBoLoader,
+        Component:HinhThucBaoCaoFeature
       }
     ],
   },
   {
     path: ConfigRoute.Login,
     loader: loginLoader,
-    Component: Login,
+    Component: Login
   }
 ]);
 
@@ -52,7 +78,8 @@ export default router;
 
 async function loginLoader() {
   const accessToken = TokenStorage.get();
-  if (accessToken) {
+  const userInfo = UserInfoStorage.get();
+  if (accessToken && userInfo) {
     return redirect("/");
   }
   return null;
@@ -60,8 +87,23 @@ async function loginLoader() {
 
 function protectedLoader() {
   const accessToken = TokenStorage.get();
-  if (!accessToken) {
+  const userInfo = UserInfoStorage.get();
+  console.log("user",userInfo)
+  if (!accessToken || !userInfo) {
+    console.log("redirect login")
     return redirect("/login");
   }
+  return null;
+}
+
+function protectedCanBoLoader() {
+  const accessToken = TokenStorage.get();
+  const userInfo = UserInfoStorage.get();
+  if (!accessToken || !userInfo) {
+    return redirect("/login");
+  }
+  console.log("user",userInfo)
+  if(userInfo.role !== RoleCanBo.CanBoSo)
+    return redirect('/');
   return null;
 }

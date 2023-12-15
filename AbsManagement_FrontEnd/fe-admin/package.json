@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
-    "@ant-design/pro-components": "^2.6.41",
+    "@ant-design/pro-components": "^2.6.43",
     "@microsoft/signalr": "^8.0.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

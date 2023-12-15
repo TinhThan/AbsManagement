@@ -1,26 +1,23 @@
-import { ProLayout } from "@ant-design/pro-components";
+import React from 'react';
+import { ProLayout } from '@ant-design/pro-components';
 import { useEffect, useState } from "react";
-import TokenStorage from "../../storages/tokenStorage";
-import MenuLayout from "./menu";
 import UserInfoStorage from "../../storages/user-info";
 import { HeaderLayout } from "./header";
-import { Button, Space } from "antd";
+import { Button, Menu, Space } from "antd";
 import { useResponsive } from "../../hooks/useResponsive";
-import { Outlet, Navigate, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import './styles.scss';
 import useSignalr from "../../hooks/useSignalr";
 import { HubConnection } from "@microsoft/signalr";
 import { Notification } from "../../utils";
+import { menuCanBos } from "./dataMenu";
 
 export default function App(): JSX.Element {
     const [collapse, setCollapse] = useState(false);
     const navigate = useNavigate();
     const screens = useResponsive();
 
-    const accessToken = TokenStorage.get();
-
     const { connection } = useSignalr();
-
 
   useEffect(() => {
     if (connection) {
@@ -38,7 +35,6 @@ export default function App(): JSX.Element {
     try {
       await _connection.start();
       _connection.on('onNotify', (title:string,message: string) => {
-        console.log("Message",message)
           Notification.Success(message);
       });
     } catch (error) {
@@ -70,19 +66,19 @@ export default function App(): JSX.Element {
   }
   return (
       <Space direction='vertical' size={10} align='center'>
-      <Button
-          onClick={() => {
-            navigate('/');
-          }}
-          style={{ cursor: 'pointer' }}
-      />
+        <Button
+            onClick={() => {
+              navigate('/');
+            }}
+            style={{ cursor: 'pointer' }}
+        />
       </Space>
       
   );
   }
 
   function renderMenu() {
-      return <MenuLayout collapse={collapse}/>;
+      return <Menu items={menuCanBos}/>;
     }
 
   function renderMenuHeaderRender(collapsed?: boolean) {
@@ -116,9 +112,7 @@ export default function App(): JSX.Element {
             menuHeaderRender={()=> renderMenuHeaderRender(Boolean(collapse))}
             menuContentRender={renderMenu}
             >
-            {accessToken ? 
             <Outlet/> 
-            : <Navigate to='login'/>}
             </ProLayout>
     );
 }

@@ -9,8 +9,6 @@ export const renderModal = (modal: JSX.Element) => {
   ReactDOM.render(modal, _modalContainer)
   return {
     render() {
-      console.log(1);
-      
     },
     unmount() {
       if (!_modalContainer) {

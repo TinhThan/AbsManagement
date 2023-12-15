@@ -1,9 +1,9 @@
 import { Suspense, useState,useEffect } from 'react';
+import React from 'react';
 import { PageLoading } from '@ant-design/pro-components';
 import { Button, Table, TableColumnType } from 'antd';
 import { BangQuangCaoModel } from '../../apis/bangQuangCao/bangQuangCaoModel';
 import { bangQuangCaoAPI } from '../../apis/bangQuangCao/bangQuangCaoAPI';
-import BangQuangCaoForm from './addBangQuangCao';
 
 export default function BangQuangCaoFeature(): JSX.Element {
     const [bangQuangCaos,setBangQuangCaos] = useState<BangQuangCaoModel[]>([]);
@@ -23,10 +23,6 @@ export default function BangQuangCaoFeature(): JSX.Element {
         setLoading(false);
       }
     }
-
-    const handleLogin = async (values: any) => {
-     console.log("bang quang cao form", values)
-    };
 
     const columns: TableColumnType<BangQuangCaoModel>[] = [
         {
@@ -82,7 +78,6 @@ export default function BangQuangCaoFeature(): JSX.Element {
     return (
         <Suspense fallback={<PageLoading/>}>
           <Table  columns={columns} dataSource={bangQuangCaos} />
-          <BangQuangCaoForm onSubmit={handleLogin}/>
         </Suspense>
     );
 }

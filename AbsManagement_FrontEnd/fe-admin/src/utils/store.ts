@@ -1,24 +1,12 @@
-function stringify<T>(value: T):string{
-    return JSON.stringify(value);
-}
-
-function parse<T>(value: string):T| null{
-    try{
-        return JSON.parse(value) as T;
-    }catch(error){
-        return null;
-    }
-}
-
 interface ILocalStore{
-    setValue<T>(key:string,data: T): ILocalStore;
+    setValue(key:string,data: string): ILocalStore;
     getValue(key:string): string;
     removeValue(key:string): ILocalStore;
 }
 
 const LocalStore : ILocalStore = {
-    setValue<T>(key: string, data: T): ILocalStore{
-        LocalStore.setValue(key,stringify(data));
+    setValue(key: string, data: string): ILocalStore{
+        localStorage.setItem(key,data);
         return this;
     },
     getValue(key:string): string{
@@ -26,7 +14,7 @@ const LocalStore : ILocalStore = {
         return value || "";
     },
     removeValue(key:string): ILocalStore{
-        LocalStore.removeValue(key);
+        localStorage.removeItem(key);
         return this;
     }
 }

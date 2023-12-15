@@ -1,9 +1,8 @@
-import { Button, Col, DatePicker, Form, Input, Modal, Radio, Row, Tooltip } from 'antd';
-import { CanBoModel, CapNhatCanBoModel, ThemMoiCanBoModel } from '../../../apis/canBo/canBoModel';
-import { FormatTime, Notification } from '../../../utils';
-import dayjs from 'dayjs';
+import { Button, Col, DatePicker, Form, Input, Modal, Radio, Row } from 'antd';
+import React from 'react';
+import { ThemMoiCanBoModel } from '../../../apis/canBo/canBoModel';
 import { canBoAPI } from '../../../apis/canBo/canBoAPI';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface Props {
   onCancel:()=>void;
@@ -20,7 +19,7 @@ const roleCanBo = [
   },
   {
     ma:"CanBoSo",
-    ten:"Cán bộ Sở"
+    ten:"Cán bộ sở"
   }
 ]
 
@@ -34,7 +33,7 @@ export function ModalCreateCanBo(props: Props): JSX.Element {
     canBoAPI
     .TaoMoi(_model)
     .then((response) => {
-        if(response.status === 200)
+        if(response && response.status === 200)
         {
             form.resetFields();
             onCancel()
@@ -108,9 +107,6 @@ export function ModalCreateCanBo(props: Props): JSX.Element {
               </Row>
             </Radio.Group>
           </Form.Item>
-        {/* <Form.Item label={"Nơi công tác"}>
-          <Input value={canBo.noiCongTac.join(',')} readOnly />
-        </Form.Item> */}
       </Col>
       </Form>
     </Modal>
