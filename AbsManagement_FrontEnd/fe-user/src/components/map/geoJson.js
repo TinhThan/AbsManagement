@@ -113,7 +113,3 @@ export const geoJson = {
       }
     ],
   };
-  
-  
-  
-  

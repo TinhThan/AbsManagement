@@ -2,7 +2,7 @@ import React from 'react'
 import { Card } from 'antd'
 import ReactDOM from 'react-dom'
 
-function ElementReport(address,full_address) {
+function PointInfo(address,full_address) {
   const card = document.createElement('div');
 
   ReactDOM.render(
@@ -14,4 +14,4 @@ function ElementReport(address,full_address) {
   return card.innerHTML;
 }
 
-export default ElementReport
+export default PointInfo

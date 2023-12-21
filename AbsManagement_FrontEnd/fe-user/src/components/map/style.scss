@@ -1,0 +1,28 @@
+.info-surface{
+    .ant-card-head{
+        background-color: #00BFFF;
+    }
+    .ant-card-body{
+        background-color: #3cccfc;
+    }
+}
+
+.info-location{
+    .ant-card-head{
+        background-color: #7acc7d;
+    }
+    .ant-card-body{
+        background-color: #97d399;
+        padding: 0px 24px 24px 24px;
+    }
+
+    .ant-btn-dangerous{
+        background-color: #ff4d4f;
+        color: white !important;
+        font-weight: bold;
+        .ant-btn-icon{
+            font-weight: 200;
+        }
+    }
+}
+

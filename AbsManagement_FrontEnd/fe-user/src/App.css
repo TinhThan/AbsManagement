@@ -30,3 +30,7 @@
   bottom: 0;
   width: 100%;
 }
+
+.ant-card-bordered{
+  border: 2px !important;
+}
