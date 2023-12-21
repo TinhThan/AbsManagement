@@ -95,5 +95,25 @@ namespace AbsManagementAPI.Controllers
                 Id = id
             });
         }
+
+
+        /// <summary>
+        /// Xóa báo cáo vi phạm
+        /// </summary>
+        /// <param name="model"></param>
+        /// <response code="200">Xóa báo cáo vi phạm thành công</response>
+        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
+        /// <response code="500">Lỗi đến từ server</response>
+        [HttpPost("xoa")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
+        public async Task<string> Xoa(XoaBaoCaoViPhamModel model)
+        {
+            return await _mediator.Send(new XoaBaoCaoViPhamCommand()
+            {
+                XoaBaoCaoViPhamModel = model
+            });
+        }
     }
 }
