@@ -2,6 +2,7 @@
 using AbsManagementAPI.Core.CQRS.BangQuangCao.Query;
 using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Command;
 using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Query;
+using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AbsManagementAPI.Core.Models.BangQuangCao;
 using AbsManagementAPI.Core.Models.BaoCaoViPham;
@@ -17,8 +18,13 @@ namespace AbsManagementAPI.Controllers
     [Route("api/baocaovipham")]
     public class BaoCaoViPhamController : BaseController
     {
-        public BaoCaoViPhamController(IMediator mediator) : base(mediator)
+
+        private readonly IWebHostEnvironment _environment;
+        private readonly DataContext _dataContext;
+        public BaoCaoViPhamController(IMediator mediator, IWebHostEnvironment webHostEnvironment, DataContext dataContext) : base(mediator)
         {
+            _environment = webHostEnvironment;
+            _dataContext = dataContext;
         }
 
         ///// <summary>

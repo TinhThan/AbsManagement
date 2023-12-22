@@ -1,5 +1,6 @@
 ﻿using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Models.BangQuangCao;
+using AbsManagementAPI.Core.Models.BaoCaoViPham;
 using AbsManagementAPI.Core.Models.CanBo;
 using AutoMapper;
 using Newtonsoft.Json;
@@ -75,6 +76,15 @@ namespace AbsManagementAPI.Core
 
             #endregion
 
+            CreateMap<ThemBaoCaoViPhamModel, BaoCaoViPhamEntity>()
+                .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)))
+                .ForMember(src => src.ViTri, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachViTri)))
+                .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
+                .ForMember(src => src.HinhThucBaoCao, desc => desc.Ignore())
+                .ForMember(src => src.CanBoXuLy, desc => desc.Ignore())
+                .ForMember(src => src.NoiDungXuLy, desc => desc.Ignore())
+                .ForMember(src => src.IdCanBoXuLy, desc => desc.Ignore())
+                .ForMember(src => src.Id, desc => desc.Ignore());
         }
     }
 }

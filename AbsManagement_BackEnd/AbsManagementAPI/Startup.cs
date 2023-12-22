@@ -54,7 +54,7 @@ namespace AbsManagementAPI
                     .WithMethods("GET", "POST")
                     .AllowCredentials();
             });
-
+            app.UseStaticFiles();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

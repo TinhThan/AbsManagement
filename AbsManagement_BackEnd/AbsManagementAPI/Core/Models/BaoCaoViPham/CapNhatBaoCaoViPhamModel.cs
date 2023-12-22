@@ -2,6 +2,6 @@
 {
     public class CapNhatBaoCaoViPhamModel: ThemBaoCaoViPhamModel
     {
-        public TinhTrangBaoCaoViPham TinhTrang { get; set; }
+        public string IdTinhTrang { get; set; }
     }
 }
