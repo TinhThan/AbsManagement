@@ -17,6 +17,7 @@
         public int IdHinhThucQuangCao { get; set; }
         public string DanhSachHinhAnh { get; set; }
         public string IdTinhTrang { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
 
         public virtual LoaiViTriEntity LoaiViTri { get; set; }
         public virtual HinhThucQuangCaoEntity HinhThucQuangCao { get; set; }

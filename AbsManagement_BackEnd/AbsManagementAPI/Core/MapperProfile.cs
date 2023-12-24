@@ -2,6 +2,7 @@
 using AbsManagementAPI.Core.Models.BangQuangCao;
 using AbsManagementAPI.Core.Models.BaoCaoViPham;
 using AbsManagementAPI.Core.Models.CanBo;
+using AbsManagementAPI.Core.Models.DiemDatQuangCao;
 using AutoMapper;
 using Newtonsoft.Json;
 
@@ -85,6 +86,37 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.NoiDungXuLy, desc => desc.Ignore())
                 .ForMember(src => src.IdCanBoXuLy, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore());
+
+            #region DiemDatQuangCao
+
+            CreateMap<DiemDatQuangCaoEntity, DiemDatQuangCaoModel>()
+                .ForMember(src => src.TenLoaiViTri, desc => desc.MapFrom(e => e.LoaiViTri.Ten))
+                .ForMember(src => src.TenHinhThucQuangCao, desc => desc.MapFrom(e => e.HinhThucQuangCao.Ten))
+                .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => e.DanhSachHinhAnh == null ? new List<string>()
+                                    : JsonConvert.DeserializeObject<List<string>>(e.DanhSachHinhAnh)));
+
+            CreateMap<ThemDiemDatQuangCaoModel, DiemDatQuangCaoEntity>()
+                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
+                .ForMember(src => src.LoaiViTri, desc => desc.Ignore())
+                .ForMember(src => src.HinhThucQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.BangQuangCaos, desc => desc.Ignore())
+                .ForMember(src => src.ChiTietChinhSuaBangQuangCao_CapNhatMois, desc => desc.Ignore())
+                .ForMember(src => src.ChiTietPhieuChinhSuaDiemDatQuangCao_CapNhats, desc => desc.Ignore())
+                .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
+
+            CreateMap<CapNhatDiemDatQuangCaoModel, DiemDatQuangCaoEntity>()
+                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
+                .ForMember(src => src.HinhThucQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.LoaiViTri, desc => desc.Ignore())
+                .ForMember(src => src.BangQuangCaos, desc => desc.Ignore())
+                .ForMember(src => src.ChiTietChinhSuaBangQuangCao_CapNhatMois, desc => desc.Ignore())
+                .ForMember(src => src.ChiTietPhieuChinhSuaDiemDatQuangCao_CapNhats, desc => desc.Ignore())
+                .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
+            #endregion
         }
     }
 }
