@@ -3,6 +3,7 @@ using AbsManagementAPI.Core.Models.BangQuangCao;
 using AbsManagementAPI.Core.Models.BaoCaoViPham;
 using AbsManagementAPI.Core.Models.CanBo;
 using AbsManagementAPI.Core.Models.DiemDatQuangCao;
+using AbsManagementAPI.Core.Models.HinhThucQuangCao;
 using AutoMapper;
 using Newtonsoft.Json;
 
@@ -116,6 +117,17 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.ChiTietChinhSuaBangQuangCao_CapNhatMois, desc => desc.Ignore())
                 .ForMember(src => src.ChiTietPhieuChinhSuaDiemDatQuangCao_CapNhats, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
+            #endregion
+
+            #region HinhThucQuangCao
+
+            CreateMap<HinhThucQuangCaoEntity, HinhThucQuangCaoModel>();
+
+            CreateMap<ThemHinhThucQuangCaoModel, HinhThucQuangCaoEntity>()
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.DiemDatQuangCaos, desc => desc.Ignore())
+                .ForMember(src => src.ChiTietPhieuChinhSuaDiemDatQuangCaos, desc => desc.Ignore());
+
             #endregion
         }
     }
