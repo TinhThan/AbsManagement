@@ -4,6 +4,7 @@ using AbsManagementAPI.Core.Models.BaoCaoViPham;
 using AbsManagementAPI.Core.Models.CanBo;
 using AbsManagementAPI.Core.Models.DiemDatQuangCao;
 using AbsManagementAPI.Core.Models.HinhThucQuangCao;
+using AbsManagementAPI.Core.Models.LoaiBangQuangCao;
 using AutoMapper;
 using Newtonsoft.Json;
 
@@ -129,6 +130,18 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.ChiTietPhieuChinhSuaDiemDatQuangCaos, desc => desc.Ignore());
 
             #endregion
+
+            #region LoaiBangQuangCao
+
+            CreateMap<LoaiBangQuangCaoEntity, LoaiBangQuangCaoModel>();
+
+            CreateMap<ThemLoaiBangQuangCaoModel, LoaiBangQuangCaoEntity>()
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.BangQuangCaos, desc => desc.Ignore())
+                .ForMember(src => src.ChiTietChinhSuaBangQuangCaos, desc => desc.Ignore());
+
+            #endregion
+
         }
     }
 }

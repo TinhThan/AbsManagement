@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
+namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
 {
     public class XoaDiemDatQuangCaoCommanHandler : BaseHandler, IRequestHandler<XoaDiemDatQuangCaoCommand, string>
     {

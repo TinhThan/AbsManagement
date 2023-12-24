@@ -7,7 +7,7 @@ using AbsManagementAPI.Core.Exceptions.Common;
 using AutoMapper;
 using MediatR;
 
-namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
+namespace AbsManagementAPI.Core.CQRS.HinhThucBangQuangCao.CommandHandler
 {
     public class ThemHinhThucQuangCaoCommandHandler : BaseHandler, IRequestHandler<ThemHinhThucQuangCaoCommand, string>
     {

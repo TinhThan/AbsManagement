@@ -1,5 +1,4 @@
 ﻿using AbsManagementAPI.Core.Constants;
-using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.DiemDatBangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.DiemDatQuangCao.Command;
 using AbsManagementAPI.Core.Entities;
@@ -7,7 +6,7 @@ using AbsManagementAPI.Core.Exceptions.Common;
 using AutoMapper;
 using MediatR;
 
-namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
+namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
 {
     public class ThemDiemDatQuangCaoCommandHandler : BaseHandler, IRequestHandler<ThemDiemDatQuangCaoCommand, string>
     {

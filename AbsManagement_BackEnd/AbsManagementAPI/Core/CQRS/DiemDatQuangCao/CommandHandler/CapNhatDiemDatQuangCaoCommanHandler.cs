@@ -6,7 +6,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace AbsManagementAPI.Core.CQRS.diemDatQuangCao.CommandHandler
+namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
 {
     public class CapNhatDiemDatQuangCaoCommanHandler : BaseHandler, IRequestHandler<CapNhatDiemDatQuangCaoCommand, string>
     {

@@ -1,10 +1,10 @@
 ﻿using AbsManagementAPI.Core.Authentication;
-using AbsManagementAPI.Core.CQRS.HinhThucBangQuangCao.Command;
-using AbsManagementAPI.Core.CQRS.HinhThucQuangCao.Command;
-using AbsManagementAPI.Core.CQRS.HinhThucQuangCao.Query;
+using AbsManagementAPI.Core.CQRS.LoaiBangBangQuangCao.Command;
+using AbsManagementAPI.Core.CQRS.LoaiBangQuangCao.Command;
+using AbsManagementAPI.Core.CQRS.LoaiBangQuangCao.Query;
 using AbsManagementAPI.Core.Exceptions.Common;
-using AbsManagementAPI.Core.Models.HinhThucQuangCao;
-using AbsManagementAPI.Core.Models.HinhThucQuangCao;
+using AbsManagementAPI.Core.Models.LoaiBangQuangCao;
+using AbsManagementAPI.Core.Models.LoaiBangQuangCao;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -12,108 +12,108 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 namespace AbsManagementAPI.Controllers
 {
     /// <summary>
-    /// Controller hình thức quảng cáo
+    /// Controller loại bảngquảng cáo
     /// </summary>
     [ApiController]
-    [Authorize]
-    [Route("api/hinhthucquangcao")]
-    public class HinhThucQuangCaoController : BaseController
+    //[Authorize]
+    [Route("api/loaibangquangcao")]
+    public class LoaiBangQuangCaoController : BaseController
     {
-        public HinhThucQuangCaoController(IMediator mediator) : base(mediator)
+        public LoaiBangQuangCaoController(IMediator mediator) : base(mediator)
         {
         }
 
         /// <summary>
-        /// Chi tiếthình thức quảng cáo
+        /// Chi tiếtloại bảngquảng cáo
         /// </summary>
         /// <param name="id"></param>
-        /// <response code="200">Chi tiếthình thức quảng cáo thành công</response>
+        /// <response code="200">Chi tiếtloại bảngquảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
         [HttpGet("chitiet/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HinhThucQuangCaoModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoaiBangQuangCaoModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        public async Task<HinhThucQuangCaoModel> ChiTiet(int id)
+        public async Task<LoaiBangQuangCaoModel> ChiTiet(int id)
         {
-            return await _mediator.Send(new ChiTietHinhThucQuangCaoQuery()
+            return await _mediator.Send(new ChiTietLoaiBangQuangCaoQuery()
             {
                 Id = id
             });
         }
 
         /// <summary>
-        /// Danh sáchhình thức quảng cáo
+        /// Danh sáchloại bảngquảng cáo
         /// </summary>
         /// <param name="id"></param>
-        /// <response code="200">Lấy danh sáchhình thức quảng cáo thành công</response>
+        /// <response code="200">Lấy danh sáchloại bảngquảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
         [HttpGet()]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<HinhThucQuangCaoModel>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LoaiBangQuangCaoModel>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        public async Task<List<HinhThucQuangCaoModel>> DanhSach(int id)
+        public async Task<List<LoaiBangQuangCaoModel>> DanhSach(int id)
         {
-            return await _mediator.Send(new DanhSachHinhThucQuangCaoQuery());
+            return await _mediator.Send(new DanhSachLoaiBangQuangCaoQuery());
         }
 
         /// <summary>
-        /// Thêm mới hình thức quảng cáo
+        /// Thêm mới loại bảngquảng cáo
         /// </summary>
         /// <param name="model"></param>
-        /// <response code="200">Thêm mớihình thức quảng cáo thành công</response>
+        /// <response code="200">Thêm mớiloại bảngquảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("taomoi")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        public async Task<string> TaoMoi(ThemHinhThucQuangCaoModel model)
+        public async Task<string> TaoMoi(ThemLoaiBangQuangCaoModel model)
         {
-            return await _mediator.Send(new ThemHinhThucQuangCaoCommand()
+            return await _mediator.Send(new ThemLoaiBangQuangCaoCommand()
             {
-                ThemHinhThucQuangCaoModel = model
+                ThemLoaiBangQuangCaoModel = model
             });
         }
 
         /// <summary>
-        /// Cập nhật hình thức quảng cáo
+        /// Cập nhật loại bảngquảng cáo
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
-        /// <response code="200">cập nhật hình thức quảng cáo thành công</response>
+        /// <response code="200">cập nhật loại bảngquảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("capnhat/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        public async Task<string> CapNhat(int id, CapNhatHinhThucQuangCaoModel model)
+        public async Task<string> CapNhat(int id, CapNhatLoaiBangQuangCaoModel model)
         {
-            return await _mediator.Send(new CapNhatHinhThucQuangCaoCommand()
+            return await _mediator.Send(new CapNhatLoaiBangQuangCaoCommand()
             {
-                CapNhatHinhThucQuangCaoModel = model,
+                CapNhatLoaiBangQuangCaoModel = model,
                 Id = id
             });
         }
 
         /// <summary>
-        /// Xóahình thức quảng cáo
+        /// Xóaloại bảngquảng cáo
         /// </summary>
         /// <param name="model"></param>
-        /// <response code="200">Xóahình thức quảng cáo thành công</response>
+        /// <response code="200">Xóaloại bảngquảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("xoa")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        public async Task<string> Xoa(XoaHinhThucQuangCaoModel model)
+        public async Task<string> Xoa(XoaLoaiBangQuangCaoModel model)
         {
-            return await _mediator.Send(new XoaHinhThucQuangCaoCommand()
+            return await _mediator.Send(new XoaLoaiBangQuangCaoCommand()
             {
-                XoaHinhThucQuangCaoModel = model
+                XoaLoaiBangQuangCaoModel = model
             });
         }
     }
