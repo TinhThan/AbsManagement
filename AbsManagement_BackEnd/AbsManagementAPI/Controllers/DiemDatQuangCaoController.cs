@@ -14,7 +14,7 @@ namespace AbsManagementAPI.Controllers
     /// Controller điểm đặt quảng cáo
     /// </summary>
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [Route("api/diemdatquangcao")]
     public class DiemDatQuangCaoController : BaseController
     {

@@ -21,7 +21,6 @@ namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
             {
                 var diemDatQuangCaoCapNhat = _mapper.Map(request.CapNhatDiemDatQuangCaoModel, diemDatQuangCao);
 
-                diemDatQuangCaoCapNhat.NgayCapNhat = DateTime.UtcNow;
                 diemDatQuangCaoCapNhat.IdTinhTrang = "UPDATE";
                 _dataContext.Update(diemDatQuangCaoCapNhat);
                 var resultCapNhat = await _dataContext.SaveChangesAsync();

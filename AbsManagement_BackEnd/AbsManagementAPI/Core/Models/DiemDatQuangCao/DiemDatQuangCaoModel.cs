@@ -8,14 +8,13 @@ namespace AbsManagementAPI.Core.Models.DiemDatQuangCao
         public string DiaChi { get; set; }
         public string Phuong { get; set; }
         public string Quan { get; set; }
-        public string ViTri { get; set; }
+        public List<decimal> DanhSachViTri { get; set; }
         public int IdLoaiViTri { get; set; }
         public string TenLoaiViTri { get; set; }
         public int IdHinhThucQuangCao { get; set; }
         public string TenHinhThucQuangCao { get; set; }
         public List<string> DanhSachHinhAnh { get; set; }
         public string IdTinhTrang { get; set; }
-        public DateTime? NgayCapNhat { get; set; }
         public virtual ICollection<BangQuangCaoEntity> BangQuangCaos { get; set; }
     }
 }

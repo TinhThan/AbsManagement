@@ -20,7 +20,6 @@ namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
 
             try
             {
-                diemDatQuangCaoMoi.NgayCapNhat = DateTime.UtcNow;
                 diemDatQuangCaoMoi.IdTinhTrang = "ADD";
                 await _dataContext.AddAsync(diemDatQuangCaoMoi);
                 var resultThemMoi = await _dataContext.SaveChangesAsync();

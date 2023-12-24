@@ -20,6 +20,7 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
             try
             {
                 baoCaoViPham.IdTinhTrang = "ChuaXuLy";
+                baoCaoViPham.CreateDate = DateTime.Now;
                 await _dataContext.AddAsync(baoCaoViPham);
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)

@@ -33,6 +33,7 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.ChiTietChinhSuaBangQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
 
             CreateMap<CapNhatBangQuangCaoModel, BangQuangCaoEntity>()
@@ -41,6 +42,7 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.ChiTietChinhSuaBangQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
 
             #endregion
@@ -87,6 +89,9 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.CanBoXuLy, desc => desc.Ignore())
                 .ForMember(src => src.NoiDungXuLy, desc => desc.Ignore())
                 .ForMember(src => src.IdCanBoXuLy, desc => desc.Ignore())
+                .ForMember(src => src.CreateDate, desc => desc.Ignore())
+                .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.BangQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore());
 
             #region DiemDatQuangCao
@@ -95,10 +100,11 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.TenLoaiViTri, desc => desc.MapFrom(e => e.LoaiViTri.Ten))
                 .ForMember(src => src.TenHinhThucQuangCao, desc => desc.MapFrom(e => e.HinhThucQuangCao.Ten))
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => e.DanhSachHinhAnh == null ? new List<string>()
-                                    : JsonConvert.DeserializeObject<List<string>>(e.DanhSachHinhAnh)));
+                                    : JsonConvert.DeserializeObject<List<string>>(e.DanhSachHinhAnh)))
+                .ForMember(src => src.DanhSachViTri, desc => desc.MapFrom(e => string.IsNullOrEmpty(e.ViTri) ? new List<decimal>()
+                                    : JsonConvert.DeserializeObject<List<decimal>>(e.ViTri)));
 
             CreateMap<ThemDiemDatQuangCaoModel, DiemDatQuangCaoEntity>()
-                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
                 .ForMember(src => src.LoaiViTri, desc => desc.Ignore())
@@ -106,10 +112,10 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.BangQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.ChiTietChinhSuaBangQuangCao_CapNhatMois, desc => desc.Ignore())
                 .ForMember(src => src.ChiTietPhieuChinhSuaDiemDatQuangCao_CapNhats, desc => desc.Ignore())
+                .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
 
             CreateMap<CapNhatDiemDatQuangCaoModel, DiemDatQuangCaoEntity>()
-                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
                 .ForMember(src => src.HinhThucQuangCao, desc => desc.Ignore())
@@ -117,6 +123,7 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.BangQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.ChiTietChinhSuaBangQuangCao_CapNhatMois, desc => desc.Ignore())
                 .ForMember(src => src.ChiTietPhieuChinhSuaDiemDatQuangCao_CapNhats, desc => desc.Ignore())
+                .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
             #endregion
 

@@ -15,7 +15,7 @@ namespace AbsManagementAPI.Validations.BangQuangCao
         {
             _dataContext = dataContext;
 
-            RuleFor(t => t.XoaBangQuangCaoModel.Id)
+            RuleFor(t => t.Id)
                 .GreaterThan(0).WithMessage(MessageBangQuangCao.BANGQUANGCAO_ID_IS_NULL_OR_EMPTY)
                 .MustAsync(async (id, canncellationToken) =>
                 {

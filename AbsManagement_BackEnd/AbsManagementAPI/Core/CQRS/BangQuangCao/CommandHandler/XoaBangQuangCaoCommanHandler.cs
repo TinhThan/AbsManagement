@@ -17,7 +17,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
 
         public async Task<string> Handle(XoaBangQuangCaoCommand request, CancellationToken cancellationToken)
         {
-            var bangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == request.XoaBangQuangCaoModel.Id, cancellationToken);
+            var bangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
             try
             {
                 _dataContext.Remove(bangQuangCao);

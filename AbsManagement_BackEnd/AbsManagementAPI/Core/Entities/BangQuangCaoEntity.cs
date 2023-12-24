@@ -6,6 +6,7 @@
         public BangQuangCaoEntity()
         {
             ChiTietChinhSuaBangQuangCaos = new HashSet<ChiTietChinhSuaBangQuangCaoEntity>();
+            BaoCaoViPhams = new HashSet<BaoCaoViPhamEntity>();
         }
 
         public int Id { get; set; }
@@ -20,5 +21,6 @@
         public virtual DiemDatQuangCaoEntity DiemDatQuangCao { get; set; }
         public virtual LoaiBangQuangCaoEntity LoaiBangQuangCao { get; set; }
         public virtual ICollection<ChiTietChinhSuaBangQuangCaoEntity> ChiTietChinhSuaBangQuangCaos { get; set; }
+        public virtual ICollection<BaoCaoViPhamEntity> BaoCaoViPhams { get; set; }
     }
 }

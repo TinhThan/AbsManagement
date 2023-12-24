@@ -11,6 +11,9 @@
         public string NoiDungXyLy { get; set; }
         public string ViTri { get; set; }
         public string DanhSachHinhAnh { get; set; }
+        public string? DiaChi { get; set; }
+        public string? Phuong { get; set; }
+        public string? Quan { get; set; }
         public int TinhTrang { get; set; }
     }
 }
