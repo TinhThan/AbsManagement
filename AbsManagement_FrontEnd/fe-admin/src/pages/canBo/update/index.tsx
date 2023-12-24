@@ -1,10 +1,8 @@
 import { Button, Col, DatePicker, Form, Input, Modal, Radio, Row, Tooltip } from 'antd';
 import React from 'react';
-import { CanBoModel, CapNhatCanBoModel, ThemMoiCanBoModel } from '../../../apis/canBo/canBoModel';
-import { FormatTime, Notification } from '../../../utils';
-import dayjs from 'dayjs';
+import { CapNhatCanBoModel } from '../../../apis/canBo/canBoModel';
 import { canBoAPI } from '../../../apis/canBo/canBoAPI';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface Props {
   canBo?: CapNhatCanBoModel;
@@ -29,7 +27,7 @@ const roleCanBo = [
 export function ModalUpdateCanBo(props: Props): JSX.Element {
   const { canBo, onCancel } = props;
   const [form] = Form.useForm<CapNhatCanBoModel>();
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   if (!canBo) {
     return <></>;
@@ -37,19 +35,21 @@ export function ModalUpdateCanBo(props: Props): JSX.Element {
 
   function onSubmit(_model: CapNhatCanBoModel) {
     _model.noiCongTac = []
+    setLoading(true)
     if(canBo)
     {
       canBoAPI
       .CapNhat(canBo.id,_model)
       .then(() => {
         form.resetFields();
-      })
-      .finally(() => setLoading(false));
+      });
     }
+    setLoading(false)
   }
 
   return (
     <Modal
+      confirmLoading={loading}
       getContainer={() => document.getElementById('modal-container') || document.body}
       title={"Cập nhật cán bộ"}
       keyboard={false}
@@ -114,9 +114,6 @@ export function ModalUpdateCanBo(props: Props): JSX.Element {
               </Row>
             </Radio.Group>
           </Form.Item>
-        {/* <Form.Item label={"Nơi công tác"}>
-          <Input value={canBo.noiCongTac.join(',')} readOnly />
-        </Form.Item> */}
       </Col>
       </Form>
     </Modal>

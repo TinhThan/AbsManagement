@@ -3,14 +3,15 @@ import { ProLayout } from '@ant-design/pro-components';
 import { useEffect, useState } from "react";
 import UserInfoStorage from "../../storages/user-info";
 import { HeaderLayout } from "./header";
-import { Button, Menu, Space } from "antd";
+import { Button, Space } from "antd";
 import { useResponsive } from "../../hooks/useResponsive";
 import { Outlet, useNavigate } from 'react-router-dom';
 import './styles.scss';
 import useSignalr from "../../hooks/useSignalr";
 import { HubConnection } from "@microsoft/signalr";
 import { Notification } from "../../utils";
-import { menuCanBos } from "./dataMenu";
+import MenuLayout from './menu';
+import { RoleCanBo } from '../canBo';
 
 export default function App(): JSX.Element {
     const [collapse, setCollapse] = useState(false);
@@ -19,28 +20,28 @@ export default function App(): JSX.Element {
 
     const { connection } = useSignalr();
 
-  useEffect(() => {
-    if (connection) {
-      singalStart(connection);
-    }
-    return () => {
-      connection?.stop();
-      connection?.onclose((err) => {
-        console.log(err);
-      });
-    };
-  }, [connection]);
+    useEffect(() => {
+      if (connection) {
+        singalStart(connection);
+      }
+      return () => {
+        connection?.stop();
+        connection?.onclose((err) => {
+          console.log(err);
+        });
+      };
+    }, [connection]);
 
-  async function singalStart(_connection: HubConnection) {
-    try {
-      await _connection.start();
-      _connection.on('onNotify', (title:string,message: string) => {
-          Notification.Success(message);
-      });
-    } catch (error) {
-      console.log(error);
+    async function singalStart(_connection: HubConnection) {
+      try {
+        await _connection.start();
+        _connection.on('onNotify', (title:string,message: string) => {
+            Notification.Success(message);
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
 
   async function logOutClick() {
       localStorage.clear();
@@ -71,27 +72,15 @@ export default function App(): JSX.Element {
               navigate('/');
             }}
             style={{ cursor: 'pointer' }}
-        />
+        >Trang Chủ</Button>
       </Space>
       
   );
   }
 
   function renderMenu() {
-      return <Menu items={menuCanBos}/>;
-    }
-
-  function renderMenuHeaderRender(collapsed?: boolean) {
-      if (!(screens.xs || screens.md) && collapsed) {
-        return (
-          <Button
-            onClick={() => {
-              navigate('/');
-            }}
-          />
-        );
-      }
-      return <></>;
+      const userInfo = UserInfoStorage.get();
+      return (<MenuLayout role={userInfo?.role ?? RoleCanBo.Chung}/>);
     }
 
     return (
@@ -109,9 +98,8 @@ export default function App(): JSX.Element {
             fixedHeader
             headerContentRender={renderHeader}
             menuExtraRender={({collapsed}) => renderMenuExtraRender(collapsed)}
-            menuHeaderRender={()=> renderMenuHeaderRender(Boolean(collapse))}
             menuContentRender={renderMenu}
-            >
+            >  
             <Outlet/> 
             </ProLayout>
     );

@@ -1,6 +1,6 @@
 export const ConfigRoute = {
     Login: '/login',
-    Home: '/welcome',
+    Home: '/',
     ThongTinCaNhan:"/thong-tin-ca-nhan",
     CanBoSo:{
         CanBo:'/can-bo',

@@ -1,7 +1,7 @@
 import { Suspense, useState,useEffect } from 'react';
 import React from 'react';
 import { PageLoading } from '@ant-design/pro-components';
-import { Button, Col, Dropdown, Input, Row, Space, Table, TableColumnType } from 'antd';
+import { Button, Col, Dropdown, Input, Row, Space, Spin, Table, TableColumnType } from 'antd';
 import { CanBoModel, CapNhatCanBoModel } from '../../apis/canBo/canBoModel';
 import { canBoAPI } from '../../apis/canBo/canBoAPI';
 import { DeleteOutlined, EditOutlined, EllipsisOutlined, KeyOutlined, PlusOutlined } from '@ant-design/icons';
@@ -15,13 +15,22 @@ import { ModalCreateCanBo } from './create';
 const { Search } = Input;
 
 export const RoleCanBo = {
+  Chung:"Chung",
   CanBoPhuong: "CanBoPhuong",
   CanBoQuan: "CanBoQuan",
   CanBoSo: "CanBoSo"
 }
 
+const roleCanBos = {
+  Chung:"Lỗi",
+  CanBoPhuong: "Cán bộ phường",
+  CanBoQuan: "Cán bộ quận",
+  CanBoSo: "Cán bộ sở"
+}
+
 export default function CanBoFeature(): JSX.Element {
     const [canBos,setCanBos] = useState<CanBoModel[]>([]);
+    const [loading,setLoading] = useState(false);
     function onDetailClick(model) {
       const _root = renderModal(<ModalDetailCanBo onCancel={() => _root?.unmount()} canBo={model} />);
     }
@@ -58,6 +67,7 @@ export default function CanBoFeature(): JSX.Element {
     
 
     async function getCanBos() {
+      setLoading(true)
       canBoAPI
         .DanhSach()
         .then((response) => {
@@ -66,6 +76,7 @@ export default function CanBoFeature(): JSX.Element {
               setCanBos(response.data || []);
             }
         });
+      setLoading(false)
     }
     
     const columns: TableColumnType<CanBoModel>[] = [
@@ -125,7 +136,11 @@ export default function CanBoFeature(): JSX.Element {
             sorter: true,
             dataIndex: 'role',
             key: 'role',
-            showSorterTooltip:false
+            render: (value) => {
+              return (
+                <>{roleCanBos[value]}</>
+              )
+            },
         },
         {
             title: "Nơi công tác",
@@ -173,22 +188,25 @@ export default function CanBoFeature(): JSX.Element {
           }
         }
     ];
-  
+
     return (
         <Suspense fallback={<PageLoading/>}>
-          <Space direction='vertical'>
-          <Space direction='vertical' size={0} className='layout-basic-page'>
-          <Row wrap={false} gutter={5}>
-            <Col flex='auto'>
-            <Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
-            </Col>
-            <Col flex='none'>
-              <Button shape='circle' size='large' type='primary' icon={<PlusOutlined />} onClick={onCreateClick} className={`btn-create`}></Button>
-            </Col>
-          </Row>
-          <Table columns={columns} dataSource={canBos} />
-          </Space>
-          </Space>
+          <Spin spinning={loading}>
+            <Space direction='vertical'>
+              <Space direction='vertical' size={0} className='layout-basic-page'>
+                <Row wrap={false} gutter={5}>
+                  <Col flex='auto'>
+                  <Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
+                  </Col>
+                  <Col flex='none'>
+                    <Button shape='circle' size='large' type='primary' icon={<PlusOutlined />} onClick={onCreateClick} className={`btn-create`}></Button>
+                  </Col>
+                </Row>
+                <Table columns={columns} dataSource={canBos} >
+                </Table>
+              </Space>
+            </Space>
+          </Spin>
         </Suspense>
     );
 }

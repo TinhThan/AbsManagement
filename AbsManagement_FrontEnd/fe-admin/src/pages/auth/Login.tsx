@@ -1,43 +1,43 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import LoginForm from '../../components/LoginForm';
-import { message } from 'antd';
-// import { authAPI } from '../../apis/auth/authAPI';
+import { Spin } from 'antd';
 import TokenStorage from '../../storages/tokenStorage';
 import RefreshTokenStorage from '../../storages/refreshTokenStorage';
 import { useNavigate } from 'react-router-dom';
 import { PageLoading } from '@ant-design/pro-components';
 import UserInfoStorage from '../../storages/user-info';
-import { RoleCanBo } from '../canBo';
 import { MessageBox } from '../../utils/messagebox';
 import { authAPI } from '../../apis/auth/authAPI';
 
 const Login: React.FC = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  
   const handleLogin = async (values: any) => {
+    setLoading(true);
     try {
       const response = await authAPI.Login(values);
-      if(response && response.status !== 200)
+      console.log("reospone ! 200",response)
+      if(response && response.status === 200)
       {
-        console.log("reospone ! 200",response)
-        MessageBox.Fail(response.message);
+        TokenStorage.set(response.data.accessToken);
+        RefreshTokenStorage.set(response.data.refreshToken);
+        UserInfoStorage.set({...response.data});
+        navigate('/')
       }
-      TokenStorage.set(response.data.accessToken);
-      RefreshTokenStorage.set(response.data.refreshToken);
-      TokenStorage.set("1");
-      RefreshTokenStorage.set("2");
-      UserInfoStorage.set({...response.data});
-      navigate('/')
     } catch (error: any) {
-      console.log("error",error)
       MessageBox.Fail(error.message);
     }
+    setLoading(false)
   };
 
   return (
     <Suspense fallback={<PageLoading/>}>
+     <Spin spinning={loading}>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <LoginForm onSubmit={handleLogin} />
-      </div>
+          <LoginForm onSubmit={handleLogin} />
+        </div>
+     </Spin>
     </Suspense>
   );
 };

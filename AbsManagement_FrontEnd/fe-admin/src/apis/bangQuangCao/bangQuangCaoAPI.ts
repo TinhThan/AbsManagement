@@ -3,7 +3,7 @@ import { BaseApi } from "../baseApi";
 import { ConfigUrlApi } from "../configs/configUrlApi";
 import { API_URL } from "../../constants/apiConfig";
 import {
-  BangQuangCaoModel,
+  CapNhatBangQuangCaoModel,
   ThemMoiBangQuangCaoModel,
 } from "./bangQuangCaoModel";
 
@@ -18,7 +18,7 @@ class BangQuangCaoAPI extends BaseApi {
       return this.get(
       API_URL + ConfigUrlApi.Urls.BangQuangCao.DanhSach
       );
-  }
+    }
 
     async TaoMoi(model: ThemMoiBangQuangCaoModel) {
         return this.post(
@@ -26,12 +26,27 @@ class BangQuangCaoAPI extends BaseApi {
         model
         );
     }
+
+    async CapNhat(id: number, model: CapNhatBangQuangCaoModel) {
+      return this.post(
+      API_URL + ConfigUrlApi.Urls.BangQuangCao.CapNhat + id,
+      model
+      );
+    }
+
+    async Xoa(id: number) {
+      return this.post(
+      API_URL + ConfigUrlApi.Urls.BangQuangCao.Xoa + id
+      );
+    }
 }
 
 export interface IBangQuangCaoAPI {
   ChiTiet(id: number);
   DanhSach();
   TaoMoi(model: ThemMoiBangQuangCaoModel);
+  CapNhat(id: number, model: ThemMoiBangQuangCaoModel);
+  Xoa(id: number);
 }
 
 export const bangQuangCaoAPI: IBangQuangCaoAPI = new BangQuangCaoAPI();

@@ -98,7 +98,7 @@ export class BaseApi {
                 MessageBox.Fail("Hệ thống đã xảy ra lỗi.")
                 return;
             }
-            Notification.Fail(error.message)
+            MessageBox.Fail(error.message)
         }
         );
     }

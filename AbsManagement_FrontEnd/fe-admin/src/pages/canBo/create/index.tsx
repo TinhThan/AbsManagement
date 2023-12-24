@@ -30,6 +30,7 @@ export function ModalCreateCanBo(props: Props): JSX.Element {
 
   function onSubmit(_model: ThemMoiCanBoModel) {
     _model.noiCongTac = []
+    setLoading(true)
     canBoAPI
     .TaoMoi(_model)
     .then((response) => {
@@ -38,12 +39,13 @@ export function ModalCreateCanBo(props: Props): JSX.Element {
             form.resetFields();
             onCancel()
         }
-    })
-    .finally(() => setLoading(false));
+    });
+    setLoading(false)
   }
 
   return (
     <Modal
+      confirmLoading={loading}
       getContainer={() => document.getElementById('modal-container') || document.body}
       title={"Thêm mới cán bộ"}
       keyboard={false}
