@@ -55,7 +55,7 @@ namespace AbsManagementAPI.Controllers
                 {
                     Directory.CreateDirectory(Filepath);
                 }
-                foreach (var file in hinhAnhs)
+                foreach (var file in hinhAnhs) 
                 {
                     string[] fileName = file.FileName.Split(".");
                     string nameImage = fileName[0] + ".jpg";
