@@ -51,13 +51,15 @@ namespace AbsManagementAPI.Core.Entities
                 entity.HasOne(e => e.DiemDatQuangCao)
                 .WithMany(e => e.BangQuangCaos)
                 .HasForeignKey(e => e.IdDiemDatQuangCao)
-                .HasConstraintName("FK_BangQuangCao_DiemDatQuangCao");
+                .HasConstraintName("FK_BangQuangCao_DiemDatQuangCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
 
                 entity.HasOne(e => e.LoaiBangQuangCao)
                 .WithMany(e => e.BangQuangCaos)
                 .HasForeignKey(e => e.IdLoaiBangQuangCao)
-                .HasConstraintName("FK_BangQuangCao_LoaiBangQuangCao");
+                .HasConstraintName("FK_BangQuangCao_LoaiBangQuangCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<BaoCaoViPhamEntity>(entity =>
@@ -69,23 +71,27 @@ namespace AbsManagementAPI.Core.Entities
                 entity.HasOne(e => e.HinhThucBaoCao)
                 .WithMany(e => e.BaoCaoViPhams)
                 .HasForeignKey(e => e.IdHinhThucBaoCao)
-                .HasConstraintName("FK_BaoCaoViPham_HinhThucBaoCao");
+                .HasConstraintName("FK_BaoCaoViPham_HinhThucBaoCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
 
                 entity.HasOne(e => e.CanBoXuLy)
                 .WithMany(e => e.BaoCaoViPhams)
                 .HasForeignKey(e => e.IdCanBoXuLy)
-                .HasConstraintName("FK_BaoCaoViPham_CanBo");
+                .HasConstraintName("FK_BaoCaoViPham_CanBo")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(e => e.BangQuangCao)
                 .WithMany(e => e.BaoCaoViPhams)
                 .HasForeignKey(e => e.IdBangQuangCao)
-                .HasConstraintName("FK_BaoCaoViPham_BangQuangCao");
+                .HasConstraintName("FK_BaoCaoViPham_BangQuangCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(e => e.DiemDatQuangCao)
                 .WithMany(e => e.BaoCaoViPhams)
                 .HasForeignKey(e => e.IdDiemDatQuangCao)
-                .HasConstraintName("FK_BaoCaoViPham_DiemDatQuangCao");
+                .HasConstraintName("FK_BaoCaoViPham_DiemDatQuangCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<CanBoEntity>(entity =>
@@ -104,23 +110,27 @@ namespace AbsManagementAPI.Core.Entities
                 entity.HasOne(e => e.BangQuangCao)
                 .WithMany(e => e.ChiTietChinhSuaBangQuangCaos)
                 .HasForeignKey(e => e.IdBangQuangCao)
-                .HasConstraintName("FK_ChiTietChinhSuaBangQuangCao_BangQuangCao");
+                .HasConstraintName("FK_ChiTietChinhSuaBangQuangCao_BangQuangCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
 
                 entity.HasOne(e => e.DiemDatQuangCaoMoi)
                 .WithMany(e => e.ChiTietChinhSuaBangQuangCao_CapNhatMois)
                 .HasForeignKey(e => e.IdDiemDatQuangCaoMoi)
-                .HasConstraintName("FK_ChiTietChinhSuaBangQuangCao_DiemDatQuangCao");
+                .HasConstraintName("FK_ChiTietChinhSuaBangQuangCao_DiemDatQuangCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(e => e.LoaiBangQuangCaoMoi)
                 .WithMany(e => e.ChiTietChinhSuaBangQuangCaos)
                 .HasForeignKey(e => e.IdLoaiBangQuangCaoMoi)
-                .HasConstraintName("FK_ChiTietChinhSuaBangQuangCao_LoaiBangQuangCao");
+                .HasConstraintName("FK_ChiTietChinhSuaBangQuangCao_LoaiBangQuangCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(e => e.PhieuChinhSua)
                 .WithMany(e => e.ChiTietChinhSuaBangQuangCaos)
                 .HasForeignKey(e => e.IdPhieuChinhSua)
-                .HasConstraintName("FK_ChiTietChinhSuaBangQuangCao_PhieuChinhSuaBangQuangCao");
+                .HasConstraintName("FK_ChiTietChinhSuaBangQuangCao_PhieuChinhSuaBangQuangCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<ChiTietPhieuChinhSuaDiemDatQuangCaoEntity>(entity =>
@@ -132,23 +142,27 @@ namespace AbsManagementAPI.Core.Entities
                 entity.HasOne(e => e.DiemDatQuangCao)
                     .WithMany(e => e.ChiTietPhieuChinhSuaDiemDatQuangCao_CapNhats)
                     .HasForeignKey(e => e.IdDiemDatQuangCao)
-                    .HasConstraintName("FK_ChiTietPhieuChinhSuaDiemDatQuangCao_DiemDatQuangCao");
+                    .HasConstraintName("FK_ChiTietPhieuChinhSuaDiemDatQuangCao_DiemDatQuangCao")
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
 
                 entity.HasOne(e => e.HinhThucQuangCaoMoi)
                 .WithMany(e => e.ChiTietPhieuChinhSuaDiemDatQuangCaos)
                 .HasForeignKey(e => e.IdHinhThucMoi)
-                .HasConstraintName("FK_ChiTietPhieuChinhSuaDiemDatQuangCao_HinhThucQuangCao");
+                .HasConstraintName("FK_ChiTietPhieuChinhSuaDiemDatQuangCao_HinhThucQuangCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(e => e.LoaiViTriMoi)
                 .WithMany(e => e.ChiTietPhieuChinhSuaDiemDatQuangCaos)
                 .HasForeignKey(e => e.IdLoaiVitriMoi)
-                .HasConstraintName("FK_ChiTietPhieuChinhSuaDiemDatQuangCao_LoaiViTri");
+                .HasConstraintName("FK_ChiTietPhieuChinhSuaDiemDatQuangCao_LoaiViTri")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(e => e.PhieuChinhSua)
                 .WithMany(e => e.ChiTietPhieuChinhSuaDiemDatQuangCaos)
                 .HasForeignKey(e => e.IdPhieuSua)
-                .HasConstraintName("FK_ChiTietPhieuChinhSuaDiemDatQuangCao_PhieuChinhSuaDiemDatQuangCao");
+                .HasConstraintName("FK_ChiTietPhieuChinhSuaDiemDatQuangCao_PhieuChinhSuaDiemDatQuangCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<DiemDatQuangCaoEntity>(entity =>
@@ -159,12 +173,14 @@ namespace AbsManagementAPI.Core.Entities
                 entity.HasOne(e => e.HinhThucQuangCao)
                 .WithMany(e => e.DiemDatQuangCaos)
                 .HasForeignKey(e => e.IdHinhThucQuangCao)
-                .HasConstraintName("FK_DiemDatQuangCao_HinhThucQuangCao");
+                .HasConstraintName("FK_DiemDatQuangCao_HinhThucQuangCao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(e => e.LoaiViTri)
                 .WithMany(e => e.DiemDatQuangCaos)
                 .HasForeignKey(e => e.IdLoaiViTri)
-                .HasConstraintName("FK_DiemDatQuangCao_LoaiViTri");
+                .HasConstraintName("FK_DiemDatQuangCao_LoaiViTri")
+                .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<HinhThucBaoCaoEntity>(entity =>
@@ -203,12 +219,14 @@ namespace AbsManagementAPI.Core.Entities
                 entity.HasOne(e => e.CanBoTao)
                 .WithMany(e => e.PhieuChinhSuaBangQuangCao_Taos)
                 .HasForeignKey(e => e.IdCanBoTao)
-                .HasConstraintName("FK_PhieuChinhSuaBangQuangCao_CanBoTao");
+                .HasConstraintName("FK_PhieuChinhSuaBangQuangCao_CanBoTao")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(e => e.CanBoDuyet)
                 .WithMany(e => e.PhieuChinhSuaBangQuangCao_Duyets)
                 .HasForeignKey(e => e.IdCanBoDuyet)
-                .HasConstraintName("FK_PhieuChinhSuaBangQuangCao_CanBoDuyet");
+                .HasConstraintName("FK_PhieuChinhSuaBangQuangCao_CanBoDuyet")
+                .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<PhieuChinhSuaDiemDatQuangCaoEntity>(entity =>
@@ -219,12 +237,14 @@ namespace AbsManagementAPI.Core.Entities
                 entity.HasOne(e => e.CanBoTao)
                 .WithMany(e => e.PhieuChinhSuaDiemDatQuangCao_Taos)
                 .HasForeignKey(e => e.IdCanBoTao)
-                .HasConstraintName("FK_PhieuChinhSuaDiemDatQuangCao_CanBo");
+                .HasConstraintName("FK_PhieuChinhSuaDiemDatQuangCao_CanBo")
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
                 entity.HasOne(e => e.CanBoDuyet)
                 .WithMany(e => e.PhieuChinhSuaDiemDatQuangCao_Duyets)
                 .HasForeignKey(e => e.IdCanBoDuyet)
-                .HasConstraintName("FK_PhieuChinhSuaDiemDatQuangCao_CanBoDuyet");
+                .HasConstraintName("FK_PhieuChinhSuaDiemDatQuangCao_CanBoDuyet")
+                .OnDelete(DeleteBehavior.ClientSetNull);
             });
         }
     }
