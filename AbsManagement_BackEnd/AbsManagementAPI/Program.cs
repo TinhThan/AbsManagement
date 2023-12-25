@@ -1,5 +1,6 @@
 using AbsManagementAPI;
 using Microsoft.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace AbsManagementAPI
 {
@@ -14,6 +15,12 @@ namespace AbsManagementAPI
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
+            if (EF.IsDesignTime)
+            {
+                new HostBuilder().Build().Run();
+                return;
+            }
+
             var builder = BuilderWebHost(args);
             builder.Build().Run();
         }

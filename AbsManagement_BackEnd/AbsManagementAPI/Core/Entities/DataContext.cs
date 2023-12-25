@@ -5,11 +5,18 @@ namespace AbsManagementAPI.Core.Entities
 {
     public class DataContext : DbContext
     {
-        protected readonly IConfiguration _configuration;
+        //protected readonly IConfiguration _configuration;
 
-        public DataContext(IConfiguration configuration)
+        //public DataContext(IConfiguration configuration)
+        //{
+        //    _configuration = configuration;
+        //}
+        public DataContext()
         {
-            _configuration = configuration;
+        }
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+
         }
 
         public DbSet<BangQuangCaoEntity> BangQuangCaos { get; set; }
@@ -27,8 +34,11 @@ namespace AbsManagementAPI.Core.Entities
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = _configuration.GetConnectionString("AbsManagement");
-            optionsBuilder.UseSqlServer(connectionString);
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder
+                .UseSqlServer("Server=LAPTOP-1TEC7K8S\\SQLEXPRESS;Database=AbsManagement_2;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True;");
+            //var connectionString = _configuration.GetConnectionString("AbsManagement");
+            //optionsBuilder.UseSqlServer(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
