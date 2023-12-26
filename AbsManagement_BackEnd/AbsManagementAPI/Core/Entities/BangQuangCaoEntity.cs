@@ -15,7 +15,6 @@
         public string DanhSachHinhAnh { get; set; }
         public DateTimeOffset NgayHetHan { get; set; }
         public string IdTinhTrang { get; set; }
-        public DateTimeOffset NgayCapNhat { get; set; }
 
         public virtual DiemDatQuangCaoEntity DiemDatQuangCao { get; set; }
         public virtual LoaiBangQuangCaoEntity LoaiBangQuangCao { get; set; }

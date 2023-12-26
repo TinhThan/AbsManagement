@@ -28,7 +28,6 @@ namespace AbsManagementAPI.Core
                                     : JsonConvert.DeserializeObject<List<string>>(e.DiemDatQuangCao.ViTri)));
 
             CreateMap<ThemBangQuangCaoModel, BangQuangCaoEntity>()
-                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
                 .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
@@ -37,7 +36,6 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
 
             CreateMap<CapNhatBangQuangCaoModel, BangQuangCaoEntity>()
-                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
@@ -53,7 +51,6 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.NoiCongTac, desc => desc.MapFrom(t => JsonConvert.SerializeObject(t.NoiCongTac)))
                 .ForMember(src => src.MatKhau, desc => desc.Ignore())
                 .ForMember(src => src.RefreshToken, desc => desc.Ignore())
-                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
                 .ForMember(src => src.RefreshTokenExpiryTime, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore());
 
@@ -62,7 +59,6 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.Email, desc => desc.Ignore())
                 .ForMember(src => src.NoiCongTac, desc => desc.MapFrom(t => JsonConvert.SerializeObject(t.NoiCongTac)))
                 .ForMember(src => src.MatKhau, desc => desc.Ignore())
-                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
                 .ForMember(src => src.RefreshToken, desc => desc.Ignore())
                 .ForMember(src => src.RefreshTokenExpiryTime, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore());

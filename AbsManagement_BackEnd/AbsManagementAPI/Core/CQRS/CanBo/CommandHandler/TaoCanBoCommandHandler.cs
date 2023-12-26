@@ -18,7 +18,6 @@ namespace AbsManagementAPI.Core.CQRS.CanBo.CommandHandler
             var canBoMoi = _mapper.Map<CanBoEntity>(request.TaoCanBoModel);
 
             canBoMoi.MatKhau = HelperIdentity.HashPasswordSalt("1");
-            canBoMoi.NgayCapNhat = DateTimeOffset.UtcNow;
             try
             {
                 await _dataContext.CanBos.AddAsync(canBoMoi);

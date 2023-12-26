@@ -19,7 +19,6 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
 
             try
             {
-                bangQuangCaoMoi.NgayCapNhat = DateTimeOffset.UtcNow;
                 bangQuangCaoMoi.IdTinhTrang = "Mới thêm";
                 await _dataContext.AddAsync(bangQuangCaoMoi);
                 var resultThemMoi = await _dataContext.SaveChangesAsync();

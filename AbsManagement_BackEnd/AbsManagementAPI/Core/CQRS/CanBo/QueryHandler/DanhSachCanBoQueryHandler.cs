@@ -15,6 +15,6 @@ namespace AbsManagementAPI.Core.CQRS.CanBo.QueryHandler
         }
 
         public async Task<List<CanBoModel>> Handle(DanhSachCanBoQuery request, CancellationToken cancellationToken)
-        => await _dataContext.CanBos.OrderBy(t => t.NgayCapNhat).ProjectTo<CanBoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+        => await _dataContext.CanBos.ProjectTo<CanBoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
     }
 }
