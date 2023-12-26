@@ -1,6 +1,7 @@
 ﻿using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.Entities;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
@@ -87,6 +88,30 @@ namespace AbsManagementAPI.Core.Authentication
                 numBytesRequested: 256 / 8);
 
             return Convert.ToBase64String(hashed);
+        }
+
+        public static string HashPasswordBCrypt(string password)
+        {
+            // generate a salt
+            var salt = BCrypt.Net.BCrypt.GenerateSalt();
+
+            // hash the password with the generated salt
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, salt);
+
+            return hashedPassword;
+        }
+
+        public static string GenerateSlug(string email, string phoneNumber)
+        {
+            string dataToHash = $"{email}:{phoneNumber}";
+
+            using (HMACSHA256 hmac = new HMACSHA256(System.Text.Encoding.UTF8.GetBytes(_Salt)))
+            {
+                byte[] hashedData = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(dataToHash));
+                string hashedHex = BitConverter.ToString(hashedData).Replace("-", "").ToLower();
+
+                return BCrypt.Net.BCrypt.HashPassword(hashedHex, 10);
+            }
         }
 
         public static string GenerateToken(List<Claim> listClaim)

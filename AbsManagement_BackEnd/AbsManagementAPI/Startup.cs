@@ -3,6 +3,7 @@ using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions;
 using AbsManagementAPI.Core.HubSignalR;
+using AbsManagementAPI.Servives;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -39,6 +40,9 @@ namespace AbsManagementAPI
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 s.IncludeXmlComments(xmlPath);
             });
+
+            services.Configure<MailSettings>(Configuration.GetSection(nameof(MailSettings)));
+            services.AddTransient<IMailService, MailService>();
         }
 
         public void Configure(IApplicationBuilder app)

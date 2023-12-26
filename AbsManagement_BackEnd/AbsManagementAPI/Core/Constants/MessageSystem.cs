@@ -6,7 +6,17 @@
         public const string SERVER_ERROR = "Đã xảy ra lỗi ở hệ thống.";
         public const string TOKEN_EXPIRED = "Token đã hết hạn.";
         public const string AUTH_AUTHENTICATED_ERROR = "Đăng nhập thất bại.";
+        public const string AUTH_REGISTER_ERROR = "Đăng ký thất bại.";
         public const string AUTH_INVALID = "Thông tin tài khoản không hợp lệ.";
+        public const string AUTH_NOT_VERIFIED = "Tài khoản chưa được kích hoạt.";
+        public const string AUTH_VERIFIED = "Tài khoản đã được kích hoạt.";
+        public const string AUTH_EXIT = "Email đã tồn tại.";
+        public const string AUTH_VERIFIED_SUCCESS = "Kích hoạt tải khoản thành công.";
+        public const string AUTH_OTP_EXPRIRED_ITME = "OTP đã hết hiệu lực.";
+        public const string AUTH_OTP_INVALID = "OTP không tồn tại.";
+        public const string AUTH_ERROR = "Lỗi xác thực.";
+        public const string VALID_SUCEESS = "Xác thực thành công.";
+        public const string SEND_MAIL_SUCCESS = "Gửi mail thành công.";
         public const string REFRESH_TOKEN_INVALID = "Refresh token không hợp lệ.";
         public const string REFRESH_TOKEN_EXPIRED = "Phiên làm việc của bạn đã hết hạn.";
 
