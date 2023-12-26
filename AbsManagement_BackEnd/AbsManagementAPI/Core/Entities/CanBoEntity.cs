@@ -5,10 +5,6 @@
         public CanBoEntity()
         {
             BaoCaoViPhams = new HashSet<BaoCaoViPhamEntity>();
-            PhieuChinhSuaBangQuangCao_Taos = new HashSet<PhieuChinhSuaBangQuangCaoEntity>();
-            PhieuChinhSuaBangQuangCao_Duyets = new HashSet<PhieuChinhSuaBangQuangCaoEntity>();
-            PhieuChinhSuaDiemDatQuangCao_Taos = new HashSet<PhieuChinhSuaDiemDatQuangCaoEntity>();
-            PhieuChinhSuaDiemDatQuangCao_Duyets = new HashSet<PhieuChinhSuaDiemDatQuangCaoEntity>();
         }
 
         public int Id { get; set; }
@@ -24,9 +20,5 @@
         public DateTimeOffset NgayCapNhat { get; set; }
 
         public virtual ICollection<BaoCaoViPhamEntity> BaoCaoViPhams { get; set; }
-        public virtual ICollection<PhieuChinhSuaBangQuangCaoEntity> PhieuChinhSuaBangQuangCao_Taos { get; set; }
-        public virtual ICollection<PhieuChinhSuaBangQuangCaoEntity> PhieuChinhSuaBangQuangCao_Duyets { get; set; }
-        public virtual ICollection<PhieuChinhSuaDiemDatQuangCaoEntity> PhieuChinhSuaDiemDatQuangCao_Taos { get; set; }
-        public virtual ICollection<PhieuChinhSuaDiemDatQuangCaoEntity> PhieuChinhSuaDiemDatQuangCao_Duyets { get; set; }
     }
 }

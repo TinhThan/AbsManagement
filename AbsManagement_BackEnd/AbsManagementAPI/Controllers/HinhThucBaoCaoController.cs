@@ -1,0 +1,65 @@
+﻿using AbsManagementAPI.Core.Entities;
+using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models.HinhThucBaoCao;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace AbsManagementAPI.Controllers
+{
+    [ApiController]
+    [Route("api/hinhthucbaocao")]
+    public class HinhThucBaoCaoController : Controller
+    {
+        private readonly DataContext _dataContext;
+        private readonly IMapper _mapper;
+        public HinhThucBaoCaoController(DataContext dataContext, IMapper mapper)
+        {
+            _dataContext = dataContext;
+            _mapper = mapper;
+        }
+
+        [HttpGet()]
+        public async Task<List<HinhThucBaoCaoModel>> Create()
+        => await _dataContext.HinhThucBaoCaos.ProjectTo<HinhThucBaoCaoModel>(_mapper.ConfigurationProvider).ToListAsync(CancellationToken.None);
+
+        [HttpPost("{id}")]
+        public async Task<string> Update(int id, CapNhatHinhThucBaoCaoModel capNhatHinhThucBaoCaoModel)
+        {
+            try
+            {
+                var detail = await _dataContext.HinhThucBaoCaos.FirstOrDefaultAsync(t => t.Id == id, CancellationToken.None);
+                detail.Ten = capNhatHinhThucBaoCaoModel.Ten;
+                detail.Ma = capNhatHinhThucBaoCaoModel.Ma;
+                _dataContext.HinhThucBaoCaos.Update(detail);
+                await _dataContext.SaveChangesAsync(CancellationToken.None);
+                return "Cập nhật thành công";
+            }
+            catch (Exception ex)
+            {
+                throw new CustomMessageException("Cập nhật thất bại");
+            }
+        }
+
+        [HttpPost()]
+        public async Task<string> Update(ThemHinhThucBaoCaoModel themHinhThucBaoCaoModel)
+        {
+            try
+            {
+                var detail = new HinhThucBaoCaoEntity()
+                {
+                    Ten = themHinhThucBaoCaoModel.Ten,
+                    Ma = themHinhThucBaoCaoModel.Ma
+                };
+                _dataContext.HinhThucBaoCaos.Add(detail);
+                await _dataContext.SaveChangesAsync(CancellationToken.None);
+                return "Thêm mới thành công";
+            }
+            catch (Exception ex)
+            {
+                throw new CustomMessageException("Thêm mới thất bại");
+            }
+        }
+    }
+}
