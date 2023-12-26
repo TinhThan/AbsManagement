@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { Button, Card, Col, Row, Form, Input, Modal, Image, Space, Upload, Radio } from 'antd';
+import { Button, Card, Col, Row, Form, Input, Modal, Image, Space, Upload, Radio, Select } from 'antd';
 import imageIcon from "../../assets/Image.svg";
 import { Editor } from '@tinymce/tinymce-react';
 import { PlusOutlined } from '@ant-design/icons';
@@ -28,6 +28,7 @@ export default function ModalCreateReport(props) {
 
     useEffect(() => {
       getHinhThucBaoCaos()
+      form.setFieldValue('diaChi',diaChi)
     }, [])
     
 
@@ -39,10 +40,10 @@ export default function ModalCreateReport(props) {
             }
             _model.danhSachHinhAnh = await uploadImages();
             _model.danhSachViTri = [lng ?? 0,lat ?? 0];
-            _model.idHinhThucBaoCao = 1
             _model.phuong = phuong
             _model.quan = quan
             _model.noiDung = editorRef.current.getContent()
+            console.log("model",_model)
             await axios.post(`${process.env.REACT_APP_BASE_API}baocaovipham/taomoi`,_model).then((response) => {
                 console.log("response",response)
                 if(response && response.status === 200)
@@ -80,7 +81,7 @@ export default function ModalCreateReport(props) {
     }   
 
     async function getHinhThucBaoCaos() {
-        await axios.get("https://localhost:7286/api/hinhthucbaocao").then((response) => {
+        await axios.get(`${process.env.REACT_APP_BASE_API}hinhthucbaocao`).then((response) => {
             if(response && response.status === 200)
             {
                 setHinhThucBaoCaos(response.data)
@@ -124,8 +125,8 @@ export default function ModalCreateReport(props) {
             open
             forceRender
             onCancel={()=>{
-            onCancel();
-            form.resetFields();
+                onCancel();
+                form.resetFields();
             }}
             width={800}
             footer={[
@@ -165,18 +166,12 @@ export default function ModalCreateReport(props) {
                     <Form.Item label={"Số điện thoại"} name={"soDienThoai"}>
                         <Input/>
                     </Form.Item>
-                    <Form.Item label={"Hình thức báo cáo"} name={'role'}>
-                        <Radio.Group style={{ width: '100%' }}>
-                        <Row gutter={5}>
+                    <Form.Item label={"Hình thức báo cáo"} name={'idHinhThucBaoCao'}>
+                        <Select placeholder="Vui lòng chọn hình thức quảng cáo" >
                             {hinhThucBaoCaos && hinhThucBaoCaos.map((option) => (
-                            <Col xs={12} sm={12} md={12} lg={10} xl={10} xxl={10} key={option.id}>
-                                <Radio key={option.id} value={option.id}>
-                                    {option.ma} - {option.ten}
-                                </Radio>
-                            </Col>
+                               <Select.Option key={option.id} value={option.id}>{option.ma} - {option.ten}</Select.Option>
                             ))}
-                        </Row>
-                        </Radio.Group>
+                        </Select>
                     </Form.Item>
                 </Col>
                 <Col span={12}>
@@ -208,14 +203,14 @@ export default function ModalCreateReport(props) {
                 </Col>
             </Row>
             <Form.Item label={"Địa chỉ"} name={"diaChi"}>
-                <Input defaultValue={diaChi}/>
+                <Input/>
             </Form.Item>
             <Editor
                 onInit={(evt, editor) => editorRef.current = editor}
                 initialValue="<p>Nhập nội dung tại đây</p>"
                 init={{
                 language:'vi_VN',
-                height: 300,
+                height: 200,
                 menubar: false,
                 plugins: [
                     'advlist autolink lists link image charmap print preview anchor',
@@ -230,7 +225,7 @@ export default function ModalCreateReport(props) {
                 }}
             />
         </Form>
-        <ReCAPTCHA style={{margin:'10px'}} sitekey='6LeydTkpAAAAAJzoOBspUKjupQq7FDZi2-ByYGX4' onChange={val=>setCapVal(val)}/>
+        <ReCAPTCHA style={{margin:'10px'}} sitekey={process.env.REACT_APP_SITEKEY} onChange={val=>setCapVal(val)}/>
     </Modal>
     <Image
         width={200}
