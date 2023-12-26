@@ -14,8 +14,12 @@ export interface CanBoModel extends CanBo{
 export interface CapNhatCanBoModel extends CanBo{
     id: number;
     ngaySinh: any;
+    phuong:string,
+    quan:string;
 }
 
 export interface ThemMoiCanBoModel extends CanBo{
     ngaySinh: any;
+    phuong:string,
+    quan:string;
 }

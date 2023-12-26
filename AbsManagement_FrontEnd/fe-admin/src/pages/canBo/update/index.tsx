@@ -1,8 +1,11 @@
-import { Button, Col, DatePicker, Form, Input, Modal, Radio, Row, Tooltip } from 'antd';
+import { Button, Col, DatePicker, Form, Input, Modal, Radio, Row, Select, Tooltip } from 'antd';
 import React from 'react';
 import { CapNhatCanBoModel } from '../../../apis/canBo/canBoModel';
 import { canBoAPI } from '../../../apis/canBo/canBoAPI';
 import { useState } from 'react';
+import { Ward } from '../create';
+import { getDistrictsAndWards } from '../../../utils/getWard';
+import dataHCM from '../../../assets/new-dataHCM.json';
 
 interface Props {
   canBo?: CapNhatCanBoModel;
@@ -28,13 +31,18 @@ export function ModalUpdateCanBo(props: Props): JSX.Element {
   const { canBo, onCancel } = props;
   const [form] = Form.useForm<CapNhatCanBoModel>();
   const [loading, setLoading] = useState(false);
+  const [wards,setWards] = useState<Ward[]>(getDistrictsAndWards(canBo?.noiCongTac[0] ?? ''));
+  const [role,setRole] = useState(canBo?.role);
 
   if (!canBo) {
     return <></>;
   }
 
   function onSubmit(_model: CapNhatCanBoModel) {
-    _model.noiCongTac = []
+    if(_model.role !== "CanBoSo")
+    {
+      _model.noiCongTac = [_model.quan,_model.phuong]
+    }else {_model.noiCongTac = [] }
     setLoading(true)
     if(canBo)
     {
@@ -42,6 +50,7 @@ export function ModalUpdateCanBo(props: Props): JSX.Element {
       .CapNhat(canBo.id,_model)
       .then(() => {
         form.resetFields();
+        onCancel()
       });
     }
     setLoading(false)
@@ -99,10 +108,10 @@ export function ModalUpdateCanBo(props: Props): JSX.Element {
             <Input/>
           </Form.Item>
           <Form.Item label={"Ngày sinh"} name={"ngaySinh"}>
-            <DatePicker/>
+            <DatePicker />
           </Form.Item>
           <Form.Item label={"Quyền"} name={'role'}>
-            <Radio.Group style={{ width: '100%' }}>
+          <Radio.Group style={{ width: '100%' }} onChange={(value)=>setRole(value.target.value)}>
               <Row gutter={5}>
                 {roleCanBo.map((option) => (
                   <Col xs={12} sm={12} md={12} lg={10} xl={10} xxl={10} key={option.ma}>
@@ -114,6 +123,26 @@ export function ModalUpdateCanBo(props: Props): JSX.Element {
               </Row>
             </Radio.Group>
           </Form.Item>
+          {role && role !== roleCanBo[2].ma && 
+          <>
+            <Form.Item label={"Quận"} name={'quan'}>
+              <Select placeholder="Vui lòng chọn quận" onChange={(value)=>{
+                setWards(getDistrictsAndWards(value))
+                form.setFieldValue('huyen',undefined)
+              }}>
+                  {dataHCM[0].districts.map((option) => (
+                    <Select.Option key={option.postcode} value={option.postcode}>Quận {option.name}</Select.Option>
+                  ))}
+                </Select>
+            </Form.Item>
+            <Form.Item label={"Phường"} name={'phuong'}>
+              <Select placeholder="Vui lòng chọn phường">
+                  {wards.map((option) => (
+                    <Select.Option key={option.postcode} value={option.postcode}>Phường {option.name}</Select.Option>
+                  ))}
+                </Select>
+            </Form.Item>
+          </>}
       </Col>
       </Form>
     </Modal>
