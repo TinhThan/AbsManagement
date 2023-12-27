@@ -1,10 +1,10 @@
 import React, {useEffect,useRef} from 'react'
 import mapboxgl from 'mapbox-gl'
-import { CloseCircleOutlined, ExclamationCircleFilled} from '@ant-design/icons'
+import { CloseCircleOutlined} from '@ant-design/icons'
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
 import pointInfo from '../points/pointInfo'
 import PropTypes from 'prop-types'
-import { Layout, Card ,Divider,Button,Typography, Image, Space} from 'antd';
+import { Layout, Divider, Button} from 'antd';
 import { useState } from 'react';
 import SpaceInfo from '../points/spaceInfo'
 import {SpaceToGeoJson} from '../../utils/spaceToGeoJson'
@@ -12,10 +12,11 @@ import { renderModal } from '../../utils/render-modal'
 import ModalCreateReport from '../modal/createReport'
 import axios from 'axios'
 import './style.scss'
-import { getDistrictByName } from '../../utils/getWard'
+import CardPoint from '../card/point'
+import CardSurface from '../card/surface'
+import { cluterLayers, unclusteredLabelLayer, unclusteredLayer } from './layers'
 
 const { Content, Sider } = Layout;
-const { Text } = Typography; 
 
 
 Map.propTypes = {
@@ -48,71 +49,21 @@ export default function Map() {
             map.addSource("points", {
                 type: "geojson",
                 data: SpaceToGeoJson(spaces),
-                cluster: true, // Enables clustering
-                clusterMaxZoom: 14, // Maximum zoom level at which clustering is enabled
-                clusterRadius: 50, // The radius of each cluster when clustering points
+                cluster: true,
+                clusterMaxZoom: 14,
+                clusterRadius: 50,
             });
 
-            map.addLayer({
-                id: 'clusters',
-                type: 'circle',
-                source: 'points',
-                filter: ['has', 'point_count'],
-                paint: {
-                    'circle-color': [
-                        'step',
-                        ['get', 'point_count'],
-                        '#51bbd6',
-                        100,
-                        '#f1f075',
-                        750,
-                        '#f28cb1'
-                    ],
-                    'circle-radius': [
-                        'step',
-                        ['get', 'point_count'],
-                        20,
-                        100,
-                        30,
-                        750,
-                        40
-                    ]
-                }
-            });
+            map.addLayer(cluterLayers);
     
-            map.addLayer({
-                id: "unclustered-point",
-                type: "circle",
-                source: "points",
-                filter: ["!", ["has", "point_count"]], // Filter out clustered points
-                paint: {
-                    "circle-color": "#11b4da",
-                    "circle-radius": 15,
-                    "circle-stroke-width": 1,
-                    "circle-stroke-color": "#fff",
-                },
-            });
+            map.addLayer(unclusteredLayer);
 
-            map.addLayer({
-                id: 'unclustered-point-label',
-                type: 'symbol',
-                source: "points",
-                filter: ['!', ['has', 'point_count']], // Use the same filter as your circle layer
-                layout: {
-                    'text-field': 'QC', // This is the text that will be displayed
-                    'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'], // Set the text font
-                    'text-size': 12 // Set the text size
-                },
-                paint: {
-                    'text-color': '#ffffff' // Set the text color
-                }
-                });
+            map.addLayer(unclusteredLabelLayer);
 
             map.on('mouseenter', 'unclustered-point', () => {
                 map.getCanvas().style.cursor = 'pointer';
                 });
-                    
-            // Change it back to a pointer when it leaves.
+
             map.on('mouseleave', 'unclustered-point', () => {
             map.getCanvas().style.cursor = '';
             });
@@ -170,8 +121,6 @@ export default function Map() {
                 .addTo(map);
         });
 
-        // When a click event occurs on a feature in the places layer, open a popup at the
-        // location of the feature, with description HTML from its properties.
         map.on('click', 'unclustered-point', async (e) => {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const description = e.features[0].properties;
@@ -184,25 +133,21 @@ export default function Map() {
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
-
+            const space = spaces.find(t=>t.id === description.id);
+            console.log("space",space)
             setLocation({
-                diaChi: description.diaChi,
-                phuong:  description.phuong,
-                quan:  description.quan,
-                tenLoaiViTri: description.tenLoaiViTri,
-                tenHinhThucQuangCao: description.tenHinhThucQuangCao,
-                idDiemDatQuangCao: description.id,
                 lng: coordinates[0],
-                lat: coordinates[1]
+                lat: coordinates[1],
+                ...space
             })
+            console.log("description",description)
             setCollapsed(false)
             new mapboxgl.Popup()
             .setLngLat(coordinates)
-            .setHTML(SpaceInfo(description))
+            .setHTML(SpaceInfo(space))
             .addTo(map);
         });
 
-        // inspect a cluster on click
         map.on('click', 'clusters', (e) => {
             const features = map.queryRenderedFeatures(e.point, {
             layers: ['clusters']
@@ -282,7 +227,7 @@ export default function Map() {
             const _root = renderModal(<ModalCreateReport onCancel={() => {
                 console.log("cancel")
                 _root?.unmount()
-            }} location={location}/>);
+            }} location={location}/> );
         }
     }
 
@@ -301,46 +246,10 @@ export default function Map() {
                         bottom: 0,}} 
                 collapsedWidth={0} collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 <Button style={{float:'right', margin:'0 0 10px 5px'}} onClick={()=>setCollapsed(!collapsed)} icon={<CloseCircleOutlined />} danger type='primary'></Button>
-                <Divider style={{margin:'10px 10px 10px 0px'}}/> 
-                <Card title="Thông tin bảng quảng cáo" bordered={true} className='info-surface'>
-                {
-                    surfaces.length > 0 ? 
-                    surfaces.map(surface =>
-                        <>
-                            <p>{surface.tenLoaiBangQuangCao}</p>
-                            <p>{surface.kichThuoc}</p>
-                            {surface.danhSachHinhAnh && surface.danhSachHinhAnh.length > 0 && 
-                            <Image.PreviewGroup>
-                                <Space direction='vertical' size={0}>
-                                    <Image width={150} height={150}  src={`${process.env.REACT_APP_BASE_API}Upload/image/${surface.danhSachHinhAnh[0]}`} alt='avatar' />
-                                    {surface.danhSachHinhAnh.length > 1 && (
-                                    <Space size={5}>
-                                        {surface.danhSachHinhAnh.map((t, index) => {
-                                            return <Image key={index.toString()} width={120} height={120} src={`${process.env.REACT_APP_BASE_API}Upload/image/${t}`} alt={index.toString()} />;
-                                        })}
-                                    </Space>
-                                    )}
-                                </Space>
-                            </Image.PreviewGroup> }
-                            <Button icon={<ExclamationCircleFilled />} danger>Báo cáo vi phạm</Button>
-                            <Divider style={{margin:'10px 5px 10px 0px'}}/> 
-                        </>
-                    ) :
-                    <>
-                        <Text strong>Chưa có dữ liệu.</Text>
-                        <Text>Vui lòng chọn điểm trên bảng đồ để xem.</Text>
-                    </> 
-                }
-                </Card>
-                {location &&  <>
-                    <Divider style={{margin:'10px 10px 10px 0px'}}/> 
-                    <Card title="Thông tin địa điểm" bordered={true} className='info-location'>
-                        {location.tenLoaiViTri && <p>{location.tenLoaiViTri}</p>}
-                        {location.tenHinhThucQuangCao && <p>{location.tenHinhThucQuangCao}</p>}
-                        <p>{location.diaChi}</p>
-                        <Button icon={<ExclamationCircleFilled />} onClick={onCreateReportClick} danger>Báo cáo vi phạm</Button>
-                    </Card>
-                </>}
+                <Divider style={{marginTop:'5px', marginBottom:'5px'}}/> 
+                {location && <CardPoint location={location} onCreateReportClick={onCreateReportClick}/> }
+                <Divider style={{marginTop:'5px', marginBottom:'5px'}}/> 
+                <CardSurface surfaces={surfaces} location={location}/>
             </Sider>
         </Layout>
     )

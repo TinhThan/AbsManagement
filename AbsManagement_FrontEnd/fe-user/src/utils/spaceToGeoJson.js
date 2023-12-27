@@ -1,49 +1,18 @@
 export function SpaceToGeoJson(spaces) {
     const geoJSONFeatures = spaces.map(space => {
-        const { id, diaChi, phuong, quan, danhSachViTri, tenLoaiViTri, tenHinhThucQuangCao  } = space;
-    
+        console.log("space",space)
         return {
             type: 'Feature',
             geometry: {
                 type: 'Point',
-                coordinates: danhSachViTri // Là một mảng chứa [longitude, latitude]
+                coordinates: space.danhSachViTri // Là một mảng chứa [longitude, latitude]
             },
             properties: {
-                diaChi,
-                phuong,
-                quan,
-                tenLoaiViTri,
-                tenHinhThucQuangCao,
-                id
+                id:space.id
             }
         }
     })
-    return {
-        type: 'FeatureCollection',
-        features: geoJSONFeatures
-    }
-}
-
-export function ModalCreateReportToGeoJson(spaces) {
-    const geoJSONFeatures = spaces.map(space => {
-        const { id, diaChi, phuong, quan, danhSachViTri, tenLoaiViTri, tenHinhThucQuangCao  } = space;
-    
-        return {
-            type: 'Feature',
-            geometry: {
-                type: 'Point',
-                coordinates: danhSachViTri // Là một mảng chứa [longitude, latitude]
-            },
-            properties: {
-                diaChi,
-                phuong,
-                quan,
-                tenLoaiViTri,
-                tenHinhThucQuangCao,
-                id
-            }
-        }
-    })
+    console.log(geoJSONFeatures)
     return {
         type: 'FeatureCollection',
         features: geoJSONFeatures

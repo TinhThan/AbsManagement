@@ -1,16 +1,16 @@
 import React from 'react'
-import { Card, Typography } from 'antd'
+import { Card } from 'antd'
 import ReactDOM from 'react-dom'
-const { Text } = Typography;
+import './style.scss'
 
 function SpaceInfo(space) {
   const card = document.createElement('div');
 
   ReactDOM.render(
-    <Card title="Thông tin điểm đặt quảng cáo" style={{ width: 300 }}>
-      <Text strong>{space.tenLoaiViTri}</Text>
-      <Text strong>{space.tenHinhThucQuangCao}</Text>
-      <p>{space.diaChi}, {space.phuong}, {space.quan}</p>
+    <Card title="Điểm đặt quảng cáo" style={{ width: 250 }} className='info-popup'>
+        <p className='p-ant'><strong>Loại vị trí: </strong>{space.tenLoaiViTri}</p>
+        <p className='p-ant'><strong>Hình thức quảng cáo: </strong>{space.tenHinhThucQuangCao}</p>
+        <p className='p-ant'><strong>Địa điểm: </strong>{space.diaChi}</p>
     </Card>,card
   );
   return card.innerHTML;
