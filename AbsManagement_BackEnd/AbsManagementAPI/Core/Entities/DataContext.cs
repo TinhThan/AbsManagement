@@ -21,10 +21,15 @@ namespace AbsManagementAPI.Core.Entities
         public DbSet<LoaiBangQuangCaoEntity> LoaiBangQuangCaos { get; set; }
         public DbSet<LoaiViTriEntity> LoaiViTris { get; set; }
 
+        public DbSet<PhieuCapPhepQuangCaoEntity> PhieuCapPhepQuangCaos { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = _configuration.GetConnectionString("AbsManagement");
             optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString);
+
+            //var connectionString = _configuration.GetConnectionString("Sakila");
+            //optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,6 +49,12 @@ namespace AbsManagementAPI.Core.Entities
                 .WithMany(e => e.BangQuangCaos)
                 .HasForeignKey(e => e.IdLoaiBangQuangCao)
                 .HasConstraintName("FK_BangQuangCao_LoaiBangQuangCao");
+            });
+
+            modelBuilder.Entity<PhieuCapPhepQuangCaoEntity>(entity =>
+            {
+                entity.ToTable("PhieuCapPhepQuangCao");
+                entity.HasKey(e => e.Id);
             });
 
             modelBuilder.Entity<BaoCaoViPhamEntity>(entity =>

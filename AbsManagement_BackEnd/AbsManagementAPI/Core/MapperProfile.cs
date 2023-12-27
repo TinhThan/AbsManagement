@@ -6,6 +6,7 @@ using AbsManagementAPI.Core.Models.DiemDatQuangCao;
 using AbsManagementAPI.Core.Models.HinhThucBaoCao;
 using AbsManagementAPI.Core.Models.HinhThucQuangCao;
 using AbsManagementAPI.Core.Models.LoaiBangQuangCao;
+using AbsManagementAPI.Core.Models.PhieuCapPhepQuangCao;
 using AutoMapper;
 using Newtonsoft.Json;
 
@@ -28,7 +29,7 @@ namespace AbsManagementAPI.Core
                                     : JsonConvert.DeserializeObject<List<string>>(e.DiemDatQuangCao.ViTri)));
 
             CreateMap<ThemBangQuangCaoModel, BangQuangCaoEntity>()
-                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
+                .ForMember(src => src.NgayBatDau, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
                 .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
@@ -37,7 +38,7 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
 
             CreateMap<CapNhatBangQuangCaoModel, BangQuangCaoEntity>()
-                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
+                .ForMember(src => src.NgayBatDau, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
@@ -141,6 +142,17 @@ namespace AbsManagementAPI.Core
             CreateMap<ThemLoaiBangQuangCaoModel, LoaiBangQuangCaoEntity>()
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCaos, desc => desc.Ignore());
+
+            #endregion
+
+            #region PhieuCapPhepQuangCao
+
+            CreateMap<PhieuCapPhepQuangCaoEntity, PhieuCapPhepQuangCaoModel>();
+
+            CreateMap<ThemPhieuCapPhepQuangCaoModel, PhieuCapPhepQuangCaoEntity>()
+                .ForMember(src => src.Id, desc => desc.Ignore());
+            CreateMap<CapNhatPhieuCapPhepQuangCaoModel, PhieuCapPhepQuangCaoEntity>()
+               .ForMember(src => src.Id, desc => desc.Ignore());
 
             #endregion
 
