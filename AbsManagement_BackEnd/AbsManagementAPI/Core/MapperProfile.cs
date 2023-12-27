@@ -56,6 +56,7 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.EmailVerified, desc => desc.Ignore())
                 .ForMember(src => src.PasswordResetOTP, desc => desc.Ignore())
                 .ForMember(src => src.PasswordResetOTPExpiration, desc => desc.Ignore())
+                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore());
 
             CreateMap<CapNhatCanBoModel, CanBoEntity>()
@@ -68,6 +69,7 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.EmailVerified, desc => desc.Ignore())
                 .ForMember(src => src.PasswordResetOTP, desc => desc.Ignore())
                 .ForMember(src => src.PasswordResetOTPExpiration, desc => desc.Ignore())
+                .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore());
 
             CreateMap<CanBoEntity, CanBoModel>()
