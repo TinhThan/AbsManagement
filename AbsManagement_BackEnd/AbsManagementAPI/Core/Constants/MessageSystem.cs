@@ -7,6 +7,7 @@
         public const string TOKEN_EXPIRED = "Token đã hết hạn.";
         public const string AUTH_AUTHENTICATED_ERROR = "Đăng nhập thất bại.";
         public const string AUTH_REGISTER_ERROR = "Đăng ký thất bại.";
+        public const string AUTH_PASSWORD_ERROR = "Mật khẩu không đúng.";
         public const string AUTH_INVALID = "Thông tin tài khoản không hợp lệ.";
         public const string AUTH_NOT_VERIFIED = "Tài khoản chưa được kích hoạt.";
         public const string AUTH_VERIFIED = "Tài khoản đã được kích hoạt.";
