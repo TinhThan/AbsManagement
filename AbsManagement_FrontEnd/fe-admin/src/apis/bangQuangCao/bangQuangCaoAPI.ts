@@ -1,4 +1,3 @@
-import { Actor } from "../../components/TableActor";
 import { BaseApi } from "../baseApi";
 import { ConfigUrlApi } from "../configs/configUrlApi";
 import { API_URL } from "../../constants/apiConfig";

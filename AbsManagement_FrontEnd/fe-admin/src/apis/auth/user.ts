@@ -3,5 +3,7 @@ export interface UserStorage {
     email: string;
     hoTen: string;
     role: string;
+    accessToken: string;
+    refreshToken:string;
     noiCongTac: string[];
 }

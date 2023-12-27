@@ -9,10 +9,10 @@ import {
 Notification,
 } from "../utils";
 import { ConfigUrlApi } from "./configs/configUrlApi";
-import TokenStorage from "../storages/tokenStorage";
-import RefreshTokenStorage from "../storages/refreshTokenStorage";
 import { LoginResponse } from "./auth/authAPI";
 import { MessageBox } from "../utils/messagebox";
+import { API_URL } from "../constants/apiConfig";
+import UserInfoStorage from "../storages/user-info";
 
 const cancelToken = axios.CancelToken.source();
 
@@ -39,7 +39,7 @@ export class BaseApi {
     private api: AxiosInstance;
     public isPublic_API: boolean = false;
     public constructor(config?: AxiosRequestConfig) {
-        const _baseUrl = "https://localhost:44394/api";
+        const _baseUrl = API_URL;
         axios.defaults.headers.post["Content-Type"] = "application/json;charset=utf-8";
         axios.defaults.headers.baseURL = _baseUrl;
         axios.defaults.timeout = 10000;
@@ -51,25 +51,24 @@ export class BaseApi {
     private handleRequest() {
         this.api.interceptors.request.use(
         async (config)=> {
-            // const isLogin = config.url?.includes(ConfigUrlApi.Urls.User.Login);
-            // if (isLogin || this.isPublic_API) {
-            //     return config;
-            // }
+            const isLogin = config.url?.includes(ConfigUrlApi.Urls.User.Login);
+            if (isLogin || this.isPublic_API) {
+                return config;
+            }
 
-            // let token = TokenStorage.get();
-            // if (token) {
-            //     const checkToken = isTokenValid(token);
-            //     if (!checkToken) {
-            //         const refresh = RefreshTokenStorage.get();
-            //         const dataRefresh: LoginResponse = {
-            //             accessToken: token,
-            //             refreshToken: refresh
-            //         }
-            //         token = (await axios.post<string>("https://localhost:44394/api"+ConfigUrlApi.Urls.User.RefreshToken, dataRefresh)).data;
-            //         TokenStorage.set(token);
-            //     }
-            //     config.headers['Authorization'] = 'Bearer ' + token;
-            // }
+            let user = UserInfoStorage.get();
+            if (user) {
+                const checkToken = isTokenValid(user.accessToken);
+                if (!checkToken) {
+                    const dataRefresh: LoginResponse = {
+                        accessToken: user.accessToken,
+                        refreshToken: user.refreshToken,
+                    }
+                    user.accessToken = (await axios.post<string>(API_URL + ConfigUrlApi.Urls.User.RefreshToken, dataRefresh)).data;
+                    UserInfoStorage.set(user)
+                }
+                config.headers['Authorization'] = 'Bearer ' + user.accessToken;
+            }
             return config;
         },
         function (error: AxiosError) {
@@ -129,14 +128,6 @@ export class BaseApi {
         ...config,
         cancelToken: cancelToken.token,
         });
-    }
-
-    public postRefreshToken(): Promise<string> {
-        const data:LoginResponse={
-            accessToken: TokenStorage.get(),
-            refreshToken: RefreshTokenStorage.get()
-        }
-        return this.api.post("https://localhost:44394/api"+ConfigUrlApi.Urls.User.RefreshToken, data);
     }
 
     public getReportPdfArrayBuffer<T, R = AxiosResponse<T>>(

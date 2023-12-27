@@ -65,7 +65,7 @@ export default function LoaiViTriFeature(): JSX.Element {
         },
         {
             title: "Mã loại vị trí",
-            width: 200,
+            width:700,
             sorter: true,
             dataIndex: 'ma',
             key: 'ma',
@@ -80,7 +80,7 @@ export default function LoaiViTriFeature(): JSX.Element {
         },
         {
             title: "Tên loại vị trí",
-            width: 200,
+            width:700,
             sorter: true,
             dataIndex: 'ten',
             key: 'ten',

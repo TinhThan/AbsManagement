@@ -34,3 +34,7 @@
 .ant-card-bordered{
   border: 2px !important;
 }
+
+.ant-form-item {
+  margin-bottom: 10px !important;
+}

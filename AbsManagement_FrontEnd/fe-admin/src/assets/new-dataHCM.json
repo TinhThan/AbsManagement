@@ -1,0 +1,1420 @@
+[
+  {
+    "name": "Hồ Chí Minh",
+    "postcode": "70000",
+    "districts": [
+      {
+        "name": "1",
+        "postcode": "71000",
+        "ward": [
+          {
+            "name": "Bến Nghé",
+            "postcode": "71006"
+          },
+          {
+            "name": "Đa Kao",
+            "postcode": "71007"
+          },
+          {
+            "name": "Tân Định",
+            "postcode": "71008"
+          },
+          {
+            "name": "Bến Thành",
+            "postcode": "71009"
+          },
+          {
+            "name": "Nguyễn Thái Bình",
+            "postcode": "71010"
+          },
+          {
+            "name": "Cầu Ông Lãnh",
+            "postcode": "71011"
+          },
+          {
+            "name": "Phạm Ngũ Lão",
+            "postcode": "71012"
+          },
+          {
+            "name": "Cô Giang",
+            "postcode": "71013"
+          },
+          {
+            "name": "Nguyễn Cư Trinh",
+            "postcode": "71014"
+          },
+          {
+            "name": "Cầu Kho",
+            "postcode": "71015"
+          }
+        ]
+      },
+      {
+        "name": "2",
+        "postcode": "71100",
+        "ward": [
+          {
+            "name": "An Phú",
+            "postcode": "71106"
+          },
+          {
+            "name": "Thảo Điền",
+            "postcode": "71107"
+          },
+          {
+            "name": "Bình An",
+            "postcode": "71108"
+          },
+          {
+            "name": "An Khánh",
+            "postcode": "71109"
+          },
+          {
+            "name": "Thủ Thiêm",
+            "postcode": "71110"
+          },
+          {
+            "name": "An Lợi Đông",
+            "postcode": "71111"
+          },
+          {
+            "name": "Bình Khánh",
+            "postcode": "71112"
+          },
+          {
+            "name": "Bình Trưng Tây",
+            "postcode": "71113"
+          },
+          {
+            "name": "Thạnh Mỹ Lợi",
+            "postcode": "71114"
+          },
+          {
+            "name": "Cát Lái",
+            "postcode": "71115"
+          },
+          {
+            "name": "Bình Trưng Đông",
+            "postcode": "71116"
+          }
+        ]
+      },
+      {
+        "name": "9",
+        "postcode": "71200",
+        "ward": [
+          {
+            "name": "Hiệp Phú",
+            "postcode": "71206"
+          },
+          {
+            "name": "Tăng Nhơn Phú A",
+            "postcode": "71207"
+          },
+          {
+            "name": "Phước Long A",
+            "postcode": "71208"
+          },
+          {
+            "name": "Phước Bình",
+            "postcode": "71209"
+          },
+          {
+            "name": "Phước Long B",
+            "postcode": "71210"
+          },
+          {
+            "name": "Tăng Nhơn Phú B",
+            "postcode": "71211"
+          },
+          {
+            "name": "Phú Hữu",
+            "postcode": "71212"
+          },
+          {
+            "name": "Long Trường",
+            "postcode": "71213"
+          },
+          {
+            "name": "Long Phước",
+            "postcode": "71214"
+          },
+          {
+            "name": "Trường Thạnh",
+            "postcode": "71215"
+          },
+          {
+            "name": "Long Thạnh Mỹ",
+            "postcode": "71216"
+          },
+          {
+            "name": "Long Bình",
+            "postcode": "71217"
+          },
+          {
+            "name": "Tân Phú",
+            "postcode": "71218"
+          }
+        ]
+      },
+      {
+        "name": "Thủ Đức",
+        "postcode": "71300",
+        "ward": [
+          {
+            "name": "Bình Thọ",
+            "postcode": "71306"
+          },
+          {
+            "name": "Linh Chiểu",
+            "postcode": "71307"
+          },
+          {
+            "name": "Linh Trung",
+            "postcode": "71308"
+          },
+          {
+            "name": "Linh Xuân",
+            "postcode": "71309"
+          },
+          {
+            "name": "Linh Tây",
+            "postcode": "71310"
+          },
+          {
+            "name": "Tam Phú",
+            "postcode": "71311"
+          },
+          {
+            "name": "Tam Bình",
+            "postcode": "71312"
+          },
+          {
+            "name": "Bình Chiểu",
+            "postcode": "71313"
+          },
+          {
+            "name": "Hiệp Bình Phước",
+            "postcode": "71314"
+          },
+          {
+            "name": "Hiệp Bình Chánh",
+            "postcode": "71315"
+          },
+          {
+            "name": "Linh Đông",
+            "postcode": "71316"
+          },
+          {
+            "name": "Trường Thọ",
+            "postcode": "71317"
+          }
+        ]
+      },
+      {
+        "name": "Gò Vấp",
+        "postcode": "71400",
+        "ward": [
+          {
+            "name": "10",
+            "postcode": "71406"
+          },
+          {
+            "name": "7",
+            "postcode": "71407"
+          },
+          {
+            "name": "4",
+            "postcode": "71408"
+          },
+          {
+            "name": "3",
+            "postcode": "71409"
+          },
+          {
+            "name": "1",
+            "postcode": "71410"
+          },
+          {
+            "name": "5",
+            "postcode": "71411"
+          },
+          {
+            "name": "6",
+            "postcode": "71412"
+          },
+          {
+            "name": "17",
+            "postcode": "71413"
+          },
+          {
+            "name": "15",
+            "postcode": "71414"
+          },
+          {
+            "name": "13",
+            "postcode": "71415"
+          },
+          {
+            "name": "16",
+            "postcode": "71416"
+          },
+          {
+            "name": "9",
+            "postcode": "71417"
+          },
+          {
+            "name": "14",
+            "postcode": "71418"
+          },
+          {
+            "name": "8",
+            "postcode": "71419"
+          },
+          {
+            "name": "12",
+            "postcode": "71420"
+          },
+          {
+            "name": "11",
+            "postcode": "71421"
+          }
+        ]
+      },
+      {
+        "name": "12",
+        "postcode": "71500",
+        "ward": [
+          {
+            "name": "Tân Chánh Hiệp",
+            "postcode": "71506"
+          },
+          {
+            "name": "Trung Mỹ Tây",
+            "postcode": "71507"
+          },
+          {
+            "name": "Đông Hưng Thuận",
+            "postcode": "71508"
+          },
+          {
+            "name": "Tân Hưng Thuận",
+            "postcode": "71509"
+          },
+          {
+            "name": "Tân Thới Nhất",
+            "postcode": "71510"
+          },
+          {
+            "name": "Tân Thới Hiệp",
+            "postcode": "71511"
+          },
+          {
+            "name": "Hiệp Thành",
+            "postcode": "71512"
+          },
+          {
+            "name": "Thới An",
+            "postcode": "71513"
+          },
+          {
+            "name": "Thạnh Xuân",
+            "postcode": "71514"
+          },
+          {
+            "name": "Thạnh Lộc",
+            "postcode": "71515"
+          },
+          {
+            "name": "An Phú Đông",
+            "postcode": "71516"
+          }
+        ]
+      },
+      {
+        "name": "Củ Chi",
+        "postcode": "71600",
+        "ward": [
+          {
+            "name": "Tân An Hội",
+            "postcode": "71607"
+          },
+          {
+            "name": "Tân Thông Hội",
+            "postcode": "71608"
+          },
+          {
+            "name": "Tân Phú Trung",
+            "postcode": "71609"
+          },
+          {
+            "name": "Tân Thạnh Đông",
+            "postcode": "71610"
+          },
+          {
+            "name": "Bình Mỹ",
+            "postcode": "71611"
+          },
+          {
+            "name": "Hòa Phú",
+            "postcode": "71612"
+          },
+          {
+            "name": "Trung An",
+            "postcode": "71613"
+          },
+          {
+            "name": "Tân Thạnh Tây",
+            "postcode": "71614"
+          },
+          {
+            "name": "Phước Vĩnh An",
+            "postcode": "71615"
+          },
+          {
+            "name": "Phú Hòa Đông",
+            "postcode": "71616"
+          },
+          {
+            "name": "Phạm Văn Cội",
+            "postcode": "71617"
+          },
+          {
+            "name": "Nhuận Đức",
+            "postcode": "71618"
+          },
+          {
+            "name": "An Nhơn Tây",
+            "postcode": "71619"
+          },
+          {
+            "name": "An Phú",
+            "postcode": "71620"
+          },
+          {
+            "name": "Phú Mỹ Hưng",
+            "postcode": "71621"
+          },
+          {
+            "name": "Trung Lập Thượng",
+            "postcode": "71622"
+          },
+          {
+            "name": "Trung Lập Hạ",
+            "postcode": "71623"
+          },
+          {
+            "name": "Phước Thạnh",
+            "postcode": "71624"
+          },
+          {
+            "name": "Thái Mỹ",
+            "postcode": "71625"
+          },
+          {
+            "name": "Phước Hiệp",
+            "postcode": "71626"
+          }
+        ]
+      },
+      {
+        "name": "Hóc Môn",
+        "postcode": "71700",
+        "ward": [
+          {
+            "name": "Thới Tam Thôn",
+            "postcode": "71707"
+          },
+          {
+            "name": "Đông Thạnh",
+            "postcode": "71708"
+          },
+          {
+            "name": "Nhị Bình",
+            "postcode": "71709"
+          },
+          {
+            "name": "Tân Hiệp",
+            "postcode": "71710"
+          },
+          {
+            "name": "Tân Thới Nhì",
+            "postcode": "71711"
+          },
+          {
+            "name": "Xuân Thới Sơn",
+            "postcode": "71712"
+          },
+          {
+            "name": "Xuân Thới Thượng",
+            "postcode": "71713"
+          },
+          {
+            "name": "Bà Điểm",
+            "postcode": "71714"
+          },
+          {
+            "name": "Xuân Thới Đông",
+            "postcode": "71715"
+          },
+          {
+            "name": "Trung Chánh",
+            "postcode": "71716"
+          },
+          {
+            "name": "Tân Xuân",
+            "postcode": "71717"
+          }
+        ]
+      },
+      {
+        "name": "Bình Chánh",
+        "postcode": "71800",
+        "ward": [
+          {
+            "name": "Tân Quý Tây",
+            "postcode": "71807"
+          },
+          {
+            "name": "An Phú Tây",
+            "postcode": "71808"
+          },
+          {
+            "name": "Hưng Long",
+            "postcode": "71809"
+          },
+          {
+            "name": "Quy Đức",
+            "postcode": "71810"
+          },
+          {
+            "name": "Đa Phước",
+            "postcode": "71811"
+          },
+          {
+            "name": "Phong Phú",
+            "postcode": "71812"
+          },
+          {
+            "name": "Bình Hưng",
+            "postcode": "71813"
+          },
+          {
+            "name": "Bình Chánh",
+            "postcode": "71814"
+          },
+          {
+            "name": "Tân Kiên",
+            "postcode": "71815"
+          },
+          {
+            "name": "Tân Nhựt",
+            "postcode": "71816"
+          },
+          {
+            "name": "Lê Minh Xuân",
+            "postcode": "71817"
+          },
+          {
+            "name": "Bình Lợi",
+            "postcode": "71818"
+          },
+          {
+            "name": "Vĩnh Lộc B",
+            "postcode": "71819"
+          },
+          {
+            "name": "Phạm Văn Hai",
+            "postcode": "71820"
+          },
+          {
+            "name": "Vĩnh Lộc A",
+            "postcode": "71821"
+          }
+        ]
+      },
+      {
+        "name": "Bình Tân",
+        "postcode": "71900",
+        "ward": [
+          {
+            "name": "An Lạc",
+            "postcode": "71906"
+          },
+          {
+            "name": "An Lạc A",
+            "postcode": "71907"
+          },
+          {
+            "name": "Bình Trị Đông B",
+            "postcode": "71908"
+          },
+          {
+            "name": "Tân Tạo A",
+            "postcode": "71909"
+          },
+          {
+            "name": "Bình Trị Đông",
+            "postcode": "71910"
+          },
+          {
+            "name": "Bình Trị Đông A",
+            "postcode": "71911"
+          },
+          {
+            "name": "Binh Hưng Hoà A",
+            "postcode": "71912"
+          },
+          {
+            "name": "Bình Hưng Hòa",
+            "postcode": "71913"
+          },
+          {
+            "name": "Binh Hưng Hoà B",
+            "postcode": "71914"
+          },
+          {
+            "name": "Tân Tạo",
+            "postcode": "71915"
+          }
+        ]
+      },
+      {
+        "name": "Tân Phú",
+        "postcode": "72000",
+        "ward": [
+          {
+            "name": "Hoà Thạnh",
+            "postcode": "72006"
+          },
+          {
+            "name": "Tân Thành",
+            "postcode": "72007"
+          },
+          {
+            "name": "Tân Sơn Nhì",
+            "postcode": "72008"
+          },
+          {
+            "name": "Tây Thạnh",
+            "postcode": "72009"
+          },
+          {
+            "name": "Sơn Kỳ",
+            "postcode": "72010"
+          },
+          {
+            "name": "Tân Quý",
+            "postcode": "72011"
+          },
+          {
+            "name": "Phú Thọ Hoà",
+            "postcode": "72012"
+          },
+          {
+            "name": "Phú Thạnh",
+            "postcode": "72013"
+          },
+          {
+            "name": "Hiệp Tân",
+            "postcode": "72014"
+          },
+          {
+            "name": "Tân Thới Hoà",
+            "postcode": "72015"
+          },
+          {
+            "name": "Phú Trung",
+            "postcode": "72016"
+          }
+        ]
+      },
+      {
+        "name": "Tân Bình",
+        "postcode": "72100",
+        "ward": [
+          {
+            "name": "4",
+            "postcode": "72106"
+          },
+          {
+            "name": "1",
+            "postcode": "72107"
+          },
+          {
+            "name": "2",
+            "postcode": "72108"
+          },
+          {
+            "name": "15",
+            "postcode": "72109"
+          },
+          {
+            "name": "13",
+            "postcode": "72110"
+          },
+          {
+            "name": "12",
+            "postcode": "72111"
+          },
+          {
+            "name": "14",
+            "postcode": "72112"
+          },
+          {
+            "name": "11",
+            "postcode": "72113"
+          },
+          {
+            "name": "10",
+            "postcode": "72114"
+          },
+          {
+            "name": "9",
+            "postcode": "72115"
+          },
+          {
+            "name": "8",
+            "postcode": "72116"
+          },
+          {
+            "name": "6",
+            "postcode": "72117"
+          },
+          {
+            "name": "7",
+            "postcode": "72118"
+          },
+          {
+            "name": "5",
+            "postcode": "72119"
+          },
+          {
+            "name": "3",
+            "postcode": "72120"
+          }
+        ]
+      },
+      {
+        "name": "Phú Nhuận",
+        "postcode": "72200",
+        "ward": [
+          {
+            "name": "11",
+            "postcode": "72206"
+          },
+          {
+            "name": "12",
+            "postcode": "72207"
+          },
+          {
+            "name": "17",
+            "postcode": "72208"
+          },
+          {
+            "name": "15",
+            "postcode": "72209"
+          },
+          {
+            "name": "2",
+            "postcode": "72210"
+          },
+          {
+            "name": "1",
+            "postcode": "72211"
+          },
+          {
+            "name": "7",
+            "postcode": "72212"
+          },
+          {
+            "name": "3",
+            "postcode": "72213"
+          },
+          {
+            "name": "4",
+            "postcode": "72214"
+          },
+          {
+            "name": "5",
+            "postcode": "72215"
+          },
+          {
+            "name": "9",
+            "postcode": "72216"
+          },
+          {
+            "name": "8",
+            "postcode": "72217"
+          },
+          {
+            "name": "10",
+            "postcode": "72218"
+          },
+          {
+            "name": "14",
+            "postcode": "72219"
+          },
+          {
+            "name": "13",
+            "postcode": "72220"
+          }
+        ]
+      },
+      {
+        "name": "Bình Thạnh",
+        "postcode": "72300",
+        "ward": [
+          {
+            "name": "14",
+            "postcode": "72306"
+          },
+          {
+            "name": "24",
+            "postcode": "72307"
+          },
+          {
+            "name": "25",
+            "postcode": "72308"
+          },
+          {
+            "name": "27",
+            "postcode": "72309"
+          },
+          {
+            "name": "26",
+            "postcode": "72310"
+          },
+          {
+            "name": "13",
+            "postcode": "72311"
+          },
+          {
+            "name": "12",
+            "postcode": "72312"
+          },
+          {
+            "name": "11",
+            "postcode": "72313"
+          },
+          {
+            "name": "5",
+            "postcode": "72314"
+          },
+          {
+            "name": "6",
+            "postcode": "72315"
+          },
+          {
+            "name": "7",
+            "postcode": "72316"
+          },
+          {
+            "name": "3",
+            "postcode": "72317"
+          },
+          {
+            "name": "1",
+            "postcode": "72318"
+          },
+          {
+            "name": "2",
+            "postcode": "72319"
+          },
+          {
+            "name": "15",
+            "postcode": "72320"
+          },
+          {
+            "name": "17",
+            "postcode": "72321"
+          },
+          {
+            "name": "21",
+            "postcode": "72322"
+          },
+          {
+            "name": "19",
+            "postcode": "72323"
+          },
+          {
+            "name": "22",
+            "postcode": "72324"
+          },
+          {
+            "name": "28",
+            "postcode": "72325"
+          }
+        ]
+      },
+      {
+        "name": "3",
+        "postcode": "72400",
+        "ward": [
+          {
+            "name": "5",
+            "postcode": "72406"
+          },
+          {
+            "name": "6",
+            "postcode": "72407"
+          },
+          {
+            "name": "8",
+            "postcode": "72408"
+          },
+          {
+            "name": "14",
+            "postcode": "72409"
+          },
+          {
+            "name": "12",
+            "postcode": "72410"
+          },
+          {
+            "name": "11",
+            "postcode": "72411"
+          },
+          {
+            "name": "13",
+            "postcode": "72412"
+          },
+          {
+            "name": "10",
+            "postcode": "72413"
+          },
+          {
+            "name": "9",
+            "postcode": "72414"
+          },
+          {
+            "name": "7",
+            "postcode": "72415"
+          },
+          {
+            "name": "4",
+            "postcode": "72416"
+          },
+          {
+            "name": "3",
+            "postcode": "72417"
+          },
+          {
+            "name": "2",
+            "postcode": "72418"
+          },
+          {
+            "name": "1",
+            "postcode": "72419"
+          }
+        ]
+      },
+      {
+        "name": "10",
+        "postcode": "72500",
+        "ward": [
+          {
+            "name": "14",
+            "postcode": "72506"
+          },
+          {
+            "name": "9",
+            "postcode": "72507"
+          },
+          {
+            "name": "10",
+            "postcode": "72508"
+          },
+          {
+            "name": "11",
+            "postcode": "72509"
+          },
+          {
+            "name": "12",
+            "postcode": "72510"
+          },
+          {
+            "name": "13",
+            "postcode": "72511"
+          },
+          {
+            "name": "15",
+            "postcode": "72512"
+          },
+          {
+            "name": "8",
+            "postcode": "72513"
+          },
+          {
+            "name": "7",
+            "postcode": "72514"
+          },
+          {
+            "name": "6",
+            "postcode": "72515"
+          },
+          {
+            "name": "5",
+            "postcode": "72516"
+          },
+          {
+            "name": "4",
+            "postcode": "72517"
+          },
+          {
+            "name": "3",
+            "postcode": "72518"
+          },
+          {
+            "name": "2",
+            "postcode": "72519"
+          },
+          {
+            "name": "1",
+            "postcode": "72520"
+          }
+        ]
+      },
+      {
+        "name": "11",
+        "postcode": "72600",
+        "ward": [
+          {
+            "name": "10",
+            "postcode": "72606"
+          },
+          {
+            "name": "14",
+            "postcode": "72607"
+          },
+          {
+            "name": "5",
+            "postcode": "72608"
+          },
+          {
+            "name": "3",
+            "postcode": "72609"
+          },
+          {
+            "name": "1",
+            "postcode": "72610"
+          },
+          {
+            "name": "2",
+            "postcode": "72611"
+          },
+          {
+            "name": "16",
+            "postcode": "72612"
+          },
+          {
+            "name": "9",
+            "postcode": "72613"
+          },
+          {
+            "name": "8",
+            "postcode": "72614"
+          },
+          {
+            "name": "12",
+            "postcode": "72615"
+          },
+          {
+            "name": "6",
+            "postcode": "72616"
+          },
+          {
+            "name": "4",
+            "postcode": "72617"
+          },
+          {
+            "name": "7",
+            "postcode": "72618"
+          },
+          {
+            "name": "13",
+            "postcode": "72619"
+          },
+          {
+            "name": "11",
+            "postcode": "72620"
+          },
+          {
+            "name": "15",
+            "postcode": "72621"
+          }
+        ]
+      },
+      {
+        "name": "5",
+        "postcode": "72700",
+        "ward": [
+          {
+            "name": "8",
+            "postcode": "72706"
+          },
+          {
+            "name": "7",
+            "postcode": "72707"
+          },
+          {
+            "name": "1",
+            "postcode": "72708"
+          },
+          {
+            "name": "2",
+            "postcode": "72709"
+          },
+          {
+            "name": "3",
+            "postcode": "72710"
+          },
+          {
+            "name": "4",
+            "postcode": "72711"
+          },
+          {
+            "name": "9",
+            "postcode": "72712"
+          },
+          {
+            "name": "12",
+            "postcode": "72713"
+          },
+          {
+            "name": "11",
+            "postcode": "72714"
+          },
+          {
+            "name": "15",
+            "postcode": "72715"
+          },
+          {
+            "name": "14",
+            "postcode": "72716"
+          },
+          {
+            "name": "13",
+            "postcode": "72717"
+          },
+          {
+            "name": "10",
+            "postcode": "72718"
+          },
+          {
+            "name": "6",
+            "postcode": "72719"
+          },
+          {
+            "name": "5",
+            "postcode": "72720"
+          }
+        ]
+      },
+      {
+        "name": "4",
+        "postcode": "72800",
+        "ward": [
+          {
+            "name": "12",
+            "postcode": "72806"
+          },
+          {
+            "name": "9",
+            "postcode": "72807"
+          },
+          {
+            "name": "6",
+            "postcode": "72808"
+          },
+          {
+            "name": "5",
+            "postcode": "72809"
+          },
+          {
+            "name": "2",
+            "postcode": "72810"
+          },
+          {
+            "name": "1",
+            "postcode": "72811"
+          },
+          {
+            "name": "3",
+            "postcode": "72812"
+          },
+          {
+            "name": "4",
+            "postcode": "72813"
+          },
+          {
+            "name": "8",
+            "postcode": "72814"
+          },
+          {
+            "name": "10",
+            "postcode": "72815"
+          },
+          {
+            "name": "14",
+            "postcode": "72816"
+          },
+          {
+            "name": "15",
+            "postcode": "72817"
+          },
+          {
+            "name": "16",
+            "postcode": "72818"
+          },
+          {
+            "name": "18",
+            "postcode": "72819"
+          },
+          {
+            "name": "13",
+            "postcode": "72820"
+          }
+        ]
+      },
+      {
+        "name": "7",
+        "postcode": "72900",
+        "ward": [
+          {
+            "name": "Phú Mỹ",
+            "postcode": "72906"
+          },
+          {
+            "name": "Phú Thuận",
+            "postcode": "72907"
+          },
+          {
+            "name": "Tân Phú",
+            "postcode": "72908"
+          },
+          {
+            "name": "Tân Thuận Đông",
+            "postcode": "72909"
+          },
+          {
+            "name": "Tân Thuận Tây",
+            "postcode": "72910"
+          },
+          {
+            "name": "Tân Kiểng",
+            "postcode": "72911"
+          },
+          {
+            "name": "Tân Hưng",
+            "postcode": "72912"
+          },
+          {
+            "name": "Tân Quy",
+            "postcode": "72913"
+          },
+          {
+            "name": "Bình Thuận",
+            "postcode": "72914"
+          },
+          {
+            "name": "Tân Phong",
+            "postcode": "72915"
+          }
+        ]
+      },
+      {
+        "name": "8",
+        "postcode": "73000",
+        "ward": [
+          {
+            "name": "11",
+            "postcode": "73006"
+          },
+          {
+            "name": "9",
+            "postcode": "73007"
+          },
+          {
+            "name": "8",
+            "postcode": "73008"
+          },
+          {
+            "name": "10",
+            "postcode": "73009"
+          },
+          {
+            "name": "13",
+            "postcode": "73010"
+          },
+          {
+            "name": "12",
+            "postcode": "73011"
+          },
+          {
+            "name": "14",
+            "postcode": "73012"
+          },
+          {
+            "name": "15",
+            "postcode": "73013"
+          },
+          {
+            "name": "16",
+            "postcode": "73014"
+          },
+          {
+            "name": "7",
+            "postcode": "73015"
+          },
+          {
+            "name": "6",
+            "postcode": "73016"
+          },
+          {
+            "name": "5",
+            "postcode": "73017"
+          },
+          {
+            "name": "4",
+            "postcode": "73018"
+          },
+          {
+            "name": "3",
+            "postcode": "73019"
+          },
+          {
+            "name": "2",
+            "postcode": "73020"
+          },
+          {
+            "name": "1",
+            "postcode": "73021"
+          }
+        ]
+      },
+      {
+        "name": "6",
+        "postcode": "73100",
+        "ward": [
+          {
+            "name": "1",
+            "postcode": "73106"
+          },
+          {
+            "name": "2",
+            "postcode": "73107"
+          },
+          {
+            "name": "3",
+            "postcode": "73108"
+          },
+          {
+            "name": "4",
+            "postcode": "73109"
+          },
+          {
+            "name": "5",
+            "postcode": "73110"
+          },
+          {
+            "name": "6",
+            "postcode": "73111"
+          },
+          {
+            "name": "9",
+            "postcode": "73112"
+          },
+          {
+            "name": "8",
+            "postcode": "73113"
+          },
+          {
+            "name": "7",
+            "postcode": "73114"
+          },
+          {
+            "name": "10",
+            "postcode": "73115"
+          },
+          {
+            "name": "11",
+            "postcode": "73116"
+          },
+          {
+            "name": "12",
+            "postcode": "73117"
+          },
+          {
+            "name": "13",
+            "postcode": "73118"
+          },
+          {
+            "name": "14",
+            "postcode": "73119"
+          }
+        ]
+      },
+      {
+        "name": "Nhà Be",
+        "postcode": "73200",
+        "ward": [
+          {
+            "name": "Phước Kiển",
+            "postcode": "73207"
+          },
+          {
+            "name": "Phước Lộc",
+            "postcode": "73208"
+          },
+          {
+            "name": "Nhơn Đức",
+            "postcode": "73209"
+          },
+          {
+            "name": "Phú Xuân",
+            "postcode": "73210"
+          },
+          {
+            "name": "Long Thới",
+            "postcode": "73211"
+          },
+          {
+            "name": "Hiệp Phước",
+            "postcode": "73212"
+          }
+        ]
+      },
+      {
+        "name": "Cần Giờ",
+        "postcode": "73300",
+        "ward": [
+          {
+            "name": "Long Hòa",
+            "postcode": "73307"
+          },
+          {
+            "name": "Thạnh An",
+            "postcode": "73308"
+          },
+          {
+            "name": "Tam Thôn Hiệp",
+            "postcode": "73309"
+          },
+          {
+            "name": "Bình Khánh",
+            "postcode": "73310"
+          },
+          {
+            "name": "An Thới Đông",
+            "postcode": "73311"
+          },
+          {
+            "name": "Ly Nhơn",
+            "postcode": "73312"
+          }
+        ]
+      }
+    ]
+  }
+]

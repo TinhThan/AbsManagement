@@ -66,12 +66,12 @@ export function ModalCreateHinhThucBaoCao(props: Props): JSX.Element {
             onFinish={onSubmit}
         >
             <Col>
-            <Form.Item label={"Mã hình thức báo cáo"} name={"ma"}>
-                <Input className='input-code' />
-            </Form.Item>
-            <Form.Item label={"Tên hình thức báo cáo"} name={"ten"}>
-                <Input/>
-            </Form.Item>
+                <Form.Item label={"Mã hình thức báo cáo"} rules={[{ required: true, message: 'Vui lòng nhập mã!' }]} name={"ma"}>
+                    <Input className='input-code' />
+                </Form.Item>
+                <Form.Item label={"Tên hình thức báo cáo"} rules={[{ required: true, message: 'Vui lòng nhập tên!' }]} name={"ten"}>
+                    <Input/>
+                </Form.Item>
         </Col>
         </Form>
         </Modal>

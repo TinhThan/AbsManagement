@@ -1,12 +1,12 @@
-$color: #eaedf0;
+$color: #e7eef5;
 $radius-border: 40px;
 
 .ant-menu {
   .title-feature {
     width: 180px;
-    // .ant-typography {
-    //   color: white;
-    // }
+    .ant-typography {
+      color: white;
+    }
   }
   background: transparent !important;
   .anticon-home {
@@ -58,6 +58,9 @@ $radius-border: 40px;
   .ant-menu-item {
     align-items: center;
     display: grid;
+  }
+  .ant-menu-item-group-title{
+    color: $color !important;
   }
 }
 .ant-menu-submenu-popup {

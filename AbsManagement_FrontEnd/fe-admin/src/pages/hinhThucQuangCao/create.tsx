@@ -66,10 +66,10 @@ export function ModalCreateHinhThucQuangCao(props: Props): JSX.Element {
             onFinish={onSubmit}
         >
             <Col>
-            <Form.Item label={"Mã hình thức quảng cáo"} name={"ma"}>
+            <Form.Item label={"Mã hình thức quảng cáo"} rules={[{ required: true, message: 'Vui lòng nhập mã!' }]}  name={"ma"}>
                 <Input className='input-code' />
             </Form.Item>
-            <Form.Item label={"Tên hình thức quảng cáo"} name={"ten"}>
+            <Form.Item label={"Tên hình thức quảng cáo"} rules={[{ required: true, message: 'Vui lòng nhập tên!' }]}  name={"ten"}>
                 <Input/>
             </Form.Item>
         </Col>

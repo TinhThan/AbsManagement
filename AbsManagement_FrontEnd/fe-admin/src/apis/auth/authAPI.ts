@@ -1,3 +1,4 @@
+import { API_URL } from '../../constants/apiConfig';
 import { BaseApi } from '../baseApi';
 import { ConfigUrlApi } from '../configs/configUrlApi';
 
@@ -13,11 +14,11 @@ export interface LoginResponse{
 
 class AuthApi extends BaseApi {
   async Login(loginInfo: LoginInfo) {
-    return this.post("https://localhost:44394/api"+ConfigUrlApi.Urls.User.Login, loginInfo);
+    return this.post(API_URL + ConfigUrlApi.Urls.User.Login, loginInfo);
   }
 
   async RefreshToken(data: LoginResponse) {
-    return this.post("https://localhost:44394/api"+ConfigUrlApi.Urls.User.RefreshToken, data);
+    return this.post(API_URL + ConfigUrlApi.Urls.User.RefreshToken, data);
   }
 }
 

@@ -15,7 +15,6 @@ namespace AbsManagementAPI.Controllers
     /// Controller Bảng quảng cáo
     /// </summary>
     [ApiController]
-    [Authorize]
     [Route("api/loaivitri")]
     public class LoaiViTriController : BaseController
     {
@@ -65,7 +64,8 @@ namespace AbsManagementAPI.Controllers
         /// <response code="200">Thêm mới loại vị trí thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
-        [HttpPost("taomoi")]
+        [HttpPost()]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
@@ -85,7 +85,8 @@ namespace AbsManagementAPI.Controllers
         /// <response code="200">Thêm mới loại vị trí thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
-        [HttpPost("capnhat/{id}")]
+        [HttpPost("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
@@ -106,6 +107,7 @@ namespace AbsManagementAPI.Controllers
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("xoa")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]

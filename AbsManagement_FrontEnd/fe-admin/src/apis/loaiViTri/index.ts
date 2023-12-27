@@ -5,7 +5,7 @@ import { CapNhatLoaiViTriModel, ThemMoiLoaiViTriModel } from "./model";
 import { AxiosResponse } from "axios";
 
 class LoaiViTriAPI extends BaseApi {
-    isPublic_API = true;
+    isPublic_API = false;
     async DanhSach() {
       return this.get(
       API_URL + ConfigUrlApi.Urls.LoaiViTri.DanhSach

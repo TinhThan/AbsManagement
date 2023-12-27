@@ -6,10 +6,10 @@ export const ConfigUrlApi = {
             RefreshToken:'/auth/refreshtoken'
         },
         LoaiViTri:{
-            ChiTiet:'/loaivitri/chitiet/',
+            ChiTiet:'/loaivitri/',
             DanhSach:'/loaivitri',
-            TaoMoi:'/loaivitri/taomoi',
-            CapNhat:'/loaivitri/capnhat/',
+            TaoMoi:'/loaivitri',
+            CapNhat:'/loaivitri/',
             Xoa:'/loaivitri/xoa'
         },
         HinhThucBaoCao:{

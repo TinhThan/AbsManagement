@@ -17,7 +17,7 @@ namespace AbsManagementAPI.Core.CQRS.LoaiViTri.CommandHandler
         public async Task<string> Handle(CapNhatLoaiViTriCommand request, CancellationToken cancellationToken)
         {
             var loaiViTri = await _dataContext.LoaiViTris.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
-            if (loaiViTri.Id != null)
+            if (loaiViTri == null)
             {
                 throw new CustomMessageException(MessageSystem.DATA_INVALID);
 

@@ -5,14 +5,16 @@ import { CapNhatHinhThucBaoCaoModel, ThemMoiHinhThucBaoCaoModel } from "./model"
 import { AxiosResponse } from "axios";
 
 class HinhThucBaoCaoAPI extends BaseApi {
-    isPublic_API = true;
+    isPublic_API = false;
     async DanhSach() {
+        this.isPublic_API = true;
         return this.get(
             API_URL + ConfigUrlApi.Urls.HinhThucBaoCao.DanhSach
         );
     }
 
     async TaoMoi(model: ThemMoiHinhThucBaoCaoModel) {
+        this.isPublic_API = false;
         return this.post(
         API_URL + ConfigUrlApi.Urls.HinhThucBaoCao.TaoMoi,
         model
@@ -20,6 +22,7 @@ class HinhThucBaoCaoAPI extends BaseApi {
     }
 
     async CapNhat(id:number, model: CapNhatHinhThucBaoCaoModel) {
+        this.isPublic_API = false;
         return this.post(
             API_URL + ConfigUrlApi.Urls.HinhThucBaoCao.CapNhat + id,
             model

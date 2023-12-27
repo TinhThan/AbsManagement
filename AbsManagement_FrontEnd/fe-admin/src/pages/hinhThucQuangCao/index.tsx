@@ -63,7 +63,7 @@ export default function HinhThucQuangCaoFeature(): JSX.Element {
         },
         {
             title: "Mã hình thức quảng cáo",
-            width: 200,
+            width:700,
             sorter: true,
             dataIndex: 'ma',
             key: 'ma',
@@ -78,7 +78,7 @@ export default function HinhThucQuangCaoFeature(): JSX.Element {
         },
         {
             title: "Tên hình thức quảng cáo",
-            width: 200,
+            width:700,
             sorter: true,
             dataIndex: 'ten',
             key: 'ten',

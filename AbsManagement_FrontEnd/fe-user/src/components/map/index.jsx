@@ -278,6 +278,7 @@ export default function Map() {
     function onCreateReportClick(){
         if(location){
             const _root = renderModal(<ModalCreateReport onCancel={() => {
+                console.log("cancel")
                 _root?.unmount()
             }} lat={location.lat} lng={location.lng} diaChi={location.diaChi} phuong={location.phuong} quan={location.quan}/>);
         }

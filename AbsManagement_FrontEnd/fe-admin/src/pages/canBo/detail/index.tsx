@@ -1,14 +1,22 @@
 import { Col, DatePicker, Form, Input, Row, Tooltip } from 'antd';
 import React from 'react';
 import { CanBoModel } from '../../../apis/canBo/canBoModel';
-import { FormatTime, GetDateTimeByFormat } from '../../../utils';
+import { FormatTime } from '../../../utils';
 import ModalDetail from '../../../components/Modal/modalDetail';
 import dayjs from 'dayjs';
+import { getDistrictByCode, getWardByCode } from '../../../utils/getWard';
 
 interface Props {
   onCancel: () => void;
   canBo?: CanBoModel;
   
+}
+
+const roleCanBos = {
+  Chung:"Lỗi",
+  CanBoPhuong: "Cán bộ phường",
+  CanBoQuan: "Cán bộ quận",
+  CanBoSo: "Cán bộ sở"
 }
 
 export function ModalDetailCanBo(props: Props): JSX.Element {
@@ -39,13 +47,13 @@ export function ModalDetailCanBo(props: Props): JSX.Element {
           <Input value={canBo.soDienThoai} readOnly />
         </Form.Item>
         <Form.Item label={"Ngày sinh"}>
-          <DatePicker value={dayjs(canBo.ngaySinh,FormatTime.DDMMYYYY)} disabled/>
+          <DatePicker value={dayjs(canBo.ngaySinh)} disabled/>
         </Form.Item>
         <Form.Item label={"Quyền"}>
-          <Input value={canBo.role} readOnly />
+          <Input value={roleCanBos[canBo.role]} readOnly />
         </Form.Item>
         <Form.Item label={"Nơi công tác"}>
-          <Input value={canBo.noiCongTac.join(',')} readOnly />
+          <Input value={ canBo.noiCongTac.length > 0 ? canBo.noiCongTac.length > 1 ? `Phường ${getWardByCode(canBo.noiCongTac[0],canBo.noiCongTac[1]).name}, Quận ${getDistrictByCode(canBo.noiCongTac[0]).name}`: `Quận ${getDistrictByCode(canBo.noiCongTac[0]).name}` : ''} readOnly />
         </Form.Item>
       </Col>
     </ModalDetail>
