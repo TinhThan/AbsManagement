@@ -38,7 +38,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
       >
         <Form.Item
           name="email"
-          rules={[{ required: true, message: 'Please input your username!' }]}
+          dependencies={['email']}
+          rules={[{ required: true, message: 'Vui lòng nhập mail!' },{ type:'email', message: 'Email không hợp lệ!' }]}
         >
           <Input
             placeholder="Email"
@@ -53,7 +54,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
         <Form.Item
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          dependencies={['password']}
+          rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
         >
           <Input.Password
             placeholder="Password"

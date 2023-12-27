@@ -1,8 +1,10 @@
-import { Button, Col, DatePicker, Form, Input, Modal, Radio, Row } from 'antd';
+import { Button, Col, DatePicker, Form, Input, Modal, Radio, Row, Select } from 'antd';
 import React from 'react';
 import { ThemMoiCanBoModel } from '../../../apis/canBo/canBoModel';
 import { canBoAPI } from '../../../apis/canBo/canBoAPI';
 import { useState } from 'react';
+import dataHCM from '../../../assets/new-dataHCM.json';
+import { getDistrictsAndWards } from '../../../utils/getWard';
 
 interface Props {
   onCancel:()=>void;
@@ -23,13 +25,23 @@ const roleCanBo = [
   }
 ]
 
+export interface Ward{
+  name:string,
+  postcode:string
+}
+
 export function ModalCreateCanBo(props: Props): JSX.Element {
   const { onCancel } = props;
   const [form] = Form.useForm<ThemMoiCanBoModel>();
   const [loading,setLoading] = useState(false);
+  const [wards,setWards] = useState<Ward[]>([]);
+  const [role,setRole] = useState(roleCanBo[0].ma);
 
   function onSubmit(_model: ThemMoiCanBoModel) {
-    _model.noiCongTac = []
+    if(_model.role !== "CanBoSo")
+    {
+      _model.noiCongTac = [_model.quan,_model.phuong]
+    }else {_model.noiCongTac = [] }
     setLoading(true)
     canBoAPI
     .TaoMoi(_model)
@@ -97,7 +109,7 @@ export function ModalCreateCanBo(props: Props): JSX.Element {
             <DatePicker/>
           </Form.Item>
           <Form.Item label={"Quyền"} name={'role'}>
-            <Radio.Group style={{ width: '100%' }}>
+            <Radio.Group style={{ width: '100%' }} onChange={(value)=>setRole(value.target.value)}>
               <Row gutter={5}>
                 {roleCanBo.map((option) => (
                   <Col xs={12} sm={12} md={12} lg={10} xl={10} xxl={10} key={option.ma}>
@@ -109,6 +121,26 @@ export function ModalCreateCanBo(props: Props): JSX.Element {
               </Row>
             </Radio.Group>
           </Form.Item>
+        {role && role !== roleCanBo[2].ma && 
+          <>
+            <Form.Item label={"Quận"} name={'quan'}>
+              <Select placeholder="Vui lòng chọn quận" onChange={(value)=>{
+                setWards(getDistrictsAndWards(value))
+                form.setFieldValue('huyen',undefined)
+              }}>
+                  {dataHCM[0].districts.map((option) => (
+                    <Select.Option key={option.postcode} value={option.postcode}>Quận {option.name}</Select.Option>
+                  ))}
+                </Select>
+            </Form.Item>
+            <Form.Item label={"Phường"} name={'phuong'}>
+              <Select placeholder="Vui lòng chọn phường">
+                  {wards.map((option) => (
+                    <Select.Option key={option.postcode} value={option.postcode}>Phường {option.name}</Select.Option>
+                  ))}
+                </Select>
+            </Form.Item>
+          </>}
       </Col>
       </Form>
     </Modal>

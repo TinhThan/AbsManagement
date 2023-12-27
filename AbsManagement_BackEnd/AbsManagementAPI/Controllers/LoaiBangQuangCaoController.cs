@@ -15,7 +15,6 @@ namespace AbsManagementAPI.Controllers
     /// Controller loại bảngquảng cáo
     /// </summary>
     [ApiController]
-    //[Authorize]
     [Route("api/loaibangquangcao")]
     public class LoaiBangQuangCaoController : BaseController
     {
@@ -45,7 +44,6 @@ namespace AbsManagementAPI.Controllers
         /// <summary>
         /// Danh sáchloại bảngquảng cáo
         /// </summary>
-        /// <param name="id"></param>
         /// <response code="200">Lấy danh sáchloại bảngquảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
@@ -53,7 +51,7 @@ namespace AbsManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<LoaiBangQuangCaoModel>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        public async Task<List<LoaiBangQuangCaoModel>> DanhSach(int id)
+        public async Task<List<LoaiBangQuangCaoModel>> DanhSach()
         {
             return await _mediator.Send(new DanhSachLoaiBangQuangCaoQuery());
         }
@@ -65,7 +63,8 @@ namespace AbsManagementAPI.Controllers
         /// <response code="200">Thêm mớiloại bảngquảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
-        [HttpPost("taomoi")]
+        [HttpPost()]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
@@ -85,7 +84,8 @@ namespace AbsManagementAPI.Controllers
         /// <response code="200">cập nhật loại bảngquảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
-        [HttpPost("capnhat/{id}")]
+        [HttpPost("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
@@ -106,6 +106,7 @@ namespace AbsManagementAPI.Controllers
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("xoa")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]

@@ -7,7 +7,6 @@ namespace AbsManagementAPI.Core.Entities
         public LoaiBangQuangCaoEntity()
         {
             BangQuangCaos = new HashSet<BangQuangCaoEntity>();
-            ChiTietChinhSuaBangQuangCaos = new HashSet<ChiTietChinhSuaBangQuangCaoEntity>();
         }
 
         public int Id { get; set; }
@@ -16,6 +15,5 @@ namespace AbsManagementAPI.Core.Entities
         public string Ten { get; set; }
 
         public virtual ICollection<BangQuangCaoEntity> BangQuangCaos { get; set; }
-        public virtual ICollection<ChiTietChinhSuaBangQuangCaoEntity> ChiTietChinhSuaBangQuangCaos { get; set; }
     }
 }

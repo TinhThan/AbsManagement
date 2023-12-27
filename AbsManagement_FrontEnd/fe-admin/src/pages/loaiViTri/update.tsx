@@ -24,6 +24,7 @@ export function ModalUpdateLoaiViTri(props: Props): JSX.Element {
       .CapNhat(loaiViTri.id,_model)
       .then(() => {
         form.resetFields();
+        onCancel();
       })
       .finally(() => setLoading(false));
     }
@@ -70,10 +71,10 @@ export function ModalUpdateLoaiViTri(props: Props): JSX.Element {
         onFinish={onSubmit}
       >
         <Col>
-          <Form.Item label={"Mã loại vị trí"} name={"ma"}>
+          <Form.Item label={"Mã loại vị trí"} rules={[{ required: true, message: 'Vui lòng nhập mã!' }]}  name={"ma"}>
             <Input className='input-code' />
           </Form.Item>
-          <Form.Item label={"Tên loại vị trí"} name={"ten"}>
+          <Form.Item label={"Tên loại vị trí"} rules={[{ required: true, message: 'Vui lòng nhập tên!' }]}  name={"ten"}>
               <Input/>
           </Form.Item>
       </Col>

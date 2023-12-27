@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react'
-import { Button, Card, Col, Row, Form, Input, Modal, Image, Space, Upload } from 'antd';
+import React, { useState, useRef, useEffect } from 'react'
+import { Button, Card, Col, Row, Form, Input, Modal, Image, Space, Upload, Radio, Select } from 'antd';
 import imageIcon from "../../assets/Image.svg";
 import { Editor } from '@tinymce/tinymce-react';
 import { PlusOutlined } from '@ant-design/icons';
@@ -16,7 +16,7 @@ const getBase64 = (file) =>
 });
 
 export default function ModalCreateReport(props) {
-    const { onCancel,lat,lng } = props;
+    const { onCancel,lat,lng, diaChi, phuong, quan } = props;
     const [form] = Form.useForm();
     const editorRef = useRef(null)
     const [loading, setLoading] = useState(false);
@@ -24,6 +24,13 @@ export default function ModalCreateReport(props) {
     const [isVisible, setIsVisible] = useState(false);
     const [srcImage, setSrcImage] = useState('');
     const [fileList, setFileList] = useState([])
+    const [hinhThucBaoCaos, setHinhThucBaoCaos] = useState([])
+
+    useEffect(() => {
+      getHinhThucBaoCaos()
+      form.setFieldValue('diaChi',diaChi)
+    }, [])
+    
 
     async function onSubmit(_model) {
         setLoading(true)
@@ -33,8 +40,10 @@ export default function ModalCreateReport(props) {
             }
             _model.danhSachHinhAnh = await uploadImages();
             _model.danhSachViTri = [lng ?? 0,lat ?? 0];
-            _model.idHinhThucBaoCao = 1
+            _model.phuong = phuong
+            _model.quan = quan
             _model.noiDung = editorRef.current.getContent()
+            console.log("model",_model)
             await axios.post(`${process.env.REACT_APP_BASE_API}baocaovipham/taomoi`,_model).then((response) => {
                 console.log("response",response)
                 if(response && response.status === 200)
@@ -71,6 +80,17 @@ export default function ModalCreateReport(props) {
         return danhSachHinhAnh
     }   
 
+    async function getHinhThucBaoCaos() {
+        await axios.get(`${process.env.REACT_APP_BASE_API}hinhthucbaocao`).then((response) => {
+            if(response && response.status === 200)
+            {
+                setHinhThucBaoCaos(response.data)
+            }
+        }).catch((e)=>{
+            console.log(e)
+        });
+    } 
+
     const uploadButton = (
         <div>
             <PlusOutlined />
@@ -95,7 +115,7 @@ export default function ModalCreateReport(props) {
         setIsVisible(true);
     };
     return (
-        <>
+    <>
         <Modal
             getContainer={() => document.getElementById('modal-container') || document.body}
             title={"Thêm mới báo cáo vi phạm"}
@@ -105,8 +125,8 @@ export default function ModalCreateReport(props) {
             open
             forceRender
             onCancel={()=>{
-            onCancel();
-            form.resetFields();
+                onCancel();
+                form.resetFields();
             }}
             width={800}
             footer={[
@@ -146,6 +166,13 @@ export default function ModalCreateReport(props) {
                     <Form.Item label={"Số điện thoại"} name={"soDienThoai"}>
                         <Input/>
                     </Form.Item>
+                    <Form.Item label={"Hình thức báo cáo"} name={'idHinhThucBaoCao'}>
+                        <Select placeholder="Vui lòng chọn hình thức quảng cáo" >
+                            {hinhThucBaoCaos && hinhThucBaoCaos.map((option) => (
+                               <Select.Option key={option.id} value={option.id}>{option.ma} - {option.ten}</Select.Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
                 </Col>
                 <Col span={12}>
                     <Space direction='vertical' style={{marginTop:'20px',width:'100%'}}>
@@ -175,12 +202,15 @@ export default function ModalCreateReport(props) {
                     </Space>
                 </Col>
             </Row>
+            <Form.Item label={"Địa chỉ"} name={"diaChi"}>
+                <Input/>
+            </Form.Item>
             <Editor
                 onInit={(evt, editor) => editorRef.current = editor}
                 initialValue="<p>Nhập nội dung tại đây</p>"
                 init={{
                 language:'vi_VN',
-                height: 300,
+                height: 200,
                 menubar: false,
                 plugins: [
                     'advlist autolink lists link image charmap print preview anchor',
@@ -195,7 +225,7 @@ export default function ModalCreateReport(props) {
                 }}
             />
         </Form>
-        <ReCAPTCHA style={{margin:'10px'}} sitekey='6LeydTkpAAAAAJzoOBspUKjupQq7FDZi2-ByYGX4' onChange={val=>setCapVal(val)}/>
+        <ReCAPTCHA style={{margin:'10px'}} sitekey={process.env.REACT_APP_SITEKEY} onChange={val=>setCapVal(val)}/>
     </Modal>
     <Image
         width={200}

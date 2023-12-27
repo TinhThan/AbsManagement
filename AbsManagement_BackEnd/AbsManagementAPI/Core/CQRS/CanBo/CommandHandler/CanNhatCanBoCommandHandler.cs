@@ -23,7 +23,6 @@ namespace AbsManagementAPI.Core.CQRS.CanBo.CommandHandler
                 throw new CustomMessageException(MessageSystem.VERSION_UPDATE, MessageSystem.VERSION_UPDATE);
             }
             var canBoCapNhat = _mapper.Map(request.CapNhatCanBoModel, canBo);
-            canBoCapNhat.NgayCapNhat = DateTimeOffset.UtcNow;
             try
             {
                 _dataContext.CanBos.Update(canBoCapNhat);

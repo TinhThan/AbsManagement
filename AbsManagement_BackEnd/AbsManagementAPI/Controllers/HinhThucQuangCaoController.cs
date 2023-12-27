@@ -4,7 +4,6 @@ using AbsManagementAPI.Core.CQRS.HinhThucQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.HinhThucQuangCao.Query;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AbsManagementAPI.Core.Models.HinhThucQuangCao;
-using AbsManagementAPI.Core.Models.HinhThucQuangCao;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -15,7 +14,6 @@ namespace AbsManagementAPI.Controllers
     /// Controller hình thức quảng cáo
     /// </summary>
     [ApiController]
-    [Authorize]
     [Route("api/hinhthucquangcao")]
     public class HinhThucQuangCaoController : BaseController
     {
@@ -45,7 +43,6 @@ namespace AbsManagementAPI.Controllers
         /// <summary>
         /// Danh sáchhình thức quảng cáo
         /// </summary>
-        /// <param name="id"></param>
         /// <response code="200">Lấy danh sáchhình thức quảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
@@ -53,7 +50,7 @@ namespace AbsManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<HinhThucQuangCaoModel>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        public async Task<List<HinhThucQuangCaoModel>> DanhSach(int id)
+        public async Task<List<HinhThucQuangCaoModel>> DanhSach()
         {
             return await _mediator.Send(new DanhSachHinhThucQuangCaoQuery());
         }
@@ -65,7 +62,8 @@ namespace AbsManagementAPI.Controllers
         /// <response code="200">Thêm mớihình thức quảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
-        [HttpPost("taomoi")]
+        [HttpPost()]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
@@ -85,7 +83,8 @@ namespace AbsManagementAPI.Controllers
         /// <response code="200">cập nhật hình thức quảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
-        [HttpPost("capnhat/{id}")]
+        [HttpPost("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
@@ -106,6 +105,7 @@ namespace AbsManagementAPI.Controllers
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("xoa")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]

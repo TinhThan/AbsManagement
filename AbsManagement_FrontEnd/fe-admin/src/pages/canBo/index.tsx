@@ -11,6 +11,7 @@ import { FormatTime, GetDateTimeByFormat } from '../../utils';
 import { ModalUpdateCanBo } from './update';
 import dayjs from 'dayjs';
 import { ModalCreateCanBo } from './create';
+import { getDistrictByCode, getWardByCode } from '../../utils/getWard';
 
 const { Search } = Input;
 
@@ -38,7 +39,9 @@ export default function CanBoFeature(): JSX.Element {
     function onUpdateClick(model: CanBoModel){
       const capNhatCanBoModel: CapNhatCanBoModel = {
         ...model,
-        ngaySinh: dayjs(model.ngaySinh,FormatTime.DDMMYYYY)
+        phuong:model.noiCongTac[1],
+        quan:model.noiCongTac[0],
+        ngaySinh: dayjs(model.ngaySinh)
       };
       const _root = renderModal(<ModalUpdateCanBo onCancel={() => {
         _root?.unmount()
@@ -148,7 +151,15 @@ export default function CanBoFeature(): JSX.Element {
             sorter: true,
             dataIndex: 'noiCongTac',
             key: 'noiCongTac',
-            showSorterTooltip:false
+            showSorterTooltip:false,
+            render: (value:string[]) => {
+              console.log("value",value)
+              return (
+                <>
+                  <>{ value.length > 0 ? value.length > 1 ? `Phường ${getWardByCode(value[0],value[1]).name}, Quận ${getDistrictByCode(value[0]).name}`: `Quận ${getDistrictByCode(value[0]).name}` : ''}</>
+                </>
+              )
+            },
         },
         {
           title: "Hành động",

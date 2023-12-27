@@ -1,8 +1,6 @@
 import React, { Suspense, useState } from 'react';
 import LoginForm from '../../components/LoginForm';
 import { Spin } from 'antd';
-import TokenStorage from '../../storages/tokenStorage';
-import RefreshTokenStorage from '../../storages/refreshTokenStorage';
 import { useNavigate } from 'react-router-dom';
 import { PageLoading } from '@ant-design/pro-components';
 import UserInfoStorage from '../../storages/user-info';
@@ -20,8 +18,6 @@ const Login: React.FC = () => {
       console.log("reospone ! 200",response)
       if(response && response.status === 200)
       {
-        TokenStorage.set(response.data.accessToken);
-        RefreshTokenStorage.set(response.data.refreshToken);
         UserInfoStorage.set({...response.data});
         navigate('/')
       }

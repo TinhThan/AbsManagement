@@ -38,6 +38,7 @@ export default function Map() {
     useEffect(() => {
         const map = new mapboxgl.Map({
             container: mapContainerRef.current,
+            language:'vi',
             style: "mapbox://styles/mapbox/streets-v11",
             center: [106.707222, 10.752444], // Ho Chi Minh City
             zoom: 12,
@@ -134,6 +135,7 @@ export default function Map() {
             bbox: [106.6297, 10.6958, 106.8413, 10.8765], // Set the bounding box coordinates
             placeholder: "Tìm kiếm địa điểm", // Placeholder text for the search bar,
             autocomplete: true,
+            language:'vi'
         });
         let lng;
         let lat;
@@ -154,23 +156,22 @@ export default function Map() {
             lng = event.lngLat.lng.toFixed(6);
             lat = event.lngLat.lat.toFixed(6);
             const data = await reverseGeocoding(lat, lng);
+            console.log("data",data)
             let features = data.features;
-            let address = features[0].text; // địa danh: "Bách hoá xanh, chợ, trường, công ty,..."
-            let  ward = features[1].text;            
-            let  phuong = features[2].text;
+            let address = features[0].place_name; //địa chỉ
+            let  ward = features[1].text;
             let district = features[3].text;
             let city = features[4].text;
-            const full_address = `${address}, ${ward}, ${district}, ${city}`;
             setLocation({
-                diaChi: full_address,
-                phuong:phuong,
+                diaChi: address,
+                phuong:ward,
                 quan: district,
                 lng,
                 lat
             })
             setSurfaces([])
             setCollapsed(false)
-            const point = pointInfo(full_address);
+            const point = pointInfo(address);
             new mapboxgl.Popup({
                 closeOnClick: true,
                 closeButton: false,
@@ -277,8 +278,9 @@ export default function Map() {
     function onCreateReportClick(){
         if(location){
             const _root = renderModal(<ModalCreateReport onCancel={() => {
+                console.log("cancel")
                 _root?.unmount()
-            }} lat={location.lat} lng={location.lng}/>);
+            }} lat={location.lat} lng={location.lng} diaChi={location.diaChi} phuong={location.phuong} quan={location.quan}/>);
         }
     }
 
@@ -315,7 +317,7 @@ export default function Map() {
                     <Card title="Thông tin địa điểm" bordered={true} className='info-location'>
                         {location.tenLoaiViTri && <p>{location.tenLoaiViTri}</p>}
                         {location.tenHinhThucQuangCao && <p>{location.tenHinhThucQuangCao}</p>}
-                        <p>{location.diaChi}</p>
+                        <p>{`${location.diaChi}, ${location.phuong}, ${location.quan}`}</p>
                         <Button icon={<ExclamationCircleFilled />} onClick={onCreateReportClick} danger>Báo cáo vi phạm</Button>
                     </Card>
                 </>}
