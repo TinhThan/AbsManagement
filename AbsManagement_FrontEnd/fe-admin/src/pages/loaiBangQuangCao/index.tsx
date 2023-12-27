@@ -63,7 +63,7 @@ export default function LoaiBangQuangCaoFeature(): JSX.Element {
         },
         {
             title: "Mã loại bảng quảng cáo",
-            width: 200,
+            width:700,
             sorter: true,
             dataIndex: 'ma',
             key: 'ma',
@@ -78,8 +78,8 @@ export default function LoaiBangQuangCaoFeature(): JSX.Element {
         },
         {
             title: "Tên loại bảng quảng cáo",
-            width: 200,
             sorter: true,
+            width:700,
             dataIndex: 'ten',
             key: 'ten',
             showSorterTooltip:false

@@ -2,7 +2,6 @@ import {  createBrowserRouter,redirect  } from "react-router-dom";
 import { ConfigRoute } from "./ConfigRoute";
 import React from 'react';
 import App from "../pages/app";
-import TokenStorage from "../storages/tokenStorage";
 import BangQuangCaoFeature from "../pages/bangQuangCao";
 import Home from "../pages/home";
 import Login from "../pages/auth/Login";
@@ -24,6 +23,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <h1>Trang chủ</h1>,
+        loader:protectedLoader,
       },
       {
         path:"*",
@@ -77,32 +77,27 @@ const router = createBrowserRouter([
 export default router;
 
 async function loginLoader() {
-  const accessToken = TokenStorage.get();
   const userInfo = UserInfoStorage.get();
-  if (accessToken && userInfo) {
+  if (userInfo) {
     return redirect("/");
   }
   return null;
 }
 
 function protectedLoader() {
-  const accessToken = TokenStorage.get();
   const userInfo = UserInfoStorage.get();
   console.log("user",userInfo)
-  if (!accessToken || !userInfo) {
-    console.log("redirect login")
+  if (!userInfo) {
     return redirect("/login");
   }
   return null;
 }
 
 function protectedCanBoLoader() {
-  const accessToken = TokenStorage.get();
   const userInfo = UserInfoStorage.get();
-  if (!accessToken || !userInfo) {
+  if (!userInfo) {
     return redirect("/login");
   }
-  console.log("user",userInfo)
   if(userInfo.role !== RoleCanBo.CanBoSo)
     return redirect('/');
   return null;

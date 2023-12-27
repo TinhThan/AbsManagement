@@ -63,7 +63,7 @@ export default function HinhThucBaoCaoFeature(): JSX.Element {
         },
         {
             title: "Mã hình thức báo cáo",
-            width: 200,
+            width:700,
             sorter: true,
             dataIndex: 'ma',
             key: 'ma',
@@ -78,7 +78,7 @@ export default function HinhThucBaoCaoFeature(): JSX.Element {
         },
         {
             title: "Tên hình thức báo cáo",
-            width: 200,
+            width:700,
             sorter: true,
             dataIndex: 'ten',
             key: 'ten',

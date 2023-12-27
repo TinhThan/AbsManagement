@@ -6,7 +6,7 @@ export default function useSignalr(): { connection: HubConnection | undefined } 
 
   useEffect(() => {
     const connect = new HubConnectionBuilder()
-      .withUrl("https://localhost:44394/notify")
+      .withUrl(process.env.REACT_APP_BASE_API + 'notify')
       .withAutomaticReconnect()
       .build();
     setConnection(connect);

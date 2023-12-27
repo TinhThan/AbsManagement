@@ -5,7 +5,7 @@ import { CapNhatHinhThucQuangCaoModel, ThemMoiHinhThucQuangCaoModel } from "./mo
 import { AxiosResponse } from "axios";
 
 class HinhThucQuangCaoAPI extends BaseApi {
-    isPublic_API = true;
+    isPublic_API = false;
     async DanhSach() {
         return this.get(
             API_URL + ConfigUrlApi.Urls.HinhThucQuangCao.DanhSach
