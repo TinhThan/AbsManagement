@@ -1,36 +1,36 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
+import styled from 'styled-components';
 
 interface LoginFormProps {
   onSubmit: (values: any) => void;
+  [key: string]: any;
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+const InputStyle = styled(Input)`
+  min-height: 40px;
+`
+
+const InputPasswordStyle = styled(Input.Password)`
+  min-height: 40px;
+`
+
+const BtnSubmitStyle = styled(Button)`
+  width: 100%;
+  min-height: 38px;
+  background-color: #1890ff;
+  margin-top: 2rem;
+`
+
+const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, ...props }) => {
   const onFinish = (values: any) => {
     onSubmit(values);
   };
 
   return (
-    <div
-      style={{
-        background: '#f0f2f5',
-        width: '300px',
-        margin: '0 auto',
-        padding: '20px',
-        borderRadius: '4px',
-        boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
-      }}
-    >
-      <h1
-        style={{
-          textAlign: 'center',
-          marginBottom: '20px',
-          marginTop: '0',
-          color: '#1890ff',
-        }}
-      >
-        Login
-      </h1>
+    <div {...props}>
+      <p className="text-4xl font-bold">Welcome back</p>
+      <p className='text-lg mb-6'>Login to the Dashboard</p>
       <Form
         name="login-form"
         initialValues={{ remember: true }}
@@ -39,17 +39,9 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         <Form.Item
           name="email"
           dependencies={['email']}
-          rules={[{ required: true, message: 'Vui lòng nhập mail!' },{ type:'email', message: 'Email không hợp lệ!' }]}
+          rules={[{ required: true, message: 'Vui lòng nhập mail!' }, { type: 'email', message: 'Email không hợp lệ!' }]}
         >
-          <Input
-            placeholder="Email"
-            style={{
-              backgroundColor: 'white',
-              border: '1px solid #d9d9d9',
-              borderRadius: '4px',
-              marginBottom: '10px',
-            }}
-          />
+          <InputStyle placeholder="Email" />
         </Form.Item>
 
         <Form.Item
@@ -57,30 +49,20 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
           dependencies={['password']}
           rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
         >
-          <Input.Password
-            placeholder="Password"
-            style={{
-              backgroundColor: 'white',
-              border: '1px solid #d9d9d9',
-              borderRadius: '4px',
-              marginBottom: '10px',
-            }}
-          />
+          <InputPasswordStyle placeholder="Password" />
         </Form.Item>
 
+        <div className='text-right'>
+          <a className='inline text-[#1890ff]' href="/">Forgot password</a>
+        </div>
+
         <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{
-              backgroundColor: '#1890ff',
-              borderColor: '#1890ff',
-              color: 'white',
-              borderRadius: '4px',
-            }}
-          >
+          <BtnSubmitStyle type="primary" htmlType="submit">
             Log in
-          </Button>
+          </BtnSubmitStyle>
+          <div>
+            Don't have an account <a className='inline text-[#1890ff]' href="/">sign up</a>
+          </div>
         </Form.Item>
       </Form>
     </div>
