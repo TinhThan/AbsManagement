@@ -96,7 +96,7 @@ namespace AbsManagementAPI.Core.Authentication
             var salt = BCrypt.Net.BCrypt.GenerateSalt();
 
             // hash the password with the generated salt
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, salt);
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, salt);
 
             return hashedPassword;
         }

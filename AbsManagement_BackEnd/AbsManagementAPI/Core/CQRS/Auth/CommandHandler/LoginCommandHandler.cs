@@ -22,7 +22,7 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
         public async Task<LoginResponseModel> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
             var userExists = await _dataContext.CanBos.FirstOrDefaultAsync(t => t.Email == request.LoginModel.Email, cancellationToken);
-            var password_check = BCrypt.Net.BCrypt.Verify(request.LoginModel.Password, userExists.MatKhau);
+            bool password_check = BCrypt.Net.BCrypt.Verify(request.LoginModel.Password, userExists.MatKhau);
 
             if (!password_check && userExists != null)
             {

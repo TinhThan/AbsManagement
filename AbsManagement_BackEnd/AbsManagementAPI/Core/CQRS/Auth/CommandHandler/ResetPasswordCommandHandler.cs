@@ -1,4 +1,5 @@
-﻿using AbsManagementAPI.Core.Constants;
+﻿using AbsManagementAPI.Core.Authentication;
+using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.CQRS.Auth.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
@@ -24,7 +25,7 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
 
             try
             {
-                userExists.MatKhau = request.ResetPasswordModel.Password;
+                userExists.MatKhau = HelperIdentity.HashPasswordBCrypt(request.ResetPasswordModel.Password);
                 userExists.NgayCapNhat = DateTimeOffset.UtcNow;
                 _dataContext.CanBos.Update(userExists);
                 var result = await _dataContext.SaveChangesAsync(cancellationToken);

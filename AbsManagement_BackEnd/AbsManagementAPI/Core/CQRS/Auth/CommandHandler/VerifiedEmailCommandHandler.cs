@@ -17,7 +17,7 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
 
         public async Task<string> Handle(VerifiedEmailCommand request, CancellationToken cancellationToken)
         {
-            var password = HelperIdentity.HashPasswordSalt(request.VerifiedEmailModel.Password);
+            var password = HelperIdentity.HashPasswordBCrypt(request.VerifiedEmailModel.Password);
             var userExists = await _dataContext.CanBos.FirstOrDefaultAsync(t => t.Email == request.VerifiedEmailModel.Email, cancellationToken);
             
             if (userExists == null)
