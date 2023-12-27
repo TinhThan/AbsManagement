@@ -6,6 +6,8 @@ using AbsManagementAPI.Core.Models.DiemDatQuangCao;
 using AbsManagementAPI.Core.Models.HinhThucBaoCao;
 using AbsManagementAPI.Core.Models.HinhThucQuangCao;
 using AbsManagementAPI.Core.Models.LoaiBangQuangCao;
+using AbsManagementAPI.Core.Models.PhieuCapPhepSuaQuangCao;
+using AbsManagementAPI.Entities;
 using AutoMapper;
 using Newtonsoft.Json;
 
@@ -141,6 +143,25 @@ namespace AbsManagementAPI.Core
             CreateMap<ThemLoaiBangQuangCaoModel, LoaiBangQuangCaoEntity>()
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCaos, desc => desc.Ignore());
+
+            #endregion
+
+            #region
+            CreateMap<ThemPhieuCapPhepSuaQuangCaoModel, PhieuCapPhepSuaQuangCaoEntity>()
+                .ForMember(src => src.IdDiemDat, desc => desc.MapFrom(e => e.IdDiemDat))
+                .ForMember(src => src.IdBangQuangCao, desc => desc.MapFrom(e => e.IdBangQuangCao))
+                .ForMember(src => src.NoiDung, desc => desc.MapFrom(e => e.NoiDung))
+                .ForMember(src => src.NgayGui, desc => desc.MapFrom(e => e.NgayGui))
+                .ForMember(src => src.TinhTrang, desc => desc.MapFrom(e => e.TinhTrang));
+
+
+            CreateMap<PhieuCapPhepSuaQuangCaoEntity, PhieuCapPhepSuaQuangCaoModel>()
+                .ForMember(src => src.IdDiemDat, desc => desc.MapFrom(e => e.IdDiemDat))
+                .ForMember(src => src.IdBangQuangCao, desc => desc.MapFrom(e => e.IdBangQuangCao))
+                .ForMember(src => src.NoiDung, desc => desc.MapFrom(e => e.NoiDung))
+                .ForMember(src => src.NgayGui, desc => desc.MapFrom(e => e.NgayGui))
+                .ForMember(src => src.TinhTrang, desc => desc.MapFrom(e => e.TinhTrang));
+
 
             #endregion
 

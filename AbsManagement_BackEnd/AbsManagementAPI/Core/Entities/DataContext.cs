@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AbsManagementAPI.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace AbsManagementAPI.Core.Entities
@@ -20,6 +21,7 @@ namespace AbsManagementAPI.Core.Entities
         public DbSet<HinhThucQuangCaoEntity> HinhThucQuangCaos { get; set; }
         public DbSet<LoaiBangQuangCaoEntity> LoaiBangQuangCaos { get; set; }
         public DbSet<LoaiViTriEntity> LoaiViTris { get; set; }
+        public DbSet<PhieuCapPhepSuaQuangCaoEntity> PhieuCapPhepSuaQuangCaos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -123,6 +125,22 @@ namespace AbsManagementAPI.Core.Entities
                 entity.ToTable("LoaiViTri");
 
                 entity.HasKey(e => e.Id);
+            });
+            modelBuilder.Entity<PhieuCapPhepSuaQuangCaoEntity>(entity =>
+            {
+                entity.ToTable("PhieuCapPhepSuaQuangCao");
+                entity.HasKey(e => e.Id);
+
+                entity.HasOne(e => e.DiemDatQuangCao)
+                .WithMany(e => e.PhieuCapPhepSuaQuangCaos)
+                .HasForeignKey(e => e.IdDiemDat)
+                .HasConstraintName("Fk_PhieuCapPhepSuaQuangCao_DiemDatQuangCao");
+
+
+                entity.HasOne(e => e.BangQuangCao)
+                .WithMany(e => e.PhieuCapPhepSuaQuangCaos)
+                .HasForeignKey(e => e.IdBangQuangCao)
+                .HasConstraintName("Fk_PhieuCapPhepSuaQuangCao_BangQuangCao");
             });
         }
     }
