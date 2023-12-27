@@ -6,12 +6,9 @@ using AbsManagementAPI.Core.Models.DiemDatQuangCao;
 using AbsManagementAPI.Core.Models.HinhThucBaoCao;
 using AbsManagementAPI.Core.Models.HinhThucQuangCao;
 using AbsManagementAPI.Core.Models.LoaiBangQuangCao;
-<<<<<<< HEAD
 using AbsManagementAPI.Core.Models.PhieuCapPhepSuaQuangCao;
 using AbsManagementAPI.Entities;
-=======
 using AbsManagementAPI.Core.Models.LoaiViTri;
->>>>>>> 1e452ca97da120de8461a2f56bac46f11d7a2de6
 using AutoMapper;
 using Newtonsoft.Json;
 
@@ -158,7 +155,6 @@ namespace AbsManagementAPI.Core
 
             #endregion
 
-<<<<<<< HEAD
             #region
             CreateMap<ThemPhieuCapPhepSuaQuangCaoModel, PhieuCapPhepSuaQuangCaoEntity>()
                 .ForMember(src => src.IdDiemDat, desc => desc.MapFrom(e => e.IdDiemDat))
@@ -178,7 +174,6 @@ namespace AbsManagementAPI.Core
 
             #endregion
 
-=======
             #region LoaiViTri
 
             CreateMap<LoaiViTriEntity, LoaiViTriModel>();
@@ -191,7 +186,8 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.DiemDatQuangCaos, desc => desc.Ignore());
             #endregion
->>>>>>> 1e452ca97da120de8461a2f56bac46f11d7a2de6
+
+
         }
     }
 }
