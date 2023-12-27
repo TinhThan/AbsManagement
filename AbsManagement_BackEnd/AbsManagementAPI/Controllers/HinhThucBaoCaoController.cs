@@ -1,4 +1,5 @@
-﻿using AbsManagementAPI.Core.Entities;
+﻿using AbsManagementAPI.Core.Authentication;
+using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AbsManagementAPI.Core.Models.HinhThucBaoCao;
 using AutoMapper;
@@ -21,10 +22,11 @@ namespace AbsManagementAPI.Controllers
         }
 
         [HttpGet()]
-        public async Task<List<HinhThucBaoCaoModel>> Create()
+        public async Task<List<HinhThucBaoCaoModel>> List()
         => await _dataContext.HinhThucBaoCaos.ProjectTo<HinhThucBaoCaoModel>(_mapper.ConfigurationProvider).ToListAsync(CancellationToken.None);
 
         [HttpPost("{id}")]
+        [Authorize]
         public async Task<string> Update(int id, CapNhatHinhThucBaoCaoModel capNhatHinhThucBaoCaoModel)
         {
             try
@@ -43,7 +45,8 @@ namespace AbsManagementAPI.Controllers
         }
 
         [HttpPost()]
-        public async Task<string> Update(ThemHinhThucBaoCaoModel themHinhThucBaoCaoModel)
+        [Authorize]
+        public async Task<string> Create(ThemHinhThucBaoCaoModel themHinhThucBaoCaoModel)
         {
             try
             {

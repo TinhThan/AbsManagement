@@ -6,6 +6,7 @@ using AbsManagementAPI.Core.Models.DiemDatQuangCao;
 using AbsManagementAPI.Core.Models.HinhThucBaoCao;
 using AbsManagementAPI.Core.Models.HinhThucQuangCao;
 using AbsManagementAPI.Core.Models.LoaiBangQuangCao;
+using AbsManagementAPI.Core.Models.LoaiViTri;
 using AutoMapper;
 using Newtonsoft.Json;
 
@@ -118,6 +119,10 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.DiemDatQuangCaos, desc => desc.Ignore());
 
+            CreateMap<CapNhatHinhThucQuangCaoModel, HinhThucQuangCaoEntity>()
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.DiemDatQuangCaos, desc => desc.Ignore());
+
             #endregion
 
             #region HinhThucBaoCao
@@ -125,6 +130,10 @@ namespace AbsManagementAPI.Core
             CreateMap<HinhThucBaoCaoEntity, HinhThucBaoCaoModel>();
 
             CreateMap<ThemHinhThucBaoCaoModel, HinhThucBaoCaoEntity>()
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore());
+
+            CreateMap<CapNhatHinhThucBaoCaoModel, HinhThucBaoCaoEntity>()
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore());
 
@@ -138,8 +147,24 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCaos, desc => desc.Ignore());
 
+            CreateMap<CapNhatLoaiBangQuangCaoModel, LoaiBangQuangCaoEntity>()
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.BangQuangCaos, desc => desc.Ignore());
+
             #endregion
 
+            #region LoaiViTri
+
+            CreateMap<LoaiViTriEntity, LoaiViTriModel>();
+
+            CreateMap<ThemLoaiViTriModel, LoaiViTriEntity>()
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.DiemDatQuangCaos, desc => desc.Ignore());
+
+            CreateMap<CapNhatLoaiViTriModel, LoaiViTriEntity>()
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.DiemDatQuangCaos, desc => desc.Ignore());
+            #endregion
         }
     }
 }

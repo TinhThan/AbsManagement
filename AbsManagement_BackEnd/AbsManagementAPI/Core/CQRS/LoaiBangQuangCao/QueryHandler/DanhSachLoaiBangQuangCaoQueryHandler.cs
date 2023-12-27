@@ -19,7 +19,6 @@ namespace AbsManagementAPI.Core.CQRS.LoaiBangQuangCao.QueryHandler
 
         public async Task<List<LoaiBangQuangCaoModel>> Handle(DanhSachLoaiBangQuangCaoQuery request, CancellationToken cancellationToken)
         {
-            await _notifyService.SendMessageNotify("Thông báo", "Lấy danh sách thành công");
             return await _dataContext.LoaiBangQuangCaos.ProjectTo<LoaiBangQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
         }
     }
