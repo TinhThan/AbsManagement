@@ -6,6 +6,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import ReCAPTCHA from 'react-google-recaptcha'
 import axios from 'axios'
 import { Notification } from '../../utils/messagebox';
+import { getDistrict, getWardByDistrict} from '../../utils/getWard';
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -16,7 +17,7 @@ const getBase64 = (file) =>
 });
 
 export default function ModalCreateReport(props) {
-    const { onCancel,lat,lng, diaChi, phuong, quan } = props;
+    const { onCancel, location } = props;
     const [form] = Form.useForm();
     const editorRef = useRef(null)
     const [loading, setLoading] = useState(false);
@@ -27,8 +28,9 @@ export default function ModalCreateReport(props) {
     const [hinhThucBaoCaos, setHinhThucBaoCaos] = useState([])
 
     useEffect(() => {
-      getHinhThucBaoCaos()
-      form.setFieldValue('diaChi',diaChi)
+        getHinhThucBaoCaos()
+        form.setFieldValue('diaChi',location.diaChi)
+        form.setFieldValue('idDiemDatQuangCao',location.idDiemDatQuangCao)
     }, [])
     
 
@@ -39,12 +41,12 @@ export default function ModalCreateReport(props) {
                 console.log("editorRef",editorRef.current.getContent());
             }
             _model.danhSachHinhAnh = await uploadImages();
-            _model.danhSachViTri = [lng ?? 0,lat ?? 0];
-            _model.phuong = phuong
-            _model.quan = quan
+            _model.danhSachViTri = [location.lng ?? 0,location.lat ?? 0];
+            _model.quan = getDistrict(location.quan).postcode;
+            _model.phuong = getWardByDistrict(_model.quan,location.phuong).postcode;
+            _model.idDiemDatQuangCao = location.idDiemDatQuangCao;
             _model.noiDung = editorRef.current.getContent()
-            console.log("model",_model)
-            await axios.post(`${process.env.REACT_APP_BASE_API}baocaovipham/taomoi`,_model).then((response) => {
+            await axios.post(`${process.env.REACT_APP_BASE_API}api/baocaovipham/taomoi`,_model).then((response) => {
                 console.log("response",response)
                 if(response && response.status === 200)
                 {
@@ -65,7 +67,7 @@ export default function ModalCreateReport(props) {
         if (fileList) {
             var data = new FormData();
             fileList.forEach(file=> data.append('hinhAnhs',file.originFileObj));
-            await axios.post(`${process.env.REACT_APP_BASE_API}hinhanh/multip`,data,{
+            await axios.post(`${process.env.REACT_APP_BASE_API}api/hinhanh/multip`,data,{
                 headers: {'Content-Type': 'multipart/form-data'}
                 }).then((response) => {
                 console.log("response",response)
@@ -81,7 +83,7 @@ export default function ModalCreateReport(props) {
     }   
 
     async function getHinhThucBaoCaos() {
-        await axios.get(`${process.env.REACT_APP_BASE_API}hinhthucbaocao`).then((response) => {
+        await axios.get(`${process.env.REACT_APP_BASE_API}api/hinhthucbaocao`).then((response) => {
             if(response && response.status === 200)
             {
                 setHinhThucBaoCaos(response.data)
@@ -169,7 +171,7 @@ export default function ModalCreateReport(props) {
                     <Form.Item label={"Hình thức báo cáo"} name={'idHinhThucBaoCao'}>
                         <Select placeholder="Vui lòng chọn hình thức quảng cáo" >
                             {hinhThucBaoCaos && hinhThucBaoCaos.map((option) => (
-                               <Select.Option key={option.id} value={option.id}>{option.ma} - {option.ten}</Select.Option>
+                                <Select.Option key={option.id} value={option.id}>{option.ma} - {option.ten}</Select.Option>
                             ))}
                         </Select>
                     </Form.Item>

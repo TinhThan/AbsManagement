@@ -4,14 +4,15 @@ import { CloseCircleOutlined, ExclamationCircleFilled} from '@ant-design/icons'
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
 import pointInfo from '../points/pointInfo'
 import PropTypes from 'prop-types'
-import { Layout, Card ,Divider,Button,Typography} from 'antd';
+import { Layout, Card ,Divider,Button,Typography, Image, Space} from 'antd';
 import { useState } from 'react';
 import SpaceInfo from '../points/spaceInfo'
-import SpaceToGeoJson from '../../utils/spaceToGeoJson'
+import {SpaceToGeoJson} from '../../utils/spaceToGeoJson'
 import { renderModal } from '../../utils/render-modal'
 import ModalCreateReport from '../modal/createReport'
 import axios from 'axios'
 import './style.scss'
+import { getDistrictByName } from '../../utils/getWard'
 
 const { Content, Sider } = Layout;
 const { Text } = Typography; 
@@ -156,22 +157,10 @@ export default function Map() {
             lng = event.lngLat.lng.toFixed(6);
             lat = event.lngLat.lat.toFixed(6);
             const data = await reverseGeocoding(lat, lng);
-            console.log("data",data)
-            let features = data.features;
-            let address = features[0].place_name; //địa chỉ
-            let  ward = features[1].text;
-            let district = features[3].text;
-            let city = features[4].text;
-            setLocation({
-                diaChi: address,
-                phuong:ward,
-                quan: district,
-                lng,
-                lat
-            })
+            setLocation(data)
             setSurfaces([])
             setCollapsed(false)
-            const point = pointInfo(address);
+            const point = pointInfo(data.diaChi);
             new mapboxgl.Popup({
                 closeOnClick: true,
                 closeButton: false,
@@ -200,6 +189,9 @@ export default function Map() {
                 diaChi: description.diaChi,
                 phuong:  description.phuong,
                 quan:  description.quan,
+                tenLoaiViTri: description.tenLoaiViTri,
+                tenHinhThucQuangCao: description.tenHinhThucQuangCao,
+                idDiemDatQuangCao: description.id,
                 lng: coordinates[0],
                 lat: coordinates[1]
             })
@@ -233,13 +225,23 @@ export default function Map() {
         return () => map.remove();
     }, [spaces]);
 
-    async function reverseGeocoding(lat,long){
+    async function reverseGeocoding(lat,lng){
         try {
             const response = await fetch(
-                `https://api.mapbox.com/geocoding/v5/mapbox.places/${long},${lat}.json?access_token=${process.env.REACT_APP_MAP_BOX_KEY}`
+                `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${process.env.REACT_APP_MAP_BOX_KEY}`
             );
             const data = await response.json();
-            return data;
+            let features = data.features;
+            let diaChi = features[0].place_name; //địa chỉ
+            let  phuong = features[1].text;
+            let quan = features[3].text;
+            return {
+                diaChi,
+                phuong,
+                quan,
+                lng,
+                lat
+            };
         } catch (error) {
         console.log(error);
         }
@@ -247,7 +249,7 @@ export default function Map() {
 
     async function getSpaces(){
         try {
-            await axios.get(`${process.env.REACT_APP_BASE_API}diemdatquangcao`).then((response) => {
+            await axios.get(`${process.env.REACT_APP_BASE_API}api/diemdatquangcao`).then((response) => {
                 if(response && response.status === 200)
                 {
                     setSpaces(response.data)
@@ -262,7 +264,7 @@ export default function Map() {
 
     async function getSurfaceBySpace(id){
         try {
-            await axios.get(`${process.env.REACT_APP_BASE_API}bangquangcao/diemdatquangcao/${id}`).then((response) => {
+            await axios.get(`${process.env.REACT_APP_BASE_API}api/bangquangcao/diemdatquangcao/${id}`).then((response) => {
                 if(response && response.status === 200)
                 {
                     setSurfaces(response.data)
@@ -280,16 +282,24 @@ export default function Map() {
             const _root = renderModal(<ModalCreateReport onCancel={() => {
                 console.log("cancel")
                 _root?.unmount()
-            }} lat={location.lat} lng={location.lng} diaChi={location.diaChi} phuong={location.phuong} quan={location.quan}/>);
+            }} location={location}/>);
         }
     }
 
     return (
-        <Layout style={{height:'100vh', width:'100vw'}}>
-            <Content>
+        <Layout hasSider>
+            <Content style={{height:'100vh', width:'100vw'}}>
                 <div id="map" ref={mapContainerRef}  />
             </Content>
-            <Sider theme='light' width={350}  style={{padding:'5px 5px 10px 10px',visibility:collapsed ? 'hidden' : 'visible'}} collapsedWidth={0} collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+            <Sider theme='light' 
+                width={350}  
+                style={{padding:'5px 5px 10px 10px', visibility: collapsed ? 'hidden' : 'visible',overflow: 'auto',
+                        height: '100vh',
+                        position: 'fixed',
+                        right: 0,
+                        top: 0,
+                        bottom: 0,}} 
+                collapsedWidth={0} collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 <Button style={{float:'right', margin:'0 0 10px 5px'}} onClick={()=>setCollapsed(!collapsed)} icon={<CloseCircleOutlined />} danger type='primary'></Button>
                 <Divider style={{margin:'10px 10px 10px 0px'}}/> 
                 <Card title="Thông tin bảng quảng cáo" bordered={true} className='info-surface'>
@@ -297,13 +307,23 @@ export default function Map() {
                     surfaces.length > 0 ? 
                     surfaces.map(surface =>
                         <>
-                            <Divider style={{margin:'10px 10px 10px 0px'}}/> 
                             <p>{surface.tenLoaiBangQuangCao}</p>
                             <p>{surface.kichThuoc}</p>
-                            <p>{surface.diaChi}</p>
-                            <p>{surface.phuong}</p>
-                            <p>{surface.quan}</p>
+                            {surface.danhSachHinhAnh && surface.danhSachHinhAnh.length > 0 && 
+                            <Image.PreviewGroup>
+                                <Space direction='vertical' size={0}>
+                                    <Image width={150} height={150}  src={`${process.env.REACT_APP_BASE_API}Upload/image/${surface.danhSachHinhAnh[0]}`} alt='avatar' />
+                                    {surface.danhSachHinhAnh.length > 1 && (
+                                    <Space size={5}>
+                                        {surface.danhSachHinhAnh.map((t, index) => {
+                                            return <Image key={index.toString()} width={120} height={120} src={`${process.env.REACT_APP_BASE_API}Upload/image/${t}`} alt={index.toString()} />;
+                                        })}
+                                    </Space>
+                                    )}
+                                </Space>
+                            </Image.PreviewGroup> }
                             <Button icon={<ExclamationCircleFilled />} danger>Báo cáo vi phạm</Button>
+                            <Divider style={{margin:'10px 5px 10px 0px'}}/> 
                         </>
                     ) :
                     <>
@@ -317,7 +337,7 @@ export default function Map() {
                     <Card title="Thông tin địa điểm" bordered={true} className='info-location'>
                         {location.tenLoaiViTri && <p>{location.tenLoaiViTri}</p>}
                         {location.tenHinhThucQuangCao && <p>{location.tenHinhThucQuangCao}</p>}
-                        <p>{`${location.diaChi}, ${location.phuong}, ${location.quan}`}</p>
+                        <p>{location.diaChi}</p>
                         <Button icon={<ExclamationCircleFilled />} onClick={onCreateReportClick} danger>Báo cáo vi phạm</Button>
                     </Card>
                 </>}
