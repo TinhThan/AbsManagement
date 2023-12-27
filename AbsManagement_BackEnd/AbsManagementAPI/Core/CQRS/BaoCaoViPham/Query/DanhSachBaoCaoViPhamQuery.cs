@@ -3,7 +3,7 @@ using MediatR;
 
 namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.Query
 {
-    public class DanhSachBaoCaoViPhamQuery : IRequest<IEnumerable<BaoCaoViPhamModel>>
+    public class DanhSachBaoCaoViPhamQuery : IRequest<List<BaoCaoViPhamModel>>
     {
     }
 }

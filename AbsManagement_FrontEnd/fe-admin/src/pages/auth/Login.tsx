@@ -29,11 +29,11 @@ const Login: React.FC = () => {
 
   return (
     <Suspense fallback={<PageLoading/>}>
-     <Spin spinning={loading}>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-          <LoginForm onSubmit={handleLogin} />
-        </div>
-     </Spin>
+      <Spin spinning={loading}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <LoginForm onSubmit={handleLogin} />
+          </div>
+      </Spin>
     </Suspense>
   );
 };

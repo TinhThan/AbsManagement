@@ -69,6 +69,8 @@ namespace AbsManagementAPI.Core
 
             #endregion
 
+            #region BaoCaoViPham
+
             CreateMap<ThemBaoCaoViPhamModel, BaoCaoViPhamEntity>()
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)))
                 .ForMember(src => src.ViTri, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachViTri)))
@@ -81,6 +83,12 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore());
+
+            CreateMap<BaoCaoViPhamEntity, BaoCaoViPhamModel>()
+                .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.DeserializeObject<List<string>>(e.DanhSachHinhAnh)))
+                .ForMember(src => src.DanhSachViTri, desc => desc.MapFrom(e => JsonConvert.DeserializeObject<List<decimal>>(e.ViTri)));
+
+            #endregion
 
             #region DiemDatQuangCao
 
