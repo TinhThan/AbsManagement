@@ -1,4 +1,6 @@
-﻿namespace AbsManagementAPI.Core.Entities
+﻿using AbsManagementAPI.Entities;
+
+namespace AbsManagementAPI.Core.Entities
 {
     public class BangQuangCaoEntity
     {
@@ -15,9 +17,12 @@
         public string DanhSachHinhAnh { get; set; }
         public DateTimeOffset NgayHetHan { get; set; }
         public string IdTinhTrang { get; set; }
+        public DateTimeOffset NgayBatDau { get; set; }
 
         public virtual DiemDatQuangCaoEntity DiemDatQuangCao { get; set; }
         public virtual LoaiBangQuangCaoEntity LoaiBangQuangCao { get; set; }
         public virtual ICollection<BaoCaoViPhamEntity> BaoCaoViPhams { get; set; }
+        public virtual ICollection<PhieuCapPhepSuaQuangCaoEntity> PhieuCapPhepSuaQuangCaos { get; set; }
+
     }
 }

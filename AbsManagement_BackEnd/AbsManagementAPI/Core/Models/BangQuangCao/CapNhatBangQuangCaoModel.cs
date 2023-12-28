@@ -5,7 +5,7 @@ namespace AbsManagementAPI.Core.Models.BangQuangCao
 {
     public class CapNhatBangQuangCaoModel : ThemBangQuangCaoModel
     {
-        public DateTimeOffset NgayCapNhat { get; set; }
+        public DateTimeOffset NgayBatDau { get; set; }
         public string IdTinhTrang { get; set; }
     }
 }

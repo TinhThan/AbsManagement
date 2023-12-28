@@ -28,7 +28,11 @@
         public const string UPDATE_FAIL = "Cập nhật thất bại.";
 
         public const string DELETE_SUCCESS = "Xóa thành công.";
-        public const string DELETE_FAIL = "Cập nhật thất bại.";
+        public const string DELETE_FAIL = "Xóa thất bại.";
+
+        public const string APPROVE_SUCCESS = "Duyệt thành công.";
+        public const string APPROVE_FAIL = "Duyệt thất bại.";
+
 
         public const string VERSION_UPDATE = "Dữ liệu đã được thay đổi bởi người sửa: <b>{1}</b>, lúc: <b>{2}</b><br/>Vui lòng làm mới lại trang";
     }

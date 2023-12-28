@@ -12,6 +12,7 @@ namespace AbsManagementAPI.Core.Models.BangQuangCao
         public string KichThuoc { get; set; }
         public List<string> DanhSachHinhAnh { get; set; }
         public DateTimeOffset NgayHetHan { get; set; }
+        public DateTimeOffset? NgayBatDau { get; set; }
         public string IdTinhTrang { get; set; }
 
         //Thông tin điểm đặt quảng cáo.

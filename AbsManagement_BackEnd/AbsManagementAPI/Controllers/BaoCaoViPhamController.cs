@@ -47,19 +47,19 @@ namespace AbsManagementAPI.Controllers
         //}
 
         /// <summary>
-        ///// Báo cáo vi phạm
-        ///// </summary>
-        ///// <response code="200">Danh sách báo cáo vi phạm</response>
-        ///// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        ///// <response code="500">Lỗi đến từ server</response>
-        //[HttpGet("danhsach")]
-        //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaoCaoViPhamModel))]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        //public async Task<IEnumerable<BaoCaoViPhamModel>> DanhSach()
-        //{
-        //    return await _mediator.Send(new DanhSachBaoCaoViPhamQuery());
-        //}
+        /// Báo cáo vi phạm
+        /// </summary>
+        /// <response code="200">Danh sách báo cáo vi phạm</response>
+        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
+        /// <response code="500">Lỗi đến từ server</response>
+        [HttpGet()]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaoCaoViPhamModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
+        public async Task<List<BaoCaoViPhamModel>> DanhSach()
+        {
+            return await _mediator.Send(new DanhSachBaoCaoViPhamQuery());
+        }
 
 
         /// <summary>

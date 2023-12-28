@@ -1,4 +1,6 @@
-﻿namespace AbsManagementAPI.Core.Entities
+﻿using AbsManagementAPI.Entities;
+
+namespace AbsManagementAPI.Core.Entities
 {
     public class DiemDatQuangCaoEntity
     {
@@ -22,5 +24,7 @@
         public virtual HinhThucQuangCaoEntity HinhThucQuangCao { get; set; }
         public virtual ICollection<BangQuangCaoEntity> BangQuangCaos { get; set; }
         public virtual ICollection<BaoCaoViPhamEntity> BaoCaoViPhams { get; set; }
+        public virtual ICollection<PhieuCapPhepSuaQuangCaoEntity> PhieuCapPhepSuaQuangCaos { get; set; }
+
     }
 }

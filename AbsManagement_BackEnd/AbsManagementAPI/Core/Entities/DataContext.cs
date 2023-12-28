@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AbsManagementAPI.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace AbsManagementAPI.Core.Entities
@@ -20,14 +21,17 @@ namespace AbsManagementAPI.Core.Entities
         public DbSet<HinhThucQuangCaoEntity> HinhThucQuangCaos { get; set; }
         public DbSet<LoaiBangQuangCaoEntity> LoaiBangQuangCaos { get; set; }
         public DbSet<LoaiViTriEntity> LoaiViTris { get; set; }
+        public DbSet<PhieuCapPhepSuaQuangCaoEntity> PhieuCapPhepSuaQuangCaos { get; set; }
 
+        public DbSet<PhieuCapPhepQuangCaoEntity> PhieuCapPhepQuangCaos { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = _configuration.GetConnectionString("AbsManagement");
-            //optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString);
 
             //var connectionString = _configuration.GetConnectionString("Sakila");
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            //optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -47,6 +51,12 @@ namespace AbsManagementAPI.Core.Entities
                 .WithMany(e => e.BangQuangCaos)
                 .HasForeignKey(e => e.IdLoaiBangQuangCao)
                 .HasConstraintName("FK_BangQuangCao_LoaiBangQuangCao");
+            });
+
+            modelBuilder.Entity<PhieuCapPhepQuangCaoEntity>(entity =>
+            {
+                entity.ToTable("PhieuCapPhepQuangCao");
+                entity.HasKey(e => e.Id);
             });
 
             modelBuilder.Entity<BaoCaoViPhamEntity>(entity =>
@@ -126,6 +136,22 @@ namespace AbsManagementAPI.Core.Entities
                 entity.ToTable("LoaiViTri");
 
                 entity.HasKey(e => e.Id);
+            });
+            modelBuilder.Entity<PhieuCapPhepSuaQuangCaoEntity>(entity =>
+            {
+                entity.ToTable("PhieuCapPhepSuaQuangCao");
+                entity.HasKey(e => e.Id);
+
+                entity.HasOne(e => e.DiemDatQuangCao)
+                .WithMany(e => e.PhieuCapPhepSuaQuangCaos)
+                .HasForeignKey(e => e.IdDiemDat)
+                .HasConstraintName("Fk_PhieuCapPhepSuaQuangCao_DiemDatQuangCao");
+
+
+                entity.HasOne(e => e.BangQuangCao)
+                .WithMany(e => e.PhieuCapPhepSuaQuangCaos)
+                .HasForeignKey(e => e.IdBangQuangCao)
+                .HasConstraintName("Fk_PhieuCapPhepSuaQuangCao_BangQuangCao");
             });
         }
     }
