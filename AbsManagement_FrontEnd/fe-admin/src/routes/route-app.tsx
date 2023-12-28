@@ -12,6 +12,8 @@ import LoaiViTriFeature from "../pages/loaiViTri";
 import LoaiBangQuangCaoFeature from "../pages/loaiBangQuangCao";
 import HinhThucQuangCaoFeature from "../pages/hinhThucQuangCao";
 import HinhThucBaoCaoFeature from "../pages/hinhThucBaoCao";
+import HomeFeature from "../pages/home";
+import DiemDatQuangCaoFeature from "../pages/diemDatQuangCao";
 
 const router = createBrowserRouter([
   {
@@ -22,8 +24,8 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1>Trang chủ</h1>,
-        loader:protectedLoader,
+        Component: HomeFeature,
+        // loader:protectedLoader,
       },
       {
         path:"*",
@@ -31,13 +33,13 @@ const router = createBrowserRouter([
       },
       {
         path: ConfigRoute.CanBoSo.BangQuangCao,
-        loader:protectedLoader,
+        // loader:protectedLoader,
         Component:BangQuangCaoFeature
       },
       {
         path: ConfigRoute.CanBoSo.DiemDatQuangCao,
-        loader:protectedLoader,
-        Component:Home
+        // loader:protectedLoader,
+        Component:DiemDatQuangCaoFeature
       },
       //Route cán bộ sở
       {

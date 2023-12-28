@@ -41,6 +41,16 @@ export const ConfigUrlApi = {
             DanhSach:"/canbo/danhsach",
             TaoMoi: "/canbo/taomoi",
             CapNhat: "/canbo/capnhat/"
+        },
+        BaoCaoViPham:{
+            DanhSach:"/baocaovipham?",
+            TaoMoi: "/baocaovipham/taomoi",
+            CapNhat: "/baocaovipham/capnhat/"
+        },
+        DiemDatQuangCao:{
+            DanhSach:"/diemdatquangcao?",
+            TaoMoi: "/diemdatquangcao/taomoi",
+            CapNhat: "/diemdatquangcao/capnhat/"
         }
     }
 }

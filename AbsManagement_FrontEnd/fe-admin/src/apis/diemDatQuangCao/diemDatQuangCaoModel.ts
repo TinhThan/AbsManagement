@@ -1,28 +1,28 @@
 interface BaseDiemDatQuangCao {
-    DiaChi: string;
-    Phuong: string;
-    Quan: string;
-    DanhSachViTri: string[];
-    TenLoaiViTri: string;
-    TenHinhThucQuangCao: string;
-    DanhSachHinhAnh: string[];
-    IdTinhTrang: string;
+    diaChi: string;
+    phuong: string;
+    quan: string;
+    danhSachViTri: number[];
+    tenLoaiViTri: string;
+    tenHinhThucQuangCao: string;
+    danhSachHinhAnh: string[];
+    idTinhTrang: string;
 }
 
 export interface DiemDatQuangCaoModel extends BaseDiemDatQuangCao{
-    Id: number;
-    NgayCapNhat: Date | null;
+    id: number;
+    ngayCapNhat: Date | null;
 }
 
 export interface CapNhatDiemDatQuangCaoModel extends BaseDiemDatQuangCao{
-    Id: number;
-    NgayCapNhat: Date | null;
+    id: number;
+    ngayCapNhat: Date | null;
 }
 
 export interface ThemDiemDatQuangCaoModel extends BaseDiemDatQuangCao{
 }
 
 export interface XoaDiemDatQuangCaoModel{
-    Id: number;
-    NgayCapNhat: Date | null;
+    id: number;
+    ngayCapNhat: Date | null;
 }

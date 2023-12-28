@@ -8,6 +8,7 @@ namespace AbsManagementAPI.Core.Models.BaoCaoViPham
         public int? IdCanBoXuLy { get; set; }
         public int? IdBangQuangCao { get; set; }
         public int? IdDiemDatQuangCao { get; set; }
+        public string TenHinhThucBaoCao { get; set; }
         public string HoTen { get; set; }
         public string Email { get; set; }
         public string SoDienThoai { get; set; }
@@ -22,7 +23,6 @@ namespace AbsManagementAPI.Core.Models.BaoCaoViPham
         public string Quan { get; set; }
         public DateTime CreateDate { get; set; }
 
-        public HinhThucBaoCaoEntity HinhThucBaoCao { get; set; }
         public DiemDatQuangCaoEntity DiemDatQuangCao { get; set; }
         public BangQuangCaoEntity BangQuangCao { get; set; }
         public CanBoEntity CanBoXuLy { get; set; }

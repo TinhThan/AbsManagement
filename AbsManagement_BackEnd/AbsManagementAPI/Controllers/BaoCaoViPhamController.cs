@@ -4,6 +4,7 @@ using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Command;
 using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Query;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models;
 using AbsManagementAPI.Core.Models.BangQuangCao;
 using AbsManagementAPI.Core.Models.BaoCaoViPham;
 using MediatR;
@@ -56,9 +57,12 @@ namespace AbsManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BaoCaoViPhamModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        public async Task<List<BaoCaoViPhamModel>> DanhSach()
+        public async Task<List<BaoCaoViPhamModel>> DanhSach([FromQuery] AddressSearchModel addressSearchModel)
         {
-            return await _mediator.Send(new DanhSachBaoCaoViPhamQuery());
+            return await _mediator.Send(new DanhSachBaoCaoViPhamQuery()
+            {
+                addressSearchModel = addressSearchModel
+            });
         }
 
 

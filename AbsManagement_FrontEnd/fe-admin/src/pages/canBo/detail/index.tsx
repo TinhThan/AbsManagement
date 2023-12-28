@@ -4,7 +4,7 @@ import { CanBoModel } from '../../../apis/canBo/canBoModel';
 import { FormatTime } from '../../../utils';
 import ModalDetail from '../../../components/Modal/modalDetail';
 import dayjs from 'dayjs';
-import { getDistrictByCode, getWardByCode } from '../../../utils/getWard';
+import { getDistrict, getDistrictByCode, getWardByDistrict } from '../../../utils/getWard';
 
 interface Props {
   onCancel: () => void;
@@ -53,7 +53,7 @@ export function ModalDetailCanBo(props: Props): JSX.Element {
           <Input value={roleCanBos[canBo.role]} readOnly />
         </Form.Item>
         <Form.Item label={"Nơi công tác"}>
-          <Input value={ canBo.noiCongTac.length > 0 ? canBo.noiCongTac.length > 1 ? `Phường ${getWardByCode(canBo.noiCongTac[0],canBo.noiCongTac[1]).name}, Quận ${getDistrictByCode(canBo.noiCongTac[0]).name}`: `Quận ${getDistrictByCode(canBo.noiCongTac[0]).name}` : ''} readOnly />
+          <Input value={ canBo.noiCongTac.length > 0 ? canBo.noiCongTac.length > 1 ? `Phường ${getWardByDistrict(canBo.noiCongTac[0],canBo.noiCongTac[1]).name}, Quận ${getDistrict(canBo.noiCongTac[0]).name}`: `Quận ${getDistrictByCode(canBo.noiCongTac[0]).name}` : ''} readOnly />
         </Form.Item>
       </Col>
     </ModalDetail>

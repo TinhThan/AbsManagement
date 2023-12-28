@@ -28,8 +28,8 @@ function getItem(
 }
 
 const itemDefaults: MenuItem[] = [
-  getItem('Điểm đặt quảng cáo', ConfigRoute.CanBoSo.DiemDatQuangCao, undefined, undefined,undefined),
-  getItem('Bảng quảng cáo', ConfigRoute.CanBoSo.BangQuangCao, undefined, undefined,undefined),
+  getItem(<Link to={ConfigRoute.CanBoSo.DiemDatQuangCao}>Điểm đặt quảng cáo</Link>, ConfigRoute.CanBoSo.DiemDatQuangCao, undefined, undefined,undefined),
+  getItem(<Link to={ConfigRoute.CanBoSo.BangQuangCao}>Bảng quảng cáo</Link>, ConfigRoute.CanBoSo.BangQuangCao, undefined, undefined,undefined),
 ];
 
 interface Props {

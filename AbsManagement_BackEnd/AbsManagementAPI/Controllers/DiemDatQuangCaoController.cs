@@ -3,6 +3,7 @@ using AbsManagementAPI.Core.CQRS.DiemDatBangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.DiemDatQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.DiemDatQuangCao.Query;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models;
 using AbsManagementAPI.Core.Models.DiemDatQuangCao;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -52,9 +53,12 @@ namespace AbsManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<DiemDatQuangCaoModel>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        public async Task<List<DiemDatQuangCaoModel>> DanhSach(int id)
+        public async Task<List<DiemDatQuangCaoModel>> DanhSach([FromQuery]AddressSearchModel addressSearchModel)
         {
-            return await _mediator.Send(new DanhSachDiemDatQuangCaoQuery());
+            return await _mediator.Send(new DanhSachDiemDatQuangCaoQuery()
+            {
+                AddressSearchModel = addressSearchModel
+            });
         }
 
         /// <summary>
