@@ -1,26 +1,12 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
-import styled from 'styled-components';
+import { Form } from 'antd';
+import CustomComponent from '../assets/themes/custom-components';
+import { Link } from 'react-router-dom';
 
 interface LoginFormProps {
   onSubmit: (values: any) => void;
   [key: string]: any;
 }
-
-const InputStyle = styled(Input)`
-  min-height: 40px;
-`
-
-const InputPasswordStyle = styled(Input.Password)`
-  min-height: 40px;
-`
-
-const BtnSubmitStyle = styled(Button)`
-  width: 100%;
-  min-height: 38px;
-  background-color: #1890ff;
-  margin-top: 2rem;
-`
 
 const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, ...props }) => {
   const onFinish = (values: any) => {
@@ -29,7 +15,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, ...props }) => {
 
   return (
     <div {...props}>
-      <p className="text-4xl font-bold">Welcome back</p>
+      <p className="text-3xl font-bold">Welcome AbsManagement</p>
       <p className='text-lg mb-6'>Login to the Dashboard</p>
       <Form
         name="login-form"
@@ -41,7 +27,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, ...props }) => {
           dependencies={['email']}
           rules={[{ required: true, message: 'Vui lòng nhập mail!' }, { type: 'email', message: 'Email không hợp lệ!' }]}
         >
-          <InputStyle placeholder="Email" />
+          <CustomComponent.InputStyle placeholder="Email" />
         </Form.Item>
 
         <Form.Item
@@ -49,19 +35,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, ...props }) => {
           dependencies={['password']}
           rules={[{ required: true, message: 'Vui lòng nhập mật khẩu!' }]}
         >
-          <InputPasswordStyle placeholder="Password" />
+          <CustomComponent.InputPasswordStyle placeholder="Password" />
         </Form.Item>
 
         <div className='text-right'>
-          <a className='inline text-[#1890ff]' href="/">Forgot password</a>
+          <Link className='inline text-[#1890ff]' to="/forgot-password">Forgot password</Link>
         </div>
 
         <Form.Item>
-          <BtnSubmitStyle type="primary" htmlType="submit">
+          <CustomComponent.BtnSubmitStyle type="primary" htmlType="submit">
             Log in
-          </BtnSubmitStyle>
+          </CustomComponent.BtnSubmitStyle>
           <div>
-            Don't have an account <a className='inline text-[#1890ff]' href="/">sign up</a>
+            Don't have an account? <Link to="/" className='inline text-[#1890ff]'>Sign up</Link>
           </div>
         </Form.Item>
       </Form>

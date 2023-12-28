@@ -1,10 +1,10 @@
 import {  createBrowserRouter,redirect  } from "react-router-dom";
 import { ConfigRoute } from "./ConfigRoute";
-import React from 'react';
 import App from "../pages/app";
 import BangQuangCaoFeature from "../pages/bangQuangCao";
 import Home from "../pages/home";
 import Login from "../pages/auth/Login";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 import NotFoundFeature from '../pages/notFound/index';
 import CanBoFeature, { RoleCanBo } from "../pages/canBo";
 import UserInfoStorage from "../storages/user-info";
@@ -12,6 +12,7 @@ import LoaiViTriFeature from "../pages/loaiViTri";
 import LoaiBangQuangCaoFeature from "../pages/loaiBangQuangCao";
 import HinhThucQuangCaoFeature from "../pages/hinhThucQuangCao";
 import HinhThucBaoCaoFeature from "../pages/hinhThucBaoCao";
+import ResetPassword from "../pages/auth/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,16 @@ const router = createBrowserRouter([
     path: ConfigRoute.Login,
     loader: loginLoader,
     Component: Login
+  },
+  {
+    path: ConfigRoute.ForgotPassword,
+    loader: loginLoader,
+    Component: ForgotPassword
+  },
+  {
+    path: ConfigRoute.ResetPassword,
+    loader: loginLoader,
+    Component: ResetPassword
   }
 ]);
 

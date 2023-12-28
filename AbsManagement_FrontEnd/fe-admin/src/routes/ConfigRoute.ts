@@ -1,5 +1,7 @@
 export const ConfigRoute = {
     Login: '/login',
+    ForgotPassword: '/forgot-password',
+    ResetPassword: '/reset-password',
     Home: '/',
     ThongTinCaNhan:"/thong-tin-ca-nhan",
     CanBoSo:{

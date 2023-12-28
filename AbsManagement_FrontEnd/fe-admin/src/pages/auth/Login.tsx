@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from 'react';
 import LoginForm from '../../components/LoginForm';
-import { Card, Spin } from 'antd';
+import { Spin } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { PageLoading } from '@ant-design/pro-components';
 import UserInfoStorage from '../../storages/user-info';

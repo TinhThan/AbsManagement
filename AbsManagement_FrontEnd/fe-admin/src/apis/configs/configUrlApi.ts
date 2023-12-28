@@ -2,6 +2,9 @@ export const ConfigUrlApi = {
     Urls: {
         User:{
             Login: '/auth/login',
+            ForgotPassword: '/auth/forgot-password',
+            ResetPassword: '/auth/reset-password',
+            ValidOTP: '/auth/validation-OTP',
             Logout: '/logout',
             RefreshToken:'/auth/refreshtoken'
         },
