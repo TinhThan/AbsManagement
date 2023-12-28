@@ -46,9 +46,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, ...props }) => {
           <CustomComponent.BtnSubmitStyle type="primary" htmlType="submit">
             Log in
           </CustomComponent.BtnSubmitStyle>
-          <div>
-            Don't have an account? <Link to="/" className='inline text-[#1890ff]'>Sign up</Link>
-          </div>
         </Form.Item>
       </Form>
     </div>

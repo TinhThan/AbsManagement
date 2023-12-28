@@ -91,9 +91,6 @@ export const ForgotPasswordForm: FC<ForgotPasswordProps> = ({ onSubmit, ...props
               <CustomComponent.BtnSubmitStyle type="primary" htmlType="submit">
                 Continue
               </CustomComponent.BtnSubmitStyle>
-              <div>
-                Don't have an account? <Link to="/" className='inline text-[#1890ff]'>Sign up</Link>
-              </div>
             </Form.Item>
           </Form>
 
