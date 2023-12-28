@@ -15,6 +15,7 @@ import { diemDatQuangCaoAPI } from '../../apis/diemDatQuangCao';
 import UserInfoStorage from '../../storages/user-info';
 import { UserStorage } from '../../apis/auth/user';
 import { ModalDetailDiemDatQuangCao } from './detail';
+import { ModalUpdateDiemDatQuangCao } from './update';
 
 const { Search } = Input;
 
@@ -32,16 +33,13 @@ export default function DiemDatQuangCaoFeature(): JSX.Element {
     }
 
     function onUpdateClick(model: DiemDatQuangCaoModel){
-    //   const capNhatDiemDatQuangCaoModel: CapNhatDiemDatQuangCaoModel = {
-    //     ...model,
-    //     phuong:model.noiCongTac[1],
-    //     quan:model.noiCongTac[0],
-    //     ngaySinh: dayjs(model.ngaySinh)
-    //   };
-    //   const _root = renderModal(<ModalUpdateDiemDatQuangCao onCancel={() => {
-    //     _root?.unmount()
-    //     getDiemDatQuangCaos()
-    //   }} diemDatQuangCao={capNhatDiemDatQuangCaoModel} />);
+        const capNhatDiemDatQuangCaoModel: CapNhatDiemDatQuangCaoModel = {
+            ...model
+        };
+        const _root = renderModal(<ModalUpdateDiemDatQuangCao onCancel={() => {
+            _root?.unmount()
+            getDiemDatQuangCaos()
+        }} diemDatQuangCao={capNhatDiemDatQuangCaoModel} />);
     }
 
     function onCreateClick(){
@@ -157,6 +155,12 @@ export default function DiemDatQuangCaoFeature(): JSX.Element {
                 overlayClassName='drop-down-button'
                 menu={{ items: [
                     {
+                        label: "Chi tiết",
+                        key: "1",
+                        icon: <EditOutlined />,
+                        onClick: ()=>onDetailClick(row),
+                    },
+                    {
                         label: "Cập nhật",
                         key: "1",
                         icon: <EditOutlined />,
@@ -192,13 +196,14 @@ export default function DiemDatQuangCaoFeature(): JSX.Element {
                     </Col>
                     </Row>
                     <Table columns={columns} dataSource={diemDatQuangCaos} 
-                    onRow={(record:DiemDatQuangCaoModel,rowIndex)=>{
-                        return {
-                            onClick: (e) => {
-                                onDetailClick(record);
-                            }
-                        }
-                    }}>
+                    // onRow={(record:DiemDatQuangCaoModel,rowIndex)=>{
+                    //     return {
+                    //         onClick: (e) => {
+                    //             onDetailClick(record);
+                    //         }
+                    //     }
+                    // }}
+                    >
                     </Table>
                 </Space>
                 </Space>

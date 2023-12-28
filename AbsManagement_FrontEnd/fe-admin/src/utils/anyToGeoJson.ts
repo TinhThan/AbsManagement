@@ -21,6 +21,23 @@ export function SpaceToGeoJson(spaces: DiemDatQuangCaoModel[]): any {
     }
 }
 
+export function SpaceAnyToGeoJson(space: DiemDatQuangCaoModel | undefined): any {
+    return {
+        type: 'FeatureCollection',
+        features: {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: space?.danhSachViTri
+            },
+            properties: {
+                id:space?.id
+            },
+            id: space?.id
+        }
+    }
+}
+
 export function ReportToGeoJson(reports: BaoCaoViPhamModel[]):any {
     const geoJSONFeatures = reports.map(report => {
         return {
