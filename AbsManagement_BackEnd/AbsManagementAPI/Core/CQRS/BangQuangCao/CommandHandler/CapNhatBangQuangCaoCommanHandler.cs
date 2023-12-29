@@ -28,7 +28,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
             {
                 var bangQuangCaoCapNhat = _mapper.Map(request.CapNhatBangQuangCaoModel, bangQuangCao);
 
-                bangQuangCaoCapNhat.NgayCapNhat = DateTimeOffset.UtcNow;
+                bangQuangCaoCapNhat.NgayBatDau = DateTimeOffset.UtcNow;
                 _dataContext.Update(bangQuangCaoCapNhat);
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 if (resultCapNhat > 0)
