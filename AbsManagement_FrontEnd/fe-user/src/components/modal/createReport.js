@@ -17,7 +17,7 @@ const getBase64 = (file) =>
 });
 
 export default function ModalCreateReport(props) {
-    const { onCancel, location } = props;
+    const { onCancel, location, idBangQuangCao } = props;
     const [form] = Form.useForm();
     const editorRef = useRef(null)
     const [loading, setLoading] = useState(false);
@@ -45,6 +45,7 @@ export default function ModalCreateReport(props) {
             _model.quan = getDistrict(location.quan).postcode;
             _model.phuong = getWardByDistrict(_model.quan,location.phuong).postcode;
             _model.idDiemDatQuangCao = location.idDiemDatQuangCao;
+            _model.idBangQuangCao = idBangQuangCao
             _model.noiDung = editorRef.current.getContent()
             await axios.post(`${process.env.REACT_APP_BASE_API}api/baocaovipham/taomoi`,_model).then((response) => {
                 console.log("response",response)

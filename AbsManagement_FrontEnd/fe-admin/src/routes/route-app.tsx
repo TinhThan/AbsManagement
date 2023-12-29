@@ -2,7 +2,6 @@ import {  createBrowserRouter,redirect  } from "react-router-dom";
 import { ConfigRoute } from "./ConfigRoute";
 import App from "../pages/app";
 import BangQuangCaoFeature from "../pages/bangQuangCao";
-import Home from "../pages/home";
 import Login from "../pages/auth/Login";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import NotFoundFeature from '../pages/notFound/index';
@@ -13,6 +12,12 @@ import LoaiBangQuangCaoFeature from "../pages/loaiBangQuangCao";
 import HinhThucQuangCaoFeature from "../pages/hinhThucQuangCao";
 import HinhThucBaoCaoFeature from "../pages/hinhThucBaoCao";
 import ResetPassword from "../pages/auth/ResetPassword";
+import HomeFeature from "../pages/home";
+import DiemDatQuangCaoFeature from "../pages/diemDatQuangCao";
+import BaoCaoViPhamFeature from "../pages/baoCaoViPham";
+import ListBaoCaoViPham from "../pages/baoCaoViPham/list";
+import DetailBaoCaoViPham from "../pages/baoCaoViPham/detail";
+import UpdateBaoCaoViPham from "../pages/baoCaoViPham/update";
 
 const router = createBrowserRouter([
   {
@@ -23,8 +28,8 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <h1>Trang chủ</h1>,
-        loader:protectedLoader,
+        Component: HomeFeature,
+        // loader:protectedLoader,
       },
       {
         path:"*",
@@ -32,13 +37,36 @@ const router = createBrowserRouter([
       },
       {
         path: ConfigRoute.CanBoSo.BangQuangCao,
-        loader:protectedLoader,
+        // loader:protectedLoader,
         Component:BangQuangCaoFeature
       },
       {
         path: ConfigRoute.CanBoSo.DiemDatQuangCao,
-        loader:protectedLoader,
-        Component:Home
+        // loader:protectedLoader,
+        Component:DiemDatQuangCaoFeature
+      },
+      {
+        path: ConfigRoute.CanBoSo.BaoCaoViPham,
+        // loader:protectedLoader,
+        Component:BaoCaoViPhamFeature,
+        children: [
+          {
+            path:ConfigRoute.CanBoSo.BaoCaoViPham,
+            Component: ListBaoCaoViPham
+          },
+          {
+            path:`${ConfigRoute.CanBoSo.BaoCaoViPham}/:id`,
+            Component: DetailBaoCaoViPham
+          },
+          {
+            path:`${ConfigRoute.CanBoSo.BaoCaoViPham}/capnhat/:id`,
+            Component: UpdateBaoCaoViPham
+          },
+          {
+            path:"*",
+            Component: NotFoundFeature
+          }
+        ]
       },
       //Route cán bộ sở
       {

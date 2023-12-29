@@ -2,19 +2,17 @@ import React, {useEffect,useRef} from 'react'
 import mapboxgl from 'mapbox-gl'
 import { CloseCircleOutlined} from '@ant-design/icons'
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
-import pointInfo from '../points/pointInfo'
 import PropTypes from 'prop-types'
 import { Layout, Divider, Button} from 'antd';
 import { useState } from 'react';
-import SpaceInfo from '../points/spaceInfo'
-import {SpaceToGeoJson} from '../../utils/spaceToGeoJson'
-import { renderModal } from '../../utils/render-modal'
-import ModalCreateReport from '../modal/createReport'
 import axios from 'axios'
 import './style.scss'
-import CardPoint from '../card/point'
-import CardSurface from '../card/surface'
 import { cluterLayers, unclusteredLabelLayer, unclusteredLayer } from './layers'
+import { DiemDatQuangCaoModel } from '../../apis/diemDatQuangCao/diemDatQuangCaoModel'
+import { BangQuangCaoModel } from '../../apis/bangQuangCao/bangQuangCaoModel'
+import { SpaceToGeoJson } from '../../utils/anyToGeoJson'
+import pointInfo from '../point/pointInfo'
+import SpaceInfo from '../point/spaceInfo'
 
 const { Content, Sider } = Layout;
 
@@ -23,13 +21,21 @@ Map.propTypes = {
     setCollapsed: PropTypes.func,
 }
 
+export interface Location{
+    diaChi: string,
+    phuong: string,
+    quan: string,
+    lng: number,
+    lat: number
+}
+
 export default function Map() {
     const [collapsed, setCollapsed] = useState(true);
-    const [location,setLocation] = useState();
-    const [spaces,setSpaces] = useState([]); // điểm đặt quảng cáo
-    const [surfaces,setSurfaces] = useState([]); // bảng quảng cáo
+    const [location,setLocation] = useState<Location>();
+    const [spaces,setSpaces] = useState<DiemDatQuangCaoModel[]>([]); // điểm đặt quảng cáo
+    const [surfaces,setSurfaces] = useState<BangQuangCaoModel[]>([]); // bảng quảng cáo
 
-    mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_KEY;
+    mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_KEY || '';
 
     const mapContainerRef = useRef(null);
 
@@ -39,8 +45,7 @@ export default function Map() {
 
     useEffect(() => {
         const map = new mapboxgl.Map({
-            container: mapContainerRef.current,
-            language:'vi',
+            container: mapContainerRef.current || '',
             style: "mapbox://styles/mapbox/streets-v11",
             center: [106.707222, 10.752444], // Ho Chi Minh City
             zoom: 12,
@@ -48,7 +53,7 @@ export default function Map() {
         map.on("load", () => {
             map.addSource("points", {
                 type: "geojson",
-                data: SpaceToGeoJson(spaces),
+                data: SpaceToGeoJson(spaces) || undefined,
                 cluster: true,
                 clusterMaxZoom: 14,
                 clusterRadius: 50,
@@ -111,7 +116,7 @@ export default function Map() {
             setLocation(data)
             setSurfaces([])
             setCollapsed(false)
-            const point = pointInfo(data.diaChi);
+            const point = pointInfo(data?.diaChi);
             new mapboxgl.Popup({
                 closeOnClick: true,
                 closeButton: false,
@@ -121,43 +126,44 @@ export default function Map() {
                 .addTo(map);
         });
 
-        map.on('click', 'unclustered-point', async (e) => {
+        map.on('click', 'unclustered-point', async (e : any) => {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const description = e.features[0].properties;
 
             await getSurfaceBySpace(description.id)
             
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
             const space = spaces.find(t=>t.id === description.id);
-            console.log("space",space)
-            setLocation({
-                lng: coordinates[0],
-                lat: coordinates[1],
-                ...space
-            })
-            console.log("description",description)
-            setCollapsed(false)
-            new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(SpaceInfo(space))
-            .addTo(map);
+            if(space){
+                console.log("space",space)
+                setLocation({
+                    lng: coordinates[0],
+                    lat: coordinates[1],
+                    diaChi: space.diaChi,
+                    phuong: space.phuong,
+                    quan: space.quan
+                })
+                console.log("description",description)
+                setCollapsed(false)
+                new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(SpaceInfo(space))
+                .addTo(map);
+            }
         });
 
-        map.on('click', 'clusters', (e) => {
-            const features = map.queryRenderedFeatures(e.point, {
-            layers: ['clusters']
+        map.on('click', 'clusters', (e:any) => {
+            const features : any = map.queryRenderedFeatures(e.point, {
+                layers: ['clusters']
             });
             const clusterId = features[0].properties.cluster_id;
-            map.getSource('points').getClusterExpansionZoom(
+            const sources : any = map.getSource('points');
+            sources.getClusterExpansionZoom(
                 clusterId,
                 (err, zoom) => {
                 if (err) return;
-                
                 map.easeTo({
                 center: features[0].geometry.coordinates,
                 zoom: zoom
@@ -222,14 +228,14 @@ export default function Map() {
         }
     }
 
-    function onCreateReportClick(){
-        if(location){
-            const _root = renderModal(<ModalCreateReport onCancel={() => {
-                console.log("cancel")
-                _root?.unmount()
-            }} location={location}/> );
-        }
-    }
+    // function onCreateReportClick(){
+    //     if(location){
+    //         const _root = renderModal(<ModalCreateReport onCancel={() => {
+    //             console.log("cancel")
+    //             _root?.unmount()
+    //         }} location={location}/> );
+    //     }
+    // }
 
     return (
         <Layout hasSider>
@@ -247,9 +253,9 @@ export default function Map() {
                 collapsedWidth={0} collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 <Button style={{float:'right', margin:'0 0 10px 5px'}} onClick={()=>setCollapsed(!collapsed)} icon={<CloseCircleOutlined />} danger type='primary'></Button>
                 <Divider style={{marginTop:'5px', marginBottom:'5px'}}/> 
-                {location && <CardPoint location={location} onCreateReportClick={onCreateReportClick}/> }
+                {/* {location && <CardPoint location={location} onCreateReportClick={onCreateReportClick}/> }
                 <Divider style={{marginTop:'5px', marginBottom:'5px'}}/> 
-                <CardSurface surfaces={surfaces} location={location}/>
+                <CardSurface surfaces={surfaces} location={location}/> */}
             </Sider>
         </Layout>
     )

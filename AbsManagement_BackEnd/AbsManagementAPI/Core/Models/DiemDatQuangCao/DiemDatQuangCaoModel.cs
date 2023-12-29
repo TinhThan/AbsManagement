@@ -15,6 +15,6 @@ namespace AbsManagementAPI.Core.Models.DiemDatQuangCao
         public string TenHinhThucQuangCao { get; set; }
         public List<string> DanhSachHinhAnh { get; set; }
         public string IdTinhTrang { get; set; }
-        public virtual ICollection<BangQuangCaoEntity> BangQuangCaos { get; set; }
+        //public virtual ICollection<BangQuangCaoEntity> BangQuangCaos { get; set; }
     }
 }

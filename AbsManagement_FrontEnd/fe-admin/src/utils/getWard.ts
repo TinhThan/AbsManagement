@@ -20,8 +20,8 @@ export function getDistrictByCode(postcode:string) {
         };
 }
 
-export function getDistrictByName(name:string) {
-    const item = data[0].districts.find((obj) => name.includes(obj.name));
+export function getDistrict(district : string) {
+    const item = data[0].districts.find((obj) => district.includes(obj.name) || obj.postcode === district);
     if(item)
         return item;
     else
@@ -31,21 +31,9 @@ export function getDistrictByName(name:string) {
         };
 }
 
-export function getWardByCode(postcodeDistrict:string,postCodeWard:string) {
-    const district = data[0].districts.find((obj) => obj.postcode === postcodeDistrict);
-    const item = district?.ward.find((obj) => obj.postcode === postCodeWard);
-    if(item)
-        return item;
-    else
-        return {
-            name: "4",
-            postcode: "72711"
-        };
-}
-
-export function getWardByName(postcodeDistrict:string,name:string) {
-    const district = data[0].districts.find((obj) => obj.postcode === postcodeDistrict);
-    const item = district?.ward.find((obj) => name.includes(obj.name));
+export function getWardByDistrict(district:string, ward:string) {
+    const districtItem = data[0].districts.find((obj) => obj.postcode === district || district.includes(obj.name));
+    const item = districtItem?.ward.find((obj) => obj.postcode === ward || ward.includes(obj.name));
     if(item)
         return item;
     else

@@ -2,8 +2,9 @@ import React from 'react'
 import { Card } from 'antd'
 import ReactDOM from 'react-dom'
 import './style.scss'
+import { DiemDatQuangCaoModel } from '../../apis/diemDatQuangCao/diemDatQuangCaoModel';
 
-function SpaceInfo(space) {
+function SpaceInfo(space: DiemDatQuangCaoModel) {
   const card = document.createElement('div');
 
   ReactDOM.render(
