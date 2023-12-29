@@ -29,7 +29,7 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
                 bangQuangCao.DanhSachHinhAnh = PhieuCapPhepQuangCao.DanhSachHinhAnh;
                 bangQuangCao.NgayHetHan = PhieuCapPhepQuangCao.NgayHetHan;
                 bangQuangCao.NgayBatDau = PhieuCapPhepQuangCao.NgayBatDau;
-                bangQuangCao.IdTinhTrang = "Add";
+                bangQuangCao.IdTinhTrang = "DaQuyHoach";
 
                  await _dataContext.AddAsync(bangQuangCao);
                 _dataContext.Update(PhieuCapPhepQuangCao);

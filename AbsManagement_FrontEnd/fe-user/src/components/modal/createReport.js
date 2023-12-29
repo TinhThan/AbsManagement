@@ -159,7 +159,7 @@ export default function ModalCreateReport(props) {
             onFinish={onSubmit}
             >
             <Row gutter={[50,50]}>
-                <Col span={12}>
+                <Col span={12}> 
                     <Form.Item label={"Họ Tên"} name={"hoten"}>
                         <Input/>
                     </Form.Item>

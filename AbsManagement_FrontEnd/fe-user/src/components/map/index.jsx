@@ -7,14 +7,16 @@ import PropTypes from 'prop-types'
 import { Layout, Divider, Button} from 'antd';
 import { useState } from 'react';
 import SpaceInfo from '../points/spaceInfo'
-import {SpaceToGeoJson} from '../../utils/spaceToGeoJson'
+import {ReportToGeoJson, SpaceToGeoJson} from '../../utils/spaceToGeoJson'
 import { renderModal } from '../../utils/render-modal'
 import ModalCreateReport from '../modal/createReport'
 import axios from 'axios'
 import './style.scss'
 import CardPoint from '../card/point'
 import CardSurface from '../card/surface'
-import { cluterLayers, unclusteredLabelLayer, unclusteredLayer } from './layers'
+import { cluterLayersSpace, unclusteredLabelLayerSpace, unclusteredLayerSpace,
+        cluterLayersReport, unclusteredLabelLayerReport, unclusteredLayerReport } from './layers'
+import ReportInfo from '../points/reportInfo'
 
 const { Content, Sider } = Layout;
 
@@ -28,6 +30,7 @@ export default function Map() {
     const [location,setLocation] = useState();
     const [spaces,setSpaces] = useState([]); // điểm đặt quảng cáo
     const [surfaces,setSurfaces] = useState([]); // bảng quảng cáo
+    const [reports,setReports] = useState([]);
 
     mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_KEY;
 
@@ -35,6 +38,7 @@ export default function Map() {
 
     useEffect(()=>{
         getSpaces();
+        getReports();
     },[])
 
     useEffect(() => {
@@ -46,6 +50,8 @@ export default function Map() {
             zoom: 12,
         });
         map.on("load", () => {
+            
+            //Handle point space
             map.addSource("points", {
                 type: "geojson",
                 data: SpaceToGeoJson(spaces),
@@ -54,19 +60,45 @@ export default function Map() {
                 clusterRadius: 50,
             });
 
-            map.addLayer(cluterLayers);
+            map.addLayer(cluterLayersSpace);
     
-            map.addLayer(unclusteredLayer);
+            map.addLayer(unclusteredLayerSpace);
 
-            map.addLayer(unclusteredLabelLayer);
+            map.addLayer(unclusteredLabelLayerSpace);
 
-            map.on('mouseenter', 'unclustered-point', () => {
+            map.on('mouseenter', 'unclustered-space-point', () => {
                 map.getCanvas().style.cursor = 'pointer';
                 });
 
-            map.on('mouseleave', 'unclustered-point', () => {
+            map.on('mouseleave', 'unclustered-space-point', () => {
+                map.getCanvas().style.cursor = '';
+            });
+
+            //End hanlde point space
+
+            //Handle point report
+            map.addSource("reports", {
+                type: "geojson",
+                data: ReportToGeoJson(reports),
+                cluster: true,
+                clusterMaxZoom: 14,
+                clusterRadius: 50,
+            });
+
+            map.addLayer(cluterLayersReport);
+    
+            map.addLayer(unclusteredLayerReport);
+
+            map.addLayer(unclusteredLabelLayerReport);
+
+            map.on('mouseenter', 'unclustered-report-point', () => {
+                map.getCanvas().style.cursor = 'pointer';
+                });
+
+            map.on('mouseleave', 'unclustered-report-point', () => {
             map.getCanvas().style.cursor = '';
             });
+            //End handle report
         });
         
         //Add control
@@ -96,7 +128,7 @@ export default function Map() {
         //onclick mapp
         map.on("click", async (event) => {
             const featuresLayerClusters = map.queryRenderedFeatures(event.point, {
-                layers: ['clusters','unclustered-point']
+                layers: ['clusters-space','unclustered-space-point','clusters-report','unclustered-report-point']
             });
 
             if(featuresLayerClusters.length > 0)
@@ -121,7 +153,8 @@ export default function Map() {
                 .addTo(map);
         });
 
-        map.on('click', 'unclustered-point', async (e) => {
+        //Onclick space
+        map.on('click', 'unclustered-space-point', async (e) => {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const description = e.features[0].properties;
 
@@ -134,7 +167,6 @@ export default function Map() {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
             const space = spaces.find(t=>t.id === description.id);
-            console.log("space",space)
             setLocation({
                 lng: coordinates[0],
                 lat: coordinates[1],
@@ -148,9 +180,9 @@ export default function Map() {
             .addTo(map);
         });
 
-        map.on('click', 'clusters', (e) => {
+        map.on('click', 'clusters-space', (e) => {
             const features = map.queryRenderedFeatures(e.point, {
-            layers: ['clusters']
+            layers: ['clusters-space']
             });
             const clusterId = features[0].properties.cluster_id;
             map.getSource('points').getClusterExpansionZoom(
@@ -165,10 +197,57 @@ export default function Map() {
                 }
             );
         });
+        //End
+
+        //Onclick report
+        map.on('click', 'unclustered-report-point', async (e) => {
+            const coordinates = e.features[0].geometry.coordinates.slice();
+            const description = e.features[0].properties;
+
+            // await getSurfaceBySpace(description.id)
+            
+            // Ensure that if the map is zoomed out such that multiple
+            // copies of the feature are visible, the popup appears
+            // over the copy being pointed to.
+            while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+            }
+            const report = reports.find(t=>t.id === description.id);
+            setLocation({
+                lng: coordinates[0],
+                lat: coordinates[1],
+                ...report
+            })
+            console.log("description",description)
+            setCollapsed(false)
+            new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(ReportInfo(report))
+            .addTo(map);
+        });
+
+        map.on('click', 'clusters-report-space', (e) => {
+            const features = map.queryRenderedFeatures(e.point, {
+            layers: ['clusters-report-space']
+            });
+            const clusterId = features[0].properties.cluster_id;
+            map.getSource('points').getClusterExpansionZoom(
+                clusterId,
+                (err, zoom) => {
+                if (err) return;
+                
+                map.easeTo({
+                center: features[0].geometry.coordinates,
+                zoom: zoom
+                });
+                }
+            );
+        });
+        //End
 
         // Clean up on unmount
         return () => map.remove();
-    }, [spaces]);
+    }, [spaces,reports]);
 
     async function reverseGeocoding(lat,lng){
         try {
@@ -198,6 +277,21 @@ export default function Map() {
                 if(response && response.status === 200)
                 {
                     setSpaces(response.data)
+                }
+            }).catch((e)=>{
+                console.log(e)
+            });
+        } catch (error) {
+        console.log(error);
+        }
+    }
+    
+    async function getReports(){
+        try {
+            await axios.get(`${process.env.REACT_APP_BASE_API}api/baocaovipham`).then((response) => {
+                if(response && response.status === 200)
+                {
+                    setReports(response.data)
                 }
             }).catch((e)=>{
                 console.log(e)

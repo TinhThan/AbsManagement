@@ -18,3 +18,22 @@ export function SpaceToGeoJson(spaces) {
         features: geoJSONFeatures
     }
 }
+
+export function ReportToGeoJson(reports) {
+    const geoJSONFeatures = reports.map(report => {
+        return {
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: report.danhSachViTri // Là một mảng chứa [longitude, latitude]
+            },
+            properties: {
+                id:report.id
+            }
+        }
+    })
+    return {
+        type: 'FeatureCollection',
+        features: geoJSONFeatures
+    }
+}
