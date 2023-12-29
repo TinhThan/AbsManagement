@@ -44,6 +44,7 @@ export const ConfigUrlApi = {
         },
         BaoCaoViPham:{
             DanhSach:"/baocaovipham?",
+            ChiTiet:"/baocaovipham/",
             TaoMoi: "/baocaovipham/taomoi",
             CapNhat: "/baocaovipham/capnhat/"
         },

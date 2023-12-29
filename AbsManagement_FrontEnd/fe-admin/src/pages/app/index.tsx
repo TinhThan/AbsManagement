@@ -100,7 +100,7 @@ export default function App(): JSX.Element {
             menuExtraRender={({collapsed}) => renderMenuExtraRender(collapsed)}
             menuContentRender={renderMenu}
             >  
-            <Outlet/> 
+              <Outlet/> 
             </ProLayout>
     );
 }

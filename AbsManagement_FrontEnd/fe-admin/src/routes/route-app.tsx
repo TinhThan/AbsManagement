@@ -14,6 +14,10 @@ import HinhThucQuangCaoFeature from "../pages/hinhThucQuangCao";
 import HinhThucBaoCaoFeature from "../pages/hinhThucBaoCao";
 import HomeFeature from "../pages/home";
 import DiemDatQuangCaoFeature from "../pages/diemDatQuangCao";
+import BaoCaoViPhamFeature from "../pages/baoCaoViPham";
+import ListBaoCaoViPham from "../pages/baoCaoViPham/list";
+import DetailBaoCaoViPham from "../pages/baoCaoViPham/detail";
+import UpdateBaoCaoViPham from "../pages/baoCaoViPham/update";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +44,29 @@ const router = createBrowserRouter([
         path: ConfigRoute.CanBoSo.DiemDatQuangCao,
         // loader:protectedLoader,
         Component:DiemDatQuangCaoFeature
+      },
+      {
+        path: ConfigRoute.CanBoSo.BaoCaoViPham,
+        // loader:protectedLoader,
+        Component:BaoCaoViPhamFeature,
+        children: [
+          {
+            path:ConfigRoute.CanBoSo.BaoCaoViPham,
+            Component: ListBaoCaoViPham
+          },
+          {
+            path:`${ConfigRoute.CanBoSo.BaoCaoViPham}/:id`,
+            Component: DetailBaoCaoViPham
+          },
+          {
+            path:`${ConfigRoute.CanBoSo.BaoCaoViPham}/capnhat/:id`,
+            Component: UpdateBaoCaoViPham
+          },
+          {
+            path:"*",
+            Component: NotFoundFeature
+          }
+        ]
       },
       //Route cán bộ sở
       {

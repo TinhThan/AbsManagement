@@ -58,14 +58,14 @@ export function ModalUpdateDiemDatQuangCao(props: Props): JSX.Element {
             form.setFieldValue('idDiemDatQuangCao', "Phường " + getWardByDistrict(diemDatQuangCao.quan,diemDatQuangCao.phuong).name)
             const fileImages:UploadFile[] = [];
             for (const image of diemDatQuangCao.danhSachHinhAnh) {
-              const imageInfo: UploadFile = {
-                name: image,
-                uid: image,
-                status: 'done',
-                url: `${process.env.REACT_APP_BASE_API}Upload/image/${image}`,
-                thumbUrl: `${process.env.REACT_APP_BASE_API}Upload/image/${image}`,
-              };
-              fileImages.push(imageInfo);
+                const imageInfo: UploadFile = {
+                    name: image,
+                    uid: image,
+                    status: 'done',
+                    url: `${process.env.REACT_APP_BASE_API}Upload/image/${image}`,
+                    thumbUrl: `${process.env.REACT_APP_BASE_API}Upload/image/${image}`,
+                };
+                fileImages.push(imageInfo);
             }
             setFileList(fileImages)
             const useInfo = UserInfoStorage.get();

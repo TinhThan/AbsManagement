@@ -12,6 +12,12 @@ class BaoCaoViPhamAPI extends BaseApi {
       );
     }
 
+    async ChiTiet(id:number | null) {
+      return this.get(
+      API_URL + ConfigUrlApi.Urls.BaoCaoViPham.DanhSach + id
+      );
+    }
+
     async TaoMoi(model: ThemMoiBaoCaoViPhamModel) {
         return this.post(
         API_URL + ConfigUrlApi.Urls.BaoCaoViPham.TaoMoi,
@@ -30,6 +36,7 @@ class BaoCaoViPhamAPI extends BaseApi {
 
 export interface IBaoCaoViPhamAPI {
   DanhSach(quan:string | null,phuong:string | null): Promise<AxiosResponse>;
+  ChiTiet(id:number | null): Promise<AxiosResponse>;
   TaoMoi(model: ThemMoiBaoCaoViPhamModel): Promise<AxiosResponse>;
   CapNhat(id:number,model: CapNhatBaoCaoViPhamModel): Promise<AxiosResponse>;
 }

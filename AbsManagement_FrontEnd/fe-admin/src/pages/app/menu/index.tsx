@@ -30,6 +30,7 @@ function getItem(
 const itemDefaults: MenuItem[] = [
   getItem(<Link to={ConfigRoute.CanBoSo.DiemDatQuangCao}>Điểm đặt quảng cáo</Link>, ConfigRoute.CanBoSo.DiemDatQuangCao, undefined, undefined,undefined),
   getItem(<Link to={ConfigRoute.CanBoSo.BangQuangCao}>Bảng quảng cáo</Link>, ConfigRoute.CanBoSo.BangQuangCao, undefined, undefined,undefined),
+  getItem(<Link to={ConfigRoute.CanBoSo.BaoCaoViPham}>Báo cáo vi phạm</Link>, ConfigRoute.CanBoSo.BaoCaoViPham, undefined, undefined,undefined),
 ];
 
 interface Props {

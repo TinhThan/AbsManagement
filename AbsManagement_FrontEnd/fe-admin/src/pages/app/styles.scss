@@ -85,12 +85,24 @@ $radius-border: 40px;
 .ant-layout-sider {
   background: linear-gradient(180deg, #58b0e3 0%, #3155a6 43.75%) !important;
   .ant-layout-content {
-    margin: 10px 15px !important;
+    position: relative;
   }
 }
-.ant-layout-content {
-  margin: 10px 15px !important;
+
+.layout-basic-page {
+  border-radius: 10px;
+  background-color: white;
+  padding: 10px;
 }
+
+// .ant-layout-content {
+//   margin: 10px 15px !important;
+// }
+
+.ant-pro-basicLayout-content {
+  margin: 20px !important;
+}
+
 .menu-hierarchy {
   background: white;
   padding: 10px;
