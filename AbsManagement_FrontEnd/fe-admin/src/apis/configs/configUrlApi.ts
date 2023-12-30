@@ -53,6 +53,7 @@ export const ConfigUrlApi = {
         },
         DiemDatQuangCao:{
             DanhSach:"/diemdatquangcao?",
+            ChiTiet:"/diemdatquangcao/chitiet/",
             TaoMoi: "/diemdatquangcao/taomoi",
             CapNhat: "/diemdatquangcao/capnhat/"
         }

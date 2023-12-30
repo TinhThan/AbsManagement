@@ -1,5 +1,10 @@
-// .map-container{
-//     width: 500px;
-//     height: 600px;
-// }
+.map-container-space{
+    width: 500px;
+    height: 400px;
+
+    position: relative;
+    #map{
+        position: absolute; top: 0; bottom: 0; width: 100%;
+    }
+}
 

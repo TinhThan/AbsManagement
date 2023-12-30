@@ -53,7 +53,7 @@ namespace AbsManagementAPI
 
             app.UseCors(builder =>
             {
-                builder.WithOrigins("http://localhost:3000")
+                builder.WithOrigins("http://localhost:3000", "http://localhost:3001")
                     .AllowAnyHeader()
                     .WithMethods("GET", "POST")
                     .AllowCredentials();

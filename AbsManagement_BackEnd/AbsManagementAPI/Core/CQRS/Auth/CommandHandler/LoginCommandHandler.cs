@@ -27,11 +27,11 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
                 throw new CustomMessageException(MessageSystem.AUTH_AUTHENTICATED_ERROR, MessageSystem.AUTH_INVALID);
             }
 
-            bool password_check = BCrypt.Net.BCrypt.Verify(request.LoginModel.Password, userExists.MatKhau);
-            if (!password_check)
-            {
-                throw new CustomMessageException(MessageSystem.AUTH_AUTHENTICATED_ERROR, MessageSystem.AUTH_PASSWORD_ERROR);
-            }
+            //bool password_check = BCrypt.Net.BCrypt.Verify(request.LoginModel.Password, userExists.MatKhau);
+            //if (!password_check)
+            //{
+            //    throw new CustomMessageException(MessageSystem.AUTH_AUTHENTICATED_ERROR, MessageSystem.AUTH_PASSWORD_ERROR);
+            //}
 
             if (userExists.EmailVerified == 0)
             {

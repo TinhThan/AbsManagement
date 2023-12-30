@@ -274,15 +274,16 @@ export default function Map() {
     async function getSpaces(){
         try {
             await axios.get(`${process.env.REACT_APP_BASE_API}api/diemdatquangcao`).then((response) => {
+                console.log("resone",response)
                 if(response && response.status === 200)
                 {
                     setSpaces(response.data)
                 }
             }).catch((e)=>{
-                console.log(e)
+                console.log("error1",e)
             });
         } catch (error) {
-        console.log(error);
+            console.log("error2",error);
         }
     }
     

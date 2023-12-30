@@ -13,18 +13,20 @@ import HinhThucQuangCaoFeature from "../pages/hinhThucQuangCao";
 import HinhThucBaoCaoFeature from "../pages/hinhThucBaoCao";
 import ResetPassword from "../pages/auth/ResetPassword";
 import HomeFeature from "../pages/home";
-import DiemDatQuangCaoFeature from "../pages/diemDatQuangCao";
 import BaoCaoViPhamFeature from "../pages/baoCaoViPham";
 import ListBaoCaoViPham from "../pages/baoCaoViPham/list";
 import DetailBaoCaoViPham from "../pages/baoCaoViPham/detail";
 import UpdateBaoCaoViPham from "../pages/baoCaoViPham/update";
+import ListDiemDatQuangCao from "../pages/diemDatQuangCao/list";
+import { DetailDiemDatQuangCao } from "../pages/diemDatQuangCao/detail";
+import DiemDatQuangCaoFeature from "../pages/diemDatQuangCao";
 
 const router = createBrowserRouter([
   {
     id: "root",
     path: "/",
     Component: App,  
-    errorElement: <NotFoundFeature/>,
+    // errorElement: <div>Error</div>,
     children: [
       {
         index: true,
@@ -43,7 +45,25 @@ const router = createBrowserRouter([
       {
         path: ConfigRoute.CanBoSo.DiemDatQuangCao,
         // loader:protectedLoader,
-        Component:DiemDatQuangCaoFeature
+        Component: DiemDatQuangCaoFeature,
+        children: [
+          {
+            path:ConfigRoute.CanBoSo.DiemDatQuangCao,
+            Component: ListDiemDatQuangCao
+          },
+          {
+            path:`${ConfigRoute.CanBoSo.DiemDatQuangCao}/:id`,
+            Component: DetailDiemDatQuangCao
+          },
+          {
+            path:`${ConfigRoute.CanBoSo.DiemDatQuangCao}/capnhat/:id`,
+            Component: UpdateBaoCaoViPham
+          },
+          {
+            path:"*",
+            Component: NotFoundFeature
+          }
+        ]
       },
       {
         path: ConfigRoute.CanBoSo.BaoCaoViPham,

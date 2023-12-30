@@ -84,6 +84,11 @@ export default function App(): JSX.Element {
     }
 
     return (
+      <div
+      style={{
+        height: '100vh',
+      }}
+    >
             <ProLayout        
             collapsed={collapse}
             fixSiderbar
@@ -102,5 +107,6 @@ export default function App(): JSX.Element {
             >  
               <Outlet/> 
             </ProLayout>
+            </div>
     );
 }
