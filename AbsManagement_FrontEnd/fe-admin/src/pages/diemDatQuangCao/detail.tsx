@@ -1,4 +1,4 @@
-import { Card, Col, Image, Form, Input, Row, Space, Tooltip } from 'antd';
+import { Card, Col, Image, Form, Input, Row, Space, Tooltip, Button, Empty } from 'antd';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import imageIcon from "../../assets/Image.svg";
 import { DiemDatQuangCaoModel } from '../../apis/diemDatQuangCao/diemDatQuangCaoModel';
@@ -15,6 +15,7 @@ import SpaceInfo from '../../components/point/spaceInfo';
 import { PageLoading } from '@ant-design/pro-components';
 import { diemDatQuangCaoAPI } from '../../apis/diemDatQuangCao';
 import { useParams } from 'react-router-dom';
+import TextArea from 'antd/es/input/TextArea';
 
 
 export function DetailDiemDatQuangCao(): JSX.Element {   
@@ -52,9 +53,12 @@ export function DetailDiemDatQuangCao(): JSX.Element {
 
     mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_KEY || '';
     useEffect(() => {
-        
+        if(! mapContainerRef.current)
+        {
+            return;
+        }
         const map = new mapboxgl.Map({
-            container: mapContainerRef.current || '',
+            container: mapContainerRef.current,
             style: "mapbox://styles/mapbox/streets-v11",
             center: [diemDatQuangCao?.danhSachViTri[0] ||106.707222,diemDatQuangCao?.danhSachViTri[1] || 10.752444], // Ho Chi Minh City
             zoom: 12,
@@ -76,6 +80,8 @@ export function DetailDiemDatQuangCao(): JSX.Element {
                 }),
                 "bottom-right"
             );
+
+            map.addControl(new mapboxgl.FullscreenControl());
         
             const geocoder = new MapboxGeocoder({
                 accessToken: mapboxgl.accessToken, // Set the access token
@@ -117,38 +123,41 @@ export function DetailDiemDatQuangCao(): JSX.Element {
     }
 
 
-    // if (!diemDatQuangCao) {
-    //     return <></>;
-    // }
+    if (!diemDatQuangCao) {
+        return <></>;
+    }
     return (
         <>
         <Suspense fallback={<PageLoading/>}>
-            <Space direction='vertical' size={0}>
-                <Row gutter={[50,50]}>
-                    <Col span={12}>
-                        <Form.Item label={"Địa chỉ"}>
-                            <Tooltip placement='top' style={{ width: '100%' }} title={diemDatQuangCao?.diaChi}>
-                                <Input value={diemDatQuangCao?.diaChi} readOnly style={{ textOverflow: 'ellipsis' }} />
-                            </Tooltip>
-                        </Form.Item>
-                        <Form.Item label={"Phường"}>
-                            <Input value={"Phường " + getWardByDistrict(diemDatQuangCao?.quan || '',diemDatQuangCao?.phuong || '').name} readOnly/>
-                        </Form.Item>
-                        <Form.Item label={"Quận"}>
-                            <Input value={"Quận " + getDistrict(diemDatQuangCao?.quan || '').name} readOnly />
-                        </Form.Item>
-                        <Form.Item label={"Loại vị trí"}>
-                            <Input value={diemDatQuangCao?.tenLoaiViTri} readOnly/>
-                        </Form.Item>
-                        <Form.Item label={"Hình thức quảng cáo"}>
-                            <Input value={diemDatQuangCao?.tenHinhThucQuangCao} readOnly/>
-                        </Form.Item>
-                        <Form.Item label={"Tình trạng"}>
-                            <Input value={tinhTrangDiemDatQuangCao[diemDatQuangCao?.idTinhTrang  || 'ChuaXuLy']} readOnly />
-                        </Form.Item>
-                    </Col>
-                    <Col span={12}>
-                        <Space direction='vertical' style={{width:'100%'}}>
+                <Space className='space-button-on-top'>
+                    <Button danger ><b>Thoát</b></Button>
+                </Space>
+                <Form layout='vertical'>
+                    <Row gutter={[10,10]}>
+                        <Col span={14}>
+                            <Card title={<b>Thông tin điểm đặt quảng cáo</b>} bordered={false}>
+                                <Form.Item label={"Hình thức quảng cáo"}>
+                                    <Input value={diemDatQuangCao?.tenHinhThucQuangCao} readOnly/>
+                                </Form.Item>
+                                <Form.Item label={"Loại vị trí"}>
+                                    <Input value={diemDatQuangCao?.tenLoaiViTri} readOnly/>
+                                </Form.Item>
+                                <Form.Item label={"Phường"}>
+                                    <Input value={"Phường " + getWardByDistrict(diemDatQuangCao?.quan || '',diemDatQuangCao?.phuong || '').name} readOnly/>
+                                </Form.Item>
+                                <Form.Item label={"Quận"}>
+                                    <Input value={"Quận " + getDistrict(diemDatQuangCao?.quan || '').name} readOnly />
+                                </Form.Item>
+                                <Form.Item label={"Địa chỉ"}>
+                                        <TextArea value={diemDatQuangCao?.diaChi} rows={4} readOnly/>
+                                </Form.Item>
+                                <Form.Item label={"Tình trạng"}>
+                                    <Input value={tinhTrangDiemDatQuangCao[diemDatQuangCao?.idTinhTrang  || 'ChuaXuLy']} readOnly />
+                                </Form.Item>
+                            </Card>
+                        </Col>
+                    <Col span={10}>
+                        <Space direction='vertical' style={{width:'100%', marginBottom:'10px'}}>
                                 <Card
                                     className='card-avatar'
                                     bordered={false}
@@ -159,7 +168,7 @@ export function DetailDiemDatQuangCao(): JSX.Element {
                                     </Space>
                                     }
                                 >
-                                    {diemDatQuangCao && diemDatQuangCao.danhSachHinhAnh && diemDatQuangCao.danhSachHinhAnh.length > 0 && 
+                                    {diemDatQuangCao && diemDatQuangCao.danhSachHinhAnh && diemDatQuangCao.danhSachHinhAnh.length > 0 ? 
                                         <Image.PreviewGroup>
                                             <Space direction='vertical' size={0} style={{marginBottom:'10px'}}>
                                                 {diemDatQuangCao.danhSachHinhAnh.length > 1 ? (
@@ -170,15 +179,20 @@ export function DetailDiemDatQuangCao(): JSX.Element {
                                                 </Space>
                                                 ):<Image width={150} height={150}  src={`${process.env.REACT_APP_BASE_API}Upload/image/${diemDatQuangCao.danhSachHinhAnh[0]}`} alt='avatar' />}
                                             </Space>
-                                        </Image.PreviewGroup> }
+                                        </Image.PreviewGroup> :
+                                        <Empty/>}
                                 </Card>
                         </Space>
-                        <div className='map-container-space'>
-                            <div id="map" ref={mapContainerRef} className='map-container-space'/>
-                        </div>
+                        <Space style={{width:'100%'}}>
+                            <Card title={<b>Thông tin địa điểm</b>} bordered={false}>
+                                <div>
+                                    <div id="map" ref={mapContainerRef} className='map-container-space'/>
+                                </div>
+                            </Card>
+                        </Space>
                     </Col>
                 </Row>
-            </Space>
+            </Form>
         </Suspense>
     </>
     );

@@ -94,3 +94,21 @@ body {
 .ant-table-selection-column {
   border-right: none !important;
 }
+
+
+.ant-form-item {
+  margin-bottom: 10px !important;
+}
+
+.space-button-on-top{
+  display: flex;
+}
+
+.ant-pro-layout-content{
+  padding-block: 0px !important;
+  padding-inline: 10px !important;
+
+  .space-button-on-top{
+    margin: 10px 0px;
+  }
+}
