@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         Component: DiemDatQuangCaoFeature,
         children: [
           {
-            path:ConfigRoute.CanBoSo.DiemDatQuangCao,
+            path: ConfigRoute.CanBoSo.DiemDatQuangCao,
             Component: ListDiemDatQuangCao
           },
           {
@@ -75,13 +75,13 @@ const router = createBrowserRouter([
             Component: ListBaoCaoViPham
           },
           {
-            path:`${ConfigRoute.CanBoSo.BaoCaoViPham}/:id`,
+            path:`${ConfigRoute.CanBoSo.BaoCaoViPham}/chitiet`,
             Component: DetailBaoCaoViPham
           },
-          {
-            path:`${ConfigRoute.CanBoSo.BaoCaoViPham}/capnhat/:id`,
-            Component: UpdateBaoCaoViPham
-          },
+          // {
+          //   path:`${ConfigRoute.CanBoSo.BaoCaoViPham}/capnhat`,
+          //   Component: UpdateBaoCaoViPham
+          // },
           {
             path:"*",
             Component: NotFoundFeature

@@ -1,4 +1,4 @@
-import { Suspense, useState,useEffect } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import React from 'react';
 import { PageLoading } from '@ant-design/pro-components';
 import { Button, Col, Dropdown, Input, Row, Space, Spin, Table, TableColumnType } from 'antd';
@@ -9,7 +9,7 @@ import { getDistrict, getWardByDistrict } from '../../utils/getWard';
 import { baoCaoViPhamAPI } from '../../apis/baoCaoViPham';
 import UserInfoStorage from '../../storages/user-info';
 import { UserStorage } from '../../apis/auth/user';
-import { useNavigate } from 'react-router-dom';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 import { ConfigRoute } from '../../routes/ConfigRoute';
 
 const { Search } = Input;
@@ -21,14 +21,14 @@ export const tinhTrangBaoCaoViPham = {
 
 export default function ListBaoCaoViPham(): JSX.Element {
     const navigate = useNavigate();
-    const [baoCaoViPhams,setBaoCaoViPhams] = useState<BaoCaoViPhamModel[]>([]);
-    const [loading,setLoading] = useState(false);
-    const [user,setUser] = useState<UserStorage>();
+    const [baoCaoViPhams, setBaoCaoViPhams] = useState<BaoCaoViPhamModel[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState<UserStorage>();
     function onDetailClick(model) {
         // const _root = renderModal(<ModalDetailBaoCaoViPham onCancel={() => _root?.unmount()} baoCaoViPham={model} />);
     }
 
-    function onUpdateClick(model: BaoCaoViPhamModel){
+    function onUpdateClick(model: BaoCaoViPhamModel) {
         const capNhatBaoCaoViPhamModel: CapNhatBaoCaoViPhamModel = {
             ...model
         };
@@ -38,14 +38,14 @@ export default function ListBaoCaoViPham(): JSX.Element {
         // }} baoCaoViPham={capNhatBaoCaoViPhamModel} />);
     }
 
-    function onCreateClick(){
+    function onCreateClick() {
         // const _root = renderModal(<ModalCreateBaoCaoViPham onCancel={() => {
         //     _root?.unmount()
         //     getBaoCaoViPhams()
         // }}/>);
     }
 
-    function onDeleteClick(){
+    function onDeleteClick() {
 
     }
 
@@ -53,25 +53,29 @@ export default function ListBaoCaoViPham(): JSX.Element {
         setLoading(true);
         getBaoCaoViPhams();
         const useInfo = UserInfoStorage.get();
-        if(useInfo)
-        {
+        if (useInfo) {
             setUser(useInfo);
         }
         setLoading(false);
     }, [])
-    
+
 
     async function getBaoCaoViPhams() {
         baoCaoViPhamAPI
-            .DanhSach(user?.noiCongTac[0] || '',user?.noiCongTac[1] || '')
+            .DanhSach(user?.noiCongTac[0] || '', user?.noiCongTac[1] || '')
             .then((response) => {
-                if(response && response.status === 200)
-                {
-                    setBaoCaoViPhams(response.data || []);
+                if (response && response.status === 200) {
+                    const newData = response.data.map((item: any) => {
+                        return {
+                            ...item,
+                            key: item.id
+                        }
+                    })
+                    setBaoCaoViPhams(newData || []);
                 }
             });
     }
-    
+
     const columns: TableColumnType<BaoCaoViPhamModel>[] = [
         {
             title: 'Id',
@@ -79,7 +83,7 @@ export default function ListBaoCaoViPham(): JSX.Element {
             key: 'id',
             width: 80,
             fixed: true,
-            showSorterTooltip:false
+            showSorterTooltip: false
         },
         {
             title: "Tên người gữi",
@@ -116,29 +120,29 @@ export default function ListBaoCaoViPham(): JSX.Element {
             dataIndex: 'diaChi',
             key: 'diaChi',
             ellipsis: true,
-            showSorterTooltip:false
+            showSorterTooltip: false
         },
         {
             title: "Phường",
             width: 200,
             sorter: true,
             dataIndex: 'phuong',
-            key: 'phuong',            
-            render:(value: string,record: BaoCaoViPhamModel) => {
-                return "Phường " + getWardByDistrict(record.quan || '',record.phuong || '').name;
+            key: 'phuong',
+            render: (value: string, record: BaoCaoViPhamModel) => {
+                return "Phường " + getWardByDistrict(record.quan || '', record.phuong || '').name;
             },
-            showSorterTooltip:false
+            showSorterTooltip: false
         },
         {
             title: "Quận",
             width: 200,
             sorter: true,
             dataIndex: 'quan',
-            key: 'quan',            
-            render:(value: string,record: BaoCaoViPhamModel) => {
-                return "Quận " +getDistrict(record.quan || '').name;
+            key: 'quan',
+            render: (value: string, record: BaoCaoViPhamModel) => {
+                return "Quận " + getDistrict(record.quan || '').name;
             },
-            showSorterTooltip:false
+            showSorterTooltip: false
         },
         {
             title: "Tình trạng",
@@ -146,8 +150,8 @@ export default function ListBaoCaoViPham(): JSX.Element {
             sorter: true,
             dataIndex: 'idTinhTrang',
             key: 'idTinhTrang',
-            showSorterTooltip:false,
-            render: (value:string) => {
+            showSorterTooltip: false,
+            render: (value: string) => {
                 return tinhTrangBaoCaoViPham[value];
             },
         },
@@ -156,50 +160,64 @@ export default function ListBaoCaoViPham(): JSX.Element {
             width: 80,
             key: 'function',
             fixed: 'right',
-            render: (row:BaoCaoViPhamModel) => {
+            render: (row: BaoCaoViPhamModel) => {
                 return (
-                <Dropdown
-                destroyPopupOnHide
-                overlayClassName='drop-down-button'
-                menu={{ items: [
-                    {
-                        label: "Chi tiết",
-                        key: "1",
-                        icon: <EditOutlined />,
-                        onClick: ()=>navigate(`${ConfigRoute.CanBoSo.BaoCaoViPham}/${row.id}`),
-                    },
-                    {
-                        label: "Cập nhật",
-                        key: "1",
-                        icon: <EditOutlined />,
-                        onClick: ()=>navigate(`${ConfigRoute.CanBoSo.BaoCaoViPham}/capnhat/${row.id}`),
-                    }
-                ]}}
-                trigger={['click']}
-                >
-                <EllipsisOutlined />
-                </Dropdown>
+                    <Dropdown
+                        destroyPopupOnHide
+                        overlayClassName='drop-down-button'
+                        menu={{
+                            items: [
+                                {
+                                    label: "Chi tiết",
+                                    key: "1",
+                                    icon: <EditOutlined />,
+                                    // onClick: () => navigate(`${ConfigRoute.CanBoSo.BaoCaoViPham}/${row.id}`),
+                                    onClick: () => navigate({
+                                        pathname: `${ConfigRoute.CanBoSo.BaoCaoViPham}/chitiet`,
+                                        search: `?${createSearchParams({
+                                          id: row.id.toString()
+                                        })}`
+                                    })
+                                }
+                                // {
+                                //     label: "Cập nhật",
+                                //     key: "2",
+                                //     icon: <EditOutlined />,
+                                //     // onClick: () => navigate(`${ConfigRoute.CanBoSo.BaoCaoViPham}/capnhat/${row.id}`),
+                                //     onClick: () => navigate({
+                                //         pathname: `${ConfigRoute.CanBoSo.BaoCaoViPham}/capnhat`,
+                                //         search: `?${createSearchParams({
+                                //           id: row.id.toString()
+                                //         })}`
+                                //     })
+                                // }
+                            ]
+                        }}
+                        trigger={['click']}
+                    >
+                        <EllipsisOutlined />
+                    </Dropdown>
                 );
             }
         }
     ];
 
     return (
-        <Suspense fallback={<PageLoading/>}>
+        <Suspense fallback={<PageLoading />}>
             <Spin spinning={loading}>
                 <Space direction='vertical'>
-                <Space direction='vertical' size={0} className='layout-basic-page'>
-                    <Row wrap={false} gutter={5}>
-                    <Col flex='auto'>
-                    <Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
-                    </Col>
-                    <Col flex='none'>
-                        <Button shape='circle' size='large' type='primary' icon={<PlusOutlined />} onClick={onCreateClick} className={`btn-create`}></Button>
-                    </Col>
-                    </Row>
-                    <Table columns={columns} dataSource={baoCaoViPhams}>
-                    </Table>
-                </Space>
+                    <Space direction='vertical' size={0} className='layout-basic-page'>
+                        <Row wrap={false} gutter={5}>
+                            <Col flex='auto'>
+                                <Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
+                            </Col>
+                            <Col flex='none'>
+                                <Button shape='circle' size='large' type='primary' icon={<PlusOutlined />} onClick={onCreateClick} className={`btn-create`}></Button>
+                            </Col>
+                        </Row>
+                        <Table columns={columns} dataSource={baoCaoViPhams}>
+                        </Table>
+                    </Space>
                 </Space>
             </Spin>
         </Suspense>

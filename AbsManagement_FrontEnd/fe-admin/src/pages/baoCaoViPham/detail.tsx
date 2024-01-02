@@ -1,26 +1,38 @@
 import { PageLoading } from "@ant-design/pro-components";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { baoCaoViPhamAPI } from "../../apis/baoCaoViPham";
 import { BaoCaoViPhamModel } from "../../apis/baoCaoViPham/baoCaoViPhamModel";
-import { Button, Card, Col, Form, Input, Row, Space, Image } from "antd";
+import { Button, Card, Col, Form, Input, Row, Space, Image, Flex } from "antd";
 import { getDistrict, getWardByDistrict } from "../../utils/getWard";
 import { FileImageOutlined } from "@ant-design/icons";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function DetailBaoCaoViPham(): JSX.Element {
-    const [loading,setLoading] = useState(false);
-    const [baoCaoViPham,setBaoCaoViPham] = useState<BaoCaoViPhamModel>();
-    const [images,setImages] = useState<string[]>([]);
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const paramId = searchParams.get('id');
+    const [loading, setLoading] = useState(false);
+    const [baoCaoViPham, setBaoCaoViPham] = useState<BaoCaoViPhamModel>();
+    const [images, setImages] = useState<string[]>([]);
+    const [form] = Form.useForm();
 
-    async function getDetail(id: number) {
+    const onSubmited = () => {
+        form.submit();
+    }
+    const onFinish = (value: any) => {
+        console.log(value);
+    }
+
+    async function getDetail(id: string) {
         setLoading(true);
         await baoCaoViPhamAPI
-            .ChiTiet(id)
+            .ChiTiet(parseInt(id))
             .then((response) => {
-            if(response && response.status === 200){
+                if (response && response.status === 200) {
                     setLoading(false);
-                    setBaoCaoViPham(response.data);
-                    let fileImages:string[] = [];
-                    for (const image of response?.data.danhSachHinhAnh || []) {
+                    setBaoCaoViPham(response.data[0]);
+                    let fileImages: string[] = [];
+                    for (const image of response?.data[0].danhSachHinhAnh || []) {
                         if (image) {
                             fileImages.push(`${process.env.REACT_APP_BASE_API}Upload/image/${image}`);
                         }
@@ -33,46 +45,53 @@ export default function DetailBaoCaoViPham(): JSX.Element {
             });
     }
 
+    useEffect(() => {
+        if (paramId) getDetail(paramId);
+    }, [paramId])
+
     return (
-        <Suspense fallback={<PageLoading/>}>
+        <Suspense fallback={<PageLoading />}>
             <Space direction='vertical' size={0}>
-                <Button>Thoát</Button>
-                <Form className='form-layout'>
+                <Form
+                    form={form}
+                    className='form-layout'
+                    onFinish={onFinish}
+                >
                     <Row gutter={[20, 10]}>
-                    <Col span={12}>
-                        <Space direction='vertical' size={20}>
-                            <Row gutter={[20, 20]}>
-                                <Col span={12}>
-                                    <Card
-                                        title={<b>Thông tin người báo cáo</b>}
-                                        bordered={false}
-                                    >
-                                        <Form.Item label='Họ tên'>
-                                            <Input value={baoCaoViPham?.hoTen} readOnly />
-                                        </Form.Item>
-                                        <Form.Item label='Email'>
-                                            <Input value={baoCaoViPham?.email} readOnly />
-                                        </Form.Item>
-                                        <Form.Item label='Số điện thoại'>
-                                            <Input value={baoCaoViPham?.soDienThoai} readOnly />
-                                        </Form.Item>
-                                    </Card>
-                                </Col>
-                                <Col span={12}>
-                                <Card title={<b>Thông tin địa điểm</b>} bordered={false} className='card-money'>
-                                    <Form.Item label='Địa chỉ'>
-                                        <Input.TextArea value={baoCaoViPham?.diaChi} readOnly rows={3} autoSize={{ minRows: 3, maxRows: 5 }}/>
-                                    </Form.Item>
-                                    <Form.Item label='Phường'>
-                                        <Input value={`Phường ${getWardByDistrict(baoCaoViPham?.quan || '',baoCaoViPham?.phuong || '')}`} readOnly />
-                                    </Form.Item>
-                                    <Form.Item label='Quận'>
-                                        <Input value={`Quận ${getDistrict(baoCaoViPham?.quan || '')}`} readOnly />
-                                    </Form.Item>
-                                </Card>
-                                </Col>
-                            </Row>
-                            {/* <Row>
+                        <Col span={12}>
+                            <Space direction='vertical' size={20}>
+                                <Row gutter={[20, 20]}>
+                                    <Col span={12}>
+                                        <Card
+                                            title={<b>Thông tin người báo cáo {baoCaoViPham?.hoTen}</b>}
+                                            bordered={false}
+                                        >
+                                            <Form.Item label='Họ tên'>
+                                                <Input value={baoCaoViPham?.hoTen} readOnly />
+                                            </Form.Item>
+                                            <Form.Item label='Email'>
+                                                <Input value={baoCaoViPham?.email} readOnly />
+                                            </Form.Item>
+                                            <Form.Item label='Số điện thoại'>
+                                                <Input value={baoCaoViPham?.soDienThoai} readOnly />
+                                            </Form.Item>
+                                        </Card>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Card title={<b>Thông tin địa điểm</b>} bordered={false} className='card-money'>
+                                            <Form.Item label='Địa chỉ'>
+                                                <Input.TextArea value={baoCaoViPham?.diaChi} readOnly rows={3} autoSize={{ minRows: 3, maxRows: 5 }} />
+                                            </Form.Item>
+                                            <Form.Item label='Phường'>
+                                                <Input value={baoCaoViPham?.quan && baoCaoViPham?.phuong ? `Phường ${getWardByDistrict(baoCaoViPham?.quan || '', baoCaoViPham?.phuong || '')}` : ''} readOnly />
+                                            </Form.Item>
+                                            <Form.Item label='Quận'>
+                                                <Input value={baoCaoViPham?.quan ? `Quận ${getDistrict(baoCaoViPham?.quan || '')}` : ''} readOnly />
+                                            </Form.Item>
+                                        </Card>
+                                    </Col>
+                                </Row>
+                                {/* <Row>
                                 <Col span={24}>
                                 <Card title={<b>{t(nameof(() => vi.DinhTinh_DinhLuong))}</b>} bordered={false}>
                                     <Row gutter={[30, 10]}>
@@ -106,34 +125,39 @@ export default function DetailBaoCaoViPham(): JSX.Element {
                                 </Col>
                             </Row> */}
                             </Space>
-                    </Col>
-                    <Col span={12}>
-                        <Space direction='vertical'>
-                            <Card
-                                bordered={false}
-                                title={
-                                <b>
-                                    <FileImageOutlined /> {'Danh sách hình ảnh'}
-                                </b>
-                                }
-                            >
-                                <Image.PreviewGroup>
-                                <Space direction='vertical' size={0}>
-                                    <Image width='100%' height='100%' src={images[0]} alt='avatar' />
-                                    {images.length > 1 && (
-                                    <Space size={5}>
-                                        {images.map((t, index) => {
-                                        return <Image key={index.toString()} width='100%' height='100%' src={`${process.env.REACT_APP_BASE_API}Upload/image/${t}`} alt={index.toString()} />;
-                                        })}
-                                    </Space>
-                                    )}
-                                </Space>
-                                </Image.PreviewGroup>
-                            </Card>
-                        </Space>
-                    </Col>
+                        </Col>
+                        <Col span={12}>
+                            <Space direction='vertical'>
+                                <Card
+                                    bordered={false}
+                                    title={
+                                        <b>
+                                            <FileImageOutlined /> {'Danh sách hình ảnh'}
+                                        </b>
+                                    }
+                                >
+                                    <Image.PreviewGroup>
+                                        <Space direction='vertical' size={0}>
+                                            <Image width='100%' height='100%' src={images[0]} alt='avatar' />
+                                            {images.length > 1 && (
+                                                <Space size={5}>
+                                                    {images.map((t, index) => {
+                                                        return <Image key={index.toString()} width='100%' height='100%' src={`${process.env.REACT_APP_BASE_API}Upload/image/${t}`} alt={index.toString()} />;
+                                                    })}
+                                                </Space>
+                                            )}
+                                        </Space>
+                                    </Image.PreviewGroup>
+                                </Card>
+                            </Space>
+                        </Col>
                     </Row>
+
                 </Form>
+                <Flex gap="small" className="mt-9">
+                    <Button className="mb-4" onClick={() => navigate(-1)}>Trở về danh sách báo cáo</Button>
+                    <Button type="primary" onClick={() => onSubmited}>Cập nhật báo cáo</Button>
+                </Flex>
             </Space>
         </Suspense>
     );
