@@ -32,7 +32,7 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
 
             userExists.EmailVerified = 1;
             userExists.MatKhau = password;
-            userExists.NgayCapNhat = DateTimeOffset.UtcNow;
+            userExists.NgayCapNhat = DateTime.UtcNow;
 
             try
             {

@@ -17,7 +17,7 @@
         public string? RefreshToken { get; set; }
         public DateTimeOffset? RefreshTokenExpiryTime { get; set; }
         public string NoiCongTac { get; set; }
-        public DateTimeOffset? NgayCapNhat { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
         public int? EmailVerified { get; set; }
         public string? PasswordResetOTP { get; set; }
         public DateTime? PasswordResetOTPExpiration { get; set; }

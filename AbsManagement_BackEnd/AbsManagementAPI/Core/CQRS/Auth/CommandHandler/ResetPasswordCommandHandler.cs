@@ -26,7 +26,7 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
             try
             {
                 userExists.MatKhau = HelperIdentity.HashPasswordBCrypt(request.ResetPasswordModel.Password);
-                userExists.NgayCapNhat = DateTimeOffset.UtcNow;
+                userExists.NgayCapNhat = DateTime.UtcNow;
                 _dataContext.CanBos.Update(userExists);
                 var result = await _dataContext.SaveChangesAsync(cancellationToken);
                 if (result > 0)
