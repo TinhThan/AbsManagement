@@ -97,11 +97,14 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.CreateDate, desc => desc.Ignore())
                 .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.DanhSachHinhAnhXuLy, desc => desc.Ignore())
+                .ForMember(src => src.ApproveDate, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore());
 
             CreateMap<BaoCaoViPhamEntity, BaoCaoViPhamModel>()
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.DeserializeObject<List<string>>(e.DanhSachHinhAnh)))
                 .ForMember(src => src.DanhSachViTri, desc => desc.MapFrom(e => JsonConvert.DeserializeObject<List<decimal>>(e.ViTri)))
+                .ForMember(src => src.CanBoXuLy, desc => desc.Ignore())
                 .ForMember(src => src.TenHinhThucBaoCao, desc => desc.MapFrom(e => e.HinhThucBaoCao.Ten));
 
             #endregion
@@ -129,7 +132,6 @@ namespace AbsManagementAPI.Core
 
             CreateMap<CapNhatDiemDatQuangCaoModel, DiemDatQuangCaoEntity>()
                 .ForMember(src => src.Id, desc => desc.Ignore())
-                .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
                 .ForMember(src => src.HinhThucQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.LoaiViTri, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCaos, desc => desc.Ignore())

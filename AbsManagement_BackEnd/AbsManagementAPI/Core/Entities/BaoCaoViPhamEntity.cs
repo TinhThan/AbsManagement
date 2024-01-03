@@ -14,11 +14,13 @@
         public string? NoiDungXuLy { get; set; }
         public string ViTri {  get; set; }
         public string DanhSachHinhAnh {  get; set; }
+        public string? DanhSachHinhAnhXuLy {  get; set; }
         public string IdTinhTrang { get; set; }
         public string? DiaChi { get; set; }
         public string? Phuong { get; set; }
         public string? Quan { get; set; }
         public DateTime CreateDate { get; set; }
+        public DateTime? ApproveDate { get; set; }
 
         public virtual HinhThucBaoCaoEntity HinhThucBaoCao { get; set; }
         public virtual DiemDatQuangCaoEntity DiemDatQuangCao { get; set; }

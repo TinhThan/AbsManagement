@@ -7,6 +7,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 
 namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
 {
@@ -18,16 +19,19 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
         public async Task<string> Handle(CapNhatBaoCaoViPhamCommand request, CancellationToken cancellationToken)
         {
             var baoCaoViPham = await _dataContext.BaoCaoViPhams.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
-            if (baoCaoViPham.Id!=null)
+            if (baoCaoViPham == null )
             {
                 throw new CustomMessageException(MessageSystem.DATA_INVALID);
 
             }
             try
             {
-                var baoCaoViPhamCapNhat = _mapper.Map(request.CapNhatBaoCaoViPhamModel, baoCaoViPham);
-
-                _dataContext.Update(baoCaoViPhamCapNhat);
+                baoCaoViPham.NoiDungXuLy = request.CapNhatBaoCaoViPhamModel.NoiDungXyLy;
+                baoCaoViPham.IdTinhTrang = request.CapNhatBaoCaoViPhamModel.IdTinhTrang;
+                baoCaoViPham.ApproveDate = DateTime.Now;
+                baoCaoViPham.IdCanBoXuLy = authInfo.Id;
+                baoCaoViPham.DanhSachHinhAnhXuLy = JsonConvert.SerializeObject(request.CapNhatBaoCaoViPhamModel.DanhSachHinhAnhXuLy);
+                _dataContext.Update(baoCaoViPham);
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 if (resultCapNhat > 0)
                 {
