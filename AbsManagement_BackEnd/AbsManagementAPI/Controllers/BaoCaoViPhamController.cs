@@ -1,4 +1,5 @@
-﻿using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
+﻿using AbsManagementAPI.Core.Authentication;
+using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.BangQuangCao.Query;
 using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Command;
 using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Query;
@@ -16,16 +17,13 @@ namespace AbsManagementAPI.Controllers
     /// Controller Báo cáo vi phạm
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("api/baocaovipham")]
     public class BaoCaoViPhamController : BaseController
     {
 
-        private readonly IWebHostEnvironment _environment;
-        private readonly DataContext _dataContext;
-        public BaoCaoViPhamController(IMediator mediator, IWebHostEnvironment webHostEnvironment, DataContext dataContext) : base(mediator)
+        public BaoCaoViPhamController(IMediator mediator) : base(mediator)
         {
-            _environment = webHostEnvironment;
-            _dataContext = dataContext;
         }
 
         /// <summary>
@@ -97,11 +95,11 @@ namespace AbsManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
-        public async Task<string> CapNhat(int id, CapNhatBangQuangCaoModel model)
+        public async Task<string> CapNhat(int id, CapNhatBaoCaoViPhamModel model)
         {
-            return await _mediator.Send(new CapNhatBangQuangCaoCommand()
+            return await _mediator.Send(new CapNhatBaoCaoViPhamCommand()
             {
-                CapNhatBangQuangCaoModel = model,
+                CapNhatBaoCaoViPhamModel = model,
                 Id = id
             });
         }
