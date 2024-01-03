@@ -6,7 +6,6 @@ import ModalCreateReport from '../modal/createReport'
 const { Text , Title} = Typography; 
 
 function CardSurface({surfaces, location}) {
-    console.log("location surface",location)
     function onCreateReportClick(idBangQuangCao){
         if(location){
             const _root = renderModal(<ModalCreateReport onCancel={() => {
