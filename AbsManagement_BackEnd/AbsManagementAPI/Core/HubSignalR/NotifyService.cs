@@ -4,7 +4,7 @@ namespace AbsManagementAPI.Core.HubSignalR
 {
     public interface INotifyService
     {
-        Task SendMessageNotify(string title, string message);
+        Task SendMessageNotify(string type, string message);
     }
 
     public class NotifyService : INotifyService
@@ -16,9 +16,9 @@ namespace AbsManagementAPI.Core.HubSignalR
             _hubContext = hubContext;
         }
 
-        public async Task SendMessageNotify(string title, string message)
+        public async Task SendMessageNotify(string type, string message)
         {
-            await _hubContext.Clients.All.SendAsync("onNotify", title, message);
+            await _hubContext.Clients.All.SendAsync("onNotify", type, message);
         }
     }
 }

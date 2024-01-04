@@ -4,7 +4,7 @@ import { CloseCircleOutlined} from '@ant-design/icons'
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
 import pointInfo from '../points/pointInfo'
 import PropTypes from 'prop-types'
-import { Layout, Divider, Button} from 'antd';
+import { Layout, Divider, Button, Affix, Radio, Checkbox} from 'antd';
 import { useState } from 'react';
 import SpaceInfo from '../points/spaceInfo'
 import {ReportToGeoJson, SpaceToGeoJson} from '../../utils/spaceToGeoJson'
@@ -14,8 +14,7 @@ import axios from 'axios'
 import './style.scss'
 import CardPoint from '../card/point'
 import CardSurface from '../card/surface'
-import { cluterLayersSpace, unclusteredLabelLayerSpace, unclusteredLayerSpace,
-        cluterLayersReport, unclusteredLabelLayerReport, unclusteredLayerReport } from './layers'
+import { cluterLayersReport, unclusteredLabelLayerReport, unclusteredLayerReport, LayerSpacePanned, LayerSpacePannedLabel, LayerSpacePannedPoint, LayerSpaceNotPanned, LayerSpaceNotPannedLabel, LayerSpaceNotPannedPoint } from './layers'
 import ReportInfo from '../points/reportInfo'
 
 const { Content, Sider } = Layout;
@@ -26,135 +25,62 @@ Map.propTypes = {
 }
 
 export default function Map() {
+    const mapContainerRef = useRef(null);
+    const map = useRef(null);
     const [collapsed, setCollapsed] = useState(true);
     const [location,setLocation] = useState();
-    const [spaces,setSpaces] = useState([]); // điểm đặt quảng cáo
+    const [spaces,setSpaces] = useState([]); // điểm đặt quảng cáo đã quy hoạch
     const [surfaces,setSurfaces] = useState([]); // bảng quảng cáo
     const [reports,setReports] = useState([]);
 
     mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_KEY;
 
-    const mapContainerRef = useRef(null);
+    function checkedSpacePanned(e){
+        map.current.setLayoutProperty('space-panned-point','visibility', e.target.checked ? 'visible' : 'none');
+        map.current.setLayoutProperty('space-panned-label','visibility', e.target.checked ? 'visible' : 'none');
+        map.current.setLayoutProperty('space-panned','visibility', e.target.checked ? 'visible' : 'none');
+    }
+
+    function checkedSpaceNotPanned(e){
+        map.current.setLayoutProperty('space-not-panned-point','visibility', e.target.checked ? 'visible' : 'none');
+        map.current.setLayoutProperty('space-not-panned-label','visibility', e.target.checked ? 'visible' : 'none');
+        map.current.setLayoutProperty('space-not-panned','visibility', e.target.checked ? 'visible' : 'none');
+    }
+
+    function checkedReport(e){
+        map.current.setLayoutProperty('clusters-report','visibility', e.target.checked ? 'visible' : 'none');
+        map.current.setLayoutProperty('unclustered-report-point','visibility', e.target.checked ? 'visible' : 'none');
+        map.current.setLayoutProperty('unclustered-report-point-label','visibility', e.target.checked ? 'visible' : 'none');
+    }
 
     useEffect(()=>{
         getSpaces();
         getReports();
-    },[])
-
-    useEffect(() => {
-        const map = new mapboxgl.Map({
+        map.current = new mapboxgl.Map({
             container: mapContainerRef.current,
             language:'vi',
             style: "mapbox://styles/mapbox/streets-v11",
             center: [106.707222, 10.752444], // Ho Chi Minh City
             zoom: 12,
         });
-        map.on("load", () => {
-            
-            //Handle point space
-            map.addSource("points", {
-                type: "geojson",
-                data: SpaceToGeoJson(spaces),
-                cluster: true,
-                clusterMaxZoom: 14,
-                clusterRadius: 50,
-            });
+        addControls();
 
-            map.addLayer(cluterLayersSpace);
-    
-            map.addLayer(unclusteredLayerSpace);
+        onLoadMap();
 
-            map.addLayer(unclusteredLabelLayerSpace);
-
-            map.on('mouseenter', 'unclustered-space-point', () => {
-                map.getCanvas().style.cursor = 'pointer';
-                });
-
-            map.on('mouseleave', 'unclustered-space-point', () => {
-                map.getCanvas().style.cursor = '';
-            });
-
-            //End hanlde point space
-
-            //Handle point report
-            map.addSource("reports", {
-                type: "geojson",
-                data: ReportToGeoJson(reports),
-                cluster: true,
-                clusterMaxZoom: 14,
-                clusterRadius: 50,
-            });
-
-            map.addLayer(cluterLayersReport);
-    
-            map.addLayer(unclusteredLayerReport);
-
-            map.addLayer(unclusteredLabelLayerReport);
-
-            map.on('mouseenter', 'unclustered-report-point', () => {
-                map.getCanvas().style.cursor = 'pointer';
-                });
-
-            map.on('mouseleave', 'unclustered-report-point', () => {
-            map.getCanvas().style.cursor = '';
-            });
-            //End handle report
-        });
-        
-        //Add control
-        map.addControl(
-            new mapboxgl.GeolocateControl({
-                positionOptions: {
-                enableHighAccuracy: true,
-                },
-                trackUserLocation: true,
-            }),
-            "bottom-right"
-        );
-    
-        const geocoder = new MapboxGeocoder({
-            accessToken: mapboxgl.accessToken, // Set the access token
-            mapboxgl: mapboxgl, // Set the mapbox-gl instance
-            marker: true, // Use the geocoder's default marker style
-            bbox: [106.6297, 10.6958, 106.8413, 10.8765], // Set the bounding box coordinates
-            placeholder: "Tìm kiếm địa điểm", // Placeholder text for the search bar,
-            autocomplete: true,
-            language:'vi'
-        });
         let lng;
         let lat;
-        map.addControl(geocoder, "top-left");
+        //Onclick space
+        map.current.on('click', ['space-panned-point','space-not-panned-point'], async (e) => {
 
-        //onclick mapp
-        map.on("click", async (event) => {
-            const featuresLayerClusters = map.queryRenderedFeatures(event.point, {
-                layers: ['clusters-space','unclustered-space-point','clusters-report','unclustered-report-point']
+            const featuresLayerReport = map.current.queryRenderedFeatures(e.point, {
+                layers: ['clusters-report','unclustered-report-point', 'unclustered-report-point-label']
             });
 
-            if(featuresLayerClusters.length > 0)
+            if(featuresLayerReport.length > 0)
             {
-                console.log("featuresLayerClusters",featuresLayerClusters)
                 return;
             }
 
-            lng = event.lngLat.lng.toFixed(6);
-            lat = event.lngLat.lat.toFixed(6);
-            const data = await reverseGeocoding(lat, lng);
-            setLocation(data)
-            setSurfaces([])
-            setCollapsed(false)
-            const point = pointInfo(data.diaChi);
-            new mapboxgl.Popup({
-                closeOnClick: true,
-                closeButton: false,
-            })
-                .setLngLat(event.lngLat)
-                .setHTML(point)
-                .addTo(map);
-        });
-
-        //Onclick space
-        map.on('click', 'unclustered-space-point', async (e) => {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const description = e.features[0].properties;
 
@@ -177,30 +103,52 @@ export default function Map() {
             new mapboxgl.Popup()
             .setLngLat(coordinates)
             .setHTML(SpaceInfo(space))
-            .addTo(map);
+            .addTo(map.current);
         });
 
-        map.on('click', 'clusters-space', (e) => {
-            const features = map.queryRenderedFeatures(e.point, {
-            layers: ['clusters-space']
+        map.current.on('click', 'space-panned', (e) => {
+            const features = map.current.queryRenderedFeatures(e.point, {
+                layers: ['space-panned']
             });
-            const clusterId = features[0].properties.cluster_id;
-            map.getSource('points').getClusterExpansionZoom(
-                clusterId,
-                (err, zoom) => {
-                if (err) return;
-                
-                map.easeTo({
-                center: features[0].geometry.coordinates,
-                zoom: zoom
-                });
-                }
-            );
+            if(features.length > 0) {
+                const clusterId = features[0].properties.cluster_id;
+                map.current.getSource('spacePanneds').getClusterExpansionZoom(
+                    clusterId,
+                    (err, zoom) => {
+                    if (err) return;
+                    
+                    map.current.easeTo({
+                    center: features[0].geometry.coordinates,
+                    zoom: zoom
+                    });
+                    }
+                );
+            }
+        });
+
+        map.current.on('click', 'space-not-panned', (e) => {
+            const features = map.current.queryRenderedFeatures(e.point, {
+                layers: ['space-not-panned']
+            });
+            if(features.length > 0) {
+                const clusterId = features[0].properties.cluster_id;
+                map.current.getSource('spaceNotPanneds').getClusterExpansionZoom(
+                    clusterId,
+                    (err, zoom) => {
+                    if (err) return;
+                    
+                    map.current.easeTo({
+                    center: features[0].geometry.coordinates,
+                    zoom: zoom
+                    });
+                    }
+                );
+            }
         });
         //End
 
         //Onclick report
-        map.on('click', 'unclustered-report-point', async (e) => {
+        map.current.on('click', 'unclustered-report-point', async (e) => {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const description = e.features[0].properties;
 
@@ -218,37 +166,151 @@ export default function Map() {
                 lat: coordinates[1],
                 ...report
             })
-            console.log("description",description)
             setCollapsed(false)
             new mapboxgl.Popup()
             .setLngLat(coordinates)
             .setHTML(ReportInfo(report))
-            .addTo(map);
+            .addTo(map.current);
         });
 
-        map.on('click', 'clusters-report-space', (e) => {
-            const features = map.queryRenderedFeatures(e.point, {
-            layers: ['clusters-report-space']
+        map.current.on('click', 'clusters-report-space', (e) => {
+            const features = map.current.queryRenderedFeatures(e.point, {
+                layers: ['clusters-report-space']
             });
-            const clusterId = features[0].properties.cluster_id;
-            map.getSource('points').getClusterExpansionZoom(
-                clusterId,
-                (err, zoom) => {
-                if (err) return;
-                
-                map.easeTo({
-                center: features[0].geometry.coordinates,
-                zoom: zoom
-                });
-                }
-            );
+            if(features.length > 0){
+                const clusterId = features[0].properties.cluster_id;
+                map.current.getSource('reports').getClusterExpansionZoom(
+                    clusterId,
+                    (err, zoom) => {
+                    if (err) return;
+                    
+                    map.current.easeTo({
+                    center: features[0].geometry.coordinates,
+                    zoom: zoom
+                    });
+                    }
+                );
+            }
         });
         //End
 
-        // Clean up on unmount
-        return () => map.remove();
-    }, [spaces,reports]);
+        //onclick mapp
+        map.current.on("click", async (event) => {
+            const featuresLayerClusters = map.current.queryRenderedFeatures(event.point, {
+                layers: ['space-panned','space-not-panned', 'space-panned-point', 'space-not-panned-point','space-panned-label', 'space-not-panned-label',
+                'clusters-report','unclustered-report-point', 'unclustered-report-point-label']
+            });
 
+            if(featuresLayerClusters.length > 0)
+            {
+                return;
+            }
+
+            lng = event.lngLat.lng.toFixed(6);
+            lat = event.lngLat.lat.toFixed(6);
+            const data = await reverseGeocoding(lat, lng);
+            setLocation(data)
+            setSurfaces([])
+            setCollapsed(false)
+            const point = pointInfo(data.diaChi);
+            new mapboxgl.Popup({
+                closeOnClick: true,
+                closeButton: true,
+            })
+                .setLngLat(event.lngLat)
+                .setHTML(point)
+                .addTo(map.current);
+        });
+        // Clean up on unmount
+        return () => map.current.remove();
+    },[])
+    
+
+    function onLoadMap(){
+        console.log("spaces",spaces)
+        map.current.on("load", () => {
+            
+            //Handle point space panneds
+            map.current.addSource("spacePanneds", {
+                type: "geojson",
+                data: SpaceToGeoJson(spaces,"DaQuyHoach"),
+                cluster: true,
+                clusterMaxZoom: 14,
+                clusterRadius: 50,
+            });
+
+            map.current.addLayer(LayerSpacePanned);
+    
+            map.current.addLayer(LayerSpacePannedPoint);
+            
+            map.current.addLayer(LayerSpacePannedLabel);
+
+            //Handle poin space not panned
+            map.current.addSource("spaceNotPanneds", {
+                type: "geojson",
+                data: SpaceToGeoJson(spaces,"ChuaQuyHoach"),
+                cluster: true,
+                clusterMaxZoom: 14,
+                clusterRadius: 50,
+            });
+
+            map.current.addLayer(LayerSpaceNotPanned);
+    
+            map.current.addLayer(LayerSpaceNotPannedPoint);
+            
+            map.current.addLayer(LayerSpaceNotPannedLabel);
+
+            //End hanlde point space
+
+            //Handle point report
+            map.current.addSource("reports", {
+                type: "geojson",
+                data: ReportToGeoJson(spaces,reports),
+                cluster: true,
+                clusterMaxZoom: 14,
+                clusterRadius: 50,
+            });
+
+            map.current.addLayer(cluterLayersReport);
+    
+            map.current.addLayer(unclusteredLayerReport);
+
+            map.current.addLayer(unclusteredLabelLayerReport);
+        });
+
+        map.current.on('mouseenter', ['space-panned-point','space-not-panned-point', 'unclustered-report-point'], () => {
+            map.current.getCanvas().style.cursor = 'pointer';
+            });
+
+        map.current.on('mouseleave', ['space-panned-point','space-not-panned-point', 'unclustered-report-point'], () => {
+                map.current.getCanvas().style.cursor = '';
+        });
+    }
+
+    function addControls(){
+        //Add control
+        map.current.addControl(
+            new mapboxgl.GeolocateControl({
+                positionOptions: {
+                enableHighAccuracy: true,
+                },
+                trackUserLocation: true,
+            }),
+            "bottom-right"
+        );
+    
+        const geocoder = new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken, // Set the access token
+            mapboxgl: mapboxgl, // Set the mapbox-gl instance
+            marker: true, // Use the geocoder's default marker style
+            bbox: [106.6297, 10.6958, 106.8413, 10.8765], // Set the bounding box coordinates
+            placeholder: "Tìm kiếm địa điểm", // Placeholder text for the search bar,
+            autocomplete: true,
+            language:'vi'
+        });
+        map.current.addControl(geocoder, "top-left");
+    }
+    
     async function reverseGeocoding(lat,lng){
         try {
             const response = await fetch(
@@ -271,10 +333,9 @@ export default function Map() {
         }
     }
 
-    async function getSpaces(){
+    function getSpaces(){
         try {
-            await axios.get(`${process.env.REACT_APP_BASE_API}api/diemdatquangcao`).then((response) => {
-                console.log("resone",response)
+            axios.get(`${process.env.REACT_APP_BASE_API}api/diemdatquangcao`).then((response) => {
                 if(response && response.status === 200)
                 {
                     setSpaces(response.data)
@@ -287,9 +348,9 @@ export default function Map() {
         }
     }
     
-    async function getReports(){
+    function getReports(){
         try {
-            await axios.get(`${process.env.REACT_APP_BASE_API}api/baocaovipham`).then((response) => {
+            axios.get(`${process.env.REACT_APP_BASE_API}api/baocaovipham`).then((response) => {
                 if(response && response.status === 200)
                 {
                     setReports(response.data)
@@ -302,9 +363,9 @@ export default function Map() {
         }
     }
 
-    async function getSurfaceBySpace(id){
+    function getSurfaceBySpace(id){
         try {
-            await axios.get(`${process.env.REACT_APP_BASE_API}api/bangquangcao/diemdatquangcao/${id}`).then((response) => {
+            axios.get(`${process.env.REACT_APP_BASE_API}api/bangquangcao/diemdatquangcao/${id}`).then((response) => {
                 if(response && response.status === 200)
                 {
                     setSurfaces(response.data)
@@ -329,6 +390,14 @@ export default function Map() {
     return (
         <Layout hasSider>
             <Content style={{height:'100vh', width:'100vw'}}>
+            <Affix offsetTop={10} className='affix-antd-button'>
+                <div className='affix-container'>
+                    <strong>Điểm quảng cáo </strong>
+                    <Checkbox className='space-panned' defaultChecked onChange={checkedSpacePanned}>Đã quy hoạch</Checkbox>
+                    <Checkbox className='space-not-panned' defaultChecked onChange={checkedSpaceNotPanned}>Chưa quy hoạch</Checkbox>
+                    <Checkbox className='space-panned' defaultChecked onChange={checkedReport}><strong>Báo cáo vi phạm </strong></Checkbox>
+                </div>
+            </Affix>
                 <div id="map" ref={mapContainerRef}  />
             </Content>
             <Sider theme='light' 

@@ -14,7 +14,6 @@ import { getDistrict, getDistrictByCode, getWardByDistrict } from '../../utils/g
 import { diemDatQuangCaoAPI } from '../../apis/diemDatQuangCao';
 import UserInfoStorage from '../../storages/user-info';
 import { UserStorage } from '../../apis/auth/user';
-import { ModalUpdateDiemDatQuangCao } from './update';
 import { ConfigRoute } from '../../routes/ConfigRoute';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,19 +29,6 @@ export default function ListDiemDatQuangCao(): JSX.Element {
     const [diemDatQuangCaos,setDiemDatQuangCaos] = useState<DiemDatQuangCaoModel[]>([]);
     const [loading,setLoading] = useState(false);
     const [user,setUser] = useState<UserStorage>();
-    function onDetailClick(model) {
-    //    const _root = renderModal(<ModalDetailDiemDatQuangCao onCancel={() => _root?.unmount()} diemDatQuangCao={model} />);
-    }
-
-    function onUpdateClick(model: DiemDatQuangCaoModel){
-        const capNhatDiemDatQuangCaoModel: CapNhatDiemDatQuangCaoModel = {
-            ...model
-        };
-        const _root = renderModal(<ModalUpdateDiemDatQuangCao onCancel={() => {
-            _root?.unmount()
-            getDiemDatQuangCaos()
-        }} diemDatQuangCao={capNhatDiemDatQuangCaoModel} />);
-    }
 
     function onCreateClick(){
         // const _root = renderModal(<ModalCreateDiemDatQuangCao onCancel={() => {
@@ -162,9 +148,9 @@ export default function ListDiemDatQuangCao(): JSX.Element {
                     },
                     {
                         label: "Cập nhật",
-                        key: "1",
+                        key: "2",
                         icon: <EditOutlined />,
-                        onClick: ()=>onUpdateClick(row),
+                        onClick: ()=>navigate(`${ConfigRoute.CanBoSo.DiemDatQuangCao}/capnhat/${row.id}`),
                     },
                     {
                         label: "Xóa",

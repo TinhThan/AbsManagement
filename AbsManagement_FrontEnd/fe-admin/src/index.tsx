@@ -8,6 +8,8 @@ import "./styles.scss"
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 import "mapbox-gl/dist/mapbox-gl.css";
 import router from './routes/route-app';
+import { ConfigProvider } from 'antd';
+import en_US from 'antd/locale/en_US';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,7 +17,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
+    <ConfigProvider locale={en_US}>
+
       <RouterProvider router={router} fallbackElement={<PageLoading />}/>
+    </ConfigProvider>
   </React.StrictMode>
 );
 

@@ -17,7 +17,6 @@ namespace AbsManagementAPI.Controllers
     /// Controller Báo cáo vi phạm
     /// </summary>
     [ApiController]
-    [Authorize]
     [Route("api/baocaovipham")]
     public class BaoCaoViPhamController : BaseController
     {
@@ -92,6 +91,7 @@ namespace AbsManagementAPI.Controllers
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("capnhat/{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]

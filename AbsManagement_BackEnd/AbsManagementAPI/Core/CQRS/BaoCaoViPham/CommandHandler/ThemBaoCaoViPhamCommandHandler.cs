@@ -3,6 +3,7 @@ using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.HubSignalR;
 using AutoMapper;
 using MediatR;
 
@@ -10,8 +11,11 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
 {
     public class ThemBaoCaoViPhamCommandHandler : BaseHandler, IRequestHandler<ThemBaoCaoViPhamCommand, string>
     {
-        public ThemBaoCaoViPhamCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
+        private readonly INotifyService _notifyService;
+        public ThemBaoCaoViPhamCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper,INotifyService notifyService)
+            : base(httpContextAccessor, dataContext, mapper)
         {
+            _notifyService = notifyService;
         }
         public async Task<string> Handle(ThemBaoCaoViPhamCommand request, CancellationToken cancellationToken)
         {
@@ -25,6 +29,7 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)
                 {
+                    _notifyService.SendMessageNotify("ThemBaoCaoViPham", "Thêm báo cáo vi phạm thành công");
                     return MessageSystem.ADD_SUCCESS;
                 }
                 throw new CustomMessageException(MessageSystem.ADD_FAIL);
