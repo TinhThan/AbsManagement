@@ -214,8 +214,10 @@ namespace AbsManagementAPI.Core
             CreateMap<PhieuCapPhepQuangCaoEntity, PhieuCapPhepQuangCaoModel>();
 
             CreateMap<ThemPhieuCapPhepQuangCaoModel, PhieuCapPhepQuangCaoEntity>()
+                .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore());
             CreateMap<CapNhatPhieuCapPhepQuangCaoModel, PhieuCapPhepQuangCaoEntity>()
+               .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
                .ForMember(src => src.Id, desc => desc.Ignore());
 
             #endregion

@@ -10,7 +10,6 @@ namespace AbsManagementAPI.Core.Models.PhieuCapPhepQuangCao
         public string KichThuoc { get; set; }
         public string DanhSachHinhAnh { get; set; }
         public DateTimeOffset NgayHetHan { get; set; }
-        public string IdTinhTrang { get; set; }
         public DateTimeOffset NgayBatDau { get; set; }
     }
 }
