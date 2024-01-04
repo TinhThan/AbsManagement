@@ -18,7 +18,13 @@ export default function BangQuangCaoFeature(): JSX.Element {
       setLoading(true);
       try {
         const response = await bangQuangCaoAPI.DanhSach();
-        setBangQuangCaos(response);
+        const newData = response.data.map((item: any) => {
+          return {
+              ...item,
+              key: item.id
+          }
+      })
+        setBangQuangCaos(newData);
       } finally {
         setLoading(false);
       }

@@ -30,7 +30,7 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
                 baoCaoViPham.IdTinhTrang = request.CapNhatBaoCaoViPhamModel.IdTinhTrang;
                 baoCaoViPham.ApproveDate = DateTime.Now;
                 baoCaoViPham.IdCanBoXuLy = authInfo.Id;
-                baoCaoViPham.DanhSachHinhAnhXuLy = JsonConvert.SerializeObject(request.CapNhatBaoCaoViPhamModel.DanhSachHinhAnhXuLy);
+                //baoCaoViPham.DanhSachHinhAnhXuLy = JsonConvert.SerializeObject(request.CapNhatBaoCaoViPhamModel.DanhSachHinhAnhXuLy);
                 _dataContext.Update(baoCaoViPham);
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 if (resultCapNhat > 0)

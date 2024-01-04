@@ -32,18 +32,17 @@ export default function ListDiemDatQuangCao(): JSX.Element {
     }
 
     useEffect(() => {
-        setLoading(true)
         const useInfo = UserInfoStorage.get();
         if(useInfo)
         {
             setUser(useInfo);
         }
         getDiemDatQuangCaos(useInfo);
-        setLoading(false)
     }, [])
     
 
     async function getDiemDatQuangCaos(useInfo) {
+        setLoading(true)
         diemDatQuangCaoAPI
             .DanhSach(useInfo?.noiCongTac[0] || '',useInfo?.noiCongTac[1] || '')
             .then((response) => {
@@ -52,6 +51,7 @@ export default function ListDiemDatQuangCao(): JSX.Element {
                     setDiemDatQuangCaos(response.data || []);
                 }
             });
+        setLoading(false)
     }
     
     const columns: TableColumnType<DiemDatQuangCaoModel>[] = [

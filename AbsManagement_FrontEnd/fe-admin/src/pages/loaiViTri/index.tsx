@@ -49,7 +49,13 @@ export default function LoaiViTriFeature(): JSX.Element {
         .then((response) => {
             if(response && response.status === 200)
             {
-                setLoaiViTris(response.data || []);
+                const newData = response.data.map((item: any) => {
+                    return {
+                        ...item,
+                        key: item.id
+                    }
+                })
+                setLoaiViTris(newData || []);
             }
         });
     }

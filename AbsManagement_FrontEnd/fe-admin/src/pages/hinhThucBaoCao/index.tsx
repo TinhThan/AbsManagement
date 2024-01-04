@@ -47,7 +47,13 @@ export default function HinhThucBaoCaoFeature(): JSX.Element {
         .then((response) => {
             if(response && response.status === 200)
             {
-                setHinhThucBaoCaos(response.data || []);
+                const newData = response.data.map((item: any) => {
+                    return {
+                        ...item,
+                        key: item.id
+                    }
+                })
+                setHinhThucBaoCaos(newData || []);
             }
         });
     }

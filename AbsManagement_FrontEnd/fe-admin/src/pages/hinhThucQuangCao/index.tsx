@@ -47,7 +47,13 @@ export default function HinhThucQuangCaoFeature(): JSX.Element {
         .then((response) => {
             if(response && response.status === 200)
             {
-                setHinhThucQuangCaos(response.data || []);
+                const newData = response.data.map((item: any) => {
+                    return {
+                        ...item,
+                        key: item.id
+                    }
+                })
+                setHinhThucQuangCaos(newData || []);
             }
         });
     }

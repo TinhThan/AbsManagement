@@ -19,7 +19,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.QueryHandler
 
         public async Task<List<BangQuangCaoModel>> Handle(DanhSachBangquangCaoQuery request, CancellationToken cancellationToken)
         {
-            await _notifyService.SendMessageNotify("Thông báo", "Lấy danh sách thành công");
+            //await _notifyService.SendMessageNotify("Thông báo", "Lấy danh sách thành công");
             return await _dataContext.BangQuangCaos.ProjectTo<BangQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
         }
     }

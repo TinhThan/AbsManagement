@@ -104,7 +104,7 @@ namespace AbsManagementAPI.Core
             CreateMap<BaoCaoViPhamEntity, BaoCaoViPhamModel>()
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.DeserializeObject<List<string>>(e.DanhSachHinhAnh)))
                 .ForMember(src => src.DanhSachViTri, desc => desc.MapFrom(e => JsonConvert.DeserializeObject<List<decimal>>(e.ViTri)))
-                .ForMember(src => src.CanBoXuLy, desc => desc.Ignore())
+                //.ForMember(src => src.CanBoXuLy, desc => desc.Ignore())
                 .ForMember(src => src.TenHinhThucBaoCao, desc => desc.MapFrom(e => e.HinhThucBaoCao.Ten));
 
             #endregion

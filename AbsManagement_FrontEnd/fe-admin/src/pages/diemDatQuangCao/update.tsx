@@ -164,13 +164,13 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
 
             if(useInfo?.role === "CanBoQuan" && district.postcode !== useInfo.noiCongTac[0]){
                 console.log("Warring chọn địa điểm")
-                Notification.Warning(`Bạn chỉ có quyền hạng trên quận ${quanUser.name}`)
+                Notification.Warning(`Bạn chỉ có quyền hạng trên quận ${quanUser?.name}`)
                 return;
             }
 
             if(useInfo?.role === "CanBoPhuong" && (district.postcode !==useInfo.noiCongTac[0] || ward.postcode !== useInfo.noiCongTac[1])){
                 console.log("Warring chọn địa điểm")
-                Notification.Warning(`Bạn chỉ có quyền hạng trên quận ${quanUser.name}, phường ${phuong.name}`)
+                Notification.Warning(`Bạn chỉ có quyền hạng trên quận ${quanUser?.name}, phường ${phuong?.name}`)
                 return;
             }
 
