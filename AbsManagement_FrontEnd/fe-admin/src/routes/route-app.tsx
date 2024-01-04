@@ -21,6 +21,7 @@ import ListDiemDatQuangCao from "../pages/diemDatQuangCao/list";
 import { DetailDiemDatQuangCao } from "../pages/diemDatQuangCao/detail";
 import DiemDatQuangCaoFeature from "../pages/diemDatQuangCao";
 import { UpdateDiemDatQuangCao } from "../pages/diemDatQuangCao/update";
+import { CreateDiemDatQuangCao } from "../pages/diemDatQuangCao/create";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
           {
             path:`${ConfigRoute.CanBoSo.DiemDatQuangCao}/capnhat/:id`,
             Component: UpdateDiemDatQuangCao
+          },
+          {
+            path:`${ConfigRoute.CanBoSo.DiemDatQuangCao}/taomoi`,
+            Component: CreateDiemDatQuangCao
           },
           {
             path:"*",

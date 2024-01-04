@@ -126,7 +126,7 @@ export function ModalCreateCanBo(props: Props): JSX.Element {
             <Form.Item label={"Quận"} name={'quan'}>
               <Select placeholder="Vui lòng chọn quận" onChange={(value)=>{
                 setWards(getDistrictsAndWards(value))
-                form.setFieldValue('huyen',undefined)
+                form.setFieldValue('phuong',undefined)
               }}>
                   {dataHCM[0].districts.map((option) => (
                     <Select.Option key={option.postcode} value={option.postcode}>Quận {option.name}</Select.Option>

@@ -11,7 +11,7 @@ import { FormatTime, GetDateTimeByFormat } from '../../utils';
 import { ModalUpdateCanBo } from './update';
 import dayjs from 'dayjs';
 import { ModalCreateCanBo } from './create';
-import { getDistrict, getWardByDistrict } from '../../utils/getWard';
+import { getDistrictWithCode, getWardByDistrictWithCode } from '../../utils/getWard';
 
 const { Search } = Input;
 
@@ -156,7 +156,7 @@ export default function CanBoFeature(): JSX.Element {
               console.log("value",value)
               return (
                 <>
-                  <>{ value.length > 0 ? value.length > 1 ? `Phường ${getWardByDistrict(value[0],value[1]).name}, Quận ${getDistrict(value[0]).name}`: `Quận ${getDistrict(value[0]).name}` : ''}</>
+                  <>{ value.length > 0 ? value.length > 1 ? `Phường ${getWardByDistrictWithCode(value[0],value[1]).name}, Quận ${getDistrictWithCode(value[0]).name}`: `Quận ${getDistrictWithCode(value[0]).name}` : ''}</>
                 </>
               )
             },

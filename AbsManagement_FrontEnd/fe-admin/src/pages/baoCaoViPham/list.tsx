@@ -3,9 +3,8 @@ import React from 'react';
 import { PageLoading } from '@ant-design/pro-components';
 import { Button, Col, Dropdown, Input, Row, Space, Spin, Table, TableColumnType } from 'antd';
 import { BaoCaoViPhamModel, CapNhatBaoCaoViPhamModel } from '../../apis/baoCaoViPham/baoCaoViPhamModel';
-import { DeleteOutlined, EditOutlined, EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
-import { renderModal } from '../../utils/render-modal';
-import { getDistrict, getWardByDistrict } from '../../utils/getWard';
+import { EditOutlined, EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
+import { getDistrictWithCode, getWardByDistrictWithCode } from '../../utils/getWard';
 import { baoCaoViPhamAPI } from '../../apis/baoCaoViPham';
 import UserInfoStorage from '../../storages/user-info';
 import { UserStorage } from '../../apis/auth/user';
@@ -125,7 +124,7 @@ export default function ListBaoCaoViPham(): JSX.Element {
             dataIndex: 'phuong',
             key: 'phuong',            
             render:(value: string,record: BaoCaoViPhamModel) => {
-                return "Phường " + getWardByDistrict(record.quan || '',record.phuong || '').name;
+                return "Phường " + getWardByDistrictWithCode(record.quan || '',record.phuong || '').name;
             },
             showSorterTooltip:false
         },
@@ -136,7 +135,7 @@ export default function ListBaoCaoViPham(): JSX.Element {
             dataIndex: 'quan',
             key: 'quan',            
             render:(value: string,record: BaoCaoViPhamModel) => {
-                return "Quận " +getDistrict(record.quan || '').name;
+                return "Quận " +getDistrictWithCode(record.quan || '').name;
             },
             showSorterTooltip:false
         },

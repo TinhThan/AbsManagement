@@ -2,15 +2,9 @@ import { Suspense, useState,useEffect } from 'react';
 import React from 'react';
 import { PageContainer, PageLoading } from '@ant-design/pro-components';
 import { Button, Col, Dropdown, Input, Row, Space, Spin, Table, TableColumnType } from 'antd';
-import { DiemDatQuangCaoModel, CapNhatDiemDatQuangCaoModel } from '../../apis/diemDatQuangCao/diemDatQuangCaoModel';
-import { DeleteOutlined, EditOutlined, EllipsisOutlined, KeyOutlined, PlusOutlined } from '@ant-design/icons';
-import { renderModal } from '../../utils/render-modal';
-// import { ModalDetailDiemDatQuangCao } from './detail';
-import { FormatTime, GetDateTimeByFormat } from '../../utils';
-// import { ModalUpdateDiemDatQuangCao } from './update';
-import dayjs from 'dayjs';
-// import { ModalCreateDiemDatQuangCao } from './create';
-import { getDistrict, getDistrictByCode, getWardByDistrict } from '../../utils/getWard';
+import { DiemDatQuangCaoModel } from '../../apis/diemDatQuangCao/diemDatQuangCaoModel';
+import { DeleteOutlined, EditOutlined, EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
+import { getDistrictWithCode, getWardByDistrictWithCode } from '../../utils/getWard';
 import { diemDatQuangCaoAPI } from '../../apis/diemDatQuangCao';
 import UserInfoStorage from '../../storages/user-info';
 import { UserStorage } from '../../apis/auth/user';
@@ -31,10 +25,6 @@ export default function ListDiemDatQuangCao(): JSX.Element {
     const [user,setUser] = useState<UserStorage>();
 
     function onCreateClick(){
-        // const _root = renderModal(<ModalCreateDiemDatQuangCao onCancel={() => {
-        //     _root?.unmount()
-        //     getDiemDatQuangCaos()
-        // }}/>);
     }
 
     function onDeleteClick(){
@@ -42,26 +32,26 @@ export default function ListDiemDatQuangCao(): JSX.Element {
     }
 
     useEffect(() => {
-        getDiemDatQuangCaos();
+        setLoading(true)
         const useInfo = UserInfoStorage.get();
         if(useInfo)
         {
             setUser(useInfo);
         }
+        getDiemDatQuangCaos(useInfo);
+        setLoading(false)
     }, [])
     
 
-    async function getDiemDatQuangCaos() {
-        setLoading(true)
+    async function getDiemDatQuangCaos(useInfo) {
         diemDatQuangCaoAPI
-            .DanhSach(user?.noiCongTac[0] || '',user?.noiCongTac[1] || '')
+            .DanhSach(useInfo?.noiCongTac[0] || '',useInfo?.noiCongTac[1] || '')
             .then((response) => {
                 if(response && response.status === 200)
                 {
                     setDiemDatQuangCaos(response.data || []);
                 }
             });
-        setLoading(false)
     }
     
     const columns: TableColumnType<DiemDatQuangCaoModel>[] = [
@@ -75,7 +65,7 @@ export default function ListDiemDatQuangCao(): JSX.Element {
         },
         {
             title: "Địa chỉ",
-            width: 250,
+            width: 400,
             sorter: true,
             dataIndex: 'diaChi',
             key: 'diaChi'
@@ -87,7 +77,7 @@ export default function ListDiemDatQuangCao(): JSX.Element {
             dataIndex: 'phuong',
             key: 'phuong',            
             render:(value: string,record: DiemDatQuangCaoModel) => {
-                return "Phường " + getWardByDistrict(record.quan,record.phuong).name;
+                return "Phường " + getWardByDistrictWithCode(record.quan,record.phuong).name;
             },
             showSorterTooltip:false
         },
@@ -98,7 +88,7 @@ export default function ListDiemDatQuangCao(): JSX.Element {
             dataIndex: 'quan',
             key: 'quan',            
             render:(value: string,record: DiemDatQuangCaoModel) => {
-                return "Quận " +getDistrict(record.quan).name;
+                return "Quận " +getDistrictWithCode(record.quan).name;
             },
             showSorterTooltip:false
         },
@@ -171,19 +161,20 @@ export default function ListDiemDatQuangCao(): JSX.Element {
     return (
         <Suspense fallback={<PageLoading/>}>
             <PageContainer title="Danh sách điểm đặt quảng cáo">
-            <Spin spinning={loading}>
-                <Space direction='vertical' size={0} className='layout-basic-page'>
-                    <Row wrap={false} gutter={[5,5]} style={{marginBottom:'10px'}}>
-                        <Col flex='auto'>
-                        <Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
-                        </Col>
-                        <Col flex='none'>
-                            <Button shape='circle' size='large' type='primary' icon={<PlusOutlined />} onClick={onCreateClick} className={`btn-create`}></Button>
-                        </Col>
-                    </Row>
-                    <Table columns={columns} dataSource={diemDatQuangCaos} scroll={{ x: 'max-content' }}/>
-                </Space>
-            </Spin>
+                <Spin spinning={loading}>
+                    <Space direction='vertical' size={0} className='layout-basic-page'>
+                        <Row wrap={false} gutter={[5,5]} style={{marginBottom:'10px'}}>
+                            <Col flex='auto'>
+                            <Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
+                            </Col>
+                            <Col flex='none'>
+                                <Button shape='circle' size='large' type='primary' icon={<PlusOutlined />} 
+                                onClick={()=>navigate(`${ConfigRoute.CanBoSo.DiemDatQuangCao}/taomoi`)} className={`btn-create`}></Button>
+                            </Col>
+                        </Row>
+                        <Table columns={columns} dataSource={diemDatQuangCaos} scroll={{ x: 'max-content' }}/>
+                    </Space>
+                </Spin>
             </PageContainer>
         </Suspense>
     );

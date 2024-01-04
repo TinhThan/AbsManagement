@@ -10,7 +10,7 @@ export default function BangQuangCaoFeature(): JSX.Element {
     const [loading,setLoading] = useState(false);
 
     useEffect(() => {
-       getBangQuangCaos();
+        getBangQuangCaos();
     }, [])
     
 

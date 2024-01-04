@@ -2,12 +2,12 @@ import { Card, Col, Image, Form, Input, Row, Space, Button, Empty, Spin } from '
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import imageIcon from "../../assets/Image.svg";
 import { DiemDatQuangCaoModel } from '../../apis/diemDatQuangCao/diemDatQuangCaoModel';
-import { getDistrict, getWardByDistrict } from '../../utils/getWard';
+import { getDistrictWithCode, getWardByDistrictWithCode } from '../../utils/getWard';
 import { tinhTrangDiemDatQuangCao } from './list';
 import mapboxgl from 'mapbox-gl';
 import './style.scss'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import { PageLoading } from '@ant-design/pro-components';
+import { PageContainer, PageLoading } from '@ant-design/pro-components';
 import { diemDatQuangCaoAPI } from '../../apis/diemDatQuangCao';
 import { useNavigate, useParams } from 'react-router-dom';
 import TextArea from 'antd/es/input/TextArea';
@@ -69,6 +69,7 @@ export function DetailDiemDatQuangCao(): JSX.Element {
 
     return (
         <Suspense fallback={<PageLoading/>}>
+            <PageContainer title="Chi tiết điểm đặt quảng cáo">
                 <Spin spinning={loading}>
                 <Space className='space-button-on-top'>
                     <Button danger onClick={()=> navigate(-1)}><b>Thoát</b></Button>
@@ -84,10 +85,10 @@ export function DetailDiemDatQuangCao(): JSX.Element {
                                     <Input value={diemDatQuangCao?.tenLoaiViTri} readOnly/>
                                 </Form.Item>
                                 <Form.Item label={"Phường"}>
-                                    <Input value={"Phường " + getWardByDistrict(diemDatQuangCao?.quan || '',diemDatQuangCao?.phuong || '').name} readOnly/>
+                                    <Input value={"Phường " + getWardByDistrictWithCode(diemDatQuangCao?.quan || '',diemDatQuangCao?.phuong || '').name} readOnly/>
                                 </Form.Item>
                                 <Form.Item label={"Quận"}>
-                                    <Input value={"Quận " + getDistrict(diemDatQuangCao?.quan || '').name} readOnly />
+                                    <Input value={"Quận " + getDistrictWithCode(diemDatQuangCao?.quan || '').name} readOnly />
                                 </Form.Item>
                                 <Form.Item label={"Địa chỉ"}>
                                         <TextArea value={diemDatQuangCao?.diaChi} rows={4} readOnly/>
@@ -136,6 +137,7 @@ export function DetailDiemDatQuangCao(): JSX.Element {
                 </Row>
             </Form>
                 </Spin>
+            </PageContainer>
         </Suspense>
     );
 }

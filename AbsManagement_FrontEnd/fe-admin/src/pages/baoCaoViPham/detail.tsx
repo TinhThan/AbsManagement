@@ -3,7 +3,7 @@ import { Suspense, useState } from "react";
 import { baoCaoViPhamAPI } from "../../apis/baoCaoViPham";
 import { BaoCaoViPhamModel } from "../../apis/baoCaoViPham/baoCaoViPhamModel";
 import { Button, Card, Col, Form, Input, Row, Space, Image } from "antd";
-import { getDistrict, getWardByDistrict } from "../../utils/getWard";
+import { getDistrictWithCode, getWardByDistrictWithCode } from "../../utils/getWard";
 import { FileImageOutlined } from "@ant-design/icons";
 
 export default function DetailBaoCaoViPham(): JSX.Element {
@@ -59,17 +59,17 @@ export default function DetailBaoCaoViPham(): JSX.Element {
                                     </Card>
                                 </Col>
                                 <Col span={12}>
-                                <Card title={<b>Thông tin địa điểm</b>} bordered={false} className='card-money'>
-                                    <Form.Item label='Địa chỉ'>
-                                        <Input.TextArea value={baoCaoViPham?.diaChi} readOnly rows={3} autoSize={{ minRows: 3, maxRows: 5 }}/>
-                                    </Form.Item>
-                                    <Form.Item label='Phường'>
-                                        <Input value={`Phường ${getWardByDistrict(baoCaoViPham?.quan || '',baoCaoViPham?.phuong || '')}`} readOnly />
-                                    </Form.Item>
-                                    <Form.Item label='Quận'>
-                                        <Input value={`Quận ${getDistrict(baoCaoViPham?.quan || '')}`} readOnly />
-                                    </Form.Item>
-                                </Card>
+                                    <Card title={<b>Thông tin địa điểm</b>} bordered={false} className='card-money'>
+                                        <Form.Item label='Địa chỉ'>
+                                            <Input.TextArea value={baoCaoViPham?.diaChi} readOnly rows={3} autoSize={{ minRows: 3, maxRows: 5 }}/>
+                                        </Form.Item>
+                                        <Form.Item label='Phường'>
+                                            <Input value={`Phường ${getWardByDistrictWithCode(baoCaoViPham?.quan || '',baoCaoViPham?.phuong || '')}`} readOnly />
+                                        </Form.Item>
+                                        <Form.Item label='Quận'>
+                                            <Input value={`Quận ${getDistrictWithCode(baoCaoViPham?.quan || '')}`} readOnly />
+                                        </Form.Item>
+                                    </Card>
                                 </Col>
                             </Row>
                             {/* <Row>

@@ -1,7 +1,7 @@
 import { Button, Card, Col, Form, Input, Row, Select, Space, Tooltip, Image, Upload, UploadFile, Spin } from 'antd';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import imageIcon from "../../assets/Image.svg";
-import { CapNhatDiemDatQuangCaoModel, DiemDatQuangCaoModel } from '../../apis/diemDatQuangCao/diemDatQuangCaoModel';
+import { ThemDiemDatQuangCaoModel } from '../../apis/diemDatQuangCao/diemDatQuangCaoModel';
 import { diemDatQuangCaoAPI } from '../../apis/diemDatQuangCao';
 import { LoaiViTriModel } from '../../apis/loaiViTri/model';
 import { HinhThucQuangCaoModel } from '../../apis/hinhThucQuangCao/model';
@@ -10,7 +10,6 @@ import UserInfoStorage from '../../storages/user-info';
 import { UserStorage } from '../../apis/auth/user';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import { getDistrictWithCode, getDistrictWithName, getWardByDistrictWithCode, getWardByDistrictWithName } from '../../utils/getWard';
 import { hinhThucQuangCaoAPI } from '../../apis/hinhThucQuangCao';
 import { PageContainer, PageLoading } from '@ant-design/pro-components';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -19,6 +18,7 @@ import mapboxgl from 'mapbox-gl';
 import { Notification } from '../../utils';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import dataHCM from '../../assets/new-dataHCM.json';
+import { getDistrictWithCode, getDistrictWithName, getWardByDistrictWithCode, getWardByDistrictWithName } from '../../utils/getWard';
 
 const tinhTrangDiemDatQuangCao = [
     {
@@ -45,11 +45,9 @@ function convertImageToJpg(fileName: string): string {
 }
 
 
-export function UpdateDiemDatQuangCao(): JSX.Element {
+export function CreateDiemDatQuangCao(): JSX.Element {
     const navigate = useNavigate();
-    const { id } = useParams();
-    const [diemDatQuangCao, setDiemDatQuangCao] = useState<DiemDatQuangCaoModel>();
-    const [form] = Form.useForm<CapNhatDiemDatQuangCaoModel>();
+    const [form] = Form.useForm<ThemDiemDatQuangCaoModel>();
     const [loading, setLoading] = useState(false);
     const [user,setUser] = useState<UserStorage>();
     const [danhSachViTri,setDanhSachViTri] = useState<any[]>([]);
@@ -62,58 +60,33 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
     const [quan, setQuan] = useState<any>();
 
     const mapContainerRef = useRef(null);
-    const marketMap = useRef(new mapboxgl.Marker());
+    const marketMap = useRef<any>(null);
     const map = useRef<any>(null);
     
     mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_KEY || '';
 
-    function getDetail(id: any) {
-        diemDatQuangCaoAPI
-            .ChiTiet(id)
-            .then((response) => {
-            if(response && response.status === 200){
-                    setLoading(false);
-                    setDiemDatQuangCao(response.data);
-                }
-            })
-            .catch(() => {
-                Notification.Warning("Điểm đặt quảng cáo không tồn tại.")
-                navigate(-1)
-            });
-    }
-
     useEffect(() => {
-        setLoading(true);
-        if(!diemDatQuangCao)
-        {
-            getDetail(id)
-            return;
-        }
+        getLoaiViTris();
+        getHinhThucQuangCaos();
         const useInfo = UserInfoStorage.get();
         let quanUser;
         if(useInfo)
         {
             setUser(useInfo);
-        }
+            if(useInfo.role === "CanBoQuan")
+            {
+                quanUser = getDistrictWithCode(useInfo?.noiCongTac[0] || '');
+                setQuan(quanUser);
+            }
 
-        form.setFieldsValue(diemDatQuangCao)
-        getLoaiViTris();
-        getHinhThucQuangCaos();
-        setQuan(getDistrictWithCode(diemDatQuangCao.quan))
-        setPhuong(getWardByDistrictWithCode(diemDatQuangCao.quan,diemDatQuangCao.phuong))
-        setDanhSachViTri(diemDatQuangCao.danhSachViTri)
-        const fileImages:UploadFile[] = [];
-        diemDatQuangCao.danhSachHinhAnh.forEach((image,index)=>{
-            const imageInfo: UploadFile = {
-                name: image,
-                uid: image + index,
-                status: 'done',
-                url: `${process.env.REACT_APP_BASE_API}Upload/image/${image}`,
-                thumbUrl: `${process.env.REACT_APP_BASE_API}Upload/image/${image}`,
-            };
-            fileImages.push(imageInfo);
-        })
-        setFileList(fileImages)
+            if(useInfo.role === "CanBoPhuong")
+            {
+                quanUser = getDistrictWithCode(useInfo.noiCongTac[0]);
+                const phuongUser = getWardByDistrictWithCode(quanUser.postcode, useInfo?.noiCongTac[1]);
+                setQuan(quanUser);
+                setPhuong(phuongUser);
+            }
+        }
 
         if(!mapContainerRef.current)
         {
@@ -122,14 +95,14 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
         map.current = new mapboxgl.Map({
             container: mapContainerRef.current,
             style: "mapbox://styles/mapbox/streets-v11",
-            center: [diemDatQuangCao.danhSachViTri[0],diemDatQuangCao.danhSachViTri[1]], // Ho Chi Minh City
-            zoom: 15,
+            center: quanUser?.center || [106.707222, 10.752444],
+            zoom: 12,
         });
 
         map.current.on('load', () => {
             marketMap.current = new mapboxgl.Marker()
-                .setLngLat([diemDatQuangCao.danhSachViTri[0],diemDatQuangCao.danhSachViTri[1]])
-                .addTo( map.current);
+                .setLngLat(quanUser?.center || [106.707222, 10.752444])
+                .addTo(map.current);
             map.current.addControl(new mapboxgl.FullscreenControl());
         });
 
@@ -161,7 +134,7 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
             const data = await reverseGeocoding(lat, lng);
             const district = getDistrictWithName(data?.quan);
             const ward = getWardByDistrictWithName(district.postcode, data?.phuong);
-
+            console.log("userinfo",useInfo);
             if(useInfo?.role === "CanBoQuan" && district.postcode !== useInfo.noiCongTac[0]){
                 console.log("Warring chọn địa điểm")
                 Notification.Warning(`Bạn chỉ có quyền hạng trên quận ${quanUser.name}`)
@@ -173,16 +146,17 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
                 Notification.Warning(`Bạn chỉ có quyền hạng trên quận ${quanUser.name}, phường ${phuong.name}`)
                 return;
             }
-
-            marketMap.current.setLngLat([data?.lng,data?.lat])
+            if(marketMap.current){
+                marketMap.current.setLngLat([data?.lng,data?.lat])
+            }
             setDanhSachViTri([data?.lng,data?.lat])
             form.setFieldValue('diaChi', data?.diaChi)
             setQuan(district)
             setPhuong(ward)
         });
-        setLoading(false);
-        return () =>  map.current.remove();
-    }, [diemDatQuangCao])
+
+        return () => map.current.remove();
+    }, [])
 
     async function reverseGeocoding(lat,lng){
         try {
@@ -192,8 +166,8 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
             const data = await response.json();
             let features = data.features;
             let diaChi = features[0].place_name; //địa chỉ
-            let quan = features[3].text;
             let  phuong = features[1].text;
+            let quan = features[3].text;
             return {
                 diaChi,
                 phuong,
@@ -250,18 +224,18 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
         setIsVisible(true);
     };
 
-    async function onSubmit(_model: CapNhatDiemDatQuangCaoModel) {
+    async function onSubmit(_model: ThemDiemDatQuangCaoModel) {
         setLoading(true)
-        if (_model &&  diemDatQuangCao) {
+        if (_model) {
             console.log("_model",_model)
             _model.danhSachHinhAnh = await uploadImages();
-            _model.danhSachViTri = danhSachViTri;            
             _model.quan = quan.postcode;
             _model.phuong = phuong.postcode;
+            _model.danhSachViTri = danhSachViTri;
             diemDatQuangCaoAPI
-            .CapNhat(diemDatQuangCao.id,_model).then(()=>{
+            .TaoMoi(_model).then(()=>{
                 navigate(-1)
-            });
+            });;
         }
             setLoading(false)
     }
@@ -296,7 +270,7 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
     return (
         <>
         <Suspense fallback={<PageLoading/>}>
-            <PageContainer title="Cập nhật điểm đặt quảng cáo">
+            <PageContainer title="Tạo mới điểm đặt quảng cáo">
             <Spin spinning={loading}>
                 <Space className='space-button-on-top'>
                     <Button danger onClick={()=> navigate(-1)}><b>Thoát</b></Button>
@@ -324,50 +298,46 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
                                 </Form.Item>
                                 <Form.Item label={"Quận"}>
                                     <Select placeholder="Vui lòng chọn quận" value={quan?.postcode || undefined} 
-                                        onChange={(value)=>{
-                                            const newQuan : any = getDistrictWithCode(value);
-                                            setQuan(newQuan)
-                                            setPhuong(undefined)
-                                            form.setFieldValue('diaChi',undefined);
-                                            marketMap.current.setLngLat([0,0]);
-                                            if(map.current)
-                                            {
-                                                map.current.flyTo({
-                                                    center: newQuan?.center || [106.707222, 10.752444]
-                                                })
-                                            }
-                                        }}
-                                        disabled={user?.role !== "CanBoSo"}>
-                                            {dataHCM[0].districts.map((option) => (
-                                                <Select.Option key={option.postcode} value={option.postcode}>Quận {option.name}</Select.Option>
-                                            ))}
+                                    onChange={(value)=>{
+                                        const newQuan : any = getDistrictWithCode(value);
+                                        setQuan(newQuan)
+                                        setPhuong(undefined)
+                                        form.setFieldValue('diaChi',undefined);
+                                        marketMap.current.setLngLat([0,0]);
+                                        if(map.current)
+                                        {
+                                            map.current.flyTo({
+                                                center: newQuan?.center || [106.707222, 10.752444]
+                                            })
+                                        }
+                                    }}
+                                    disabled={user?.role !== "CanBoSo"}>
+                                        {dataHCM[0].districts.map((option) => (
+                                            <Select.Option key={option.postcode} value={option.postcode}>Quận {option.name}</Select.Option>
+                                        ))}
                                     </Select>
                                 </Form.Item>
                                 <Form.Item label={"Phường"}>
                                     <Select placeholder="Vui lòng chọn phường" 
-                                            onChange={(value)=>{
-                                                setPhuong(getWardByDistrictWithCode(quan.postcode,value))
-                                                form.setFieldValue('diaChi',undefined);
-                                                marketMap.current.setLngLat([0,0]);
-                                            }}
-                                            value={phuong?.postcode || undefined}
-                                            disabled={user?.role === "CanBoPhuong"}>
-                                            {quan && quan.ward.map((option) => {
-                                                return (
-                                                    <Select.Option key={option.postcode} value={option.postcode}>Phường {option.name}</Select.Option>
-                                                )
-                                            })}
+                                        onChange={(value)=>{
+                                            setPhuong(getWardByDistrictWithCode(quan.postcode,value))
+                                            form.setFieldValue('diaChi',undefined);
+                                            marketMap.current.setLngLat([0,0]);
+                                        }}
+                                        value={phuong?.postcode || undefined}
+                                        disabled={user?.role === "CanBoPhuong"}>
+                                        {quan && quan.ward.map((option) => {
+                                            return (
+                                                <Select.Option key={option.postcode} value={option.postcode}>Phường {option.name}</Select.Option>
+                                            )
+                                        })}
                                     </Select>
                                 </Form.Item>
                                 <Form.Item label={"Địa chỉ"} name='diaChi'>
                                         <TextArea rows={4}/>
                                 </Form.Item>
-                                <Form.Item label={"Tình trạng"} name={'idTinhTrang'}>
-                                    <Select placeholder="Vui lòng chọn tình trạng" >
-                                        {tinhTrangDiemDatQuangCao && tinhTrangDiemDatQuangCao.map((option) => (
-                                            <Select.Option key={option.ma} value={option.ma}>{option.ten}</Select.Option>
-                                        ))}
-                                    </Select>
+                                <Form.Item label={"Tình trạng"}>
+                                        <Input value={tinhTrangDiemDatQuangCao[1].ten}  disabled/>
                                 </Form.Item>
                             </Card>
                         </Col>
@@ -424,3 +394,4 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
     </>
     );
 }
+
