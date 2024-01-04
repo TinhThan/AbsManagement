@@ -132,6 +132,7 @@ namespace AbsManagementAPI.Core
 
             CreateMap<CapNhatDiemDatQuangCaoModel, DiemDatQuangCaoEntity>()
                 .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
                 .ForMember(src => src.HinhThucQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.LoaiViTri, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCaos, desc => desc.Ignore())

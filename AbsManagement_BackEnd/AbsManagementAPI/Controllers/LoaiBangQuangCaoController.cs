@@ -4,7 +4,6 @@ using AbsManagementAPI.Core.CQRS.LoaiBangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.LoaiBangQuangCao.Query;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AbsManagementAPI.Core.Models.LoaiBangQuangCao;
-using AbsManagementAPI.Core.Models.LoaiBangQuangCao;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -15,6 +14,7 @@ namespace AbsManagementAPI.Controllers
     /// Controller loại bảngquảng cáo
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("api/loaibangquangcao")]
     public class LoaiBangQuangCaoController : BaseController
     {
@@ -63,8 +63,7 @@ namespace AbsManagementAPI.Controllers
         /// <response code="200">Thêm mớiloại bảngquảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
-        [HttpPost()]
-        [Authorize]
+        [HttpPost("taomoi")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
@@ -84,8 +83,7 @@ namespace AbsManagementAPI.Controllers
         /// <response code="200">cập nhật loại bảngquảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
-        [HttpPost("{id}")]
-        [Authorize]
+        [HttpPost("capnhat/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
@@ -106,7 +104,6 @@ namespace AbsManagementAPI.Controllers
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("xoa")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]

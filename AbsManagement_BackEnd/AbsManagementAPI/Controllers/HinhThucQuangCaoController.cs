@@ -14,6 +14,7 @@ namespace AbsManagementAPI.Controllers
     /// Controller hình thức quảng cáo
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("api/hinhthucquangcao")]
     public class HinhThucQuangCaoController : BaseController
     {
@@ -62,8 +63,7 @@ namespace AbsManagementAPI.Controllers
         /// <response code="200">Thêm mớihình thức quảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
-        [HttpPost()]
-        [Authorize]
+        [HttpPost("taomoi")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
@@ -83,8 +83,7 @@ namespace AbsManagementAPI.Controllers
         /// <response code="200">cập nhật hình thức quảng cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
-        [HttpPost("{id}")]
-        [Authorize]
+        [HttpPost("capnhat/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
@@ -105,7 +104,6 @@ namespace AbsManagementAPI.Controllers
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("xoa")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
