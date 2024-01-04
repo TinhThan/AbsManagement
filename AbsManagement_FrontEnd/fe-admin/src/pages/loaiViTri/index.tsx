@@ -1,6 +1,6 @@
 import { Button, Col, Dropdown, Input, Row, Space, Table, TableColumnType } from "antd";
 import React from 'react';
-import { PageLoading } from '@ant-design/pro-components';
+import { PageContainer, PageLoading } from '@ant-design/pro-components';
 import { Suspense, useEffect, useState } from "react";
 import { renderModal } from "../../utils/render-modal";
 import { ModalDetailLoaiViTri } from "./detail";
@@ -121,19 +121,21 @@ export default function LoaiViTriFeature(): JSX.Element {
 
     return (
         <Suspense fallback={<PageLoading/>}>
-            <Space direction='vertical'>
-            <Space direction='vertical' size={0} className='layout-basic-page'>
-            <Row wrap={false} gutter={5}>
-                <Col flex='auto'>
-                <Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
-                </Col>
-                <Col flex='none'>
-                <Button shape='circle' size='large' type='primary' icon={<PlusOutlined />} onClick={onCreateClick} className={`btn-create`}></Button>
-                </Col>
-            </Row>
-            <Table columns={columns} dataSource={loaiViTris} />
-            </Space>
-            </Space>
+            <PageContainer title="Danh sách loại vị trí">
+                <Space direction='vertical'>
+                <Space direction='vertical' size={0} className='layout-basic-page'>
+                <Row wrap={false} gutter={5}>
+                    <Col flex='auto'>
+                    <Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
+                    </Col>
+                    <Col flex='none'>
+                    <Button shape='circle' size='large' type='primary' icon={<PlusOutlined />} onClick={onCreateClick} className={`btn-create`}></Button>
+                    </Col>
+                </Row>
+                <Table columns={columns} dataSource={loaiViTris} />
+                </Space>
+                </Space>
+            </PageContainer>
         </Suspense>
     );
 }

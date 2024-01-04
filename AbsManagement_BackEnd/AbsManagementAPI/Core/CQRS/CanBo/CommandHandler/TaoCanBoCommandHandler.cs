@@ -44,26 +44,26 @@ namespace AbsManagementAPI.Core.CQRS.CanBo.CommandHandler
 
                 await _dataContext.CanBos.AddAsync(canBoMoi);
                 var result = await _dataContext.SaveChangesAsync(cancellationToken);
-                var slug = HelperIdentity.GenerateSlug(reqRegister.Email, reqRegister.SoDienThoai);
+                //var slug = HelperIdentity.GenerateSlug(reqRegister.Email, reqRegister.SoDienThoai);
 
-                var emailBody = $"Hi {reqRegister.HoTen.ToUpper()}, <br /><br /> " +
-                   $"Thank you for joining AbsManagement! To activate your account and start exploring, please click the verification link below: <br /><br /> " +
-                   $"<a href=https://localhost:3000/?id={slug}>https://localhost:3000?id={slug}</a> <br /><br /> " +
-                   $"Best Regards, <br /><br /> " +
-                   $"Abs Management Admin";
+                //var emailBody = $"Hi {reqRegister.HoTen.ToUpper()}, <br /><br /> " +
+                //   $"Thank you for joining AbsManagement! To activate your account and start exploring, please click the verification link below: <br /><br /> " +
+                //   $"<a href=https://localhost:3000/?id={slug}>https://localhost:3000?id={slug}</a> <br /><br /> " +
+                //   $"Best Regards, <br /><br /> " +
+                //   $"Abs Management Admin";
 
-                var mailData = new MailData
-                (
-                    new List<string> { reqRegister.Email },
-                    "Welcome to AbsManagement",
-                    emailBody,
-                    null,
-                    reqRegister.HoTen
-                );
+                //var mailData = new MailData
+                //(
+                //    new List<string> { reqRegister.Email },
+                //    "Welcome to AbsManagement",
+                //    emailBody,
+                //    null,
+                //    reqRegister.HoTen
+                //);
 
                 if (result > 0)
                 {
-                    await _mail.SendAsync(mailData, new CancellationToken());
+                    //await _mail.SendAsync(mailData, new CancellationToken());
                     return $"success: true, message: {MessageSystem.ADD_SUCCESS}";
                 }
                 return $"success: false, message: {MessageSystem.AUTH_REGISTER_ERROR}";

@@ -13,15 +13,11 @@ const Login: React.FC = () => {
 
   const handleLogin = async (values: any) => {
     setLoading(true);
-    try {
       const response = await authAPI.Login(values);
       if (response && response.status === 200) {
         UserInfoStorage.set({ ...response.data });
         navigate('/')
       }
-    } catch (error: any) {
-      MessageBox.Fail(error.message);
-    }
     setLoading(false)
   };
 

@@ -1,4 +1,4 @@
-import { PageLoading } from '@ant-design/pro-components';
+import { PageContainer, PageLoading } from '@ant-design/pro-components';
 import React, { useEffect, useState } from 'react';
 import { Suspense} from "react";
 import { renderModal } from '../../utils/render-modal';
@@ -119,19 +119,21 @@ export default function HinhThucQuangCaoFeature(): JSX.Element {
 
     return (
         <Suspense fallback={<PageLoading/>}>
-            <Space direction='vertical'>
-            <Space direction='vertical' size={0} className='layout-basic-page'>
-            <Row wrap={false} gutter={5}>
-                <Col flex='auto'>
-                <Input.Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
-                </Col>
-                <Col flex='none'>
-                <Button shape='circle' size='large' type='primary' icon={<PlusOutlined />} onClick={onCreateClick} className={`btn-create`}></Button>
-                </Col>
-            </Row>
-            <Table columns={columns} dataSource={hinhThucQuangCaos} />
-            </Space>
-            </Space>
+            <PageContainer title={"Danh sách hình thức quảng cáo"}>
+                <Space direction='vertical'>
+                <Space direction='vertical' size={0} className='layout-basic-page'>
+                <Row wrap={false} gutter={5}>
+                    <Col flex='auto'>
+                    <Input.Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
+                    </Col>
+                    <Col flex='none'>
+                    <Button shape='circle' size='large' type='primary' icon={<PlusOutlined />} onClick={onCreateClick} className={`btn-create`}></Button>
+                    </Col>
+                </Row>
+                <Table columns={columns} dataSource={hinhThucQuangCaos} />
+                </Space>
+                </Space>
+            </PageContainer>
         </Suspense>
     );
 }

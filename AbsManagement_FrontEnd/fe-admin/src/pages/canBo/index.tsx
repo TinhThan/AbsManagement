@@ -1,6 +1,6 @@
 import { Suspense, useState,useEffect } from 'react';
 import React from 'react';
-import { PageLoading } from '@ant-design/pro-components';
+import { PageContainer, PageLoading } from '@ant-design/pro-components';
 import { Button, Col, Dropdown, Input, Row, Space, Spin, Table, TableColumnType } from 'antd';
 import { CanBoModel, CapNhatCanBoModel } from '../../apis/canBo/canBoModel';
 import { canBoAPI } from '../../apis/canBo/canBoAPI';
@@ -76,7 +76,13 @@ export default function CanBoFeature(): JSX.Element {
         .then((response) => {
             if(response && response.status === 200)
             {
-              setCanBos(response.data || []);
+              const newData = response.data.map((item: any) => {
+                    return {
+                        ...item,
+                        key: item.id
+                    }
+                })
+              setCanBos(newData || []);
             }
         });
       setLoading(false)
@@ -202,6 +208,7 @@ export default function CanBoFeature(): JSX.Element {
 
     return (
         <Suspense fallback={<PageLoading/>}>
+          <PageContainer title="Danh sách cán bộ">
           <Spin spinning={loading}>
             <Space direction='vertical'>
               <Space direction='vertical' size={0} className='layout-basic-page'>
@@ -218,6 +225,7 @@ export default function CanBoFeature(): JSX.Element {
               </Space>
             </Space>
           </Spin>
+          </PageContainer>
         </Suspense>
     );
 }

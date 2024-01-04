@@ -80,7 +80,6 @@ export class BaseApi {
     private handleResponse() {
         this.api.interceptors.response.use(
         (response: AxiosResponse) => {
-            // console.log("AxiosResponse",response)
             if (response && response.status === 200) {
                 if (typeof response.data === 'string' && response.data ) {
                     Notification.Success(response.data)
@@ -91,13 +90,14 @@ export class BaseApi {
                 return Promise.reject(response);
             }
         },
-        async(error: AxiosError<ErrorInfo>) => {
+        async(error: any) => {
             if(error.message === 'Network Error')
             {
                 MessageBox.Fail("Hệ thống đã xảy ra lỗi.")
                 return;
             }
-            MessageBox.Fail(error.message)
+            console.log("error",error)
+            MessageBox.Fail(error.response.data.detail)
         }
         );
     }
