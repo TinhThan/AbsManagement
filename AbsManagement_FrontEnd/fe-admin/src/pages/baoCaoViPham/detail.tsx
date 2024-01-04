@@ -1,31 +1,32 @@
-import { PageLoading } from "@ant-design/pro-components";
-import { Suspense, useState } from "react";
+import { PageContainer, PageLoading } from "@ant-design/pro-components";
+import { Suspense, useEffect, useState } from "react";
 import { baoCaoViPhamAPI } from "../../apis/baoCaoViPham";
 import { BaoCaoViPhamModel } from "../../apis/baoCaoViPham/baoCaoViPhamModel";
-import { Button, Card, Col, Form, Input, Row, Space, Image } from "antd";
+import { Button, Card, Col, Form, Input, Row, Space, Image, Flex, Spin, Empty } from "antd";
 import { getDistrictWithCode, getWardByDistrictWithCode } from "../../utils/getWard";
-import { FileImageOutlined } from "@ant-design/icons";
+import imageIcon from "../../assets/Image.svg";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export default function DetailBaoCaoViPham(): JSX.Element {
-    const [loading,setLoading] = useState(false);
-    const [baoCaoViPham,setBaoCaoViPham] = useState<BaoCaoViPhamModel>();
-    const [images,setImages] = useState<string[]>([]);
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const paramId = searchParams.get('id');
+    const [loading, setLoading] = useState(false);
+    const [baoCaoViPham, setBaoCaoViPham] = useState<BaoCaoViPhamModel>();
+    const [form] = Form.useForm();
 
-    async function getDetail(id: number) {
+    const onFinish = (value: any) => {
+        console.log(value);
+    }
+
+    async function getDetail(id: string) {
         setLoading(true);
         await baoCaoViPhamAPI
-            .ChiTiet(id)
+            .ChiTiet(parseInt(id))
             .then((response) => {
-            if(response && response.status === 200){
+                if (response && response.status === 200) {
                     setLoading(false);
                     setBaoCaoViPham(response.data);
-                    let fileImages:string[] = [];
-                    for (const image of response?.data.danhSachHinhAnh || []) {
-                        if (image) {
-                            fileImages.push(`${process.env.REACT_APP_BASE_API}Upload/image/${image}`);
-                        }
-                    }
-                    setImages(fileImages);
                 }
             })
             .catch(() => {
@@ -33,108 +34,88 @@ export default function DetailBaoCaoViPham(): JSX.Element {
             });
     }
 
+    useEffect(() => {
+        if (paramId) getDetail(paramId);
+    }, [paramId])
+
     return (
-        <Suspense fallback={<PageLoading/>}>
-            <Space direction='vertical' size={0}>
-                <Button>Thoát</Button>
-                <Form className='form-layout'>
-                    <Row gutter={[20, 10]}>
-                    <Col span={12}>
-                        <Space direction='vertical' size={20}>
-                            <Row gutter={[20, 20]}>
-                                <Col span={12}>
-                                    <Card
-                                        title={<b>Thông tin người báo cáo</b>}
-                                        bordered={false}
-                                    >
-                                        <Form.Item label='Họ tên'>
-                                            <Input value={baoCaoViPham?.hoTen} readOnly />
-                                        </Form.Item>
-                                        <Form.Item label='Email'>
-                                            <Input value={baoCaoViPham?.email} readOnly />
-                                        </Form.Item>
-                                        <Form.Item label='Số điện thoại'>
-                                            <Input value={baoCaoViPham?.soDienThoai} readOnly />
-                                        </Form.Item>
-                                    </Card>
-                                </Col>
-                                <Col span={12}>
-                                    <Card title={<b>Thông tin địa điểm</b>} bordered={false} className='card-money'>
-                                        <Form.Item label='Địa chỉ'>
-                                            <Input.TextArea value={baoCaoViPham?.diaChi} readOnly rows={3} autoSize={{ minRows: 3, maxRows: 5 }}/>
-                                        </Form.Item>
-                                        <Form.Item label='Phường'>
-                                            <Input value={`Phường ${getWardByDistrictWithCode(baoCaoViPham?.quan || '',baoCaoViPham?.phuong || '')}`} readOnly />
-                                        </Form.Item>
-                                        <Form.Item label='Quận'>
-                                            <Input value={`Quận ${getDistrictWithCode(baoCaoViPham?.quan || '')}`} readOnly />
-                                        </Form.Item>
-                                    </Card>
-                                </Col>
-                            </Row>
-                            {/* <Row>
-                                <Col span={24}>
-                                <Card title={<b>{t(nameof(() => vi.DinhTinh_DinhLuong))}</b>} bordered={false}>
-                                    <Row gutter={[30, 10]}>
-                                    <Col xs={24} sm={24} md={24} lg={24} xl={12} xxl={12}>
-                                        <Form.Item label={t(nameof(() => vi.Material))} name={nameof<TypeProduct>((t) => t.tenNguyenLieu_MacDinh)}>
-                                        <Input readOnly />
-                                        </Form.Item>
-                                        <Form.Item label={t(nameof(() => vi.Unit))} name={nameof<TypeProduct>((t) => t.tenDonViTinh)}>
-                                        <Input readOnly />
-                                        </Form.Item>
-                                        <Form.Item label={t(nameof(() => vi.CurrencyUnitName))} name={nameof<TypeProduct>((t) => t.tenDonViTienTe)}>
-                                        <Input readOnly />
-                                        </Form.Item>
-                                        <Form.Item label={t(nameof(() => vi.WeightUnit))} name={nameof<TypeProduct>((t) => t.tenDonViCan)}>
-                                        <Input readOnly />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col xs={24} sm={24} md={24} lg={24} xl={12} xxl={12}>
-                                        <Form.Item label={t(nameof(() => vi.KhoiLuongTong_MacDinh))} name={nameof<TypeProduct>((t) => t.khoiLuongTong_MacDinh)}>
-                                        <Input readOnly />
-                                        </Form.Item>
-                                        <Form.Item label={t(nameof(() => vi.KhoiLuongDa_MacDinh))} name={nameof<TypeProduct>((t) => t.khoiLuongDa_MacDinh)}>
-                                        <Input readOnly />
-                                        </Form.Item>
-                                        <Form.Item label={t(nameof(() => vi.KhoiLuongVang_MacDinh))} name={nameof<TypeProduct>((t) => t.khoiLuongVang_MacDinh)}>
-                                        <Input readOnly />
-                                        </Form.Item>
-                                    </Col>
-                                    </Row>
-                                </Card>
-                                </Col>
-                            </Row> */}
-                            </Space>
-                    </Col>
-                    <Col span={12}>
-                        <Space direction='vertical'>
+        <Suspense fallback={<PageLoading />}>
+            <PageContainer title="Chi tiết điểm đặt quảng cáo">
+                <Spin spinning={loading}>
+                <Space className='space-button-on-top'>
+                    <Button danger onClick={()=> navigate(-1)}><b>Thoát</b></Button>
+                </Space>
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={onFinish}
+                >
+                    <Row gutter={[10,10]}>
+                        <Col span={14}>
                             <Card
+                                title={<b>Thông tin người báo cáo</b>}
                                 bordered={false}
-                                title={
-                                <b>
-                                    <FileImageOutlined /> {'Danh sách hình ảnh'}
-                                </b>
-                                }
                             >
-                                <Image.PreviewGroup>
-                                <Space direction='vertical' size={0}>
-                                    <Image width='100%' height='100%' src={images[0]} alt='avatar' />
-                                    {images.length > 1 && (
-                                    <Space size={5}>
-                                        {images.map((t, index) => {
-                                        return <Image key={index.toString()} width='100%' height='100%' src={`${process.env.REACT_APP_BASE_API}Upload/image/${t}`} alt={index.toString()} />;
-                                        })}
-                                    </Space>
-                                    )}
-                                </Space>
-                                </Image.PreviewGroup>
+                                <Form.Item label='Họ tên'>
+                                    <Input value={baoCaoViPham?.hoTen} readOnly />
+                                </Form.Item>
+                                <Form.Item label='Email'>
+                                    <Input value={baoCaoViPham?.email} readOnly />
+                                </Form.Item>
+                                <Form.Item label='Số điện thoại'>
+                                    <Input value={baoCaoViPham?.soDienThoai} readOnly />
+                                </Form.Item>
+                                <Form.Item label='Địa chỉ'>
+                                    <Input.TextArea value={baoCaoViPham?.diaChi} readOnly rows={3} autoSize={{ minRows: 3, maxRows: 5 }}/>
+                                </Form.Item>
+                                <Form.Item label='Phường'>
+                                    <Input value={`Phường ${getWardByDistrictWithCode(baoCaoViPham?.quan || '',baoCaoViPham?.phuong || '').name}`} readOnly />
+                                </Form.Item>
+                                <Form.Item label='Quận'>
+                                    <Input value={`Quận ${getDistrictWithCode(baoCaoViPham?.quan || '').name}`} readOnly />
+                                </Form.Item>
                             </Card>
-                        </Space>
-                    </Col>
+                        </Col>
+                        <Col span={10}>
+                            <Space direction='vertical' style={{width:'100%', marginBottom:'10px'}}>
+                                <Card
+                                    className='card-avatar'
+                                    bordered={false}
+                                    title={
+                                    <Space size={15} align='center'>
+                                        <img src={imageIcon} alt='information' />
+                                        <b>Danh sách hình ảnh báo cáo</b>
+                                    </Space>
+                                    }
+                                >
+                                    {baoCaoViPham && baoCaoViPham.danhSachHinhAnh && baoCaoViPham.danhSachHinhAnh.length > 0 ? 
+                                        <Image.PreviewGroup>
+                                            <Space direction='vertical' size={0} style={{marginBottom:'10px'}}>
+                                                {baoCaoViPham.danhSachHinhAnh.length > 1 ? (
+                                                <Space size={5}>
+                                                    {baoCaoViPham.danhSachHinhAnh.map((t, index) => {
+                                                        return <Image key={index.toString()} width={120} height={120}
+                                                                src={`${process.env.REACT_APP_BASE_API}Upload/image/${t}`} />;
+                                                    })}
+                                                </Space>
+                                                ):<Image width={150} height={150}  src={`${process.env.REACT_APP_BASE_API}Upload/image/${baoCaoViPham.danhSachHinhAnh[0]}`} alt='avatar' />}
+                                            </Space>
+                                        </Image.PreviewGroup> :
+                                        <Empty/>}
+                                </Card>
+                            </Space>
+                            <Space style={{width:'100%'}}>
+                                <Card title={<b>Thông tin địa điểm</b>} bordered={false}>
+                                    <div>
+                                        {/* <div id="map" ref={mapContainerRef} className='map-container-space'/> */}
+                                    </div>
+                                </Card>
+                            </Space>
+                        </Col>
                     </Row>
                 </Form>
-            </Space>
+            </Spin>
+            </PageContainer>
         </Suspense>
     );
 }

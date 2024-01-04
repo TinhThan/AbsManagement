@@ -14,7 +14,7 @@ class BaoCaoViPhamAPI extends BaseApi {
 
     async ChiTiet(id:number | null) {
       return this.get(
-      API_URL + ConfigUrlApi.Urls.BaoCaoViPham.DanhSach + id
+      API_URL + ConfigUrlApi.Urls.BaoCaoViPham.ChiTiet + id
       );
     }
 

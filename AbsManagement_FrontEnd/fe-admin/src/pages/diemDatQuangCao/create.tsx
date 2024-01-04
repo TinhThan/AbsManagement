@@ -12,7 +12,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { hinhThucQuangCaoAPI } from '../../apis/hinhThucQuangCao';
 import { PageContainer, PageLoading } from '@ant-design/pro-components';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import TextArea from 'antd/es/input/TextArea';
 import mapboxgl from 'mapbox-gl';
 import { Notification } from '../../utils';

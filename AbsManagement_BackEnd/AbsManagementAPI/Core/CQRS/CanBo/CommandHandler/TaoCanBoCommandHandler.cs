@@ -38,7 +38,7 @@ namespace AbsManagementAPI.Core.CQRS.CanBo.CommandHandler
                 canBoMoi.PasswordResetOTP = "0";
                 canBoMoi.PasswordResetOTPExpiration = DateTime.UtcNow;
                 canBoMoi.MatKhau = HelperIdentity.HashPasswordBCrypt("1");
-                canBoMoi.NgayCapNhat = DateTimeOffset.UtcNow;
+                canBoMoi.NgayCapNhat = DateTime.UtcNow;
                 canBoMoi.RefreshToken = refreshToken;
                 canBoMoi.RefreshTokenExpiryTime = DateTimeOffset.UtcNow.AddDays(CurrentOption.AuthenticationString.ExpiredRefreshToken);
 

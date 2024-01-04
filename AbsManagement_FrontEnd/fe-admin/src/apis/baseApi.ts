@@ -80,7 +80,7 @@ export class BaseApi {
     private handleResponse() {
         this.api.interceptors.response.use(
         (response: AxiosResponse) => {
-            console.log("AxiosResponse",response)
+            // console.log("AxiosResponse",response)
             if (response && response.status === 200) {
                 if (typeof response.data === 'string' && response.data ) {
                     Notification.Success(response.data)

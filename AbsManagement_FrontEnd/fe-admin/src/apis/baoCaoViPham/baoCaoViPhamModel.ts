@@ -27,6 +27,7 @@ export interface BaoCaoViPhamModel extends BaseBaoCaoViPham{
     diemDatQuangCao: DiemDatQuangCaoModel;
     bangQuangCao: BangQuangCaoModel;
     canBoXuLy: CanBoModel | null;
+    key:number;
 }
 
 export interface CapNhatBaoCaoViPhamModel extends BaseBaoCaoViPham{
