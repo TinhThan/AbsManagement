@@ -56,6 +56,12 @@ export const ConfigUrlApi = {
             ChiTiet:"/diemdatquangcao/chitiet/",
             TaoMoi: "/diemdatquangcao/taomoi",
             CapNhat: "/diemdatquangcao/capnhat/"
+        },
+        PhieuChinhSua:{
+            TaoMoi: "/phieucapphepsuaquangcao/taomoi",
+        },
+        PhieuCapPhep:{
+            TaoMoi: "/phieucapphepquangcao/taomoi",
         }
     }
 }

@@ -22,6 +22,10 @@ import { DetailDiemDatQuangCao } from "../pages/diemDatQuangCao/detail";
 import DiemDatQuangCaoFeature from "../pages/diemDatQuangCao";
 import { UpdateDiemDatQuangCao } from "../pages/diemDatQuangCao/update";
 import { CreateDiemDatQuangCao } from "../pages/diemDatQuangCao/create";
+import ListBangQuangCao from "../pages/bangQuangCao/list";
+import { UpdateBangQuangCao } from "../pages/bangQuangCao/update";
+import { DetailBangQuangCao } from "../pages/bangQuangCao/detail";
+import { CreateBangQuangCao } from "../pages/bangQuangCao/create";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +37,7 @@ const router = createBrowserRouter([
       {
         index: true,
         Component: HomeFeature,
-        // loader:protectedLoader,
+        loader:protectedLoader,
       },
       {
         path:"*",
@@ -41,12 +45,34 @@ const router = createBrowserRouter([
       },
       {
         path: ConfigRoute.CanBoSo.BangQuangCao,
-        // loader:protectedLoader,
-        Component:BangQuangCaoFeature
+        loader:protectedLoader,
+        Component:BangQuangCaoFeature,
+        children: [
+          {
+            path:ConfigRoute.CanBoSo.BangQuangCao,
+            Component: ListBangQuangCao
+          },
+          {
+            path:`${ConfigRoute.CanBoSo.BangQuangCao}/:id`,
+            Component: DetailBangQuangCao
+          },
+          {
+            path:`${ConfigRoute.CanBoSo.BangQuangCao}/capnhat/:id`,
+            Component: UpdateBangQuangCao
+          },
+          {
+            path:`${ConfigRoute.CanBoSo.BangQuangCao}/capphep`,
+            Component: CreateBangQuangCao
+          },
+          {
+            path:"*",
+            Component: NotFoundFeature
+          }
+        ]
       },
       {
         path: ConfigRoute.CanBoSo.DiemDatQuangCao,
-        // loader:protectedLoader,
+        loader:protectedLoader,
         Component: DiemDatQuangCaoFeature,
         children: [
           {
@@ -63,6 +89,7 @@ const router = createBrowserRouter([
           },
           {
             path:`${ConfigRoute.CanBoSo.DiemDatQuangCao}/taomoi`,
+            loader:protectedCanBoLoader,
             Component: CreateDiemDatQuangCao
           },
           {
@@ -73,7 +100,7 @@ const router = createBrowserRouter([
       },
       {
         path: ConfigRoute.CanBoSo.BaoCaoViPham,
-        // loader:protectedLoader,
+        loader:protectedLoader,
         Component:BaoCaoViPhamFeature,
         children: [
           {

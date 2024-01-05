@@ -20,5 +20,11 @@ namespace AbsManagementAPI.Core.Models.BangQuangCao
         public string Phuong { get; set; }
         public string Quan { get; set; }
         public List<string> DanhSachViTri { get; set; }
+
+        //Thông tin công ty
+        public string TenCongTy { get; set; }
+        public string Email { get; set; }
+        public string SoDienThoai { get; set; }
+        public string DiaChiCongTy { get; set; }
     }
 }

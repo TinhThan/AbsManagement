@@ -43,7 +43,7 @@ namespace AbsManagementAPI.Validations.DiemDatQuangCao
                {
                    if (id > 0)
                    {
-                       return await _dataContext.DiemDatQuangCaos.AnyAsync(t => t.Id == id, canncellationToken);
+                       return await _dataContext.HinhThucQuangCaos.AnyAsync(t => t.Id == id, canncellationToken);
                    }
                    return true;
                }).WithMessage(MessageDiemDatQuangCao.DIEMDATQUANGCAO_IDHINHTHUC_QUANGCAO_NOT_EXISTS);

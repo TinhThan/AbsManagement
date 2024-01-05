@@ -7,6 +7,6 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.Command
     public class CapNhatPhieuCapPhepSuaQuangCaoCommand : IRequest<string>
     {
         public int Id { get; set; }
-        public CapNhatPhieuCapPhepSuaQuangCaoModel CapNhatPhieuCapPhepSuaQuangCaoModel { get; set; }
+        public string TinhTrang { get; set; }
     }
 }

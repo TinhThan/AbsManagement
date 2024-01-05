@@ -4,7 +4,7 @@ interface BaseBangQuangCao {
     danhSachHinhAnh: string[];
     kichThuoc: string;
     ngayHetHan: Date;
-    ngayCapNhat: Date;
+    ngayBatDau: Date;
     idTinhTrang:string;
 }
 
@@ -14,7 +14,7 @@ export interface BangQuangCaoModel extends BaseBangQuangCao{
     phuong: string;
     quan: string;
     tenLoaiBangQuangCao:string;
-    danhSachViTri: string[];
+    danhSachViTri: number[];
 }
 
 export interface CapNhatBangQuangCaoModel extends BaseBangQuangCao{
@@ -25,5 +25,4 @@ export interface ThemMoiBangQuangCaoModel extends BaseBangQuangCao{
 
 export interface XoaBangQuangCaoModel{
     id: number;
-    ngayCapNhat: Date | null;
 }

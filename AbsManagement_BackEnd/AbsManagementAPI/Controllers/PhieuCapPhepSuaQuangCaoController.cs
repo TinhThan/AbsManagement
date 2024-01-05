@@ -67,7 +67,7 @@ namespace AbsManagementAPI.Controllers
         {
             return await _mediator.Send(new CapNhatPhieuCapPhepSuaQuangCaoCommand()
             {
-                CapNhatPhieuCapPhepSuaQuangCaoModel = model,
+                TinhTrang = model.TinhTrang,
                 Id = id
             });
         }

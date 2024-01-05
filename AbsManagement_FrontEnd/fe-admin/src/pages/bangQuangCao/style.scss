@@ -1,0 +1,8 @@
+.map-container-space-diemQuangCao{
+    height: 520px;
+    width: 100%;
+    position: relative;
+    #map{
+        position: absolute; top: 0; bottom: 0; width: 100%;
+    }
+}
