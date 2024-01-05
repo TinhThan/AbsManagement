@@ -43,7 +43,6 @@ namespace AbsManagementAPI.Controllers
         /// <summary>
         /// Danh sách Phiếu cấp phép sửa Quảng Cáo
         /// </summary>
-        /// <param name="id"></param>
         /// <response code="200">Lấy danh sách Phiếu cấp phép sửa Quảng Cáo thành công</response>
         /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
         /// <response code="500">Lỗi đến từ server</response>
@@ -92,7 +91,7 @@ namespace AbsManagementAPI.Controllers
         {
             return await _mediator.Send(new CapNhatPhieuCapPhepSuaQuangCaoCommand()
             {
-                CapNhatPhieuCapPhepSuaQuangCaoModel = model,
+                TinhTrang = model.TinhTrang,
                 Id = id
             });
         }
