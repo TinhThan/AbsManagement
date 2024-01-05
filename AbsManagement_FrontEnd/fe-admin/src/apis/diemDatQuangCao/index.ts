@@ -5,7 +5,6 @@ import { AxiosResponse } from "axios";
 import { CapNhatDiemDatQuangCaoModel, ThemDiemDatQuangCaoModel } from "./diemDatQuangCaoModel";
 
 class DiemDatQuangCaoAPI extends BaseApi {
-    isPublic_API = true;
     async DanhSach(quan:string | null,phuong:string | null) {
         return this.get(
         API_URL + ConfigUrlApi.Urls.DiemDatQuangCao.DanhSach + `quan=${quan || ''}&phuong=${phuong || ''}`

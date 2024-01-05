@@ -18,7 +18,7 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
             var PhieuCapPhepQuangCaoMoi = _mapper.Map<PhieuCapPhepQuangCaoEntity>(request.ThemPhieuCapPhepQuangCaoModel);
             try
             {
-                PhieuCapPhepQuangCaoMoi.IdTinhTrang = "ADD";
+                PhieuCapPhepQuangCaoMoi.IdTinhTrang = "ChoDuyet";
                 await _dataContext.AddAsync(PhieuCapPhepQuangCaoMoi);
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)

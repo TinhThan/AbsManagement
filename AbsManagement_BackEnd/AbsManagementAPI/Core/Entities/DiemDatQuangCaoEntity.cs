@@ -25,6 +25,7 @@ namespace AbsManagementAPI.Core.Entities
         public virtual ICollection<BangQuangCaoEntity> BangQuangCaos { get; set; }
         public virtual ICollection<BaoCaoViPhamEntity> BaoCaoViPhams { get; set; }
         public virtual ICollection<PhieuCapPhepSuaQuangCaoEntity> PhieuCapPhepSuaQuangCaos { get; set; }
+        public virtual ICollection<PhieuCapPhepQuangCaoEntity> PhieuCapPhepQuangCaos { get; set; }
 
     }
 }

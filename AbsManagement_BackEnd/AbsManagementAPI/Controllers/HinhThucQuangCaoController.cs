@@ -26,13 +26,7 @@ namespace AbsManagementAPI.Controllers
         /// Chi tiếthình thức quảng cáo
         /// </summary>
         /// <param name="id"></param>
-        /// <response code="200">Chi tiếthình thức quảng cáo thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpGet("chitiet/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(HinhThucQuangCaoModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<HinhThucQuangCaoModel> ChiTiet(int id)
         {
             return await _mediator.Send(new ChiTietHinhThucQuangCaoQuery()
@@ -44,13 +38,7 @@ namespace AbsManagementAPI.Controllers
         /// <summary>
         /// Danh sáchhình thức quảng cáo
         /// </summary>
-        /// <response code="200">Lấy danh sáchhình thức quảng cáo thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpGet()]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<HinhThucQuangCaoModel>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<List<HinhThucQuangCaoModel>> DanhSach()
         {
             return await _mediator.Send(new DanhSachHinhThucQuangCaoQuery());
@@ -60,13 +48,7 @@ namespace AbsManagementAPI.Controllers
         /// Thêm mới hình thức quảng cáo
         /// </summary>
         /// <param name="model"></param>
-        /// <response code="200">Thêm mớihình thức quảng cáo thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("taomoi")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<string> TaoMoi(ThemHinhThucQuangCaoModel model)
         {
             return await _mediator.Send(new ThemHinhThucQuangCaoCommand()
@@ -80,13 +62,7 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
-        /// <response code="200">cập nhật hình thức quảng cáo thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("capnhat/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<string> CapNhat(int id, CapNhatHinhThucQuangCaoModel model)
         {
             return await _mediator.Send(new CapNhatHinhThucQuangCaoCommand()
@@ -97,16 +73,10 @@ namespace AbsManagementAPI.Controllers
         }
 
         /// <summary>
-        /// Xóahình thức quảng cáo
+        /// Xóa hình thức quảng cáo
         /// </summary>
         /// <param name="model"></param>
-        /// <response code="200">Xóahình thức quảng cáo thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("xoa")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<string> Xoa(XoaHinhThucQuangCaoModel model)
         {
             return await _mediator.Send(new XoaHinhThucQuangCaoCommand()

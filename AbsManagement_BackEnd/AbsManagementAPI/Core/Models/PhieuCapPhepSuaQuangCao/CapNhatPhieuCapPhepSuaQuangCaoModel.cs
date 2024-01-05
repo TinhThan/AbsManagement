@@ -1,7 +1,7 @@
 ﻿namespace AbsManagementAPI.Core.Models.PhieuCapPhepSuaQuangCao
 {
-    public class CapNhatPhieuCapPhepSuaQuangCaoModel: ThemPhieuCapPhepSuaQuangCaoModel
+    public class CapNhatPhieuCapPhepSuaQuangCaoModel
     {
-        public int Id { get; set; }
+        public string TinhTrang { get; set; }
     }
 }

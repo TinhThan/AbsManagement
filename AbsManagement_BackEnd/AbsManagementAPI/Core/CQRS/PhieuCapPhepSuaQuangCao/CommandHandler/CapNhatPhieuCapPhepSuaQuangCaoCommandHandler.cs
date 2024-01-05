@@ -3,9 +3,11 @@ using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models.BangQuangCao;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.CommandHandler
 {
@@ -18,12 +20,35 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.CommandHandler
         public async Task<string> Handle(CapNhatPhieuCapPhepSuaQuangCaoCommand request, CancellationToken cancellationToken)
         {
             var phieuCapPhepSuaQuangCao = await _dataContext.PhieuCapPhepSuaQuangCaos.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
+            if (phieuCapPhepSuaQuangCao == null)
+            {
+                return MessageSystem.UPDATE_FAIL;
+            }
             try
             {
-                var phieuCapPhepSuaQuangCaoCapNhat = _mapper.Map(request.CapNhatPhieuCapPhepSuaQuangCaoModel, phieuCapPhepSuaQuangCao);
+                if (request.TinhTrang != "DaHuy")
+                {
+                    if (phieuCapPhepSuaQuangCao.IdBangQuangCao != null)
+                    {
+                        var bangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == phieuCapPhepSuaQuangCao.IdBangQuangCao);
+                        var capNhatBangQuangCaoModel = JsonConvert.DeserializeObject<CapNhatBangQuangCaoModel>(phieuCapPhepSuaQuangCao.NoiDung);
+                        var bangQuangCaoCapNhat = _mapper.Map(capNhatBangQuangCaoModel, bangQuangCao);
+                        bangQuangCaoCapNhat.IdTinhTrang = "HoanThanh";
+                        _dataContext.Update<BangQuangCaoEntity>(bangQuangCaoCapNhat);
+                    }
 
-                phieuCapPhepSuaQuangCaoCapNhat.NgayGui = DateTimeOffset.UtcNow;
-                _dataContext.Update(phieuCapPhepSuaQuangCaoCapNhat);
+                    if (phieuCapPhepSuaQuangCao.IdDiemDat != null)
+                    {
+                        var diemDatQuangCao = await _dataContext.DiemDatQuangCaos.FirstOrDefaultAsync(t => t.Id == phieuCapPhepSuaQuangCao.IdDiemDat);
+                        var capNhatDiemDatQuangCaoModel = JsonConvert.DeserializeObject<CapNhatBangQuangCaoModel>(phieuCapPhepSuaQuangCao.NoiDung);
+                        var diemQuangCaoCapNhat = _mapper.Map(capNhatDiemDatQuangCaoModel, diemDatQuangCao);
+                        diemQuangCaoCapNhat.IdTinhTrang = "DaQuyHoach";
+                        _dataContext.Update<DiemDatQuangCaoEntity>(diemQuangCaoCapNhat);
+                    }
+                }
+
+                phieuCapPhepSuaQuangCao.TinhTrang = request.TinhTrang;
+                _dataContext.Update(phieuCapPhepSuaQuangCao);
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 if (resultCapNhat > 0)
                 {

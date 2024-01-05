@@ -1,4 +1,5 @@
-﻿using AbsManagementAPI.Core.Models.Mail;
+﻿using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models.Mail;
 using AbsManagementAPI.Servives;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,10 @@ namespace AbsManagementAPI.Controllers
             _mail = mail;
         }
 
+        /// <summary>
+        /// Gởi email
+        /// </summary>
+        /// <param name="mailData"></param>
         [HttpPost("sendmail")]
         public async Task<IActionResult> SendMailAsync(MailData mailData)
         {

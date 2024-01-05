@@ -96,7 +96,12 @@ export class BaseApi {
                 MessageBox.Fail("Hệ thống đã xảy ra lỗi.")
                 return;
             }
-            console.log("error",error)
+            if(error.response.data.description === 'Token_Expired')
+            {
+                UserInfoStorage.remove();
+                MessageBox.Fail("Token hết hạn.")
+                return;
+            }
             MessageBox.Fail(error.response.data.detail)
         }
         );

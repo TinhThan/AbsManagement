@@ -3,9 +3,12 @@ using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models.BangQuangCao;
 using AbsManagementAPI.Entities;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.CommandHandler
 {
@@ -18,12 +21,29 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.CommandHandler
 
         public async Task<string> Handle(ThemPhieuCapPhepSuaQuangCaoCommand request, CancellationToken cancellationToken)
         {
-            var phieuCapPhepSuaQuangCao = _mapper.Map<PhieuCapPhepSuaQuangCaoEntity>(request.ThemPhieuCapPhepSuaQuangCaoModel);
-
+            var phieuCapPhepSuaQuangCao = new PhieuCapPhepSuaQuangCaoEntity()
+            {
+                IdBangQuangCao = request.ThemPhieuCapPhepSuaQuangCaoModel.IdBangQuangCao,
+                IdDiemDat = request.ThemPhieuCapPhepSuaQuangCaoModel.IdDiemDat
+            };
             try
             {
                 phieuCapPhepSuaQuangCao.NgayGui = DateTimeOffset.UtcNow;
-                phieuCapPhepSuaQuangCao.TinhTrang = "Mới tạo phiếu";
+                if (phieuCapPhepSuaQuangCao.IdBangQuangCao != null)
+                {
+                    phieuCapPhepSuaQuangCao.NoiDung = JsonConvert.SerializeObject(request.ThemPhieuCapPhepSuaQuangCaoModel.CapNhatBangQuangCao);
+                    var bangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == phieuCapPhepSuaQuangCao.IdBangQuangCao);
+                    bangQuangCao.IdTinhTrang = "ChoDuyet";
+                    _dataContext.Update<BangQuangCaoEntity>(bangQuangCao);
+                }
+                if (phieuCapPhepSuaQuangCao.IdDiemDat != null)
+                {
+                    phieuCapPhepSuaQuangCao.NoiDung = JsonConvert.SerializeObject(request.ThemPhieuCapPhepSuaQuangCaoModel.CapNhatDiemQuangCao);
+                    var diemDat = await _dataContext.DiemDatQuangCaos.FirstOrDefaultAsync(t => t.Id == phieuCapPhepSuaQuangCao.IdDiemDat);
+                    diemDat.IdTinhTrang = "ChoDuyet";
+                    _dataContext.Update<DiemDatQuangCaoEntity>(diemDat);
+                }
+                phieuCapPhepSuaQuangCao.TinhTrang = "ChoDuyet";
                 await _dataContext.AddAsync(phieuCapPhepSuaQuangCao);
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)
