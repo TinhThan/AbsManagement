@@ -29,7 +29,7 @@ namespace AbsManagementAPI
         {
             services.AddCore();
             services.AddSignalR();
-            services.AddControllers(options => options.Filters.Add(new ApiExceptionFilter()));
+            services.AddControllers();
 
             services.AddEndpointsApiExplorer();
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models.CanBo;
+using Microsoft.AspNetCore.Mvc;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace AbsManagementAPI.Controllers
@@ -13,6 +15,10 @@ namespace AbsManagementAPI.Controllers
             this.environment = environment;
         }
 
+        /// <summary>
+        /// Upload Multi
+        /// </summary>
+        /// <param name="hinhAnh"></param>
         [HttpPost()]
         public async Task<string> UploadImage(IFormFile hinhAnh)
         {
@@ -43,6 +49,11 @@ namespace AbsManagementAPI.Controllers
                 throw ex;
             }
         }
+
+        /// <summary>
+        /// Upload Multi
+        /// </summary>
+        /// <param name="hinhAnhs"></param>
 
         [HttpPost("multip")]
         public async Task<List<string>> MultiUploadImage([FromForm]IFormFileCollection hinhAnhs)

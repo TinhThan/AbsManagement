@@ -26,13 +26,7 @@ namespace AbsManagementAPI.Controllers
         /// Chi tiết loại vị trí
         /// </summary>
         /// <param name="id"></param>
-        /// <response code="200">Chi tiết loại vị trí thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpGet("chitiet/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(BangQuangCaoModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<LoaiViTriModel> ChiTiet(int id)
         {
             return await _mediator.Send(new ChiTietLoaiViTriQuery()
@@ -44,14 +38,7 @@ namespace AbsManagementAPI.Controllers
         /// <summary>
         /// Danh sách loại vị trí
         /// </summary>
-        /// <param name="id"></param>
-        /// <response code="200">Lấy danh sách loại vị trí thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpGet()]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<BangQuangCaoModel>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<List<LoaiViTriModel>> DanhSach()
         {
             return await _mediator.Send(new DanhSachLoaiViTriQuery());
@@ -61,14 +48,8 @@ namespace AbsManagementAPI.Controllers
         /// Thêm mới loại vị trí
         /// </summary>
         /// <param name="model"></param>
-        /// <response code="200">Thêm mới loại vị trí thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpPost()]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<string> TaoMoi(ThemLoaiViTriModel model)
         {
             return await _mediator.Send(new ThemLoaiViTriCommand()
@@ -82,14 +63,8 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
-        /// <response code="200">Thêm mới loại vị trí thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("{id}")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<string> CapNhat(int id, CapNhatLoaiViTriModel model)
         {
             return await _mediator.Send(new CapNhatLoaiViTriCommand()
@@ -103,14 +78,8 @@ namespace AbsManagementAPI.Controllers
         /// Xóa loại vị trí
         /// </summary>
         /// <param name="model"></param>
-        /// <response code="200">Xóa loại vị trí thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("xoa")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<string> Xoa(XoaLoaiViTriModel model)
         {
             return await _mediator.Send(new XoaLoaiViTriCommand()

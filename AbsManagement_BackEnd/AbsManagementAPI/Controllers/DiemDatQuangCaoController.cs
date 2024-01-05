@@ -7,7 +7,6 @@ using AbsManagementAPI.Core.Models;
 using AbsManagementAPI.Core.Models.DiemDatQuangCao;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace AbsManagementAPI.Controllers
 {
@@ -15,7 +14,7 @@ namespace AbsManagementAPI.Controllers
     /// Controller điểm đặt quảng cáo
     /// </summary>
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [Route("api/diemdatquangcao")]
     public class DiemDatQuangCaoController : BaseController
     {
@@ -27,13 +26,7 @@ namespace AbsManagementAPI.Controllers
         /// Chi tiếtđiểm đặt quảng cáo
         /// </summary>
         /// <param name="id"></param>
-        /// <response code="200">Chi tiếtđiểm đặt quảng cáo thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpGet("chitiet/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DiemDatQuangCaoModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<DiemDatQuangCaoModel> ChiTiet(int id)
         {
             return await _mediator.Send(new ChiTietDiemDatQuangCaoQuery()
@@ -45,14 +38,8 @@ namespace AbsManagementAPI.Controllers
         /// <summary>
         /// Danh sáchđiểm đặt quảng cáo
         /// </summary>
-        /// <param name="id"></param>
-        /// <response code="200">Lấy danh sáchđiểm đặt quảng cáo thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
+        /// <param name="addressSearchModel"></param>
         [HttpGet()]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<DiemDatQuangCaoModel>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<List<DiemDatQuangCaoModel>> DanhSach([FromQuery]AddressSearchModel addressSearchModel)
         {
             return await _mediator.Send(new DanhSachDiemDatQuangCaoQuery()
@@ -65,13 +52,7 @@ namespace AbsManagementAPI.Controllers
         /// Thêm mới điểm đặt quảng cáo
         /// </summary>
         /// <param name="model"></param>
-        /// <response code="200">Thêm mớiđiểm đặt quảng cáo thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("taomoi")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<string> TaoMoi(ThemDiemDatQuangCaoModel model)
         {
             return await _mediator.Send(new ThemDiemDatQuangCaoCommand()
@@ -85,13 +66,7 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
-        /// <response code="200">cập nhật điểm đặt quảng cáo thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("capnhat/{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<string> CapNhat(int id, CapNhatDiemDatQuangCaoModel model)
         {
             return await _mediator.Send(new CapNhatDiemDatQuangCaoCommand()
@@ -105,13 +80,7 @@ namespace AbsManagementAPI.Controllers
         /// Xóađiểm đặt quảng cáo
         /// </summary>
         /// <param name="model"></param>
-        /// <response code="200">Xóađiểm đặt quảng cáo thành công</response>
-        /// <response code="400">Một vài thông tin truyền vào không hợp lệ</response>
-        /// <response code="500">Lỗi đến từ server</response>
         [HttpPost("xoa")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(CustomException))]
         public async Task<string> Xoa(XoaDiemDatQuangCaoModel model)
         {
             return await _mediator.Send(new XoaDiemDatQuangCaoCommand()
