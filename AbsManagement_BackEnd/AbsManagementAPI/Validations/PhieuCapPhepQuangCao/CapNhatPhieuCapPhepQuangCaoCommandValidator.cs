@@ -27,7 +27,7 @@ namespace AbsManagementAPI.Validations.PhieuCapPhepQuangCao
                 }).WithMessage(MessagePhieuCapPhepQuangCao.PHIEUCAPPHEPQUANGCAO_NOT_EXISTS);
 
             RuleFor(t => t.CapNhatPhieuCapPhepQuangCaoModel.IdDiemDatQuangCao)
-                .GreaterThan(0).WithMessage(MessagePhieuCapPhepQuangCao.PHIEUCAPPHEPQUANGCAO_IDBANGQUANGCAO_ID_IS_NULL_OR_EMPTY)
+                .GreaterThan(0).WithMessage(MessagePhieuCapPhepQuangCao.PHIEUCAPPHEPQUANGCAO_DIEMDATQUANGCAO_NOT_EMPTY)
                 .MustAsync(async (id, canncellationToken) =>
                 {
                     if (id > 0)
@@ -35,10 +35,10 @@ namespace AbsManagementAPI.Validations.PhieuCapPhepQuangCao
                         return await _dataContext.DiemDatQuangCaos.AnyAsync(t => t.Id == id, canncellationToken);
                     }
                     return true;
-                }).WithMessage(MessagePhieuCapPhepQuangCao.PHIEUCAPPHEPQUANGCAO_IDBANGQUANGCAO_NOT_EXISTS);
+                }).WithMessage(MessagePhieuCapPhepQuangCao.PHIEUCAPPHEPQUANGCAO_DIEMDATQUANGCAO_NOT_EXISTS);
 
             RuleFor(t => t.CapNhatPhieuCapPhepQuangCaoModel.IdLoaiBangQuangCao)
-               .GreaterThan(0).WithMessage(MessagePhieuCapPhepQuangCao.PHIEUCAPPHEPQUANGCAO_DIEMDATQUANGCAO_NOT_EMPTY)
+               .GreaterThan(0).WithMessage(MessagePhieuCapPhepQuangCao.PHIEUCAPPHEPQUANGCAO_IDLOAIBANGQUANGCAO_ID_IS_NULL_OR_EMPTY)
                .MustAsync(async (id, canncellationToken) =>
                {
                    if (id > 0)
@@ -46,7 +46,7 @@ namespace AbsManagementAPI.Validations.PhieuCapPhepQuangCao
                        return await _dataContext.LoaiBangQuangCaos.AnyAsync(t => t.Id == id, canncellationToken);
                    }
                    return true;
-               }).WithMessage(MessagePhieuCapPhepQuangCao.PHIEUCAPPHEPQUANGCAO_DIEMDATQUANGCAO_NOT_EXISTS);
+               }).WithMessage(MessagePhieuCapPhepQuangCao.PHIEUCAPPHEPQUANGCAO_IDLOAIBANGQUANGCAO_NOT_EXISTS);
 
         }
     }
