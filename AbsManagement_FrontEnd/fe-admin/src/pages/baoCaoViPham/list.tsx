@@ -29,11 +29,15 @@ export default function ListBaoCaoViPham(): JSX.Element {
 
     const handleOk = () => {
         setConfirmLoading(true);
-        const danhSachHinhAnh = baoCaoViPhams.map(ele => ele.id == idUpdate)
+        const baocao: any = baoCaoViPhams.map(ele => {
+            if (ele.id == idUpdate) return { ...ele }
+        })
         const payload = {
             noiDungXyLy: 'Update',
             idTinhTrang: 'DaXuLy',
-            DanhSachHinhAnhXuLy: danhSachHinhAnh
+            DanhSachHinhAnhXuLy: baocao[0].danhSachHinhAnh,
+            userName: baocao ? baocao[0].hoTen : ' ',
+            userEmail: baocao ? baocao[0].email : 'user@gmail.com'
         }
 
         baoCaoViPhamAPI.CapNhat(idUpdate, payload)

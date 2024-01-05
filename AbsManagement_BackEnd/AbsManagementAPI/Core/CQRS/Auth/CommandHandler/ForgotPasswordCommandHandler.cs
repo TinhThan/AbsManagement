@@ -38,13 +38,13 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
                 userExists.PasswordResetOTP = otp;
                 userExists.PasswordResetOTPExpiration = otpExpiration;
 
-                var emailBody = $"Dear {userExists.HoTen.ToUpper()}, <br /><br /> " +
-                                $"Here is your access code: <br />" +
+                var emailBody = $"Kinh gui {userExists.HoTen.ToUpper()}, <br /><br /> " +
+                                $"Duoi day la ma xac thuc cua ban: <br />" +
                                 $"<h1>{otp}</h1>" +
-                                $"This is a validation code, not a password. This OTP is valid until {otpExpiration}. <br /> " +
-                                $"Simply copy this code and paste into the Account Verification input field. <br /><br /> " +
-                                $"Best Regards, <br /><br /> " +
-                                $"Abs Management Admin";
+                                $"Day la mot ma xac thuc, khong phai la mat khau. Ma OTP nay co hieu luc den {otpExpiration}. <br /> " +
+                                $"Chi can sao chep ma nay va dan vao truong Nhap ma xac minh tai khoan. <br /><br /> " +
+                                $"Tran trong, <br /><br /> " +
+                                $"Abs Management";
 
                 var mailData = new MailData
                 (
