@@ -1,6 +1,7 @@
 ﻿using AbsManagementAPI.Core.Authentication;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models.CanBo;
 using AbsManagementAPI.Core.Models.HinhThucBaoCao;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -21,10 +22,19 @@ namespace AbsManagementAPI.Controllers
             _mapper = mapper;
         }
 
+
+        /// <summary>
+        /// Danh sách hình thức quảng cáo
+        /// </summary>
         [HttpGet()]
         public async Task<List<HinhThucBaoCaoModel>> List()
         => await _dataContext.HinhThucBaoCaos.ProjectTo<HinhThucBaoCaoModel>(_mapper.ConfigurationProvider).ToListAsync(CancellationToken.None);
 
+        /// <summary>
+        /// Cập nhật hình thức quảng cáo
+        /// </summary>
+        ///  <param name="id"></param>
+        ///  <param name="capNhatHinhThucBaoCaoModel"></param>
         [HttpPost("{id}")]
         [Authorize]
         public async Task<string> Update(int id, CapNhatHinhThucBaoCaoModel capNhatHinhThucBaoCaoModel)
@@ -43,7 +53,10 @@ namespace AbsManagementAPI.Controllers
                 throw new CustomMessageException("Cập nhật thất bại");
             }
         }
-
+        /// <summary>
+        /// Tạo hình thức quảng cáo
+        /// </summary>
+        ///  <param name="themHinhThucBaoCaoModel"></param>
         [HttpPost()]
         [Authorize]
         public async Task<string> Create(ThemHinhThucBaoCaoModel themHinhThucBaoCaoModel)
