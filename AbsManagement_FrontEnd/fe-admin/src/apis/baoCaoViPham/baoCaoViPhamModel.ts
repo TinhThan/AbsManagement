@@ -30,7 +30,7 @@ export interface BaoCaoViPhamModel extends BaseBaoCaoViPham{
     key:number;
 }
 
-export interface CapNhatBaoCaoViPhamModel extends BaseBaoCaoViPham{
+export interface CapNhatBaoCaoViPhamModel {
 }
 
 export interface ThemMoiBaoCaoViPhamModel extends BaseBaoCaoViPham{
