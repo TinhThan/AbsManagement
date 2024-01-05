@@ -53,7 +53,7 @@ export default function Map() {
         map.on("load", () => {
             map.addSource("points", {
                 type: "geojson",
-                data: SpaceToGeoJson(spaces) || undefined,
+                data: SpaceToGeoJson(spaces,'DaQuyHoach') || undefined,
                 cluster: true,
                 clusterMaxZoom: 14,
                 clusterRadius: 50,

@@ -19,6 +19,8 @@ import mapboxgl from 'mapbox-gl';
 import { Notification } from '../../utils';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import dataHCM from '../../assets/new-dataHCM.json';
+import { ThemPhieuChinhSuaModel } from '../../apis/phieuChinhSua/model';
+import { phieuChinhSuaAPI } from '../../apis/phieuChinhSua';
 
 const tinhTrangDiemDatQuangCao = [
     {
@@ -258,10 +260,22 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
             _model.danhSachViTri = danhSachViTri;            
             _model.quan = quan.postcode;
             _model.phuong = phuong.postcode;
-            diemDatQuangCaoAPI
-            .CapNhat(diemDatQuangCao.id,_model).then(()=>{
-                navigate(-1)
-            });
+            if(user?.role !== 'CanBoSo'){
+                const modelPhieuChinhSua:any = {
+                    idDiemDat:diemDatQuangCao.id,
+                    capNhatDiemQuangCao: _model
+                }            
+                phieuChinhSuaAPI.TaoMoi(modelPhieuChinhSua).then(()=>{
+                    navigate(-1)
+                });
+                return;
+            }else{
+                diemDatQuangCaoAPI
+                .CapNhat(diemDatQuangCao.id,_model).then(()=>{
+                    navigate(-1)
+                });
+            }
+
         }
             setLoading(false)
     }
@@ -296,11 +310,11 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
     return (
         <>
         <Suspense fallback={<PageLoading/>}>
-            <PageContainer title="Cập nhật điểm đặt quảng cáo">
+            <PageContainer title={user?.role === "CanBoSo" ? "Cập nhật điểm đặt quảng cáo" : "Cấp phép chỉnh sửa điểm đặt quảng cáo"}>
             <Spin spinning={loading}>
                 <Space className='space-button-on-top'>
                     <Button danger onClick={()=> navigate(-1)}><b>Thoát</b></Button>
-                    <Button type='primary' onClick={()=>form.submit()}><b>Lưu</b></Button>
+                    <Button type='primary' onClick={()=>form.submit()}><b>Gữi phiếu chỉnh sửa</b></Button>
                 </Space>
                 <Form layout='vertical'             
                     form={form}

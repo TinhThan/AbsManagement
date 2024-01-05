@@ -177,7 +177,7 @@ export default function ListBaoCaoViPham(): JSX.Element {
                     <Space direction='vertical' size={0} className='layout-basic-page'>
                         <Row wrap={false} gutter={[5,5]} style={{marginBottom:'10px'}}>
                             <Col flex='auto'>
-                            <Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
+                                <Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
                             </Col>
                         </Row>
                         <Table columns={columns} dataSource={baoCaoViPhams} scroll={{ x: 'max-content' }}/>
