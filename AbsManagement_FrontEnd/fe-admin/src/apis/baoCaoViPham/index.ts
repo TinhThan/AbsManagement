@@ -27,6 +27,7 @@ class BaoCaoViPhamAPI extends BaseApi {
 
     async CapNhat(id:number, model: CapNhatBaoCaoViPhamModel) {
       console.log("id",id)
+      this.isPublic_API = false;
         return this.post(
         API_URL + ConfigUrlApi.Urls.BaoCaoViPham.CapNhat + id,
         model

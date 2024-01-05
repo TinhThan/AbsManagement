@@ -6,8 +6,11 @@ import { PageLoading } from '@ant-design/pro-components';
 import UserInfoStorage from '../../storages/user-info';
 import { MessageBox } from '../../utils/messagebox';
 import { authAPI } from '../../apis/auth/authAPI';
+import { useAppDispatch } from '../../store';
+import { setAuth } from '../../store/auth.store';
 
 const Login: React.FC = () => {
+  const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -15,6 +18,7 @@ const Login: React.FC = () => {
     setLoading(true);
       const response = await authAPI.Login(values);
       if (response && response.status === 200) {
+        dispatch(setAuth({ ...response.data }))
         UserInfoStorage.set({ ...response.data });
         navigate('/')
       }

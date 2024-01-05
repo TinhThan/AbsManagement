@@ -1,7 +1,7 @@
 import { Suspense, useState, useEffect } from 'react';
 import React from 'react';
 import { PageContainer, PageLoading } from '@ant-design/pro-components';
-import { Button, Col, Dropdown, Input, Row, Space, Spin, Table, TableColumnType } from 'antd';
+import { Button, Col, Dropdown, Input, Popconfirm, Row, Space, Spin, Table, TableColumnType } from 'antd';
 import { BaoCaoViPhamModel } from '../../apis/baoCaoViPham/baoCaoViPhamModel';
 import { EditOutlined, EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
 import { getDistrictWithCode, getWardByDistrictWithCode } from '../../utils/getWard';
@@ -15,23 +15,48 @@ const { Search } = Input;
 
 export const tinhTrangBaoCaoViPham = {
     ChuaXuLy: "Chưa xử lý",
-    DaXyLy: "Đã xử lý"
+    DaXuLy: "Đã xử lý"
 }
 
 export default function ListBaoCaoViPham(): JSX.Element {
     const navigate = useNavigate();
     const [baoCaoViPhams, setBaoCaoViPhams] = useState<BaoCaoViPhamModel[]>([]);
     const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
+    const [idUpdate, setIdUpdate] = useState<number>(0);
+    const [UserStorage, setUserStorage] = useState<UserStorage | null>()
 
-    useEffect(() => {
-        setLoading(true);
-        const useInfo = UserInfoStorage.get();
-        getBaoCaoViPhams(useInfo);
-        setLoading(false);
-    }, [])
+    const handleOk = () => {
+        setConfirmLoading(true);
+        const baocao: any = baoCaoViPhams.map(ele => {
+            if (ele.id == idUpdate) return { ...ele }
+        })
+        const payload = {
+            noiDungXyLy: 'Update',
+            idTinhTrang: 'DaXuLy',
+            DanhSachHinhAnhXuLy: baocao[0].danhSachHinhAnh,
+            userName: baocao ? baocao[0].hoTen : ' ',
+            userEmail: baocao ? baocao[0].email : 'user@gmail.com'
+        }
 
+        baoCaoViPhamAPI.CapNhat(idUpdate, payload)
+            .then((res: any) => {
+                if (res && res.status === 200) {
+                    getBaoCaoViPhams(UserStorage);
+                }
+            })
+
+        setOpen(false);
+        setConfirmLoading(false);
+    };
+
+    const handleCancel = () => {
+        setOpen(false);
+    };
 
     async function getBaoCaoViPhams(useInfo) {
+        setLoading(true);
         baoCaoViPhamAPI
             .DanhSach(useInfo?.noiCongTac[0] || '', useInfo?.noiCongTac[1] || '')
             .then((response) => {
@@ -45,7 +70,19 @@ export default function ListBaoCaoViPham(): JSX.Element {
                     setBaoCaoViPhams(newData || []);
                 }
             });
+
+        setLoading(false);
     }
+
+    const updateReportStatus = (id: number) => {
+        setOpen(true);
+        setIdUpdate(id);
+    }
+
+    useEffect(() => {
+        if (UserInfoStorage) setUserStorage(UserInfoStorage.get());
+        getBaoCaoViPhams(UserStorage);
+    }, [])
 
     const columns: TableColumnType<BaoCaoViPhamModel>[] = [
         {
@@ -95,9 +132,9 @@ export default function ListBaoCaoViPham(): JSX.Element {
             width: 200,
             sorter: true,
             dataIndex: 'phuong',
-            key: 'phuong',            
-            render:(value: string,record: BaoCaoViPhamModel) => {
-                return "Phường " + getWardByDistrictWithCode(record.quan || '',record.phuong || '').name;
+            key: 'phuong',
+            render: (value: string, record: BaoCaoViPhamModel) => {
+                return "Phường " + getWardByDistrictWithCode(record.quan || '', record.phuong || '').name;
             },
             showSorterTooltip: false
         },
@@ -106,9 +143,9 @@ export default function ListBaoCaoViPham(): JSX.Element {
             width: 200,
             sorter: true,
             dataIndex: 'quan',
-            key: 'quan',            
-            render:(value: string,record: BaoCaoViPhamModel) => {
-                return "Quận " +getDistrictWithCode(record.quan || '').name;
+            key: 'quan',
+            render: (value: string, record: BaoCaoViPhamModel) => {
+                return "Quận " + getDistrictWithCode(record.quan || '').name;
             },
             showSorterTooltip: false
         },
@@ -146,19 +183,14 @@ export default function ListBaoCaoViPham(): JSX.Element {
                                             id: row.id.toString()
                                         })}`
                                     })
-                                }
-                                // {
-                                //     label: "Cập nhật",
-                                //     key: "2",
-                                //     icon: <EditOutlined />,
-                                //     // onClick: () => navigate(`${ConfigRoute.CanBoSo.BaoCaoViPham}/capnhat/${row.id}`),
-                                //     onClick: () => navigate({
-                                //         pathname: `${ConfigRoute.CanBoSo.BaoCaoViPham}/capnhat`,
-                                //         search: `?${createSearchParams({
-                                //           id: row.id.toString()
-                                //         })}`
-                                //     })
-                                // }
+                                },
+                                (row.idTinhTrang != "DaXuLy") ? // Thêm điều kiện tại đây
+                                    {
+                                        label: "Cập nhật trạng thái",
+                                        key: "2",
+                                        icon: <EditOutlined />,
+                                        onClick: () => updateReportStatus(row.id)
+                                    } : null
                             ]
                         }}
                         trigger={['click']}
@@ -175,15 +207,24 @@ export default function ListBaoCaoViPham(): JSX.Element {
             <PageContainer title="Danh sách báo cáo vi phạm">
                 <Spin spinning={loading}>
                     <Space direction='vertical' size={0} className='layout-basic-page'>
-                        <Row wrap={false} gutter={[5,5]} style={{marginBottom:'10px'}}>
+                        <Row wrap={false} gutter={[5, 5]} style={{ marginBottom: '10px' }}>
                             <Col flex='auto'>
                                 <Search placeholder="Tìm kiếm..." enterButton="Search" size="large" />
                             </Col>
                         </Row>
-                        <Table columns={columns} dataSource={baoCaoViPhams} scroll={{ x: 'max-content' }}/>
+                        <Table columns={columns} dataSource={baoCaoViPhams} scroll={{ x: 'max-content' }} />
                     </Space>
                 </Spin>
             </PageContainer>
+
+            <Popconfirm
+                title=" "
+                description="Xác nhận cập nhật thông tin!"
+                open={open}
+                onConfirm={handleOk}
+                okButtonProps={{ loading: confirmLoading }}
+                onCancel={handleCancel}
+            />
         </Suspense>
     );
 }
