@@ -45,6 +45,7 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.PhieuCapPhepSuaQuangCaos, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
                 .ForMember(src => src.PhieuCapPhepQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
@@ -225,13 +226,14 @@ namespace AbsManagementAPI.Core
             #region PhieuCapPhepQuangCao
 
             CreateMap<PhieuCapPhepQuangCaoEntity, PhieuCapPhepQuangCaoModel>();
-                
+
 
             CreateMap<ThemPhieuCapPhepQuangCaoModel, PhieuCapPhepQuangCaoEntity>()
                 .ForMember(src => src.IdCanBoGui, desc => desc.Ignore())
                 .ForMember(src => src.IdCanBoDuyet, desc => desc.Ignore())
                 .ForMember(src => src.NgayGui, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.NgayDuyet, desc => desc.Ignore())
                 .ForMember(src => src.CanBoGui, desc => desc.Ignore())
                 .ForMember(src => src.CanBoDuyet, desc => desc.Ignore())
                 .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
@@ -242,6 +244,7 @@ namespace AbsManagementAPI.Core
                                 .ForMember(src => src.IdCanBoGui, desc => desc.Ignore())
                 .ForMember(src => src.IdCanBoDuyet, desc => desc.Ignore())
                 .ForMember(src => src.NgayGui, desc => desc.Ignore())
+                .ForMember(src => src.NgayDuyet, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.CanBoGui, desc => desc.Ignore())
                 .ForMember(src => src.CanBoDuyet, desc => desc.Ignore())

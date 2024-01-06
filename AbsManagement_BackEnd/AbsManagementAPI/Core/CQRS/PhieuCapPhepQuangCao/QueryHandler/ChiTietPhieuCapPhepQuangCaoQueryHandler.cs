@@ -16,9 +16,15 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.QueryHandler
 
         public async Task<PhieuCapPhepQuangCaoModel> Handle(ChiTietPhieuCapPhepQuangCaoQuery request, CancellationToken cancellationToken)
         {
-            return await _dataContext.PhieuCapPhepQuangCaos.AsSplitQuery()
+            try
+            {
+                return await _dataContext.PhieuCapPhepQuangCaos.Include(t => t.BangQuangCao).AsSplitQuery()
                                                     .ProjectTo<PhieuCapPhepQuangCaoModel>(_mapper.ConfigurationProvider)
                                                     .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
+
+            }
+            catch (Exception ex) { throw ex; }
+
         }
     }
 }

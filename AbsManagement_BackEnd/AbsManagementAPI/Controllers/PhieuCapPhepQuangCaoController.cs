@@ -15,7 +15,7 @@ namespace AbsManagementAPI.Controllers
     /// Controller PhieuCapPhep quảng cáo
     /// </summary>
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [Route("api/phieucapphepquangcao")]
     public class PhieuCapPhepQuangCaoController : BaseController
     {
@@ -41,7 +41,7 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpGet()]
-        public async Task<List<PhieuCapPhepQuangCaoModel>> DanhSach(int id)
+        public async Task<List<PhieuCapPhepQuangCaoModel>> DanhSach()
         {
             return await _mediator.Send(new DanhSachPhieuCapPhepQuangCaoQuery());
         }
