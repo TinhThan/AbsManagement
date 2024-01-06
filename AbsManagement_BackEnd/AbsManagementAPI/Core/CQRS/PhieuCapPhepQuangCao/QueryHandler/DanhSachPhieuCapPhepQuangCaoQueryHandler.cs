@@ -11,16 +11,18 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.QueryHandler
 {
     public class DanhSachPhieuCapPhepQuangCaoQueryHandler : BaseHandler, IRequestHandler<DanhSachPhieuCapPhepQuangCaoQuery, List<PhieuCapPhepQuangCaoModel>>
     {
-        private readonly INotifyService _notifyService;
-        public DanhSachPhieuCapPhepQuangCaoQueryHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper, INotifyService notifyService) : base(httpContextAccessor, dataContext, mapper)
+        public DanhSachPhieuCapPhepQuangCaoQueryHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
-            _notifyService = notifyService;
         }
 
         public async Task<List<PhieuCapPhepQuangCaoModel>> Handle(DanhSachPhieuCapPhepQuangCaoQuery request, CancellationToken cancellationToken)
         {
-            await _notifyService.SendMessageNotify("Thông báo", "Lấy danh sách thành công");
-            return await _dataContext.PhieuCapPhepQuangCaos.ProjectTo<PhieuCapPhepQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+            return await _dataContext.PhieuCapPhepQuangCaos.Include(t=>t.BangQuangCao)
+                .Include(t => t.CanBoGui)
+                .Include(t => t.CanBoDuyet)
+                .Include(t => t.BangQuangCao.DiemDatQuangCao)
+                .Include(t => t.BangQuangCao.LoaiBangQuangCao)
+                .ProjectTo<PhieuCapPhepQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace AbsManagementAPI.Core.Models.BangQuangCao
         public string DiaChi { get; set; }
         public string Phuong { get; set; }
         public string Quan { get; set; }
-        public List<string> DanhSachViTri { get; set; }
+        public List<decimal> DanhSachViTri { get; set; }
 
         //Thông tin công ty
         public string TenCongTy { get; set; }

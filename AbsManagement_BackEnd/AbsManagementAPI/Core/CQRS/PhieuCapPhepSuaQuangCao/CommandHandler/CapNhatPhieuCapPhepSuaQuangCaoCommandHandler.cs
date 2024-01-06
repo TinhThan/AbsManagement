@@ -33,7 +33,7 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.CommandHandler
                         var bangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == phieuCapPhepSuaQuangCao.IdBangQuangCao);
                         var capNhatBangQuangCaoModel = JsonConvert.DeserializeObject<CapNhatBangQuangCaoModel>(phieuCapPhepSuaQuangCao.NoiDung);
                         var bangQuangCaoCapNhat = _mapper.Map(capNhatBangQuangCaoModel, bangQuangCao);
-                        bangQuangCaoCapNhat.IdTinhTrang = "HoanThanh";
+                        bangQuangCaoCapNhat.IdTinhTrang = "DaQuyHoach";
                         _dataContext.Update<BangQuangCaoEntity>(bangQuangCaoCapNhat);
                     }
 
