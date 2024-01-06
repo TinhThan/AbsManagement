@@ -1,11 +1,11 @@
 ﻿using AbsManagementAPI.Core.Authentication;
 using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.CQRS.Auth.Command;
-using AbsManagementAPI.Core.CQRS.Log.Command;
+using AbsManagementAPI.Core.CQRS.Log;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Log.Command;
 using AbsManagementAPI.Core.Models.Auth;
-using AbsManagementAPI.Core.Models.Log;
 using AbsManagementAPI.Core.Models.Mail;
 using AbsManagementAPI.Servives;
 using AutoMapper;
