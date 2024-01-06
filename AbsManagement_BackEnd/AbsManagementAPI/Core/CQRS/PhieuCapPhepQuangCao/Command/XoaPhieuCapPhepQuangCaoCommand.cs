@@ -5,7 +5,6 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.Command
 {
     public class XoaPhieuCapPhepQuangCaoCommand : IRequest<string>
     {
-        public XoaPhieuCapPhepQuangCaoModel XoaPhieuCapPhepQuangCao { get; set; }
-
+        public int Id { get; set; }
     }
 }

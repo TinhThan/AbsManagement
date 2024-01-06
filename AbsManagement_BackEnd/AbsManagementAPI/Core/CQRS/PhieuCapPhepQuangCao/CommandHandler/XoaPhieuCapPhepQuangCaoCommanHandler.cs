@@ -17,7 +17,7 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
 
         public async Task<string> Handle(XoaPhieuCapPhepQuangCaoCommand request, CancellationToken cancellationToken)
         {
-            var PhieuCapPhepQuangCao = await _dataContext.PhieuCapPhepQuangCaos.FirstOrDefaultAsync(t => t.Id == request.XoaPhieuCapPhepQuangCao.Id, cancellationToken);
+            var PhieuCapPhepQuangCao = await _dataContext.PhieuCapPhepQuangCaos.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
             try
             {
                 _dataContext.Remove(PhieuCapPhepQuangCao);

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.Command
 {
-    public class DuyetPhieuCapPhepQuangCaoCommand : IRequest<string>
+    public class HuyPhieuCapPhepQuangCaoCommand : IRequest<string>
     {
         public int Id { get; set; }
     }
