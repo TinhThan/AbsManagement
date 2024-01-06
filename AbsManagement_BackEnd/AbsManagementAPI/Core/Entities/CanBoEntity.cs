@@ -1,4 +1,6 @@
-﻿namespace AbsManagementAPI.Core.Entities
+﻿using AbsManagementAPI.Entities;
+
+namespace AbsManagementAPI.Core.Entities
 {
     public class CanBoEntity
     {
@@ -23,5 +25,9 @@
         public DateTime? PasswordResetOTPExpiration { get; set; }
 
         public virtual ICollection<BaoCaoViPhamEntity> BaoCaoViPhams { get; set; }
+        public virtual ICollection<PhieuCapPhepSuaQuangCaoEntity> PhieuCapPhepSuaQuangCaoGuis { get; set; }
+        public virtual ICollection<PhieuCapPhepSuaQuangCaoEntity> PhieuCapPhepSuaQuangCaoDuyets { get; set; }
+        public virtual ICollection<PhieuCapPhepQuangCaoEntity> PhieuCapPhepQuangCaoDuyets { get; set; }
+        public virtual ICollection<PhieuCapPhepQuangCaoEntity> PhieuCapPhepQuangCaoGuis { get; set; }
     }
 }

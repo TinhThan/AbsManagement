@@ -1,4 +1,5 @@
-﻿using AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.Command;
+﻿using AbsManagementAPI.Core.Authentication;
+using AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.Query;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AbsManagementAPI.Core.Models.BangQuangCao;
@@ -25,22 +26,45 @@ namespace AbsManagementAPI.Controllers
         /// Chi tiết Phiếu cấp phép sửa Quảng Cáo
         /// </summary>
         /// <param name="id"></param>
-        [HttpGet("chitiet/{id}")]
-        public async Task<PhieuCapPhepSuaQuangCaoModel> ChiTiet(int id)
+        [HttpGet("chitiet/bangquangcao/{id}")]
+        public async Task<PhieuCapPhepSuaBangQuangCaoModel> ChiTiet(int id)
         {
-            return await _mediator.Send(new ChiTietPhieuCapPhepSuaQuangCaoQuery()
+            return await _mediator.Send(new ChiTietPhieuCapPhepSuaBangDatQuangCaoQuery()
+            {
+                Id = id
+            });
+        }
+
+
+        /// <summary>
+        /// Chi tiết Phiếu cấp phép sửa Quảng Cáo
+        /// </summary>
+        /// <param name="id"></param>
+        [HttpGet("chitiet/diemdatquangcao/{id}")]
+        public async Task<PhieuCapPhepSuaDiemDatQuangCaoModel> ChiTietDiemDat(int id)
+        {
+            return await _mediator.Send(new ChiTietPhieuCapPhepSuaDiemDatQuangCaoQuery()
             {
                 Id = id
             });
         }
 
         /// <summary>
-        /// Danh sách Phiếu cấp phép sửa Quảng Cáo
+        /// Danh sách Phiếu cấp phép sửa điểm đặt Quảng Cáo
         /// </summary>
-        [HttpGet("danhsach")]
-        public async Task<List<PhieuCapPhepSuaQuangCaoModel>> DanhSach()
+        [HttpGet("danhsach/diemdatquangcao")]
+        public async Task<List<PhieuCapPhepSuaDiemDatQuangCaoModel>> DanhSach()
         {
-            return await _mediator.Send(new DanhSachPhieuCapPhepSuaQuangCaoQuery());
+            return await _mediator.Send(new DanhSachPhieuCapPhepDiemDatQuangCaoQuery());
+        }
+
+        /// <summary>
+        /// Danh sách Phiếu cấp phép sửa bảng Quảng Cáo
+        /// </summary>
+        [HttpGet("danhsach/bangquangcao")]
+        public async Task<List<PhieuCapPhepSuaBangQuangCaoModel>> DanhSachDiemDat()
+        {
+            return await _mediator.Send(new DanhSachPhieuCapPhepSuaBangQuangCaoQuery());
         }
 
 
@@ -48,6 +72,7 @@ namespace AbsManagementAPI.Controllers
         /// Thêm mới Phiếu cấp phép sửa Quảng Cáo
         /// </summary>
         /// <param name="model"></param>
+        [Authorize]
         [HttpPost("taomoi")]
         public async Task<string> TaoMoi(ThemPhieuCapPhepSuaQuangCaoModel model)
         {
@@ -62,6 +87,7 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
+        [Authorize]
         [HttpPost("capnhat/{id}")]
         public async Task<string> CapNhat(int id, CapNhatPhieuCapPhepSuaQuangCaoModel model)
         {

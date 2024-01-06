@@ -5,7 +5,7 @@ using MediatR;
 namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.Query
 {
 
-    public class ChiTietPhieuCapPhepSuaQuangCaoQuery : IRequest<PhieuCapPhepSuaQuangCaoModel>
+    public class ChiTietPhieuCapPhepSuaDiemDatQuangCaoQuery : IRequest<PhieuCapPhepSuaDiemDatQuangCaoModel>
     {
         public int Id { get; set; }
     }

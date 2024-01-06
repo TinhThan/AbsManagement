@@ -9,17 +9,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.QueryHandler
 {
-    public class ChiTietPhieuCapPhepSuaQuangCaoQueryHandler : BaseHandler, IRequestHandler<ChiTietPhieuCapPhepSuaQuangCaoQuery, PhieuCapPhepSuaQuangCaoModel>
+    public class ChiTietPhieuCapPhepSuaDiemDatQuangCaoQueryHandler : BaseHandler, IRequestHandler<ChiTietPhieuCapPhepSuaDiemDatQuangCaoQuery, PhieuCapPhepSuaDiemDatQuangCaoModel>
     {
-        public ChiTietPhieuCapPhepSuaQuangCaoQueryHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
+        public ChiTietPhieuCapPhepSuaDiemDatQuangCaoQueryHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
         }
 
-        public async Task<PhieuCapPhepSuaQuangCaoModel> Handle(ChiTietPhieuCapPhepSuaQuangCaoQuery request, CancellationToken cancellationToken)
+        public async Task<PhieuCapPhepSuaDiemDatQuangCaoModel> Handle(ChiTietPhieuCapPhepSuaDiemDatQuangCaoQuery request, CancellationToken cancellationToken)
         {
             return await _dataContext.PhieuCapPhepSuaQuangCaos
                                                     .AsSplitQuery()
-                                                    .ProjectTo<PhieuCapPhepSuaQuangCaoModel>(_mapper.ConfigurationProvider)
+                                                    .ProjectTo<PhieuCapPhepSuaDiemDatQuangCaoModel>(_mapper.ConfigurationProvider)
                                                     .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
         }
     }

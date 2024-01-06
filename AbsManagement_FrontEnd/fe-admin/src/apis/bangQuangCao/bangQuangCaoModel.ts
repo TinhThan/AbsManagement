@@ -6,6 +6,10 @@ interface BaseBangQuangCao {
     ngayHetHan: Date;
     ngayBatDau: Date;
     idTinhTrang:string;
+    tenCongTy:string;
+    email:string,
+    soDienThoai: string,
+    diaChiCongTy: string
 }
 
 export interface BangQuangCaoModel extends BaseBangQuangCao{

@@ -57,15 +57,20 @@ namespace AbsManagementAPI.Core.Entities
                 entity.ToTable("PhieuCapPhepQuangCao");
                 entity.HasKey(e => e.Id);
 
-                entity.HasOne(e => e.DiemDatQuangCao)
+                entity.HasOne(e => e.BangQuangCao)
                     .WithMany(e => e.PhieuCapPhepQuangCaos)
-                    .HasForeignKey(e => e.IdDiemDatQuangCao)
-                    .HasConstraintName("Fk_PhieuCapPhepQuangCao_DiemDatQuangCao");
+                    .HasForeignKey(e => e.IdBangQuangCao)
+                    .HasConstraintName("Fk_PhieuCapPhepQuangCao_BangQuangCao");
 
-                entity.HasOne(e => e.LoaiBangQuangCao)
-                    .WithMany(e => e.PhieuCapPhepQuangCaos)
-                    .HasForeignKey(e => e.IdLoaiBangQuangCao)
-                    .HasConstraintName("Fk_PhieuCapPhepQuangCao_LoaiBangQuangCao");
+                entity.HasOne(e => e.CanBoGui)
+                    .WithMany(e => e.PhieuCapPhepQuangCaoGuis)
+                    .HasForeignKey(e => e.IdCanBoGui)
+                    .HasConstraintName("Fk_PhieuCapPhepQuangCao_CanBoGui");
+
+                entity.HasOne(e => e.CanBoDuyet)
+                    .WithMany(e => e.PhieuCapPhepQuangCaoDuyets)
+                    .HasForeignKey(e => e.IdCanBoDuyet)
+                    .HasConstraintName("Fk_PhieuCapPhepQuangCao_CanBoDuyet");
             });
 
             modelBuilder.Entity<BaoCaoViPhamEntity>(entity =>
@@ -162,6 +167,16 @@ namespace AbsManagementAPI.Core.Entities
                 .WithMany(e => e.PhieuCapPhepSuaQuangCaos)
                 .HasForeignKey(e => e.IdBangQuangCao)
                 .HasConstraintName("Fk_PhieuCapPhepSuaQuangCao_BangQuangCao");
+
+                entity.HasOne(e => e.CanBoGui)
+                .WithMany(e => e.PhieuCapPhepSuaQuangCaoGuis)
+                .HasForeignKey(e => e.IdCanBoGui)
+                .HasConstraintName("Fk_PhieuCapPhepSuaQuangCao_CanBoGui");
+
+                entity.HasOne(e => e.CanBoDuyet)
+                    .WithMany(e => e.PhieuCapPhepSuaQuangCaoDuyets)
+                    .HasForeignKey(e => e.IdCanBoDuyet)
+                    .HasConstraintName("Fk_PhieuCapPhepSuaQuangCao_CanBoDuyet");
             });
         }
     }

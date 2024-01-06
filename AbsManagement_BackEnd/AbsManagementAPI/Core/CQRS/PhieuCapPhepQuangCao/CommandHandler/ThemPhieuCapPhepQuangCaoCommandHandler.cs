@@ -15,11 +15,16 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
 
         public async Task<string> Handle(ThemPhieuCapPhepQuangCaoCommand request, CancellationToken cancellationToken)
         {
-            var PhieuCapPhepQuangCaoMoi = _mapper.Map<PhieuCapPhepQuangCaoEntity>(request.ThemPhieuCapPhepQuangCaoModel);
             try
             {
-                PhieuCapPhepQuangCaoMoi.IdTinhTrang = "ChoDuyet";
-                await _dataContext.AddAsync(PhieuCapPhepQuangCaoMoi);
+                var phieuCapPhepQuangCaoMoi = new PhieuCapPhepQuangCaoEntity()
+                {
+                    IdTinhTrang = "ChoDuyet",
+                    IdBangQuangCao = request.ThemPhieuCapPhepQuangCaoModel.IdBangQuangCao,
+                    IdCanBoGui = authInfo.Id,
+                    NgayGui = DateTimeOffset.Now
+                };
+                await _dataContext.AddAsync(phieuCapPhepQuangCaoMoi);
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)
                 {

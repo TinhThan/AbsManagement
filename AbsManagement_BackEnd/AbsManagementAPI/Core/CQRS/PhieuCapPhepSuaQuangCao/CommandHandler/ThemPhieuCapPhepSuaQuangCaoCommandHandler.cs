@@ -29,6 +29,7 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.CommandHandler
             try
             {
                 phieuCapPhepSuaQuangCao.NgayGui = DateTimeOffset.UtcNow;
+                phieuCapPhepSuaQuangCao.IdCanBoGui = authInfo.Id;
                 if (phieuCapPhepSuaQuangCao.IdBangQuangCao != null)
                 {
                     phieuCapPhepSuaQuangCao.NoiDung = JsonConvert.SerializeObject(request.ThemPhieuCapPhepSuaQuangCaoModel.CapNhatBangQuangCao);

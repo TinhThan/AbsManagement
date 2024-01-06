@@ -18,21 +18,15 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
 
         public async Task<string> Handle(DuyetPhieuCapPhepQuangCaoCommand request, CancellationToken cancellationToken)
         {
-            var PhieuCapPhepQuangCao = await _dataContext.PhieuCapPhepQuangCaos.FirstOrDefaultAsync(t => t.Id == request.DuyetPhieuCapPhepQuangCao.Id, cancellationToken);
+            var phieuCapPhepQuangCao = await _dataContext.PhieuCapPhepQuangCaos.FirstOrDefaultAsync(t => t.Id == request.DuyetPhieuCapPhepQuangCao.Id, cancellationToken);
             try
             {
-                PhieuCapPhepQuangCao.IdTinhTrang = "Update";
+                phieuCapPhepQuangCao.IdTinhTrang = "DaDuyet";
                 var bangQuangCao = new BangQuangCaoEntity();
-                bangQuangCao.IdLoaiBangQuangCao = PhieuCapPhepQuangCao.IdLoaiBangQuangCao;
-                bangQuangCao.IdDiemDatQuangCao = PhieuCapPhepQuangCao.IdDiemDatQuangCao;
-                bangQuangCao.KichThuoc = PhieuCapPhepQuangCao.KichThuoc;
-                bangQuangCao.DanhSachHinhAnh = PhieuCapPhepQuangCao.DanhSachHinhAnh;
-                bangQuangCao.NgayHetHan = PhieuCapPhepQuangCao.NgayHetHan;
-                bangQuangCao.NgayBatDau = PhieuCapPhepQuangCao.NgayBatDau;
                 bangQuangCao.IdTinhTrang = "DaQuyHoach";
 
                  await _dataContext.AddAsync(bangQuangCao);
-                _dataContext.Update(PhieuCapPhepQuangCao);
+                _dataContext.Update(phieuCapPhepQuangCao);
 
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 if (resultCapNhat > 0)

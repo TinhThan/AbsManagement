@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AbsManagementAPI.Validations.PhieuCapPhepSuaQuangCao
 {
-    public class ChiTietPhieuCapPhepSuaQuangCaoQueryValidator : AbstractValidator<ChiTietPhieuCapPhepSuaQuangCaoQuery>
+    public class ChiTietPhieuCapPhepSuaQuangCaoQueryValidator : AbstractValidator<ChiTietPhieuCapPhepSuaDiemDatQuangCaoQuery>
     {
         private readonly DataContext _dataContext;
 

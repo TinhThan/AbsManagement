@@ -333,19 +333,22 @@ export function UpdateBangQuangCao(): JSX.Element {
                     idBangQuangCao:bangQuangCao.id,
                     capNhatBangQuangCao: _model
                 }            
-                phieuChinhSuaAPI.TaoMoi(modelPhieuChinhSua).then(()=>{
+                phieuChinhSuaAPI.TaoMoi(modelPhieuChinhSua).then((response)=>{
+                    if(response && response.status === 200){
                     navigate(-1)
+                    }
                 });
-                return;
             }else{
                 bangQuangCaoAPI
-                .CapNhat(bangQuangCao.id,_model).then(()=>{
+                .CapNhat(bangQuangCao.id,_model).then((response)=>{
+                    if(response && response.status === 200){
                     navigate(-1)
+                    }
                 });
             }
 
         }
-            setLoading(false)
+        setLoading(false)
     }
 
     function getLoaiBangQuangCaos() {
@@ -400,20 +403,9 @@ export function UpdateBangQuangCao(): JSX.Element {
                                         ))}
                                     </Select>
                                 </Form.Item>
-                            </Card>
-                        </Col>
-                        <Col span={10}>
-                        <Space direction='vertical' style={{width:'100%', marginBottom:'10px'}}>
-                                <Card
-                                    className='card-avatar'
-                                    bordered={false}
-                                    title={
-                                    <Space size={15} align='center'>
-                                        <img src={imageIcon} alt='information' />
-                                        <b>Danh sách hình ảnh bảng quảng cáo</b>
-                                    </Space>
-                                    }>
-                                    <Image.PreviewGroup>
+                                
+                                <Form.Item label="Danh sách hình ảnh">
+                                <Image.PreviewGroup>
                                         <Space direction='vertical' size={0}>
                                         <Upload
                                             listType="picture-card"
@@ -425,8 +417,26 @@ export function UpdateBangQuangCao(): JSX.Element {
                                         </Upload>
                                         </Space>
                                     </Image.PreviewGroup>
+                                </Form.Item>
+                            </Card>
+                        </Col>
+                        <Col span={10}>
+                        <Space direction='vertical' style={{width:'100%'}}>
+                                <Card title={<b>Thông tin công ty</b>} bordered={false}>
+                                    <Form.Item label={"Tên công ty"} name='tenCongTy'>
+                                        <Input/>
+                                    </Form.Item>
+                                    <Form.Item label={"Email"} name='email'>
+                                        <Input type='email'/>
+                                    </Form.Item>
+                                    <Form.Item label={"Số điện thoại"} name='soDienThoai'>
+                                        <Input/>
+                                    </Form.Item>
+                                    <Form.Item label={"Địa chỉ"} name='diaChiCongTy'>
+                                        <TextArea rows={2}/>
+                                    </Form.Item>
                                 </Card>
-                        </Space>
+                            </Space>
                         </Col>
                 </Row>
                 <Row  gutter={[10,10]}>

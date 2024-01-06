@@ -27,10 +27,6 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.DiaChi, desc => desc.MapFrom(e => e.DiemDatQuangCao.DiaChi))
                 .ForMember(src => src.Phuong, desc => desc.MapFrom(e => e.DiemDatQuangCao.Phuong))
                 .ForMember(src => src.Quan, desc => desc.MapFrom(e => e.DiemDatQuangCao.Quan))
-                .ForMember(src => src.TenCongTy, desc => desc.Ignore())
-                .ForMember(src => src.DiaChiCongTy, desc => desc.Ignore())
-                .ForMember(src => src.Email, desc => desc.Ignore())
-                .ForMember(src => src.SoDienThoai, desc => desc.Ignore())
                 .ForMember(src => src.TenLoaiBangQuangCao, desc => desc.MapFrom(e => e.LoaiBangQuangCao.Ten))
                 .ForMember(src => src.DanhSachViTri, desc => desc.MapFrom(e => e.DiemDatQuangCao.ViTri == null ? new List<string>()
                                     : JsonConvert.DeserializeObject<List<string>>(e.DiemDatQuangCao.ViTri)));
@@ -41,6 +37,7 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
                 .ForMember(src => src.PhieuCapPhepSuaQuangCaos, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
 
             CreateMap<CapNhatBangQuangCaoModel, BangQuangCaoEntity>()
@@ -49,6 +46,7 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.PhieuCapPhepSuaQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
 
             #endregion
@@ -65,8 +63,11 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.PasswordResetOTP, desc => desc.Ignore())
                 .ForMember(src => src.PasswordResetOTPExpiration, desc => desc.Ignore())
                 .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepSuaQuangCaoGuis, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepSuaQuangCaoDuyets, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepQuangCaoDuyets, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepQuangCaoGuis, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore());
-
             CreateMap<CapNhatCanBoModel, CanBoEntity>()
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.Email, desc => desc.Ignore())
@@ -78,6 +79,10 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.PasswordResetOTP, desc => desc.Ignore())
                 .ForMember(src => src.PasswordResetOTPExpiration, desc => desc.Ignore())
                 .ForMember(src => src.NgayCapNhat, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepSuaQuangCaoGuis, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepSuaQuangCaoDuyets, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepQuangCaoDuyets, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepQuangCaoGuis, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore());
 
             CreateMap<CanBoEntity, CanBoModel>()
@@ -120,6 +125,17 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.DanhSachViTri, desc => desc.MapFrom(e => string.IsNullOrEmpty(e.ViTri) ? new List<decimal>()
                                     : JsonConvert.DeserializeObject<List<decimal>>(e.ViTri)));
 
+            CreateMap<ThemDiemDatQuangCaoModel, DiemDatQuangCaoEntity>()
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
+                .ForMember(src => src.LoaiViTri, desc => desc.Ignore())
+                .ForMember(src => src.HinhThucQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.BangQuangCaos, desc => desc.Ignore())
+                .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepSuaQuangCaos, desc => desc.Ignore())
+                .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)))
+                .ForMember(src => src.ViTri, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachViTri)));
+
             CreateMap<CapNhatDiemDatQuangCaoModel, DiemDatQuangCaoEntity>()
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
@@ -128,7 +144,6 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.BangQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
                 .ForMember(src => src.PhieuCapPhepSuaQuangCaos, desc => desc.Ignore())
-                .ForMember(src => src.PhieuCapPhepQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)))
                 .ForMember(src => src.ViTri, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachViTri)));
             #endregion
@@ -167,11 +182,9 @@ namespace AbsManagementAPI.Core
 
             CreateMap<ThemLoaiBangQuangCaoModel, LoaiBangQuangCaoEntity>()
                 .ForMember(src => src.Id, desc => desc.Ignore())
-                .ForMember(src => src.PhieuCapPhepQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCaos, desc => desc.Ignore());
 
             CreateMap<CapNhatLoaiBangQuangCaoModel, LoaiBangQuangCaoEntity>()
-                .ForMember(src => src.PhieuCapPhepQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCaos, desc => desc.Ignore());
 
@@ -179,8 +192,20 @@ namespace AbsManagementAPI.Core
 
             #region
 
-            CreateMap<PhieuCapPhepSuaQuangCaoEntity, PhieuCapPhepSuaQuangCaoModel>();
+            CreateMap<PhieuCapPhepSuaQuangCaoEntity, PhieuCapPhepSuaBangQuangCaoModel>()
+                .ForMember(src => src.BangQuangCao, desc => desc.MapFrom(e => e.IdBangQuangCao != null ? JsonConvert.DeserializeObject<CapNhatBangQuangCaoModel>(e.NoiDung) : null))
+                .ForMember(src => src.TenCanBoDuyet, desc => desc.MapFrom(e => e.CanBoDuyet != null ? e.CanBoDuyet.HoTen : null))
+                .ForMember(src => src.TenCanBoGui, desc => desc.MapFrom(e => e.CanBoGui != null ? e.CanBoGui.HoTen : null))
+                .ForMember(src => src.EmailCanBoDuyet, desc => desc.MapFrom(e => e.CanBoDuyet != null ? e.CanBoDuyet.Email : null))
+                .ForMember(src => src.EmailCanBoGui, desc => desc.MapFrom(e => e.CanBoGui != null ? e.CanBoGui.Email : null));
 
+
+            CreateMap<PhieuCapPhepSuaQuangCaoEntity, PhieuCapPhepSuaDiemDatQuangCaoModel>()
+                .ForMember(src => src.DiemDatQuangCao, desc => desc.MapFrom(e => e.IdDiemDat != null ? JsonConvert.DeserializeObject<CapNhatDiemDatQuangCaoModel>(e.NoiDung) : null))
+                .ForMember(src => src.TenCanBoDuyet, desc => desc.MapFrom(e => e.CanBoDuyet != null ? e.CanBoDuyet.HoTen : null))
+                .ForMember(src => src.TenCanBoGui, desc => desc.MapFrom(e => e.CanBoGui != null ? e.CanBoGui.HoTen : null))
+                .ForMember(src => src.EmailCanBoDuyet, desc => desc.MapFrom(e => e.CanBoDuyet != null ? e.CanBoDuyet.Email : null))
+                .ForMember(src => src.EmailCanBoGui, desc => desc.MapFrom(e => e.CanBoGui != null ? e.CanBoGui.Email : null));
 
             #endregion
 
@@ -199,24 +224,29 @@ namespace AbsManagementAPI.Core
 
             #region PhieuCapPhepQuangCao
 
-            CreateMap<PhieuCapPhepQuangCaoEntity, PhieuCapPhepQuangCaoModel>()
-                .ForMember(src => src.TenLoaiBangQuangCao, desc => desc.MapFrom(t=>t.LoaiBangQuangCao.Ten))
-                .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => e.DiemDatQuangCao.ViTri == null ? new List<string>()
-                                    : JsonConvert.DeserializeObject<List<string>>(e.DanhSachHinhAnh)));
+            CreateMap<PhieuCapPhepQuangCaoEntity, PhieuCapPhepQuangCaoModel>();
+                
 
             CreateMap<ThemPhieuCapPhepQuangCaoModel, PhieuCapPhepQuangCaoEntity>()
+                .ForMember(src => src.IdCanBoGui, desc => desc.Ignore())
+                .ForMember(src => src.IdCanBoDuyet, desc => desc.Ignore())
+                .ForMember(src => src.NgayGui, desc => desc.Ignore())
+                .ForMember(src => src.BangQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.CanBoGui, desc => desc.Ignore())
+                .ForMember(src => src.CanBoDuyet, desc => desc.Ignore())
                 .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
-                .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
-                .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
-                .ForMember(src => src.Id, desc => desc.Ignore())
-                .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
+                .ForMember(src => src.Id, desc => desc.Ignore());
+
 
             CreateMap<CapNhatPhieuCapPhepQuangCaoModel, PhieuCapPhepQuangCaoEntity>()
+                                .ForMember(src => src.IdCanBoGui, desc => desc.Ignore())
+                .ForMember(src => src.IdCanBoDuyet, desc => desc.Ignore())
+                .ForMember(src => src.NgayGui, desc => desc.Ignore())
+                .ForMember(src => src.BangQuangCao, desc => desc.Ignore())
+                .ForMember(src => src.CanBoGui, desc => desc.Ignore())
+                .ForMember(src => src.CanBoDuyet, desc => desc.Ignore())
                .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
-                .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
-                .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
-               .ForMember(src => src.Id, desc => desc.Ignore())
-                .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
+               .ForMember(src => src.Id, desc => desc.Ignore());
 
             #endregion
 

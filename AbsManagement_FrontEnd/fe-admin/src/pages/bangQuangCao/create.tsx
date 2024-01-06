@@ -61,8 +61,8 @@ function convertImageToJpg(fileName: string): string {
 export function CreateBangQuangCao(): JSX.Element {
     const navigate = useNavigate();
     const { id } = useParams();
-    const [bangQuangCao, setBangQuangCao] = useState<ThemPhieuCapPhepModel>();
-    const [form] = Form.useForm<ThemPhieuCapPhepModel>();
+    const [bangQuangCao, setBangQuangCao] = useState<ThemMoiBangQuangCaoModel>();
+    const [form] = Form.useForm<ThemMoiBangQuangCaoModel>();
     const [loading, setLoading] = useState(false);
     const [user,setUser] = useState<UserStorage>();
     const [fileList,setFileList] = useState<UploadFile[]>([]);
@@ -293,14 +293,16 @@ export function CreateBangQuangCao(): JSX.Element {
         setIsVisible(true);
     };
 
-    async function onSubmit(_model: ThemPhieuCapPhepModel) {
+    async function onSubmit(_model: ThemMoiBangQuangCaoModel) {
         setLoading(true)
         if (_model) {
             console.log("_model",_model)
             _model.danhSachHinhAnh = await uploadImages();
             _model.idDiemDatQuangCao = diemQuangCao?.id ?? 0;   
-            phieuCapPhepBangQuangCaoAPI.TaoMoi(_model).then(()=>{
-                navigate(-1)
+            bangQuangCaoAPI.TaoMoi(_model).then((response)=>{
+                if(response && response.status === 200){
+                    navigate(-1)
+                }
             });
         }
             setLoading(false)
@@ -322,11 +324,11 @@ export function CreateBangQuangCao(): JSX.Element {
     return (
         <>
         <Suspense fallback={<PageLoading/>}>
-            <PageContainer title={"Cấp phép bảng quảng cáo"}>
+            <PageContainer title={"Tạo mới bảng quảng cáo"}>
             <Spin spinning={loading}>
                 <Space className='space-button-on-top'>
                     <Button danger onClick={()=> navigate(-1)}><b>Thoát</b></Button>
-                    <Button type='primary' onClick={()=>form.submit()}><b>{'Gữi phiếu cấp phép'}</b></Button>
+                    <Button type='primary' onClick={()=>form.submit()}><b>{'Tạo mới'}</b></Button>
                 </Space>
                 <Form layout='vertical'             
                     form={form}
@@ -386,7 +388,7 @@ export function CreateBangQuangCao(): JSX.Element {
                                     <Form.Item label={"Số điện thoại"} name='soDienThoai'>
                                         <Input/>
                                     </Form.Item>
-                                    <Form.Item label={"Địa chỉ"} name='diaChi'>
+                                    <Form.Item label={"Địa chỉ"} name='diaChiCongTy'>
                                         <TextArea rows={2}/>
                                     </Form.Item>
                                 </Card>
