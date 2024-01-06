@@ -20,7 +20,8 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.QueryHandler
         public async Task<List<BangQuangCaoModel>> Handle(DanhSachBangquangCaoQuery request, CancellationToken cancellationToken)
         {
             //await _notifyService.SendMessageNotify("Thông báo", "Lấy danh sách thành công");
-            return await _dataContext.BangQuangCaos.ProjectTo<BangQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+            return await _dataContext.BangQuangCaos.Include(t=>t.DiemDatQuangCao).Where(t => (string.IsNullOrEmpty(request.addressSearchModel.Quan) || t.DiemDatQuangCao.Quan == request.addressSearchModel.Quan) &&
+                                (string.IsNullOrEmpty(request.addressSearchModel.Phuong) || t.DiemDatQuangCao.Phuong == request.addressSearchModel.Phuong)).ProjectTo<BangQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
         }
     }
 }
