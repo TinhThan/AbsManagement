@@ -1,0 +1,99 @@
+.info-surface{
+    .ant-card-head{
+        background-color: #00BFFF;
+        min-height: 40px !important;
+    }
+    .ant-card-body{
+        background-color: #3cccfc;
+        padding: 0px 24px 24px 24px;
+    }
+
+    .ant-btn-dangerous{
+        background-color: #ff4d4f;
+        color: white !important;
+        font-weight: bold;
+        .ant-btn-icon{
+            font-weight: 200;
+        }
+    }
+}
+
+.info-location{
+    .ant-card-head{
+        background-color: #7acc7d;
+        min-height: 40px !important;
+    }
+    .ant-card-body{
+        background-color: #97d399;
+        padding: 0px 24px 24px 24px;
+    }
+
+    .ant-btn-dangerous{
+        background-color: #ff4d4f;
+        color: white !important;
+        font-weight: bold;
+        .ant-btn-icon{
+            font-weight: 200;
+        }
+    }
+}
+
+.map-home{
+  height: 820px;
+  margin-top: 10px;
+  .ant-pro-page-container-children-container{
+    padding: 0px !important;
+  }
+
+  .affix-antd-button{
+    z-index: 1000;
+    margin-right: 10px;
+    margin-top: 10px;
+    float: left;
+  }
+  .info{
+    color: aquamarine;
+    height: 100vh;
+    width: 25%;
+  }
+  
+  .mapboxgl-ctrl-geocoder {
+    border: 0;
+    border-radius: 0;
+    position: relative;
+    top: 0;
+    width: 800px;
+    margin-top: 10px;
+  }
+  
+  .mapboxgl-ctrl-geocoder > div {
+    min-width: 100%;
+    margin-left: 0;
+  }
+  
+  .mapboxgl-popup-content{
+    background-color: transparent !important;
+    padding: 0px !important;
+    box-shadow: none !important;
+  }
+  
+  #map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .ant-card-bordered{
+    border: 2px !important;
+  }
+  
+  .ant-form-item {
+    margin-bottom: 10px !important;
+  }
+  
+  .p-ant{
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+}
