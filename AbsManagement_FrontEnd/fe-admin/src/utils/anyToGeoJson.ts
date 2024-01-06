@@ -38,16 +38,25 @@ export function SpaceAnyToGeoJson(space: DiemDatQuangCaoModel | undefined): any 
     }
 }
 
-export function ReportToGeoJson(reports: BaoCaoViPhamModel[]):any {
+
+export function ReportToGeoJson(spaces:DiemDatQuangCaoModel[], reports:BaoCaoViPhamModel[]) {
     const geoJSONFeatures = reports.map(report => {
+        const space = spaces.find(t=>t.id === report.idDiemDatQuangCao);
+        let coordinates = report.danhSachViTri;
+        console.log("coordinates",coordinates)
+        if(space)
+        {
+            coordinates = [report.danhSachViTri[0] -  0.00002696274,report.danhSachViTri[1]]
+        }
         return {
             type: 'Feature',
             geometry: {
                 type: 'Point',
-                coordinates: report.danhSachViTri
+                coordinates: coordinates // Là một mảng chứa [longitude, latitude]
             },
             properties: {
-                id:report.id
+                id: report.id,
+                idTinhTrang: report.idTinhTrang
             }
         }
     })

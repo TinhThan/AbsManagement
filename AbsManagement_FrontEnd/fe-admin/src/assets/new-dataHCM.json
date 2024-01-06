@@ -110,6 +110,195 @@
         ]
       },
       {
+        "name": "3",
+        "postcode": "72400",
+        "center":[
+          106.687098,
+          10.783529
+        ],
+        "id":"locality.91835124",
+        "ward": [
+          {
+            "name": "5",
+            "postcode": "72406"
+          },
+          {
+            "name": "6",
+            "postcode": "72407"
+          },
+          {
+            "name": "8",
+            "postcode": "72408"
+          },
+          {
+            "name": "14",
+            "postcode": "72409"
+          },
+          {
+            "name": "12",
+            "postcode": "72410"
+          },
+          {
+            "name": "11",
+            "postcode": "72411"
+          },
+          {
+            "name": "13",
+            "postcode": "72412"
+          },
+          {
+            "name": "10",
+            "postcode": "72413"
+          },
+          {
+            "name": "9",
+            "postcode": "72414"
+          },
+          {
+            "name": "7",
+            "postcode": "72415"
+          },
+          {
+            "name": "4",
+            "postcode": "72416"
+          },
+          {
+            "name": "3",
+            "postcode": "72417"
+          },
+          {
+            "name": "2",
+            "postcode": "72418"
+          },
+          {
+            "name": "1",
+            "postcode": "72419"
+          }
+        ]
+      },
+      {
+        "name": "5",
+        "postcode": "72700",
+        "center":[
+          106.670375,
+          10.756129
+        ],
+        "id":"locality.91851508",
+        "ward": [
+          {
+            "name": "8",
+            "postcode": "72706"
+          },
+          {
+            "name": "7",
+            "postcode": "72707"
+          },
+          {
+            "name": "1",
+            "postcode": "72708"
+          },
+          {
+            "name": "2",
+            "postcode": "72709"
+          },
+          {
+            "name": "3",
+            "postcode": "72710"
+          },
+          {
+            "name": "4",
+            "postcode": "72711"
+          },
+          {
+            "name": "9",
+            "postcode": "72712"
+          },
+          {
+            "name": "12",
+            "postcode": "72713"
+          },
+          {
+            "name": "11",
+            "postcode": "72714"
+          },
+          {
+            "name": "15",
+            "postcode": "72715"
+          },
+          {
+            "name": "14",
+            "postcode": "72716"
+          },
+          {
+            "name": "13",
+            "postcode": "72717"
+          },
+          {
+            "name": "10",
+            "postcode": "72718"
+          },
+          {
+            "name": "6",
+            "postcode": "72719"
+          },
+          {
+            "name": "5",
+            "postcode": "72720"
+          }
+        ]
+      },
+      {
+        "name": "7",
+        "postcode": "72900",
+        "center":[
+          106.722432,
+          10.736573
+        ],
+        "id":"locality.91867892",
+        "ward": [
+          {
+            "name": "Phú Mỹ",
+            "postcode": "72906"
+          },
+          {
+            "name": "Phú Thuận",
+            "postcode": "72907"
+          },
+          {
+            "name": "Tân Phú",
+            "postcode": "72908"
+          },
+          {
+            "name": "Tân Thuận Đông",
+            "postcode": "72909"
+          },
+          {
+            "name": "Tân Thuận Tây",
+            "postcode": "72910"
+          },
+          {
+            "name": "Tân Kiểng",
+            "postcode": "72911"
+          },
+          {
+            "name": "Tân Hưng",
+            "postcode": "72912"
+          },
+          {
+            "name": "Tân Quy",
+            "postcode": "72913"
+          },
+          {
+            "name": "Bình Thuận",
+            "postcode": "72914"
+          },
+          {
+            "name": "Tân Phong",
+            "postcode": "72915"
+          }
+        ]
+      },
+      {
         "name": "9",
         "postcode": "71200",
         "center":[
@@ -868,73 +1057,6 @@
         ]
       },
       {
-        "name": "3",
-        "postcode": "72400",
-        "center":[
-          106.687098,
-          10.783529
-        ],
-        "id":"locality.91835124",
-        "ward": [
-          {
-            "name": "5",
-            "postcode": "72406"
-          },
-          {
-            "name": "6",
-            "postcode": "72407"
-          },
-          {
-            "name": "8",
-            "postcode": "72408"
-          },
-          {
-            "name": "14",
-            "postcode": "72409"
-          },
-          {
-            "name": "12",
-            "postcode": "72410"
-          },
-          {
-            "name": "11",
-            "postcode": "72411"
-          },
-          {
-            "name": "13",
-            "postcode": "72412"
-          },
-          {
-            "name": "10",
-            "postcode": "72413"
-          },
-          {
-            "name": "9",
-            "postcode": "72414"
-          },
-          {
-            "name": "7",
-            "postcode": "72415"
-          },
-          {
-            "name": "4",
-            "postcode": "72416"
-          },
-          {
-            "name": "3",
-            "postcode": "72417"
-          },
-          {
-            "name": "2",
-            "postcode": "72418"
-          },
-          {
-            "name": "1",
-            "postcode": "72419"
-          }
-        ]
-      },
-      {
         "name": "10",
         "postcode": "72500",
         "center":[
@@ -1081,77 +1203,6 @@
         ]
       },
       {
-        "name": "5",
-        "postcode": "72700",
-        "center":[
-          106.670375,
-          10.756129
-        ],
-        "id":"locality.91851508",
-        "ward": [
-          {
-            "name": "8",
-            "postcode": "72706"
-          },
-          {
-            "name": "7",
-            "postcode": "72707"
-          },
-          {
-            "name": "1",
-            "postcode": "72708"
-          },
-          {
-            "name": "2",
-            "postcode": "72709"
-          },
-          {
-            "name": "3",
-            "postcode": "72710"
-          },
-          {
-            "name": "4",
-            "postcode": "72711"
-          },
-          {
-            "name": "9",
-            "postcode": "72712"
-          },
-          {
-            "name": "12",
-            "postcode": "72713"
-          },
-          {
-            "name": "11",
-            "postcode": "72714"
-          },
-          {
-            "name": "15",
-            "postcode": "72715"
-          },
-          {
-            "name": "14",
-            "postcode": "72716"
-          },
-          {
-            "name": "13",
-            "postcode": "72717"
-          },
-          {
-            "name": "10",
-            "postcode": "72718"
-          },
-          {
-            "name": "6",
-            "postcode": "72719"
-          },
-          {
-            "name": "5",
-            "postcode": "72720"
-          }
-        ]
-      },
-      {
         "name": "4",
         "postcode": "72800",
         "ward": [
@@ -1214,57 +1265,6 @@
           {
             "name": "13",
             "postcode": "72820"
-          }
-        ]
-      },
-      {
-        "name": "7",
-        "postcode": "72900",
-        "center":[
-          106.722432,
-          10.736573
-        ],
-        "id":"locality.91867892",
-        "ward": [
-          {
-            "name": "Phú Mỹ",
-            "postcode": "72906"
-          },
-          {
-            "name": "Phú Thuận",
-            "postcode": "72907"
-          },
-          {
-            "name": "Tân Phú",
-            "postcode": "72908"
-          },
-          {
-            "name": "Tân Thuận Đông",
-            "postcode": "72909"
-          },
-          {
-            "name": "Tân Thuận Tây",
-            "postcode": "72910"
-          },
-          {
-            "name": "Tân Kiểng",
-            "postcode": "72911"
-          },
-          {
-            "name": "Tân Hưng",
-            "postcode": "72912"
-          },
-          {
-            "name": "Tân Quy",
-            "postcode": "72913"
-          },
-          {
-            "name": "Bình Thuận",
-            "postcode": "72914"
-          },
-          {
-            "name": "Tân Phong",
-            "postcode": "72915"
           }
         ]
       },

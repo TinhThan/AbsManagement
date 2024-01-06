@@ -19,19 +19,12 @@ import ReportInfo from '../points/reportInfo'
 
 const { Content, Sider } = Layout;
 
-
-Map.propTypes = {
-    setCollapsed: PropTypes.func,
-}
-
-export default function Map() {
+export default function Map({spaces,reports}) {
     const mapContainerRef = useRef(null);
     const map = useRef(null);
     const [collapsed, setCollapsed] = useState(true);
     const [location,setLocation] = useState();
-    const [spaces,setSpaces] = useState([]); // điểm đặt quảng cáo đã quy hoạch
     const [surfaces,setSurfaces] = useState([]); // bảng quảng cáo
-    const [reports,setReports] = useState([]);
 
     mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_KEY;
 
@@ -54,8 +47,7 @@ export default function Map() {
     }
 
     useEffect(()=>{
-        getSpaces();
-        getReports();
+        // if(!mapContainerRef.current){return}
         map.current = new mapboxgl.Map({
             container: mapContainerRef.current,
             language:'vi',
@@ -227,7 +219,6 @@ export default function Map() {
     
 
     function onLoadMap(){
-        console.log("spaces",spaces)
         map.current.on("load", () => {
             
             //Handle point space panneds
@@ -328,36 +319,6 @@ export default function Map() {
                 lng,
                 lat
             };
-        } catch (error) {
-        console.log(error);
-        }
-    }
-
-    function getSpaces(){
-        try {
-            axios.get(`${process.env.REACT_APP_BASE_API}api/diemdatquangcao`).then((response) => {
-                if(response && response.status === 200)
-                {
-                    setSpaces(response.data)
-                }
-            }).catch((e)=>{
-                console.log("error1",e)
-            });
-        } catch (error) {
-            console.log("error2",error);
-        }
-    }
-    
-    function getReports(){
-        try {
-            axios.get(`${process.env.REACT_APP_BASE_API}api/baocaovipham`).then((response) => {
-                if(response && response.status === 200)
-                {
-                    setReports(response.data)
-                }
-            }).catch((e)=>{
-                console.log(e)
-            });
         } catch (error) {
         console.log(error);
         }

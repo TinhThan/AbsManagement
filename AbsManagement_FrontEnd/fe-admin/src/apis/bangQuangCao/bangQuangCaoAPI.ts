@@ -19,6 +19,12 @@ class BangQuangCaoAPI extends BaseApi {
       );
     }
 
+    async DanhSachBySpace(id:number) {
+      return this.get(
+      API_URL + ConfigUrlApi.Urls.BangQuangCao.DanhSachBySpace + id
+      );
+    }
+
     async TaoMoi(model: ThemMoiBangQuangCaoModel) {
         return this.post(
         API_URL + ConfigUrlApi.Urls.BangQuangCao.TaoMoi,
@@ -43,6 +49,7 @@ class BangQuangCaoAPI extends BaseApi {
 export interface IBangQuangCaoAPI {
   ChiTiet(id: number);
   DanhSach();
+  DanhSachBySpace(id:number);
   TaoMoi(model: ThemMoiBangQuangCaoModel);
   CapNhat(id: number, model: ThemMoiBangQuangCaoModel);
   Xoa(id: number);

@@ -282,14 +282,14 @@ export function CreateDiemDatQuangCao(): JSX.Element {
                     <Row gutter={[10,10]}>
                         <Col span={14}>
                             <Card title={<b>Thông tin điểm đặt quảng cáo</b>} bordered={false}>
-                                <Form.Item label={"Loại vị trí"} name={'idLoaiViTri'}>
+                                <Form.Item label={"Loại vị trí"} name={'idLoaiViTri'} required>
                                     <Select placeholder="Vui lòng chọn loại vị trí" >
                                         {loaiViTris && loaiViTris.map((option) => (
                                             <Select.Option key={option.id} value={option.id}>{option.ma} - {option.ten}</Select.Option>
                                         ))}
                                     </Select>
                                 </Form.Item>
-                                <Form.Item label={"Hình thức quảng cáo"} name={'idHinhThucQuangCao'}>
+                                <Form.Item label={"Hình thức quảng cáo"} name={'idHinhThucQuangCao'} required>
                                     <Select placeholder="Vui lòng chọn hình thức quảng cáo" >
                                         {hinhThucQuangCaos && hinhThucQuangCaos.map((option) => (
                                             <Select.Option key={option.id} value={option.id}>{option.ma} - {option.ten}</Select.Option>

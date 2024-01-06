@@ -36,6 +36,7 @@ export const ConfigUrlApi = {
         BangQuangCao:{
             ChiTiet:'/bangquangcao/chitiet/',
             DanhSach:'/bangquangcao',
+            DanhSachBySpace:'/bangquangcao/diemdatquangcao/',
             TaoMoi:'/bangquangcao/taomoi',
             CapNhat:'/bangquangcao/capnhat/',
             Xoa:'/bangquangcao/xoa'
