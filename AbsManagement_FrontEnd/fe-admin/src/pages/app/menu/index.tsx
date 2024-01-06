@@ -28,25 +28,24 @@ function getItem(
 }
 
 const itemDefaults: MenuItem[] = [
-  getItem(<Link to={ConfigRoute.CanBoSo.DiemDatQuangCao}>Điểm đặt quảng cáo</Link>, ConfigRoute.CanBoSo.DiemDatQuangCao, undefined, undefined,undefined),
-  getItem(<Link to={ConfigRoute.CanBoSo.BangQuangCao}>Bảng quảng cáo</Link>, ConfigRoute.CanBoSo.BangQuangCao, undefined, undefined,undefined),
-  getItem(<Link to={ConfigRoute.CanBoSo.BaoCaoViPham}>Báo cáo vi phạm</Link>, ConfigRoute.CanBoSo.BaoCaoViPham, undefined, undefined,undefined),
+  getItem(<Link to={ConfigRoute.CanBoSo.DiemDatQuangCao}>Điểm đặt quảng cáo</Link>, ConfigRoute.CanBoSo.DiemDatQuangCao, undefined, undefined, undefined),
+  getItem(<Link to={ConfigRoute.CanBoSo.BangQuangCao}>Bảng quảng cáo</Link>, ConfigRoute.CanBoSo.BangQuangCao, undefined, undefined, undefined),
+  getItem(<Link to={ConfigRoute.CanBoSo.BaoCaoViPham}>Báo cáo vi phạm</Link>, ConfigRoute.CanBoSo.BaoCaoViPham, undefined, undefined, undefined),
 ];
 
 interface Props {
   role: string;
 }
 
-export default function MenuLayout(props:Props): JSX.Element {
-    const { role } = props;
-    const [menus,setMenus] = useState<MenuItem[]>(itemDefaults);
+export default function MenuLayout(props: Props): JSX.Element {
+  const { role } = props;
+  const [menus, setMenus] = useState<MenuItem[]>(itemDefaults);
 
-    useEffect(() => {
-      if(role === RoleCanBo.CanBoSo)
-      {
-        setMenus([
-          getItem(<Link to={ConfigRoute.CanBoSo.CanBo}>Cán bộ</Link>, ConfigRoute.CanBoSo.CanBo),
-          getItem(
+  useEffect(() => {
+    if (role === RoleCanBo.CanBoSo) {
+      setMenus([
+        getItem(<Link to={ConfigRoute.CanBoSo.CanBo}>Cán bộ</Link>, ConfigRoute.CanBoSo.CanBo),
+        getItem(
           'Hệ thống',
           'heThong',
           <SettingOutlined />,
@@ -57,13 +56,24 @@ export default function MenuLayout(props:Props): JSX.Element {
             getItem(<Link to={ConfigRoute.CanBoSo.HinhThucBaoCao}>Hình thức báo cáo</Link>, ConfigRoute.CanBoSo.HinhThucBaoCao),
           ],
           'group'
-        ),...itemDefaults])
-      }
-    }, [role])
+        ),
+        getItem(
+          'Phiếu cấp phép sửa quảng cáo',
+          'phieucapphepsuaquangcao',
+          <SettingOutlined />,
+          [
+            getItem(<Link to={`${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao`}>Sửa điểm đặt</Link>, `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao`),
+            getItem(<Link to={`${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao`}>Sửa bảng quảng cáo</Link>, `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao`),
+          ],
+          'group'
+        )
+        , ...itemDefaults])
+    }
+  }, [role])
 
   return (
     <Menu
-        items={menus}
-      />
+      items={menus}
+    />
   )
 }

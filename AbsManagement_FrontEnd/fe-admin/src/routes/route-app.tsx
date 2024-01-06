@@ -26,6 +26,10 @@ import ListBangQuangCao from "../pages/bangQuangCao/list";
 import { UpdateBangQuangCao } from "../pages/bangQuangCao/update";
 import { DetailBangQuangCao } from "../pages/bangQuangCao/detail";
 import { CreateBangQuangCao } from "../pages/bangQuangCao/create";
+import ListFixLocation from "../pages/capphepsuaquangcao/listFixLocation";
+import ListFixBoard from "../pages/capphepsuaquangcao/listFixBoard";
+import DetailFixLocation from "../pages/capphepsuaquangcao/detailFixLocation";
+import DetailFixBoard from "../pages/capphepsuaquangcao/detailFixBoard";
 
 const router = createBrowserRouter([
   {
@@ -146,6 +150,36 @@ const router = createBrowserRouter([
         path: ConfigRoute.CanBoSo.HinhThucBaoCao,
         loader:protectedCanBoLoader,
         Component:HinhThucBaoCaoFeature
+      },
+      {
+        path: ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao,
+        loader:protectedCanBoLoader,
+        children: [
+          {
+            path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao`,
+            Component: ListFixLocation
+          },
+          {
+            path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao`,
+            Component: ListFixBoard
+          },
+          {
+            path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao/:id`,
+            Component: DetailFixLocation
+          },
+          {
+            path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao/:id`,
+            Component: DetailFixBoard
+          },
+          {
+            path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/capnhat/:id`,
+            Component: UpdateBaoCaoViPham
+          },
+          {
+            path:"*",
+            Component: NotFoundFeature
+          }
+        ]
       }
     ],
   },

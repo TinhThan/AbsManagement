@@ -1,4 +1,4 @@
-interface BaseDiemDatQuangCao {
+export interface BaseDiemDatQuangCao {
     diaChi: string;
     phuong: string;
     quan: string;

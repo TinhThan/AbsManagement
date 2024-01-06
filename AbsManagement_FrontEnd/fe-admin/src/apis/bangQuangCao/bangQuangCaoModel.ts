@@ -1,4 +1,4 @@
-interface BaseBangQuangCao {
+export interface BaseBangQuangCao {
     idDiemDatQuangCao:number;
     idLoaiBangQuangCao:number;
     danhSachHinhAnh: string[];
