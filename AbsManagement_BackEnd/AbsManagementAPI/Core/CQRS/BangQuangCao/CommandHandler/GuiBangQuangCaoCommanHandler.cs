@@ -21,11 +21,11 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
                 var bangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
                 var phieucapphep = new PhieuCapPhepQuangCaoEntity();
                 phieucapphep.IdBangQuangCao = request.Id;
-                phieucapphep.IdCanBoDuyet = request.GuiBangQuangCaoModel.IdCanBoDuyet;
-                phieucapphep.IdTinhTrang = "New";
+                phieucapphep.IdTinhTrang = "ChoDuyet";
+                phieucapphep.IdCanBoGui = authInfo.Id;
                 phieucapphep.NgayGui = DateTimeOffset.Now;
 
-                bangQuangCao.IdTinhTrang = "Approving";  
+                bangQuangCao.IdTinhTrang = "ChoCapPhep";  
                 await _dataContext.AddAsync(phieucapphep);
                 _dataContext.Update(bangQuangCao);
 
