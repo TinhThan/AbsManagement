@@ -1,4 +1,5 @@
 ﻿using AbsManagementAPI.Core.Entities;
+using AbsManagementAPI.Core.Models.CanBo;
 
 namespace AbsManagementAPI.Core.Models.BaoCaoViPham
 {
@@ -25,6 +26,9 @@ namespace AbsManagementAPI.Core.Models.BaoCaoViPham
 
         public DiemDatQuangCaoEntity DiemDatQuangCao { get; set; }
         public BangQuangCaoEntity BangQuangCao { get; set; }
-        public CanBoEntity CanBoXuLy { get; set; }
+        //Thông tin cấn bộ
+        public string HoTenCanBoXuLy { get; set; }
+        public string EmailCanBoXuLy { get; set; }
+        public string SoDienThoaiCanBoXuLy { get; set; }
     }
 }

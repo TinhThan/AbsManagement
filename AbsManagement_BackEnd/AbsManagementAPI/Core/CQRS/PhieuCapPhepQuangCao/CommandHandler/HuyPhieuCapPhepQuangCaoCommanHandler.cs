@@ -22,9 +22,11 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
             {
                 var PhieuCapPhepQuangCao = await _dataContext.PhieuCapPhepQuangCaos.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
                 var BangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == PhieuCapPhepQuangCao.IdBangQuangCao, cancellationToken);
-                PhieuCapPhepQuangCao.IdTinhTrang = "KhongDuyet";
+                PhieuCapPhepQuangCao.IdCanBoDuyet = authInfo.Id;
+                PhieuCapPhepQuangCao.NgayDuyet = DateTimeOffset.Now;
+                PhieuCapPhepQuangCao.IdTinhTrang = "DaHuy";
 
-                BangQuangCao.IdTinhTrang = "KhongDuyet";
+                BangQuangCao.IdTinhTrang = "DaHuy";
 
                 _dataContext.Update(PhieuCapPhepQuangCao);
                 _dataContext.Update(BangQuangCao);
