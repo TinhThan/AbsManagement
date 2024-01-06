@@ -24,6 +24,8 @@ namespace AbsManagementAPI.Core.Entities
         public DbSet<PhieuCapPhepSuaQuangCaoEntity> PhieuCapPhepSuaQuangCaos { get; set; }
 
         public DbSet<PhieuCapPhepQuangCaoEntity> PhieuCapPhepQuangCaos { get; set; }
+
+        public DbSet<LogEntity> Logs { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = _configuration.GetConnectionString("AbsManagement");
@@ -177,6 +179,13 @@ namespace AbsManagementAPI.Core.Entities
                     .WithMany(e => e.PhieuCapPhepSuaQuangCaoDuyets)
                     .HasForeignKey(e => e.IdCanBoDuyet)
                     .HasConstraintName("Fk_PhieuCapPhepSuaQuangCao_CanBoDuyet");
+            });
+
+            modelBuilder.Entity<LogEntity>(entity =>
+            {
+                entity.ToTable("Log");
+
+                entity.HasKey(e => e.Id);
             });
         }
     }
