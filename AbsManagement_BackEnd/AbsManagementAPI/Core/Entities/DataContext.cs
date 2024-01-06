@@ -27,10 +27,10 @@ namespace AbsManagementAPI.Core.Entities
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = _configuration.GetConnectionString("AbsManagement");
-            //optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString);
 
             //var connectionString = _configuration.GetConnectionString("Sakila");
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            //optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -61,6 +61,7 @@ namespace AbsManagementAPI.Core.Entities
                     .WithMany(e => e.PhieuCapPhepQuangCaos)
                     .HasForeignKey(e => e.IdDiemDatQuangCao)
                     .HasConstraintName("Fk_PhieuCapPhepQuangCao_DiemDatQuangCao");
+
                 entity.HasOne(e => e.LoaiBangQuangCao)
                     .WithMany(e => e.PhieuCapPhepQuangCaos)
                     .HasForeignKey(e => e.IdLoaiBangQuangCao)
@@ -145,6 +146,7 @@ namespace AbsManagementAPI.Core.Entities
 
                 entity.HasKey(e => e.Id);
             });
+
             modelBuilder.Entity<PhieuCapPhepSuaQuangCaoEntity>(entity =>
             {
                 entity.ToTable("PhieuCapPhepSuaQuangCao");

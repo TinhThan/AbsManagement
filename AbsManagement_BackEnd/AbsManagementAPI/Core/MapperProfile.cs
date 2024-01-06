@@ -120,18 +120,6 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.DanhSachViTri, desc => desc.MapFrom(e => string.IsNullOrEmpty(e.ViTri) ? new List<decimal>()
                                     : JsonConvert.DeserializeObject<List<decimal>>(e.ViTri)));
 
-            CreateMap<ThemDiemDatQuangCaoModel, DiemDatQuangCaoEntity>()
-                .ForMember(src => src.Id, desc => desc.Ignore())
-                .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
-                .ForMember(src => src.LoaiViTri, desc => desc.Ignore())
-                .ForMember(src => src.HinhThucQuangCao, desc => desc.Ignore())
-                .ForMember(src => src.BangQuangCaos, desc => desc.Ignore())
-                .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
-                .ForMember(src => src.PhieuCapPhepSuaQuangCaos, desc => desc.Ignore())
-                .ForMember(src => src.PhieuCapPhepQuangCaos, desc => desc.Ignore())
-                .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)))
-                .ForMember(src => src.ViTri, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachViTri)));
-
             CreateMap<CapNhatDiemDatQuangCaoModel, DiemDatQuangCaoEntity>()
                 .ForMember(src => src.Id, desc => desc.Ignore())
                 .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())

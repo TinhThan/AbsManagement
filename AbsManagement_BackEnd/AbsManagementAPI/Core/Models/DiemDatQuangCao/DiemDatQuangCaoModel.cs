@@ -1,6 +1,4 @@
-﻿using AbsManagementAPI.Core.Entities;
-
-namespace AbsManagementAPI.Core.Models.DiemDatQuangCao
+﻿namespace AbsManagementAPI.Core.Models.DiemDatQuangCao
 {
     public class DiemDatQuangCaoModel
     {
