@@ -23,12 +23,6 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
             {
                 PhieuCapPhepQuangCao.IdTinhTrang = "Update";
                 var bangQuangCao = new BangQuangCaoEntity();
-                bangQuangCao.IdLoaiBangQuangCao = PhieuCapPhepQuangCao.IdLoaiBangQuangCao;
-                bangQuangCao.IdDiemDatQuangCao = PhieuCapPhepQuangCao.IdDiemDatQuangCao;
-                bangQuangCao.KichThuoc = PhieuCapPhepQuangCao.KichThuoc;
-                bangQuangCao.DanhSachHinhAnh = PhieuCapPhepQuangCao.DanhSachHinhAnh;
-                bangQuangCao.NgayHetHan = PhieuCapPhepQuangCao.NgayHetHan;
-                bangQuangCao.NgayBatDau = PhieuCapPhepQuangCao.NgayBatDau;
                 bangQuangCao.IdTinhTrang = "DaQuyHoach";
 
                  await _dataContext.AddAsync(bangQuangCao);

@@ -33,6 +33,9 @@
         public const string APPROVE_SUCCESS = "Duyệt thành công.";
         public const string APPROVE_FAIL = "Duyệt thất bại.";
 
+        public const string APPROVING_SUCCESS = "Gửi duyệt thành công.";
+        public const string APPROVING_FAIL = "Gửi duyệt thất bại.";
+
 
         public const string VERSION_UPDATE = "Dữ liệu đã được thay đổi bởi người sửa: <b>{1}</b>, lúc: <b>{2}</b><br/>Vui lòng làm mới lại trang";
     }

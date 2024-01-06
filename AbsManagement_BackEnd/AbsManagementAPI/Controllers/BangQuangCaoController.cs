@@ -96,5 +96,20 @@ namespace AbsManagementAPI.Controllers
                 Id = id
             });
         }
+
+        /// <summary>
+        /// Gửi duyệt bảng quảng cáo
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        [HttpPost("gui/{id}")]
+        public async Task<string> GuiDuyet(int id, GuiBangQuangCaoModel model)
+        {
+            return await _mediator.Send(new GuiBangQuangCaoCommand()
+            {
+                GuiBangQuangCaoModel = model,
+                Id = id
+            });
+        }
     }
 }
