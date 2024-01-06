@@ -13,9 +13,9 @@ class BangQuangCaoAPI extends BaseApi {
         );
     }
 
-    async DanhSach() {
+    async DanhSach(quan:string | null,phuong:string | null) {
       return this.get(
-      API_URL + ConfigUrlApi.Urls.BangQuangCao.DanhSach
+      API_URL + ConfigUrlApi.Urls.BangQuangCao.DanhSach+ `quan=${quan || ''}&phuong=${phuong || ''}`
       );
     }
 
@@ -39,6 +39,12 @@ class BangQuangCaoAPI extends BaseApi {
       );
     }
 
+    async GuiDuyet(id: number) {
+      return this.post(
+      API_URL + ConfigUrlApi.Urls.BangQuangCao.Gui + id
+      );
+    }
+
     async Xoa(id: number) {
       return this.post(
       API_URL + ConfigUrlApi.Urls.BangQuangCao.Xoa + id
@@ -48,9 +54,10 @@ class BangQuangCaoAPI extends BaseApi {
 
 export interface IBangQuangCaoAPI {
   ChiTiet(id: number);
-  DanhSach();
+  DanhSach(quan:string | null,phuong:string | null);
   DanhSachBySpace(id:number);
   TaoMoi(model: ThemMoiBangQuangCaoModel);
+  GuiDuyet(id:number);
   CapNhat(id: number, model: ThemMoiBangQuangCaoModel);
   Xoa(id: number);
 }

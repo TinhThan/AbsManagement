@@ -29,7 +29,11 @@ import dayjs from 'dayjs';
 import { ThemPhieuCapPhepModel } from '../../apis/phieuCapPhepBangQuangCao/model';
 import { phieuCapPhepBangQuangCaoAPI } from '../../apis/phieuCapPhepBangQuangCao';
 
-const tinhTrangBangQuangCao = [
+export const tinhTrangBangQuangCao = [
+    {
+        ma:"ChuaQuyHoach",
+        ten:"Chưa quy hoạch",
+    },
     {
         ma:"ChoCapPhep",
         ten:"Chờ cấp phép",
@@ -39,8 +43,8 @@ const tinhTrangBangQuangCao = [
         ten:"Chờ duyệt chỉnh sửa"
     },
     {
-        ma:"HoanThanh",
-        ten:"HoanThanh"
+        ma:"DaQuyHoach",
+        ten:"Đã quy hoạch"
     }
 ]
 
@@ -60,8 +64,6 @@ function convertImageToJpg(fileName: string): string {
 
 export function CreateBangQuangCao(): JSX.Element {
     const navigate = useNavigate();
-    const { id } = useParams();
-    const [bangQuangCao, setBangQuangCao] = useState<ThemMoiBangQuangCaoModel>();
     const [form] = Form.useForm<ThemMoiBangQuangCaoModel>();
     const [loading, setLoading] = useState(false);
     const [user,setUser] = useState<UserStorage>();
@@ -106,18 +108,11 @@ export function CreateBangQuangCao(): JSX.Element {
             return;
         }
         let quanUser;
-        // let phuongUser;
-        if(user.role === "CanBoQuan")
+        if(user.role !== "CanBoSo")
         {
             quanUser = getDistrictWithCode(user.noiCongTac[0] || '');
         }
 
-        if(user.role === "CanBoPhuong")
-        {
-            quanUser = getDistrictWithCode(user.noiCongTac[0]);
-            // phuongUser = getWardByDistrictWithCode(quanUser.postcode, user.noiCongTac[1]);
-        }
-        
         map.current = new mapboxgl.Map({
             container: mapContainerRef.current,
             style: "mapbox://styles/mapbox/streets-v11",
@@ -195,7 +190,7 @@ export function CreateBangQuangCao(): JSX.Element {
         map.current.on('click', ['space-panned-point','space-not-panned-point'], async (e) => {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const description = e.features[0].properties;
-
+            
             const diaDiem = diemDatQuangCaos.find(t=>t.id === description.id);
             setDiemDatQuangCao(diaDiem);
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
@@ -352,13 +347,6 @@ export function CreateBangQuangCao(): JSX.Element {
                                 </Form.Item>
                                 <Form.Item label={"Ngày hết hạn"} name={"ngayHetHan"}>
                                     <DatePicker />
-                                </Form.Item>
-                                <Form.Item label={"Tình trạng"} name={'idTinhTrang'}>
-                                    <Select placeholder="Vui lòng chọn tình trạng">
-                                        {tinhTrangBangQuangCao && tinhTrangBangQuangCao.map((option) => (
-                                            <Select.Option key={option.ma} value={option.ma}>{option.ten}</Select.Option>
-                                        ))}
-                                    </Select>
                                 </Form.Item>
                                 <Form.Item label="Danh sách hình ảnh">
                                     <Image.PreviewGroup>

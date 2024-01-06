@@ -16,21 +16,8 @@ import { diemDatQuangCaoAPI } from '../../apis/diemDatQuangCao';
 import { tinhTrangDiemDatQuangCao } from '../diemDatQuangCao/list';
 import dayjs from 'dayjs';
 import { SpaceAnyToGeoJson } from '../../utils/anyToGeoJson';
+import { tinhTrangBangQuangCao } from './create';
 
-const tinhTrangBangQuangCao = [
-    {
-        ma:"ChoCapPhep",
-        ten:"Chờ cấp phép",
-    },
-    {
-        ma:"ChoDuyet",
-        ten:"Chờ duyệt chỉnh sửa"
-    },
-    {
-        ma:"HoanThanh",
-        ten:"HoanThanh"
-    }
-]
 export function DetailBangQuangCao(): JSX.Element {
     const navigate = useNavigate();
     const { id } = useParams();

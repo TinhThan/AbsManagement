@@ -26,21 +26,7 @@ import { tinhTrangDiemDatQuangCao } from '../diemDatQuangCao/list';
 import { SpaceToGeoJson } from '../../utils/anyToGeoJson';
 import { LayerSpaceNotPanned, LayerSpaceNotPannedLabel, LayerSpaceNotPannedPoint, LayerSpacePanned, LayerSpacePannedLabel, LayerSpacePannedPoint } from '../../utils/layerMap';
 import dayjs from 'dayjs';
-
-const tinhTrangBangQuangCao = [
-    {
-        ma:"ChoCapPhep",
-        ten:"Chờ cấp phép",
-    },
-    {
-        ma:"ChoDuyet",
-        ten:"Chờ duyệt chỉnh sửa"
-    },
-    {
-        ma:"HoanThanh",
-        ten:"HoanThanh"
-    }
-]
+import { tinhTrangBangQuangCao } from './create';
 
 const getBase64 = (file) =>
     new Promise((resolve, reject) => {
