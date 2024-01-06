@@ -6,9 +6,9 @@ using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AutoMapper;
 using MediatR;
-using AbsManagementAPI.Core.CQRS.Log.Command;
-using AbsManagementAPI.Core.Models.Log;
 using Newtonsoft.Json;
+using AbsManagementAPI.Core.Log.Command;
+using AbsManagementAPI.Core.CQRS.Log;
 
 namespace AbsManagementAPI.Core.CQRS.LoaiBangQuangCao.CommandHandler
 {

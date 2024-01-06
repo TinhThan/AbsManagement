@@ -2,10 +2,10 @@
 using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.HinhThucBangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.HinhThucQuangCao.Command;
-using AbsManagementAPI.Core.CQRS.Log.Command;
+using AbsManagementAPI.Core.CQRS.Log;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
-using AbsManagementAPI.Core.Models.Log;
+using AbsManagementAPI.Core.Log.Command;
 using AutoMapper;
 using MediatR;
 using Newtonsoft.Json;
