@@ -89,7 +89,7 @@ namespace AbsManagementAPI.Controllers
         }
 
         /// <summary>
-        /// Xóađiểm đặt quảng cáo
+        /// Duyệt phiếu quảng cáo
         /// </summary>
         /// <param name="model"></param>
         [HttpPost("duyet")]

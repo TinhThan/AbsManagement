@@ -14,5 +14,8 @@ namespace AbsManagementAPI.Core.Models.PhieuCapPhepQuangCao
         public List<string> DanhSachHinhAnh { get; set; }
         public DateTimeOffset NgayHetHan { get; set; }
         public DateTimeOffset NgayBatDau { get; set; }
+        public int IdBangQuangCao { get; set; }
+        public int IdCanBoDuyet { get; set; }
+        public DateTimeOffset NgayGui { get; set; }
     }
 }

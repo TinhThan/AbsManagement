@@ -56,15 +56,6 @@ namespace AbsManagementAPI.Core.Entities
             {
                 entity.ToTable("PhieuCapPhepQuangCao");
                 entity.HasKey(e => e.Id);
-
-                entity.HasOne(e => e.DiemDatQuangCao)
-                    .WithMany(e => e.PhieuCapPhepQuangCaos)
-                    .HasForeignKey(e => e.IdDiemDatQuangCao)
-                    .HasConstraintName("Fk_PhieuCapPhepQuangCao_DiemDatQuangCao");
-                entity.HasOne(e => e.LoaiBangQuangCao)
-                    .WithMany(e => e.PhieuCapPhepQuangCaos)
-                    .HasForeignKey(e => e.IdLoaiBangQuangCao)
-                    .HasConstraintName("Fk_PhieuCapPhepQuangCao_LoaiBangQuangCao");
             });
 
             modelBuilder.Entity<BaoCaoViPhamEntity>(entity =>
