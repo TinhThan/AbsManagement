@@ -39,10 +39,17 @@ export function ModalUpdateCanBo(props: Props): JSX.Element {
   }
 
   function onSubmit(_model: CapNhatCanBoModel) {
-    if(_model.role !== "CanBoSo")
+    if(_model.role === roleCanBo[0].ma)
     {
       _model.noiCongTac = [_model.quan,_model.phuong]
-    }else {_model.noiCongTac = [] }
+    }    
+    if(_model.role === roleCanBo[1].ma)
+    {
+      _model.noiCongTac = [_model.quan]
+    }if(_model.role === roleCanBo[2].ma)
+    {
+      _model.noiCongTac = []
+    }
     setLoading(true)
     if(canBo)
     {
@@ -135,13 +142,15 @@ export function ModalUpdateCanBo(props: Props): JSX.Element {
                   ))}
                 </Select>
             </Form.Item>
-            <Form.Item label={"Phường"} name={'phuong'}>
+            {
+              role === roleCanBo[0].ma && <Form.Item label={"Phường"} name={'phuong'}>
               <Select placeholder="Vui lòng chọn phường">
                   {wards.map((option) => (
                     <Select.Option key={option.postcode} value={option.postcode}>Phường {option.name}</Select.Option>
                   ))}
                 </Select>
             </Form.Item>
+            }
           </>}
       </Col>
       </Form>

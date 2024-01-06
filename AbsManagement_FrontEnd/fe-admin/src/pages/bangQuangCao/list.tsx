@@ -5,12 +5,22 @@ import { Button, Col, Dropdown, Input, Row, Space, Spin, Table, TableColumnType 
 import { BangQuangCaoModel } from '../../apis/bangQuangCao/bangQuangCaoModel';
 import { bangQuangCaoAPI } from '../../apis/bangQuangCao/bangQuangCaoAPI';
 import { useNavigate } from 'react-router-dom';
-import { EditOutlined, EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
+import { EditOutlined, EllipsisOutlined, PlusOutlined, SendOutlined } from '@ant-design/icons';
 import { ConfigRoute } from '../../routes/ConfigRoute';
 import UserInfoStorage from '../../storages/user-info';
 import { UserStorage } from '../../apis/auth/user';
+import { tinhTrangBangQuangCao } from './create';
+import { FormatTime, GetDateTimeByFormat } from '../../utils';
+import { getDistrictWithCode, getWardByDistrictWithCode } from '../../utils/getWard';
 
 const { Search } = Input;
+
+const tinhTrangBangQuangCaoList = {
+    ChuaQuyHoach: "Chưa quy hoạch",
+    ChoCapPhep :"Chờ cấp phép",
+    ChoDuyet:"Chờ duyệt chỉnh sửa",
+    DaQuyHoach: "Đã quy hoạch"
+}
 
 export default function ListBangQuangCao(): JSX.Element {
     const navigate = useNavigate();
@@ -24,14 +34,14 @@ export default function ListBangQuangCao(): JSX.Element {
         {
             setUser(useInfo);
         }
-            getBangQuangCaos();
+        getBangQuangCaos(useInfo);
     }, [])
     
 
-    async function getBangQuangCaos() {
+    async function getBangQuangCaos(useInfo) {
         setLoading(true);
         try {
-            const response = await bangQuangCaoAPI.DanhSach();
+            const response = await bangQuangCaoAPI.DanhSach(useInfo?.noiCongTac[0] || '',useInfo?.noiCongTac[1] || '');
             const newData = response.data.map((item: any) => {
             return {
                 ...item,
@@ -39,6 +49,16 @@ export default function ListBangQuangCao(): JSX.Element {
             }
         })
             setBangQuangCaos(newData);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function guiDuyetBangQuangCao(id:number) {
+        setLoading(true);
+        try {
+            await bangQuangCaoAPI.GuiDuyet(id);
+            getBangQuangCaos(user)
         } finally {
             setLoading(false);
         }
@@ -62,12 +82,22 @@ export default function ListBangQuangCao(): JSX.Element {
             width: 200,
             sorter: true,
             dataIndex: 'phuong',
+            key: 'phuong',            
+            render:(value: string,record: BangQuangCaoModel) => {
+                return "Phường " + getWardByDistrictWithCode(record.quan,record.phuong).name;
+            },
+            showSorterTooltip:false
         },
         {
             title: "Quận",
             width: 200,
             sorter: true,
             dataIndex: 'quan',
+            key: 'quan',            
+            render:(value: string,record: BangQuangCaoModel) => {
+                return "Quận " +getDistrictWithCode(record.quan).name;
+            },
+            showSorterTooltip:false
         },
         {
             title: "Loại bảng quảng cáo",
@@ -79,19 +109,34 @@ export default function ListBangQuangCao(): JSX.Element {
             title: "Kích thước",
             width: 200,
             sorter: true,
-            dataIndex: 'kichThuong',
+            dataIndex: 'kichThuoc',
+        },
+        {
+            title: "Ngày bắt đầu",
+            width: 200,
+            sorter: true,
+            dataIndex: 'ngayBatDau',
+            render:(value) =>{
+                return GetDateTimeByFormat(value,FormatTime.DDMMYYYY)
+              },
         },
         {
             title: "Ngày hết hạn",
             width: 200,
             sorter: true,
             dataIndex: 'ngayHetHan',
+            render:(value) =>{
+                return GetDateTimeByFormat(value,FormatTime.DDMMYYYY)
+              },
         },
         {
             title: "Tình trạng",
             width: 200,
             sorter: true,
             dataIndex: 'idTinhTrang',
+            render: (value:string) => {
+                return tinhTrangBangQuangCaoList[value];
+            },
         },
         {
             title: "Hành động",
@@ -115,6 +160,13 @@ export default function ListBangQuangCao(): JSX.Element {
                         key: "2",
                         icon: <EditOutlined />,
                         onClick: ()=>navigate(`${ConfigRoute.CanBoSo.BangQuangCao}/capnhat/${row.id}`),
+                    }, 
+                    {
+                        label: "Gữi phiếu cấp phép",
+                        key: "3",
+                        disabled: row.idTinhTrang !== 'ChuaQuyHoach',
+                        icon: <SendOutlined />,
+                        onClick: ()=>guiDuyetBangQuangCao(row.id),
                     }
                 ]}}
                 trigger={['click']}

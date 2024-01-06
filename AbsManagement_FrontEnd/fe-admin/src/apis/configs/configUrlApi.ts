@@ -35,10 +35,11 @@ export const ConfigUrlApi = {
         },
         BangQuangCao:{
             ChiTiet:'/bangquangcao/chitiet/',
-            DanhSach:'/bangquangcao',
+            DanhSach:'/bangquangcao?',
             DanhSachBySpace:'/bangquangcao/diemdatquangcao/',
             TaoMoi:'/bangquangcao/taomoi',
             CapNhat:'/bangquangcao/capnhat/',
+            Gui:'/bangquangcao/gui/',
             Xoa:'/bangquangcao/xoa'
         },
         CanBo:{
