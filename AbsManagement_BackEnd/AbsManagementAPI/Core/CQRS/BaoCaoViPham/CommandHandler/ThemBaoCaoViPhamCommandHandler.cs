@@ -1,11 +1,14 @@
 ﻿using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Command;
+using AbsManagementAPI.Core.CQRS.Log.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AbsManagementAPI.Core.HubSignalR;
+using AbsManagementAPI.Core.Models.Log;
 using AutoMapper;
 using MediatR;
+using Newtonsoft.Json;
 
 namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
 {
@@ -30,12 +33,57 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
                 if (resultThemMoi > 0)
                 {
                     await _notifyService.SendMessageNotifyOnPhuongQuan("ThemBaoCaoViPham", "Bạn có báo cáo vi phạm mới ở địa chỉ: " + baoCaoViPham.DiaChi,baoCaoViPham.Phuong,baoCaoViPham.Quan);
+                    await AddLog(new ThemLogCommand
+                    {
+                        ThemLogModel =
+                      new ThemLogModel
+                      {
+                          Controller = "BaoCaoViPhamController",
+                          Method = "Create",
+                          FunctionName = "ThemBaoCaoViPham",
+                          Status = "Success",
+                          OleValue = "",
+                          NewValue = JsonConvert.SerializeObject(baoCaoViPham),
+                          Type = "Debug",
+                          CreateDate = DateTime.Now,
+                      }
+                    });
                     return MessageSystem.ADD_SUCCESS;
                 }
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                      new ThemLogModel
+                      {
+                          Controller = "BaoCaoViPhamController",
+                          Method = "Create",
+                          FunctionName = "ThemBaoCaoViPham",
+                          Status = "Fail",
+                          OleValue = "",
+                          NewValue = JsonConvert.SerializeObject(baoCaoViPham),
+                          Type = "Debug",
+                          CreateDate = DateTime.Now,
+                      }
+                });
                 throw new CustomMessageException(MessageSystem.ADD_FAIL);
             }
             catch (Exception ex)
             {
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                      new ThemLogModel
+                      {
+                          Controller = "BaoCaoViPhamController",
+                          Method = "Create",
+                          FunctionName = "ThemBaoCaoViPham",
+                          Status = "Error",
+                          OleValue = "",
+                          NewValue = JsonConvert.SerializeObject(baoCaoViPham),
+                          Type = "Error",
+                          CreateDate = DateTime.Now,
+                      }
+                });
                 throw new CustomMessageException(MessageSystem.ADD_FAIL, ex.Message);
             }
         }

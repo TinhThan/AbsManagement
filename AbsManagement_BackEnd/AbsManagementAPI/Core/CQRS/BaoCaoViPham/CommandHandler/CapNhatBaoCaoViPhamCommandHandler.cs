@@ -1,8 +1,10 @@
 ﻿using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Command;
+using AbsManagementAPI.Core.CQRS.Log.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models.Log;
 using AbsManagementAPI.Core.Models.Mail;
 using AbsManagementAPI.Servives;
 using AutoMapper;
@@ -17,6 +19,8 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
     public class CapNhatBaoCaoViPhamCommandHandler : BaseHandler, IRequestHandler<CapNhatBaoCaoViPhamCommand, string>
     {
         private readonly IMailService _mail;
+        public static string DataOld = "";
+
         public CapNhatBaoCaoViPhamCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper, IMailService mail) : base(httpContextAccessor, dataContext, mapper)
         {
             _mail = mail;
@@ -24,6 +28,7 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
         public async Task<string> Handle(CapNhatBaoCaoViPhamCommand request, CancellationToken cancellationToken)
         {
             var baoCaoViPham = await _dataContext.BaoCaoViPhams.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
+            DataOld = JsonConvert.SerializeObject(baoCaoViPham);
             if (baoCaoViPham == null )
             {
                 throw new CustomMessageException(MessageSystem.DATA_INVALID);
@@ -48,20 +53,64 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
                 baoCaoViPham.NoiDungXuLy = request.CapNhatBaoCaoViPhamModel.NoiDungXyLy;
                 baoCaoViPham.IdTinhTrang = request.CapNhatBaoCaoViPhamModel.IdTinhTrang;
                 //baoCaoViPham.ApproveDate = DateTime.Now;
-                baoCaoViPham.IdCanBoXuLy = authInfo.Id;
-                //baoCaoViPham.DanhSachHinhAnhXuLy = JsonConvert.SerializeObject(request.CapNhatBaoCaoViPhamModel.DanhSachHinhAnhXuLy);
+                baoCaoViPham.IdCanBoXuLy = authInfo.Id;             //baoCaoViPham.DanhSachHinhAnhXuLy = JsonConvert.SerializeObject(request.CapNhatBaoCaoViPhamModel.DanhSachHinhAnhXuLy);
                 _dataContext.Update(baoCaoViPham);
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 await _mail.SendAsync(mailData, new CancellationToken());
 
                 if (resultCapNhat > 0)
                 {
+                    await AddLog(new ThemLogCommand
+                    {
+                        ThemLogModel =
+                     new ThemLogModel
+                     {
+                         Controller = "BaoCaoViPhamController",
+                         Method = "Update",
+                         FunctionName = "CapNhatBaoCaoViPham",
+                         Status = "Success",
+                         OleValue = DataOld,
+                         NewValue = JsonConvert.SerializeObject(baoCaoViPham),
+                         Type = "Debug",
+                         CreateDate = DateTime.Now,
+                     }
+                    });
                     return MessageSystem.UPDATE_SUCCESS;
                 }
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                     new ThemLogModel
+                     {
+                         Controller = "BaoCaoViPhamController",
+                         Method = "Update",
+                         FunctionName = "CapNhatBaoCaoViPham",
+                         Status = "Fail",
+                         OleValue = DataOld,
+                         NewValue = JsonConvert.SerializeObject(baoCaoViPham),
+                         Type = "Debug",
+                         CreateDate = DateTime.Now,
+                     }
+                });
                 throw new CustomMessageException(MessageSystem.UPDATE_FAIL);
             }
             catch (Exception ex)
             {
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                     new ThemLogModel
+                     {
+                         Controller = "BaoCaoViPhamController",
+                         Method = "Update",
+                         FunctionName = "CapNhatBaoCaoViPham",
+                         Status = "Error",
+                         OleValue = DataOld,
+                         NewValue = JsonConvert.SerializeObject(baoCaoViPham),
+                         Type = "Error",
+                         CreateDate = DateTime.Now,
+                     }
+                });
                 throw new CustomMessageException(MessageSystem.UPDATE_FAIL, ex.Message);
             }
         }

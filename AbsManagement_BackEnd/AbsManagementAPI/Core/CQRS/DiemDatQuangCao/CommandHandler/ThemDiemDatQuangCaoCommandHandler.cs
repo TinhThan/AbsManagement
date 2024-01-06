@@ -1,10 +1,13 @@
 ﻿using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.CQRS.DiemDatBangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.DiemDatQuangCao.Command;
+using AbsManagementAPI.Core.CQRS.Log.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models.Log;
 using AutoMapper;
 using MediatR;
+using Newtonsoft.Json;
 
 namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
 {
@@ -25,12 +28,57 @@ namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)
                 {
+                    await AddLog(new ThemLogCommand
+                    {
+                        ThemLogModel =
+                        new ThemLogModel
+                        {
+                            Controller = "DiemDatQuangCaoController",
+                            Method = "Create",
+                            FunctionName = "ThemDiemDatQuangCao",
+                            Status = "Success",
+                            OleValue = "",
+                            NewValue = JsonConvert.SerializeObject(diemDatQuangCaoMoi),
+                            Type = "Debug",
+                            CreateDate = DateTime.Now,
+                        }
+                    });
                     return MessageSystem.ADD_SUCCESS;
                 }
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                    new ThemLogModel
+                    {
+                        Controller = "DiemDatQuangCaoController",
+                        Method = "Create",
+                        FunctionName = "ThemDiemDatQuangCao",
+                        Status = "Success",
+                        OleValue = "",
+                        NewValue = JsonConvert.SerializeObject(diemDatQuangCaoMoi),
+                        Type = "Debug",
+                        CreateDate = DateTime.Now,
+                    }
+                });
                 throw new CustomMessageException(MessageSystem.ADD_FAIL);
             }
             catch (Exception ex)
             {
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                    new ThemLogModel
+                    {
+                        Controller = "DiemDatQuangCaoController",
+                        Method = "Create",
+                        FunctionName = "ThemDiemDatQuangCao",
+                        Status = "Error",
+                        OleValue = "",
+                        NewValue = JsonConvert.SerializeObject(diemDatQuangCaoMoi),
+                        Type = "Error",
+                        CreateDate = DateTime.Now,
+                    }
+                });
                 throw new CustomMessageException(MessageSystem.ADD_FAIL, ex.Message);
             }
         }
