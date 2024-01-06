@@ -1,5 +1,0 @@
-Bước 1: Nếu là API đọc dữ liệu sẽ thêm Query, nếu là ghi dữ liệu sẽ là Command.
-Bước 2: Tạo Class Query/Command ( VD: ChiTietBangQuangCaoQuery/ThemBangQuangCaoCommand).
-Bước 3: Thêm QueryHandler/CommandHandler ở đây xử lý code trả về dữ liệu.
-Bước 4: Nếu có Validator thì thêm Validator ở folder validator.
-Bước 5: Tạo controller sử dung mediator
