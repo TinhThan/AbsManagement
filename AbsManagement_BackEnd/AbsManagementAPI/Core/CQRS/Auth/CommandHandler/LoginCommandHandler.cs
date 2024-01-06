@@ -1,10 +1,12 @@
 ﻿using AbsManagementAPI.Core.Authentication;
 using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.CQRS.Auth.Command;
+using AbsManagementAPI.Core.CQRS.Log.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AbsManagementAPI.Core.HubSignalR;
 using AbsManagementAPI.Core.Models.Auth;
+using AbsManagementAPI.Core.Models.Log;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -24,17 +26,62 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
             var userExists = await _dataContext.CanBos.FirstOrDefaultAsync(t => t.Email == request.LoginModel.Email, cancellationToken);
             if (userExists == null)
             {
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                   new ThemLogModel
+                   {
+                       Controller = "AuthController",
+                       Method = "Create",
+                       FunctionName = "Login",
+                       Status = "Error",
+                       OleValue = "",
+                       NewValue = "",
+                       Type = "Error",
+                       CreateDate = DateTime.Now,
+                   }
+                });
                 throw new CustomMessageException(MessageSystem.AUTH_AUTHENTICATED_ERROR, MessageSystem.AUTH_INVALID);
             }
 
             bool password_check = BCrypt.Net.BCrypt.Verify(request.LoginModel.Password, userExists.MatKhau);
             if (!password_check)
             {
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                   new ThemLogModel
+                   {
+                       Controller = "AuthController",
+                       Method = "Create",
+                       FunctionName = "Login",
+                       Status = "Fail",
+                       OleValue = "",
+                       NewValue = "",
+                       Type = "Debug",
+                       CreateDate = DateTime.Now,
+                   }
+                });
                 throw new CustomMessageException(MessageSystem.AUTH_AUTHENTICATED_ERROR, MessageSystem.AUTH_PASSWORD_ERROR);
             }
 
             if (userExists.EmailVerified == 0)
             {
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                    new ThemLogModel
+                    {
+                        Controller = "AuthController",
+                        Method = "Create",
+                        FunctionName = "Login",
+                        Status = "Fail",
+                        OleValue = "",
+                        NewValue = "",
+                        Type = "Debug",
+                        CreateDate = DateTime.Now,
+                    }
+                });
                 throw new CustomMessageException(MessageSystem.AUTH_AUTHENTICATED_ERROR, MessageSystem.AUTH_NOT_VERIFIED);
             }
 
@@ -56,6 +103,21 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
                 var resultUpdate = await _dataContext.SaveChangesAsync(cancellationToken);
                 if (resultUpdate > 0)
                 {
+                    await AddLog(new ThemLogCommand
+                    {
+                        ThemLogModel =
+                     new ThemLogModel
+                     {
+                         Controller = "AuthController",
+                         Method = "Create",
+                         FunctionName = "Login",
+                         Status = "Success",
+                         OleValue = "",
+                         NewValue = "",
+                         Type = "Debug",
+                         CreateDate = DateTime.Now,
+                     }
+                    });
                     return new LoginResponseModel()
                     {
                         AccessToken = HelperIdentity.GenerateToken(claims),
@@ -67,10 +129,40 @@ namespace AbsManagementAPI.Core.CQRS.Auth.CommandHandler
                         NoiCongTac = string.IsNullOrEmpty(userExists.NoiCongTac) ? new List<string>() : JsonConvert.DeserializeObject<List<string>>(userExists.NoiCongTac)
                     };
                 }
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                    new ThemLogModel
+                    {
+                        Controller = "AuthController",
+                        Method = "Create",
+                        FunctionName = "Login",
+                        Status = "Fail",
+                        OleValue = "",
+                        NewValue = "",
+                        Type = "Debug",
+                        CreateDate = DateTime.Now,
+                    }
+                });
                 throw new CustomMessageException(MessageSystem.AUTH_AUTHENTICATED_ERROR);
             }
             catch (Exception ex)
             {
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                    new ThemLogModel
+                    {
+                        Controller = "AuthController",
+                        Method = "Create",
+                        FunctionName = "Login",
+                        Status = "Error",
+                        OleValue = "",
+                        NewValue = "",
+                        Type = "Error",
+                        CreateDate = DateTime.Now,
+                    }
+                });
                 if (ex is CustomException)
                 {
                     throw;

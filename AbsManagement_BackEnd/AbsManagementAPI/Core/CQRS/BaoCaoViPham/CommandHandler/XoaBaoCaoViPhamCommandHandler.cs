@@ -1,11 +1,14 @@
 ﻿using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Command;
+using AbsManagementAPI.Core.CQRS.Log.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models.Log;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
 {
@@ -24,12 +27,57 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 if (resultCapNhat > 0)
                 {
+                    await AddLog(new ThemLogCommand
+                    {
+                        ThemLogModel =
+                      new ThemLogModel
+                      {
+                          Controller = "BaoCaoViPhamController",
+                          Method = "Delete",
+                          FunctionName = "XoaBaoCaoViPham",
+                          Status = "Success",
+                          OleValue = JsonConvert.SerializeObject(baoCaoViPham),
+                          NewValue = "",
+                          Type = "Debug",
+                          CreateDate = DateTime.Now,
+                      }
+                    });
                     return MessageSystem.DELETE_SUCCESS;
                 }
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                      new ThemLogModel
+                      {
+                          Controller = "BaoCaoViPhamController",
+                          Method = "Delete",
+                          FunctionName = "ThemBaoCaoViPham",
+                          Status = "Fail",
+                          OleValue = "",
+                          NewValue = JsonConvert.SerializeObject(baoCaoViPham),
+                          Type = "Debug",
+                          CreateDate = DateTime.Now,
+                      }
+                });
                 throw new CustomMessageException(MessageSystem.DELETE_FAIL);
             }
             catch (Exception ex)
             {
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                      new ThemLogModel
+                      {
+                          Controller = "BaoCaoViPhamController",
+                          Method = "Create",
+                          FunctionName = "ThemBaoCaoViPham",
+                          Status = "Error",
+                          OleValue = "",
+                          NewValue = JsonConvert.SerializeObject(baoCaoViPham),
+                          Type = "Error",
+                          CreateDate = DateTime.Now,
+                      }
+                });
                 throw new CustomMessageException(MessageSystem.DELETE_FAIL, ex.Message);
             }
         }

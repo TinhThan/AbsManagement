@@ -1,10 +1,13 @@
 ﻿using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Command;
 using AbsManagementAPI.Core.CQRS.LoaiViTri.Command;
+using AbsManagementAPI.Core.CQRS.Log.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models.Log;
 using AutoMapper;
 using MediatR;
+using Newtonsoft.Json;
 
 namespace AbsManagementAPI.Core.CQRS.LoaiViTri.CommandHandler
 {
@@ -23,12 +26,56 @@ namespace AbsManagementAPI.Core.CQRS.LoaiViTri.CommandHandler
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)
                 {
+                    await AddLog(new ThemLogCommand 
+                    { ThemLogModel = 
+                        new ThemLogModel 
+                        { 
+                            Controller = "LoaiViTriController",
+                            Method = "Create",
+                            FunctionName ="ThemLoaiVitri",
+                            Status = "Success",
+                            OleValue = "",
+                            NewValue = JsonConvert.SerializeObject(loaiViTri),
+                            Type ="Debug",
+                            CreateDate = DateTime.Now,
+                        }           
+                    });
                     return MessageSystem.ADD_SUCCESS;
                 }
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                    new ThemLogModel
+                    {
+                        Controller = "LoaiViTriController",
+                        Method = "Create",
+                        FunctionName = "ThemLoaiVitri",
+                        Status ="Fail",
+                        OleValue = "",
+                        NewValue = JsonConvert.SerializeObject(loaiViTri),
+                        Type = "Debug",
+                        CreateDate = DateTime.Now,
+                    }
+                });
                 throw new CustomMessageException(MessageSystem.ADD_FAIL);
             }
             catch (Exception ex)
             {
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                    new ThemLogModel
+                    {
+                        Controller = "LoaiViTriController",
+                        Method = "Create",
+                        FunctionName = "ThemLoaiVitri",
+                        Status = "Error",
+                        OleValue = "",
+                        NewValue = JsonConvert.SerializeObject(loaiViTri),
+                        Type = "Error",
+                        CreateDate = DateTime.Now,
+                    }
+                });
                 throw new CustomMessageException(MessageSystem.ADD_FAIL, ex.Message);
             }
         }

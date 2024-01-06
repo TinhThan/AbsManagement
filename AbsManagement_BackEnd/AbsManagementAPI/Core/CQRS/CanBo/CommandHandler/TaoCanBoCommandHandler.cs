@@ -1,13 +1,16 @@
 ﻿using AbsManagementAPI.Core.Authentication;
 using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.CQRS.CanBo.Command;
+using AbsManagementAPI.Core.CQRS.Log.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models.Log;
 using AbsManagementAPI.Core.Models.Mail;
 using AbsManagementAPI.Servives;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace AbsManagementAPI.Core.CQRS.CanBo.CommandHandler
 {
@@ -63,13 +66,58 @@ namespace AbsManagementAPI.Core.CQRS.CanBo.CommandHandler
 
                 if (result > 0)
                 {
+                    await AddLog(new ThemLogCommand
+                    {
+                        ThemLogModel =
+                       new ThemLogModel
+                       {
+                           Controller = "CanBoController",
+                           Method = "Create",
+                           FunctionName = "ThemCanBo",
+                           Status = "Success",
+                           OleValue = "",
+                           NewValue = JsonConvert.SerializeObject(canBoMoi),
+                           Type = "Debug",
+                           CreateDate = DateTime.Now,
+                       }
+                    });
                     //await _mail.SendAsync(mailData, new CancellationToken());
                     return $"success: true, message: {MessageSystem.ADD_SUCCESS}";
                 }
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                       new ThemLogModel
+                       {
+                           Controller = "CanBoController",
+                           Method = "Create",
+                           FunctionName = "ThemCanBo",
+                           Status = "Fail",
+                           OleValue = "",
+                           NewValue = JsonConvert.SerializeObject(canBoMoi),
+                           Type = "Debug",
+                           CreateDate = DateTime.Now,
+                       }
+                });
                 return $"success: false, message: {MessageSystem.AUTH_REGISTER_ERROR}";
             }
             catch (Exception ex)
             {
+                await AddLog(new ThemLogCommand
+                {
+                    ThemLogModel =
+                       new ThemLogModel
+                       {
+                           Controller = "CanBoController",
+                           Method = "Create",
+                           FunctionName = "ThemCanBo",
+                           Status = "Error",
+                           OleValue = "",
+                           NewValue = JsonConvert.SerializeObject(reqRegister),
+                           Type = "Error",
+                           CreateDate = DateTime.Now,
+                       }
+                });
                 throw new CustomMessageException(ex.Message);
             }
         }

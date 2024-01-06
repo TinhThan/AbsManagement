@@ -12,6 +12,7 @@ using AbsManagementAPI.Entities;
 using AbsManagementAPI.Core.Models.LoaiViTri;
 using AutoMapper;
 using Newtonsoft.Json;
+using AbsManagementAPI.Core.Models.Log;
 
 namespace AbsManagementAPI.Core
 {
