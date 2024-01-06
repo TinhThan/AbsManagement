@@ -14,7 +14,6 @@ namespace AbsManagementAPI.Controllers
     /// Controller loại bảngquảng cáo
     /// </summary>
     [ApiController]
-    [Authorize]
     [Route("api/loaibangquangcao")]
     public class LoaiBangQuangCaoController : BaseController
     {
@@ -49,6 +48,7 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost("taomoi")]
+        [Authorize]
         public async Task<string> TaoMoi(ThemLoaiBangQuangCaoModel model)
         {
             return await _mediator.Send(new ThemLoaiBangQuangCaoCommand()
@@ -63,6 +63,7 @@ namespace AbsManagementAPI.Controllers
         /// <param name="id"></param>
         /// <param name="model"></param>
         [HttpPost("capnhat/{id}")]
+        [Authorize]
         public async Task<string> CapNhat(int id, CapNhatLoaiBangQuangCaoModel model)
         {
             return await _mediator.Send(new CapNhatLoaiBangQuangCaoCommand()
