@@ -37,6 +37,7 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
                 .ForMember(src => src.PhieuCapPhepSuaQuangCaos, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
 
             CreateMap<CapNhatBangQuangCaoModel, BangQuangCaoEntity>()
@@ -44,6 +45,7 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.LoaiBangQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.PhieuCapPhepSuaQuangCaos, desc => desc.Ignore())
+                .ForMember(src => src.PhieuCapPhepQuangCaos, desc => desc.Ignore())
                 .ForMember(src => src.BaoCaoViPhams, desc => desc.Ignore())
                 .ForMember(src => src.DanhSachHinhAnh, desc => desc.MapFrom(e => JsonConvert.SerializeObject(e.DanhSachHinhAnh)));
 
@@ -204,15 +206,17 @@ namespace AbsManagementAPI.Core
             #region PhieuCapPhepQuangCao
 
             CreateMap<PhieuCapPhepQuangCaoEntity, PhieuCapPhepQuangCaoModel>();
-                
+
 
             CreateMap<ThemPhieuCapPhepQuangCaoModel, PhieuCapPhepQuangCaoEntity>()
                 .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
-                .ForMember(src => src.Id, desc => desc.Ignore());
+                .ForMember(src => src.Id, desc => desc.Ignore())
+                .ForMember(src => src.BangQuangCaos, desc => desc.Ignore());
 
             CreateMap<CapNhatPhieuCapPhepQuangCaoModel, PhieuCapPhepQuangCaoEntity>()
                .ForMember(src => src.IdTinhTrang, desc => desc.Ignore())
-               .ForMember(src => src.Id, desc => desc.Ignore());
+               .ForMember(src => src.Id, desc => desc.Ignore())
+               .ForMember(src => src.BangQuangCaos, desc => desc.Ignore());
 
             #endregion
 

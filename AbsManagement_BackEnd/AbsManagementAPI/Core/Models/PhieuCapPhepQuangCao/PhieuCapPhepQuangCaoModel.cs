@@ -10,5 +10,7 @@ namespace AbsManagementAPI.Core.Models.PhieuCapPhepQuangCao
         public int IdBangQuangCao { get; set; }
         public int IdCanBoDuyet { get; set; }
         public DateTimeOffset NgayGui { get; set; }
+
+        public virtual BangQuangCaoEntity BangQuangCaos { get; set; }
     }
 }
