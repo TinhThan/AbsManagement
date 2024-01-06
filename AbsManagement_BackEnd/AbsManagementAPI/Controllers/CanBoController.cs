@@ -1,4 +1,5 @@
-﻿using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Command;
+﻿using AbsManagementAPI.Core.Authentication;
+using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Command;
 using AbsManagementAPI.Core.CQRS.CanBo.Command;
 using AbsManagementAPI.Core.CQRS.CanBo.Query;
 using AbsManagementAPI.Core.Exceptions.Common;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AbsManagementAPI.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/canbo")]
     public class CanBoController : BaseController
     {

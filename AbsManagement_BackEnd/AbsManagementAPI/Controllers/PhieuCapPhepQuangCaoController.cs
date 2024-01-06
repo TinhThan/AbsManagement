@@ -52,6 +52,7 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost("taomoi")]
+        [Authorize]
         public async Task<string> TaoMoi(ThemPhieuCapPhepQuangCaoModel model)
         {
             return await _mediator.Send(new ThemPhieuCapPhepQuangCaoCommand()
@@ -66,6 +67,7 @@ namespace AbsManagementAPI.Controllers
         /// <param name="id"></param>
         /// <param name="model"></param>
         [HttpPost("capnhat/{id}")]
+        [Authorize]
         public async Task<string> CapNhat(int id, CapNhatPhieuCapPhepQuangCaoModel model)
         {
             return await _mediator.Send(new CapNhatPhieuCapPhepQuangCaoCommand()
@@ -94,6 +96,7 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// /// <param name="id"></param>
         [HttpPost("duyet/{id}")]
+        [Authorize]
         public async Task<string> Duyet(int id)
         {
             return await _mediator.Send(new DuyetPhieuCapPhepQuangCaoCommand
@@ -107,6 +110,7 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// /// <param name="id"></param>
         [HttpPost("huy/{id}")]
+        [Authorize]
         public async Task<string> Huy(int id)
         {
             return await _mediator.Send(new HuyPhieuCapPhepQuangCaoCommand

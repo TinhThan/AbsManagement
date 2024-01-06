@@ -2,6 +2,7 @@
 using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.BangQuangCao.Query;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.Models;
 using AbsManagementAPI.Core.Models.BangQuangCao;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -37,10 +38,14 @@ namespace AbsManagementAPI.Controllers
         /// <summary>
         /// Danh sách bảng quảng cáo
         /// </summary>
+        /// <param name="addressSearchModel"></param>
         [HttpGet()]
-        public async Task<List<BangQuangCaoModel>> DanhSach()
+        public async Task<List<BangQuangCaoModel>> DanhSach([FromQuery] AddressSearchModel addressSearchModel)
         {
-            return await _mediator.Send(new DanhSachBangquangCaoQuery());
+            return await _mediator.Send(new DanhSachBangquangCaoQuery()
+            {
+                addressSearchModel = addressSearchModel
+            });
         }
 
         /// <summary>
@@ -61,6 +66,7 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost("taomoi")]
+        [Authorize]
         public async Task<string> TaoMoi(ThemBangQuangCaoModel model)
         {
             return await _mediator.Send(new ThemBangQuangCaoCommand()
@@ -75,6 +81,7 @@ namespace AbsManagementAPI.Controllers
         /// <param name="id"></param>
         /// <param name="model"></param>
         [HttpPost("capnhat/{id}")]
+        [Authorize]
         public async Task<string> CapNhat(int id, CapNhatBangQuangCaoModel model)
         {
             return await _mediator.Send(new CapNhatBangQuangCaoCommand()
@@ -89,6 +96,7 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpPost("xoa/{id}")]
+        [Authorize]
         public async Task<string> Xoa(int id)
         {
             return await _mediator.Send(new XoaBangQuangCaoCommand()
@@ -101,13 +109,12 @@ namespace AbsManagementAPI.Controllers
         /// Gửi duyệt bảng quảng cáo
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="model"></param>
         [HttpPost("gui/{id}")]
-        public async Task<string> GuiDuyet(int id, GuiBangQuangCaoModel model)
+        [Authorize]
+        public async Task<string> GuiDuyet(int id)
         {
             return await _mediator.Send(new GuiBangQuangCaoCommand()
             {
-                GuiBangQuangCaoModel = model,
                 Id = id
             });
         }

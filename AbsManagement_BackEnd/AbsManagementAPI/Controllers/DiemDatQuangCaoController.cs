@@ -14,7 +14,6 @@ namespace AbsManagementAPI.Controllers
     /// Controller điểm đặt quảng cáo
     /// </summary>
     [ApiController]
-    //[Authorize]
     [Route("api/diemdatquangcao")]
     public class DiemDatQuangCaoController : BaseController
     {
@@ -53,6 +52,7 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="model"></param>
         [HttpPost("taomoi")]
+        [Authorize]
         public async Task<string> TaoMoi(ThemDiemDatQuangCaoModel model)
         {
             return await _mediator.Send(new ThemDiemDatQuangCaoCommand()
@@ -67,6 +67,7 @@ namespace AbsManagementAPI.Controllers
         /// <param name="id"></param>
         /// <param name="model"></param>
         [HttpPost("capnhat/{id}")]
+        [Authorize]
         public async Task<string> CapNhat(int id, CapNhatDiemDatQuangCaoModel model)
         {
             return await _mediator.Send(new CapNhatDiemDatQuangCaoCommand()
