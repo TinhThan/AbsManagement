@@ -18,11 +18,6 @@ namespace AbsManagementAPI.Core.Entities
         public DateTimeOffset NgayHetHan { get; set; }
         public string IdTinhTrang { get; set; }
         public DateTimeOffset NgayBatDau { get; set; }
-        public string TenCongTy { get; set; }
-        public string Email { get; set; }
-        public string DiaChiCongTy { get; set; }
-        public string SoDienThoai { get; set; }
-
 
         public virtual DiemDatQuangCaoEntity DiemDatQuangCao { get; set; }
         public virtual LoaiBangQuangCaoEntity LoaiBangQuangCao { get; set; }

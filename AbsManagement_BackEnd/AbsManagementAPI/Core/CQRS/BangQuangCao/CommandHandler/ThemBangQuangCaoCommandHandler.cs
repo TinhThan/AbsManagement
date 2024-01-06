@@ -20,7 +20,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
             try
             {
                 bangQuangCaoMoi.NgayBatDau = DateTimeOffset.UtcNow;
-                bangQuangCaoMoi.IdTinhTrang = "New";
+                bangQuangCaoMoi.IdTinhTrang = "DaQuyHoach";
                 await _dataContext.AddAsync(bangQuangCaoMoi);
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)
