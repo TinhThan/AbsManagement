@@ -10,21 +10,21 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
 {
-    public class DuyetPhieuCapPhepQuangCaoCommanHandler : BaseHandler, IRequestHandler<DuyetPhieuCapPhepQuangCaoCommand, string>
+    public class HuyPhieuCapPhepQuangCaoCommanHandler : BaseHandler, IRequestHandler<HuyPhieuCapPhepQuangCaoCommand, string>
     {
-        public DuyetPhieuCapPhepQuangCaoCommanHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
+        public HuyPhieuCapPhepQuangCaoCommanHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
         }
 
-        public async Task<string> Handle(DuyetPhieuCapPhepQuangCaoCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(HuyPhieuCapPhepQuangCaoCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var PhieuCapPhepQuangCao = await _dataContext.PhieuCapPhepQuangCaos.FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
                 var BangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == PhieuCapPhepQuangCao.IdBangQuangCao, cancellationToken);
-                PhieuCapPhepQuangCao.IdTinhTrang = "Approved";
+                PhieuCapPhepQuangCao.IdTinhTrang = "KhongDuyet";
 
-                BangQuangCao.IdTinhTrang = "DaQuyHoach";
+                BangQuangCao.IdTinhTrang = "KhongDuyet";
 
                 _dataContext.Update(PhieuCapPhepQuangCao);
                 _dataContext.Update(BangQuangCao);
@@ -32,13 +32,13 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 if (resultCapNhat > 0)
                 {
-                    return MessageSystem.APPROVE_SUCCESS;
+                    return MessageSystem.CANCEL_SUCCESS;
                 }
-                throw new CustomMessageException(MessageSystem.APPROVE_FAIL);
+                throw new CustomMessageException(MessageSystem.CANCEL_FAIL);
             }
             catch (Exception ex)
             {
-                throw new CustomMessageException(MessageSystem.APPROVE_FAIL, ex.Message);
+                throw new CustomMessageException(MessageSystem.CANCEL_FAIL, ex.Message);
             }
         }
     }

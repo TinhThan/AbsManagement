@@ -23,6 +23,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
                 phieucapphep.IdBangQuangCao = request.Id;
                 phieucapphep.IdCanBoDuyet = request.GuiBangQuangCaoModel.IdCanBoDuyet;
                 phieucapphep.IdTinhTrang = "New";
+                phieucapphep.NgayGui = DateTimeOffset.Now;
 
                 bangQuangCao.IdTinhTrang = "Approving";  
                 await _dataContext.AddAsync(phieucapphep);

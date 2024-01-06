@@ -16,7 +16,7 @@ namespace AbsManagementAPI.Validations.PhieuCapPhepQuangCao
         {
             _dataContext = dataContext;
 
-            RuleFor(t => t.XoaPhieuCapPhepQuangCao.Id)
+            RuleFor(t => t.Id)
                 .GreaterThan(0).WithMessage(MessagePhieuCapPhepQuangCao.PHIEUCAPPHEPQUANGCAO_ID_IS_NULL_OR_EMPTY)
                 .MustAsync(async (id, canncellationToken) =>
                 {

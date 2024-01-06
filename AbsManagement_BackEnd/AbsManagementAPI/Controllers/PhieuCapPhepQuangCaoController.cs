@@ -1,4 +1,5 @@
 ﻿using AbsManagementAPI.Core.Authentication;
+using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.DiemDatQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.Query;
@@ -24,7 +25,7 @@ namespace AbsManagementAPI.Controllers
         }
 
         /// <summary>
-        /// Chi tiết PhieuCapPhep quảng cáo
+        /// Chi tiết phiếu cấp phép quảng cáo
         /// </summary>
         /// <param name="id"></param>g hợp lệ</response>
         [HttpGet("chitiet/{id}")]
@@ -37,7 +38,7 @@ namespace AbsManagementAPI.Controllers
         }
 
         /// <summary>
-        /// Danh sách PhieuCapPhep quảng cáo
+        /// Danh sách phiếu cấp phép quảng cáo
         /// </summary>
         /// <param name="id"></param>
         [HttpGet()]
@@ -47,7 +48,7 @@ namespace AbsManagementAPI.Controllers
         }
 
         /// <summary>
-        /// Thêm mới PhieuCapPhep quảng cáo
+        /// Thêm mới phiếu cấp phép quảng cáo
         /// </summary>
         /// <param name="model"></param>
         [HttpPost("taomoi")]
@@ -60,7 +61,7 @@ namespace AbsManagementAPI.Controllers
         }
 
         /// <summary>
-        /// Cập nhật PhieuCapPhep quảng cáo
+        /// Cập nhật phiếu cấp phép quảng cáo
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
@@ -76,28 +77,41 @@ namespace AbsManagementAPI.Controllers
 
 
         /// <summary>
-        /// Xóađiểm đặt quảng cáo
+        /// Xóa phiếu cấp phép quảng cáo
         /// </summary>
-        /// <param name="model"></param>
-        [HttpPost("xoa")]
-        public async Task<string> Xoa(XoaPhieuCapPhepQuangCaoModel model)
+        /// <param name="id"></param>
+        [HttpPost("xoa/{id}")]
+        public async Task<string> Xoa(int id)
         {
             return await _mediator.Send(new XoaPhieuCapPhepQuangCaoCommand()
             {
-                XoaPhieuCapPhepQuangCao = model
+                Id = id
             });
         }
 
         /// <summary>
-        /// Xóađiểm đặt quảng cáo
+        /// duyệt phiếu quảng cáo
         /// </summary>
-        /// <param name="model"></param>
-        [HttpPost("duyet")]
-        public async Task<string> Duyet(XoaPhieuCapPhepQuangCaoModel model)
+        /// /// <param name="id"></param>
+        [HttpPost("duyet/{id}")]
+        public async Task<string> Duyet(int id)
         {
-            return await _mediator.Send(new DuyetPhieuCapPhepQuangCaoCommand()
+            return await _mediator.Send(new DuyetPhieuCapPhepQuangCaoCommand
             {
-                DuyetPhieuCapPhepQuangCao = model
+                Id = id
+            });
+        }
+
+        /// <summary>
+        /// Hủy phiếu quảng cáo
+        /// </summary>
+        /// /// <param name="id"></param>
+        [HttpPost("huy/{id}")]
+        public async Task<string> Huy(int id)
+        {
+            return await _mediator.Send(new HuyPhieuCapPhepQuangCaoCommand
+            {
+                Id = id
             });
         }
     }
