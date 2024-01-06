@@ -29,7 +29,7 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)
                 {
-                    _notifyService.SendMessageNotify("ThemBaoCaoViPham", "Thêm báo cáo vi phạm thành công");
+                    await _notifyService.SendMessageNotifyOnPhuongQuan("ThemBaoCaoViPham", "Bạn có báo cáo vi phạm mới ở địa chỉ: " + baoCaoViPham.DiaChi,baoCaoViPham.Phuong,baoCaoViPham.Quan);
                     return MessageSystem.ADD_SUCCESS;
                 }
                 throw new CustomMessageException(MessageSystem.ADD_FAIL);

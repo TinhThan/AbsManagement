@@ -104,7 +104,6 @@ namespace AbsManagementAPI.Core
                 .ForMember(src => src.CreateDate, desc => desc.Ignore())
                 .ForMember(src => src.DiemDatQuangCao, desc => desc.Ignore())
                 .ForMember(src => src.BangQuangCao, desc => desc.Ignore())
-                .ForMember(src => src.DanhSachHinhAnhXuLy, desc => desc.Ignore())
                 .ForMember(src => src.ApproveDate, desc => desc.Ignore())
                 .ForMember(src => src.Id, desc => desc.Ignore());
 

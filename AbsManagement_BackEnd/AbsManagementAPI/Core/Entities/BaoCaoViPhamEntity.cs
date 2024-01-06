@@ -14,7 +14,6 @@
         public string? NoiDungXuLy { get; set; }
         public string ViTri {  get; set; }
         public string DanhSachHinhAnh {  get; set; }
-        public string? DanhSachHinhAnhXuLy {  get; set; }
         public string IdTinhTrang { get; set; }
         public string? DiaChi { get; set; }
         public string? Phuong { get; set; }
