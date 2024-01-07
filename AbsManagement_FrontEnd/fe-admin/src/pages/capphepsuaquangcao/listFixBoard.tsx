@@ -13,7 +13,10 @@ const { Search } = Input;
 
 const tinhTrangDiemDatQuangCao = {
     DaQuyHoach: "Đã quy hoạch",
-    ChuaQuyHoach: "Chưa quy hoạch"
+    ChuaQuyHoach: "Chưa quy hoạch",
+    ChoDuyet: "Chờ duyệt",
+    DaDuyet: "Đã duyệt",
+    DaHuy: "Đã hủy"
 }
 
 const ListFixBoard : FC = () => {
@@ -22,32 +25,27 @@ const ListFixBoard : FC = () => {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [data, setData] = useState<DanhSachPhieuCapPhepSuaBangQuangCao[]>([]);
-    const [idUpdate, setIdUpdate] = useState<number>(0);
 
-    const handleOk = () => {
-        setConfirmLoading(true);
-        const payload = {
-            tinhTrang: 'DaDuyet',
-        }
-
-        phieuChinhSuaAPI.CapNhat(idUpdate, payload)
+    const onCancel = (id:number) => {
+        phieuChinhSuaAPI.CapNhat(id, {
+            tinhTrang: 'DaHuy',
+        })
             .then((res: any) => {
                 if (res && res.status === 200) {
                     getDanhSachSuaBang();
                 }
             })
-
-        setOpen(false);
-        setConfirmLoading(false);
     }
 
-    const handleCancel = () => {
-        setOpen(false);
-    };
-
-    const updateReportStatus = (id: number) => {
-        setOpen(true);
-        setIdUpdate(id);
+    const onApprove = (id:number) => {
+        phieuChinhSuaAPI.CapNhat(id, {
+            tinhTrang: 'DaDuyet',
+        })
+            .then((res: any) => {
+                if (res && res.status === 200) {
+                    getDanhSachSuaBang();
+                }
+            })
     }
 
     async function getDanhSachSuaBang() {
@@ -154,13 +152,20 @@ const ListFixBoard : FC = () => {
                                         })}`
                                     })
                                 },
-                                (row.tinhTrang != "DaDuyet") ?
+                                (row.tinhTrang !== "DaDuyet" && row.tinhTrang !== "DaHuy") ?
                                     {
-                                        label: "Cập nhật trạng thái",
+                                        label: "Duyệt",
                                         key: "2",
                                         icon: <EditOutlined />,
-                                        onClick: () => updateReportStatus(row.id)
-                                    } : null
+                                        onClick: () => onApprove(row.id)
+                                    } : null,
+                                (row.tinhTrang != "DaDuyet" && row.tinhTrang !== "DaHuy") ?
+                                {
+                                    label: "Hủy",
+                                    key: "3",
+                                    icon: <EditOutlined />,
+                                    onClick: () => onCancel(row.id)
+                                } : null
                             ]
                         }}
                         trigger={['click']}
@@ -186,15 +191,6 @@ const ListFixBoard : FC = () => {
                     </Space>
                 </Spin>
             </PageContainer>
-
-            <Popconfirm
-                title=" "
-                description="Xác nhận cập nhật thông tin!"
-                open={open}
-                onConfirm={handleOk}
-                okButtonProps={{ loading: confirmLoading }}
-                onCancel={handleCancel}
-            />
         </Suspense>
     )
 }

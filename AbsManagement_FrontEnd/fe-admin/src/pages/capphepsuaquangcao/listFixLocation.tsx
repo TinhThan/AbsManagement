@@ -11,8 +11,11 @@ import { ConfigRoute } from "../../routes/ConfigRoute";
 const { Search } = Input;
 
 export const tinhTrangType = {
+    DaQuyHoach: "Đã quy hoạch",
+    ChuaQuyHoach: "Chưa quy hoạch",
     ChoDuyet: "Chờ duyệt",
-    DaDuyet: "Đã duyệt"
+    DaDuyet: "Đã duyệt",
+    DaHuy: "Đã hủy"
 }
 
 const ListFixLocation: FC = () => {
@@ -21,32 +24,27 @@ const ListFixLocation: FC = () => {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [data, setData] = useState<PhieuCapPhepSuaDiemDatModel[]>([]);
-    const [idUpdate, setIdUpdate] = useState<number>(0);
-
-    const handleOk = () => {
-        setConfirmLoading(true);
-        const payload = {
-            tinhTrang: 'DaDuyet',
-        }
-
-        phieuChinhSuaAPI.CapNhat(idUpdate, payload)
+    
+    const onCancel = (id:number) => {
+        phieuChinhSuaAPI.CapNhat(id, {
+            tinhTrang: 'DaHuy',
+        })
             .then((res: any) => {
                 if (res && res.status === 200) {
                     getDanhSachSuaDiemDat();
                 }
             })
-
-        setOpen(false);
-        setConfirmLoading(false);
     }
 
-    const handleCancel = () => {
-        setOpen(false);
-    };
-
-    const updateFixLocationStatus = (id: number) => {
-        setOpen(true);
-        setIdUpdate(id);
+    const onApprove = (id:number) => {
+        phieuChinhSuaAPI.CapNhat(id, {
+            tinhTrang: 'DaDuyet',
+        })
+            .then((res: any) => {
+                if (res && res.status === 200) {
+                    getDanhSachSuaDiemDat();
+                }
+            })
     }
 
     async function getDanhSachSuaDiemDat() {
@@ -137,13 +135,20 @@ const ListFixLocation: FC = () => {
                                         })}`
                                     })
                                 },
-                                (row.tinhTrang != "DaDuyet") ?
-                                    {
-                                        label: "Cập nhật trạng thái",
-                                        key: "2",
-                                        icon: <EditOutlined />,
-                                        onClick: () => updateFixLocationStatus(row.id)
-                                    } : null
+                                (row.tinhTrang !== "DaDuyet" && row.tinhTrang !== "DaHuy") ?
+                                {
+                                    label: "Duyệt",
+                                    key: "2",
+                                    icon: <EditOutlined />,
+                                    onClick: () => onApprove(row.id)
+                                } : null,
+                                (row.tinhTrang != "DaDuyet" && row.tinhTrang !== "DaHuy") ?
+                                {
+                                    label: "Hủy",
+                                    key: "3",
+                                    icon: <EditOutlined />,
+                                    onClick: () => onCancel(row.id)
+                                } : null
                             ]
                         }}
                         trigger={['click']}
@@ -169,15 +174,6 @@ const ListFixLocation: FC = () => {
                     </Space>
                 </Spin>
             </PageContainer>
-
-            <Popconfirm
-                title=" "
-                description="Xác nhận cập nhật thông tin!"
-                open={open}
-                onConfirm={handleOk}
-                okButtonProps={{ loading: confirmLoading }}
-                onCancel={handleCancel}
-            />
         </Suspense>
     )
 }

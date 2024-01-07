@@ -32,7 +32,8 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
                 phieucapphep.IdCanBoGui = authInfo.Id;
                 phieucapphep.NgayGui = DateTimeOffset.Now;
 
-                bangQuangCao.IdTinhTrang = "ChoCapPhep";  
+                bangQuangCao.IdTinhTrang = "ChoCapPhep";
+                var jsonBangQuangCao = JsonConvert.SerializeObject(bangQuangCao);
                 await _dataContext.AddAsync(phieucapphep);
                 _dataContext.Update(bangQuangCao);
 
@@ -49,7 +50,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
                          FunctionName = "CapNhatGuiBangQuangCao",
                          Status = "Success",
                          OleValue = DataOld,
-                         NewValue = JsonConvert.SerializeObject(bangQuangCao),
+                         NewValue = jsonBangQuangCao,
                          Type = "Debug",
                          CreateDate = DateTime.Now,
                      }
@@ -66,7 +67,7 @@ namespace AbsManagementAPI.Core.CQRS.BangQuangCao.CommandHandler
                         FunctionName = "CapNhatGuiBangQuangCao",
                         Status = "Fail",
                         OleValue = DataOld,
-                        NewValue = JsonConvert.SerializeObject(bangQuangCao),
+                        NewValue = jsonBangQuangCao,
                         Type = "Debug",
                         CreateDate = DateTime.Now,
                     }

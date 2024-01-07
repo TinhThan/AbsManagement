@@ -24,6 +24,7 @@ namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
             try
             {
                 diemDatQuangCaoMoi.IdTinhTrang = "ChuaQuyHoach";
+                var json = JsonConvert.SerializeObject(diemDatQuangCaoMoi);
                 await _dataContext.AddAsync(diemDatQuangCaoMoi);
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)
@@ -38,7 +39,7 @@ namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
                             FunctionName = "ThemDiemDatQuangCao",
                             Status = "Success",
                             OleValue = "",
-                            NewValue = JsonConvert.SerializeObject(diemDatQuangCaoMoi),
+                            NewValue = json,
                             Type = "Debug",
                             CreateDate = DateTime.Now,
                         }
@@ -55,7 +56,7 @@ namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
                         FunctionName = "ThemDiemDatQuangCao",
                         Status = "Success",
                         OleValue = "",
-                        NewValue = JsonConvert.SerializeObject(diemDatQuangCaoMoi),
+                        NewValue = json,
                         Type = "Debug",
                         CreateDate = DateTime.Now,
                     }

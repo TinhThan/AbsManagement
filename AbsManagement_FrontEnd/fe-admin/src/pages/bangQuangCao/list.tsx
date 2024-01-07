@@ -134,6 +134,7 @@ export default function ListBangQuangCao(): JSX.Element {
             width: 200,
             sorter: true,
             dataIndex: 'idTinhTrang',
+            fixed: 'right',
             render: (value:string) => {
                 return tinhTrangBangQuangCaoList[value];
             },

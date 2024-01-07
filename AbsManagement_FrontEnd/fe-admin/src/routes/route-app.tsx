@@ -15,7 +15,6 @@ import ResetPassword from "../pages/auth/ResetPassword";
 import HomeFeature from "../pages/home";
 import BaoCaoViPhamFeature from "../pages/baoCaoViPham";
 import ListBaoCaoViPham from "../pages/baoCaoViPham/list";
-import DetailBaoCaoViPham from "../pages/baoCaoViPham/detail";
 import ListDiemDatQuangCao from "../pages/diemDatQuangCao/list";
 import { DetailDiemDatQuangCao } from "../pages/diemDatQuangCao/detail";
 import DiemDatQuangCaoFeature from "../pages/diemDatQuangCao";
@@ -146,7 +145,7 @@ const router = createBrowserRouter([
       },
       {
         path: ConfigRoute.CanBoSo.DuyetCapPhepQuangCao,
-        loader:protectedCanBoLoader,
+        loader:protectedLoader,
         children: [
           {
             path: ConfigRoute.CanBoSo.DuyetCapPhepQuangCao,
@@ -160,7 +159,7 @@ const router = createBrowserRouter([
       },
       {
         path: ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao,
-        loader:protectedCanBoLoader,
+        loader:protectedLoader,
         children: [
           {
             path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao`,

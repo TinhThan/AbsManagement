@@ -25,6 +25,7 @@ namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
             {
                 DataOld = JsonConvert.SerializeObject(diemDatQuangCao);
                 var diemDatQuangCaoCapNhat = _mapper.Map(request.CapNhatDiemDatQuangCaoModel, diemDatQuangCao);
+                var json = JsonConvert.SerializeObject(diemDatQuangCaoCapNhat);
                 _dataContext.Update(diemDatQuangCaoCapNhat);
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 if (resultCapNhat > 0)
@@ -39,7 +40,7 @@ namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
                            FunctionName = "CapNhatDiemDatQuangCao",
                            Status = "Success",
                            OleValue = DataOld,
-                           NewValue = JsonConvert.SerializeObject(diemDatQuangCaoCapNhat),
+                           NewValue = json,
                            Type = "Debug",
                            CreateDate = DateTime.Now,
                        }
@@ -56,7 +57,7 @@ namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
                            FunctionName = "CapNhatDiemDatQuangCao",
                            Status = "Fail",
                            OleValue = DataOld,
-                           NewValue = JsonConvert.SerializeObject(diemDatQuangCaoCapNhat),
+                           NewValue = json,
                            Type = "Debug",
                            CreateDate = DateTime.Now,
                        }

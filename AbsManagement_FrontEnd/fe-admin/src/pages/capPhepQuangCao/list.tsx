@@ -7,12 +7,14 @@ import { phieuCapPhepBangQuangCaoAPI } from "../../apis/phieuCapPhepBangQuangCao
 import moment from 'moment';
 import { useNavigate, createSearchParams } from "react-router-dom";
 import { ConfigRoute } from "../../routes/ConfigRoute";
+import { MessageBox } from "../../utils/messagebox";
 
 const { Search } = Input;
 
 export const tinhTrangType = {
     ChoDuyet: "Chờ duyệt",
-    DaDuyet: "Đã duyệt"
+    DaDuyet: "Đã duyệt",
+    DaHuy:"Đã hủy"
 }
 
 const ListAcceptAds : FC = () => {
@@ -21,33 +23,15 @@ const ListAcceptAds : FC = () => {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [data, setData] = useState<DanhSachPhieuCapPhepModel[]>([]);
-    const [idUpdate, setIdUpdate] = useState<number>(0);
 
-    const handleOk = () => {
-        setConfirmLoading(true);
-        setLoading(true);
-
+    const handleOk = (idUpdate) => {
         phieuCapPhepBangQuangCaoAPI.Duyet(idUpdate)
             .then((res: any) => {
                 if (res && res.status === 200) {
                     getDanhSachSuaDiemDat();
                 }
             })
-
-        setOpen(false);
-        setLoading(false);
-        setConfirmLoading(false);
     }
-
-    const handleCancel = () => {
-        setOpen(false);
-    };
-
-    const updateFixLocationStatus = (id: number) => {
-        setOpen(true);
-        setIdUpdate(id);
-    }
-
     async function getDanhSachSuaDiemDat() {
         setLoading(true);
         phieuCapPhepBangQuangCaoAPI
@@ -114,6 +98,7 @@ const ListAcceptAds : FC = () => {
             sorter: true,
             dataIndex: 'idTinhTrang',
             key: 'idTinhTrang',
+            fixed: 'right',
             showSorterTooltip: false,
             render: (value: string) => {
                 return tinhTrangType[value];
@@ -147,7 +132,10 @@ const ListAcceptAds : FC = () => {
                                         label: "Duyệt phiếu",
                                         key: "2",
                                         icon: <EditOutlined />,
-                                        onClick: () => updateFixLocationStatus(row.id)
+                                        onClick: () => MessageBox.Confirm({
+                                            onOk:()=> handleOk(row.id),
+                                            content:"Bạn có muốn duyệt phiếu này?"
+                                        })
                                     } : null
                             ]
                         }}
@@ -174,15 +162,6 @@ const ListAcceptAds : FC = () => {
                     </Space>
                 </Spin>
             </PageContainer>
-
-            <Popconfirm
-                title=" "
-                description="Xác nhận duyệt!"
-                open={open}
-                onConfirm={handleOk}
-                okButtonProps={{ loading: confirmLoading }}
-                onCancel={handleCancel}
-            />
         </Suspense>
     )
 }
