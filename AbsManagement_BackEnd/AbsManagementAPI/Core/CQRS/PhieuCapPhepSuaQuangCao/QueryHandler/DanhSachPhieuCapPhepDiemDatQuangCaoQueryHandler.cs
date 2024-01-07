@@ -18,7 +18,7 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.QueryHandler
 
         public async Task<List<PhieuCapPhepSuaDiemDatQuangCaoModel>> Handle(DanhSachPhieuCapPhepDiemDatQuangCaoQuery request, CancellationToken cancellationToken)
         {
-            return await _dataContext.PhieuCapPhepSuaQuangCaos.Where(t=>t.IdDiemDat != null).ProjectTo<PhieuCapPhepSuaDiemDatQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+            return await _dataContext.PhieuCapPhepSuaQuangCaos.Where(t=>( authInfo.Role == "CanBoSo" || t.IdCanBoGui == authInfo.Id)  && t.IdDiemDat != null).ProjectTo<PhieuCapPhepSuaDiemDatQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
         }
     }
 }

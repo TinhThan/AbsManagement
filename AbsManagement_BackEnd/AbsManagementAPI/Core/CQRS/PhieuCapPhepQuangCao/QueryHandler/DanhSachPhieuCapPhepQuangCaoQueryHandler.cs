@@ -17,12 +17,12 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.QueryHandler
 
         public async Task<List<PhieuCapPhepQuangCaoModel>> Handle(DanhSachPhieuCapPhepQuangCaoQuery request, CancellationToken cancellationToken)
         {
-            return await _dataContext.PhieuCapPhepQuangCaos.Include(t=>t.BangQuangCao)
+            return await _dataContext.PhieuCapPhepQuangCaos.Include(t => t.BangQuangCao)
                 .Include(t => t.CanBoGui)
                 .Include(t => t.CanBoDuyet)
                 .Include(t => t.BangQuangCao.DiemDatQuangCao)
                 .Include(t => t.BangQuangCao.LoaiBangQuangCao)
-                .ProjectTo<PhieuCapPhepQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
+                .Where(t => authInfo.Role == "CanBoSo" || t.IdCanBoGui == authInfo.Id).ProjectTo<PhieuCapPhepQuangCaoModel>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken);
         }
     }
 }

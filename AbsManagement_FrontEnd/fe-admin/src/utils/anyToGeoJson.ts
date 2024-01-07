@@ -1,8 +1,8 @@
 import { BaoCaoViPhamModel } from "../apis/baoCaoViPham/baoCaoViPhamModel"
 import { DiemDatQuangCaoModel } from "../apis/diemDatQuangCao/diemDatQuangCaoModel"
 
-export function SpaceToGeoJson(spaces: DiemDatQuangCaoModel[], tinhTrang:string | null): any {
-    const geoJSONFeatures = spaces.filter(space=> (tinhTrang !== null ?  space.idTinhTrang === tinhTrang : true) ).map(space => {
+export function SpaceToGeoJson(spaces: DiemDatQuangCaoModel[], daQuyHoach: boolean): any {
+    const geoJSONFeatures = spaces.filter(space=> daQuyHoach ? space.idTinhTrang === 'DaQuyHoach' : space.idTinhTrang !== 'DaQuyHoach' ).map(space => {
         return {
             type: 'Feature',
             geometry: {

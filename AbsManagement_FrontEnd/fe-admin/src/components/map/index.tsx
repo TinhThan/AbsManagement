@@ -233,7 +233,7 @@ export default function MapComponent(props:Props) {
         map.current.on("load", () => {
             map.current.addSource("spacePanneds", {
                 type: "geojson",
-                data: SpaceToGeoJson(spaces,"DaQuyHoach"),
+                data: SpaceToGeoJson(spaces, true),
                 cluster: true,
                 clusterMaxZoom: 14,
                 clusterRadius: 50,
@@ -248,7 +248,7 @@ export default function MapComponent(props:Props) {
             //Handle poin space not panned
             map.current.addSource("spaceNotPanneds", {
                 type: "geojson",
-                data: SpaceToGeoJson(spaces, null),
+                data: SpaceToGeoJson(spaces, false),
                 cluster: true,
                 clusterMaxZoom: 14,
                 clusterRadius: 50,

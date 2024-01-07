@@ -2,6 +2,7 @@
 using AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.HubSignalR;
 using AutoMapper;
 using MediatR;
 
@@ -9,8 +10,10 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
 {
     public class ThemPhieuCapPhepQuangCaoCommandHandler : BaseHandler, IRequestHandler<ThemPhieuCapPhepQuangCaoCommand, string>
     {
-        public ThemPhieuCapPhepQuangCaoCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
+        private readonly INotifyService _notifyService;
+        public ThemPhieuCapPhepQuangCaoCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, INotifyService notifyService, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
+            _notifyService = notifyService;
         }
 
         public async Task<string> Handle(ThemPhieuCapPhepQuangCaoCommand request, CancellationToken cancellationToken)
@@ -28,6 +31,7 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)
                 {
+                    _notifyService.SendMessageNotifyByEmail("PhieuCapPhep", "Bạn có một phiếu cấp phép bảng quảng cáo mới.", phieuCapPhepQuangCaoMoi.IdCanBoGui);
                     return MessageSystem.ADD_SUCCESS;
                 }
                 throw new CustomMessageException(MessageSystem.ADD_FAIL);

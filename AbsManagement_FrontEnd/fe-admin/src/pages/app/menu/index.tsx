@@ -31,6 +31,18 @@ const itemDefaults: MenuItem[] = [
   getItem(<Link to={ConfigRoute.CanBoSo.DiemDatQuangCao}>Điểm đặt quảng cáo</Link>, ConfigRoute.CanBoSo.DiemDatQuangCao, undefined, undefined, undefined),
   getItem(<Link to={ConfigRoute.CanBoSo.BangQuangCao}>Bảng quảng cáo</Link>, ConfigRoute.CanBoSo.BangQuangCao, undefined, undefined, undefined),
   getItem(<Link to={ConfigRoute.CanBoSo.BaoCaoViPham}>Báo cáo vi phạm</Link>, ConfigRoute.CanBoSo.BaoCaoViPham, undefined, undefined, undefined),
+  getItem(
+    'Phiếu cấp phép sửa quảng cáo',
+    'phieucapphepsuaquangcao',
+    <SettingOutlined />,
+    [
+      getItem(<Link to={`${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao`}>Sửa điểm đặt</Link>, `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao`),
+      getItem(<Link to={`${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao`}>Sửa bảng quảng cáo</Link>, `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao`),
+    ],
+    'group'
+  ),
+  getItem(<Link to={ConfigRoute.CanBoSo.DuyetCapPhepQuangCao}>Phiếu cấp phép quảng cáo</Link>, ConfigRoute.CanBoSo.DuyetCapPhepQuangCao)
+  
 ];
 
 interface Props {
@@ -56,19 +68,7 @@ export default function MenuLayout(props: Props): JSX.Element {
             getItem(<Link to={ConfigRoute.CanBoSo.HinhThucBaoCao}>Hình thức báo cáo</Link>, ConfigRoute.CanBoSo.HinhThucBaoCao),
           ],
           'group'
-        ),
-        getItem(
-          'Phiếu cấp phép sửa quảng cáo',
-          'phieucapphepsuaquangcao',
-          <SettingOutlined />,
-          [
-            getItem(<Link to={`${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao`}>Sửa điểm đặt</Link>, `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao`),
-            getItem(<Link to={`${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao`}>Sửa bảng quảng cáo</Link>, `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao`),
-          ],
-          'group'
-        ),
-        getItem(<Link to={ConfigRoute.CanBoSo.DuyetCapPhepQuangCao}>Phiếu cấp phép quảng cáo</Link>, ConfigRoute.CanBoSo.DuyetCapPhepQuangCao)
-        , ...itemDefaults])
+        ), ...itemDefaults])
     }
   }, [role])
 

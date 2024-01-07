@@ -3,6 +3,7 @@ using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.HubSignalR;
 using AbsManagementAPI.Core.Models.BangQuangCao;
 using AbsManagementAPI.Entities;
 using AutoMapper;
@@ -15,8 +16,10 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.CommandHandler
 
     public class ThemPhieuCapPhepSuaQuangCaoCommandHandler : BaseHandler, IRequestHandler<ThemPhieuCapPhepSuaQuangCaoCommand, string>
     {
-        public ThemPhieuCapPhepSuaQuangCaoCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
+        private readonly INotifyService _notifyService;
+        public ThemPhieuCapPhepSuaQuangCaoCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext,INotifyService notifyService, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
+            _notifyService = notifyService;
         }
 
         public async Task<string> Handle(ThemPhieuCapPhepSuaQuangCaoCommand request, CancellationToken cancellationToken)
@@ -36,6 +39,7 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.CommandHandler
                     var bangQuangCao = await _dataContext.BangQuangCaos.FirstOrDefaultAsync(t => t.Id == phieuCapPhepSuaQuangCao.IdBangQuangCao);
                     bangQuangCao.IdTinhTrang = "ChoDuyet";
                     _dataContext.Update<BangQuangCaoEntity>(bangQuangCao);
+                    _notifyService.SendMessageNotify("PhieuCapPhep", "Bạn có một phiếu chỉnh sửa bảng quảng cáo mới.");
                 }
                 if (phieuCapPhepSuaQuangCao.IdDiemDat != null)
                 {
@@ -43,6 +47,7 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.CommandHandler
                     var diemDat = await _dataContext.DiemDatQuangCaos.FirstOrDefaultAsync(t => t.Id == phieuCapPhepSuaQuangCao.IdDiemDat);
                     diemDat.IdTinhTrang = "ChoDuyet";
                     _dataContext.Update<DiemDatQuangCaoEntity>(diemDat);
+                    _notifyService.SendMessageNotify("PhieuCapPhep", "Bạn có một phiếu chỉnh sửa điểm đặt quảng cáo mới.");
                 }
                 phieuCapPhepSuaQuangCao.TinhTrang = "ChoDuyet";
                 await _dataContext.AddAsync(phieuCapPhepSuaQuangCao);

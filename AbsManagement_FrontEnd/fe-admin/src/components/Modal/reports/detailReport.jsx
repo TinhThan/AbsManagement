@@ -1,34 +1,18 @@
-import { Button, Card, Col, Form, Input, Row, Space, Image, Empty, Modal } from "antd";
+import React, { useState, useRef, useEffect } from 'react'
+import { Button, Card, Col, Row, Form, Input, Modal, Image, Space, Empty } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
+import { tinhTrangReports } from '../map';
 import parse from 'html-react-parser';
-import { tinhTrangBaoCaoViPham } from "./list";
-import { Editor } from "@tinymce/tinymce-react";
-import { useRef, useState } from "react";
-import { Notification } from "../../utils";
-import { baoCaoViPhamAPI } from "../../apis/baoCaoViPham";
 
-export default function ModalDetailBaoCaoViPham({onCancel,baoCaoViPham}): JSX.Element {
-    const [loading, setLoading] = useState(false);
-    const editorRef = useRef<any>(null)
-    
-    async function handleOk(){
-        if(!editorRef.current.getContent()){
-            Notification.Warning("Nội dung xử lý không được rỗng.");
-        }
-        setLoading(true);
-        const payload = {
-            noiDungXyLy: editorRef.current.getContent(),
-            idTinhTrang: 'DangXuLy'
-        }
 
-        await baoCaoViPhamAPI.CapNhat(baoCaoViPham.id, payload);
-        setLoading(false);
-    };
+export default function ModalDetailReport(props) {
+    const { onCancel, baoCaoViPham } = props;
     return (
-        <>
-        { baoCaoViPham && <Modal
+    <>
+        <Modal
             getContainer={() => document.getElementById('modal-container') || document.body}
-            title={(<>Báo cáo vi phạm 
-            <p>{tinhTrangBaoCaoViPham[baoCaoViPham?.idTinhTrang]}</p></>)}
+            title={(<>Chi tiết báo cáo vi phạm 
+            <p>{tinhTrangReports[baoCaoViPham.idTinhTrang]}</p></>)}
             keyboard={false}
             maskClosable={false}
             destroyOnClose
@@ -37,23 +21,12 @@ export default function ModalDetailBaoCaoViPham({onCancel,baoCaoViPham}): JSX.El
             onCancel={()=>{
                 onCancel();
             }}
-            width={1000}
+            width={800}
             footer={[
             <Button key='back' onClick={()=>{
                 onCancel()
             }}>
                 Đóng
-            </Button>,
-            <Button
-            key='submit'
-            type='primary'
-            loading={loading}
-            onClick={(e) => {
-                e.preventDefault();
-                handleOk();
-            }}
-            >
-            Xử lý báo cáo
             </Button>,
             ]}
         >
@@ -102,12 +75,11 @@ export default function ModalDetailBaoCaoViPham({onCancel,baoCaoViPham}): JSX.El
                         </Col>
                         <Col span={12}>
                             <Space direction='vertical' style={{width:'100%'}}>
-                                {baoCaoViPham?.idCanBoXuLy && baoCaoViPham.idCanBoXuLy > 0 ? 
                                 <Card
                                     title={<b>Thông tin cán bộ xử lý</b>}
                                     bordered={false}
                                 >
-                                    
+                                    {baoCaoViPham.idCanBoXuLy && baoCaoViPham.idCanBoXuLy > 0 ? <>
                                     <Form.Item label='Họ tên'>
                                         <Input value={baoCaoViPham?.hoTenCanBoXuLy} readOnly />
                                     </Form.Item>
@@ -121,34 +93,14 @@ export default function ModalDetailBaoCaoViPham({onCancel,baoCaoViPham}): JSX.El
                                         <div>
                                             {parse(baoCaoViPham.noiDungXuLy)}
                                         </div>
-                                    </Form.Item>
-                                </Card> :
-                                <Card title={<b>Nội dung xử lý</b>}
-                                bordered={false}>
-                                    <Editor
-                                        onInit={(evt, editor) => editorRef.current = editor}
-                                        initialValue="<p>Nhập nội dung xử lý tại đây</p>"
-                                        init={{
-                                        language:'vi_VN',
-                                        height: 200,
-                                        menubar: false,
-                                        plugins: [
-                                            'advlist autolink lists link image charmap print preview anchor',
-                                            'searchreplace visualblocks code fullscreen',
-                                            'insertdatetime media table paste code help wordcount'
-                                        ],
-                                        toolbar: 'undo redo | formatselect | ' +
-                                        'bold italic backcolor | alignleft aligncenter ' +
-                                        'alignright alignjustify | bullist numlist outdent indent | ' +
-                                        'removeformat | help',
-                                        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-                                        }}
-                                    />
-                                </Card>}
+                                    </Form.Item></>:
+                                    <Empty/>}
+                                </Card>
                             </Space>
                         </Col>
                     </Row>
                 </Form>
-        </Modal>}</>
+    </Modal>
+    </>
     );
 }

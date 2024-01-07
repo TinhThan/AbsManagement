@@ -16,7 +16,6 @@ import HomeFeature from "../pages/home";
 import BaoCaoViPhamFeature from "../pages/baoCaoViPham";
 import ListBaoCaoViPham from "../pages/baoCaoViPham/list";
 import DetailBaoCaoViPham from "../pages/baoCaoViPham/detail";
-import UpdateBaoCaoViPham from "../pages/baoCaoViPham/update";
 import ListDiemDatQuangCao from "../pages/diemDatQuangCao/list";
 import { DetailDiemDatQuangCao } from "../pages/diemDatQuangCao/detail";
 import DiemDatQuangCaoFeature from "../pages/diemDatQuangCao";
@@ -113,14 +112,6 @@ const router = createBrowserRouter([
             Component: ListBaoCaoViPham
           },
           {
-            path:`${ConfigRoute.CanBoSo.BaoCaoViPham}/:id`,
-            Component: DetailBaoCaoViPham
-          },
-          {
-            path:`${ConfigRoute.CanBoSo.BaoCaoViPham}/capnhat/:id`,
-            Component: UpdateBaoCaoViPham
-          },
-          {
             path:"*",
             Component: NotFoundFeature
           }
@@ -176,10 +167,6 @@ const router = createBrowserRouter([
           {
             path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao/:id`,
             Component: DetailFixBoard
-          },
-          {
-            path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/capnhat/:id`,
-            Component: UpdateBaoCaoViPham
           },
           {
             path:"*",

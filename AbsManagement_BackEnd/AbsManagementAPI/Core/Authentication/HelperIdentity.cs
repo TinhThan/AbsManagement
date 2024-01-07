@@ -25,7 +25,7 @@ namespace AbsManagementAPI.Core.Authentication
             auth.Id = int.Parse(context.User.Claims.FirstOrDefault(t => t.Type == nameof(CanBoEntity.Id))?.Value ?? "0");
             auth.Email = context.User.Claims.FirstOrDefault(t => t.Type == ClaimTypes.Email)?.Value ?? "";
             auth.HoTen = context.User.Claims.FirstOrDefault(t => t.Type == ClaimTypes.Name)?.Value ?? "";
-            auth.Role = context.User.Claims.FirstOrDefault(t => t.Type == ClaimTypes.Role)?.Value ?? "";
+            auth.Role = context.User.Claims.FirstOrDefault(t => t.Type == ClaimTypes.Role || t.Type == "role")?.Value ?? "";
             auth.NoiCongTac = JsonConvert.DeserializeObject<List<string>>(context.User.Claims.FirstOrDefault(t => t.Type == nameof(CanBoEntity.NoiCongTac))?.Value ?? "[]");
             return auth;
         }

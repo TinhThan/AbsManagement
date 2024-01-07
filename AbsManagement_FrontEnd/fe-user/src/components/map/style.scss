@@ -39,6 +39,8 @@
 }
 
 .affix-antd-button{
+    z-index: 1000;
+    width: 800px;
     .ant-affix{
         left: 270px !important;
     }

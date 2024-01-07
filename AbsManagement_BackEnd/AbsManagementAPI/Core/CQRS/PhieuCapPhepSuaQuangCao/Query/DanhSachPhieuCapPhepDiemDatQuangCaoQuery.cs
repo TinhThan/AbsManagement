@@ -6,6 +6,5 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.Query
 
     public class DanhSachPhieuCapPhepDiemDatQuangCaoQuery : IRequest<List<PhieuCapPhepSuaDiemDatQuangCaoModel>>
     {
-
     }
 }

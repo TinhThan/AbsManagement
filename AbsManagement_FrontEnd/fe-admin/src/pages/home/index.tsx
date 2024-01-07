@@ -17,7 +17,7 @@ export default function HomeFeature() {
     const [loading,setLoading] = useState(false)
     const [user,setUser] = useState<UserStorage>();
     const [spaces,setSpaces] = useState<DiemDatQuangCaoModel[]>([]); // điểm đặt quảng cáo đã quy hoạch
-    const [reports,setReports] = useState<BaoCaoViPhamModel[]>([]);
+    const [reports,setReports] = useState<any>(null);
     const [phuong, setPhuong] = useState<any>();
     const [quan, setQuan] = useState<any>();
 
@@ -83,7 +83,7 @@ export default function HomeFeature() {
         <Suspense fallback={<PageLoading/>}>
             <Spin spinning={loading}>
             <PageContainer className='map-home'>
-               {spaces && spaces.length > 0 && <MapComponent spaces={spaces} reports={reports} phuongUser={phuong} quanUser={quan}/>}
+               {spaces && spaces.length > 0 && reports && <MapComponent spaces={spaces} reports={reports} phuongUser={phuong} quanUser={quan}/>}
             </PageContainer>
         </Spin>
         </Suspense>

@@ -14,7 +14,7 @@ namespace AbsManagementAPI.Controllers
     /// Controller Phiếu cấp phép sửa Quảng Cáo
     /// </summary>
     [ApiController]
-    //[Authorize]
+    [Authorize]
     [Route("api/phieucapphepsuaquangcao")]
     public class PhieuCapPhepSuaQuangCaoController : BaseController
     {
@@ -78,7 +78,7 @@ namespace AbsManagementAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet("danhsach/bangquangcao")]
-        public async Task<List<PhieuCapPhepSuaBangQuangCaoModel>> DanhSachDiemDat()
+        public async Task<List<PhieuCapPhepSuaBangQuangCaoModel>> DanhSachBQC()
         {
             return await _mediator.Send(new DanhSachPhieuCapPhepSuaBangQuangCaoQuery());
         }

@@ -16,8 +16,8 @@ namespace AbsManagementAPI.Controllers
     /// Controller PhieuCapPhep quảng cáo
     /// </summary>
     [ApiController]
-    //[Authorize]
     [Route("api/phieucapphepquangcao")]
+    [Authorize]
     public class PhieuCapPhepQuangCaoController : BaseController
     {
         public PhieuCapPhepQuangCaoController(IMediator mediator) : base(mediator)

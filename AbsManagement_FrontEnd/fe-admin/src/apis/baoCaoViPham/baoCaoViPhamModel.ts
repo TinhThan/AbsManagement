@@ -20,6 +20,9 @@ interface BaseBaoCaoViPham {
     quan: string;
     createDate: Date;
     idTinhTrang:string;
+    hoTenCanBoXuLy: string;
+    emailCanBoXuLy: string;
+    soDienThoaiCanBoXuLy:string;
 }
 
 export interface BaoCaoViPhamModel extends BaseBaoCaoViPham{

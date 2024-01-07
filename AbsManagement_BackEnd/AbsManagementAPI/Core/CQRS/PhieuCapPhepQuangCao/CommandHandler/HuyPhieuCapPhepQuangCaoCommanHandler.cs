@@ -2,6 +2,7 @@
 using AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.HubSignalR;
 using AbsManagementAPI.Core.Models.BangQuangCao;
 using AutoMapper;
 using MediatR;
@@ -12,8 +13,10 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
 {
     public class HuyPhieuCapPhepQuangCaoCommanHandler : BaseHandler, IRequestHandler<HuyPhieuCapPhepQuangCaoCommand, string>
     {
-        public HuyPhieuCapPhepQuangCaoCommanHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
+        private readonly INotifyService _notifyService;
+        public HuyPhieuCapPhepQuangCaoCommanHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext,INotifyService notifyService, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
+            _notifyService = notifyService;
         }
 
         public async Task<string> Handle(HuyPhieuCapPhepQuangCaoCommand request, CancellationToken cancellationToken)
@@ -34,6 +37,7 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepQuangCao.CommandHandler
                 var resultCapNhat = await _dataContext.SaveChangesAsync();
                 if (resultCapNhat > 0)
                 {
+                    _notifyService.SendMessageNotifyByEmail("PhieuCapPhep", "Phiếu cấp phép của bạn đã bị hủy!", PhieuCapPhepQuangCao.IdCanBoGui);
                     return MessageSystem.CANCEL_SUCCESS;
                 }
                 throw new CustomMessageException(MessageSystem.CANCEL_FAIL);

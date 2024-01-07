@@ -3,7 +3,9 @@ using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
+using AbsManagementAPI.Core.HubSignalR;
 using AbsManagementAPI.Core.Models.BangQuangCao;
+using AbsManagementAPI.Core.Models.DiemDatQuangCao;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,8 +15,10 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.CommandHandler
 {
     public class CapNhatPhieuCapPhepSuaQuangCaoCommandHandler : BaseHandler, IRequestHandler<CapNhatPhieuCapPhepSuaQuangCaoCommand, string>
     {
-        public CapNhatPhieuCapPhepSuaQuangCaoCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
+        private readonly INotifyService _notification;
+        public CapNhatPhieuCapPhepSuaQuangCaoCommandHandler(IHttpContextAccessor httpContextAccessor, DataContext dataContext, INotifyService notification, IMapper mapper) : base(httpContextAccessor, dataContext, mapper)
         {
+            _notification = notification;
         }
 
         public async Task<string> Handle(CapNhatPhieuCapPhepSuaQuangCaoCommand request, CancellationToken cancellationToken)
@@ -40,11 +44,16 @@ namespace AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.CommandHandler
                     if (phieuCapPhepSuaQuangCao.IdDiemDat != null)
                     {
                         var diemDatQuangCao = await _dataContext.DiemDatQuangCaos.FirstOrDefaultAsync(t => t.Id == phieuCapPhepSuaQuangCao.IdDiemDat);
-                        var capNhatDiemDatQuangCaoModel = JsonConvert.DeserializeObject<CapNhatBangQuangCaoModel>(phieuCapPhepSuaQuangCao.NoiDung);
+                        var capNhatDiemDatQuangCaoModel = JsonConvert.DeserializeObject<CapNhatDiemDatQuangCaoModel>(phieuCapPhepSuaQuangCao.NoiDung);
                         var diemQuangCaoCapNhat = _mapper.Map(capNhatDiemDatQuangCaoModel, diemDatQuangCao);
                         diemQuangCaoCapNhat.IdTinhTrang = "DaQuyHoach";
                         _dataContext.Update<DiemDatQuangCaoEntity>(diemQuangCaoCapNhat);
                     }
+                    _notification.SendMessageNotify("PhieuCapPhep", "Phiếu chỉnh sửa của bạn đã được duyệt thành công!");
+                }
+                else
+                {
+                    _notification.SendMessageNotify("PhieuCapPhep", "Phiếu chỉnh sửa của bạn đã bị hủy!");
                 }
 
                 phieuCapPhepSuaQuangCao.TinhTrang = request.TinhTrang;

@@ -36,21 +36,29 @@ namespace AbsManagementAPI.Core.CQRS.BaoCaoViPham.CommandHandler
             }
             try
             {
-                var emailBody = $"Kinh gui {request.CapNhatBaoCaoViPhamModel.userName}, <br /><br /> " +
-                                $"Chung toi da cap nhat thong tin bao cao cua ban. Cam on ban da phan hoi. <br /><br /> " +
-                                $"Tran trong, <br /><br /> " +
+                var emailBody = $"Kinh gui {baoCaoViPham.HoTen}, <br /><br /> " +
+                                $"Chung toi da cap nhat thong tin bao cao cua ban. Cam on ban da phan hoi. <br /><br /> ";
+                if(request.CapNhatBaoCaoViPhamModel.IdTinhTrang == "DangXuLy")
+                {
+                    emailBody += $"Noi dung: <br /><br /> " + request.CapNhatBaoCaoViPhamModel.NoiDungXyLy +
+                                $"<br /><br />";
+                }
+                emailBody += $"Tran trong, <br /><br /> " +
                                 $"Abs Management";
 
                 var mailData = new MailData
                 (
-                    new List<string> { request.CapNhatBaoCaoViPhamModel.userEmail },
-                    "Report status - AbsManagement",
+                    new List<string> { baoCaoViPham.Email },
+                    $"Report {request.CapNhatBaoCaoViPhamModel.IdTinhTrang} - AbsManagement",
                     emailBody,
                     null,
-                    request.CapNhatBaoCaoViPhamModel.userName
+                    baoCaoViPham.HoTen
                 );
 
-                baoCaoViPham.NoiDungXuLy = request.CapNhatBaoCaoViPhamModel.NoiDungXyLy;
+                if (!string.IsNullOrEmpty(request.CapNhatBaoCaoViPhamModel.NoiDungXyLy))
+                {
+                    baoCaoViPham.NoiDungXuLy = request.CapNhatBaoCaoViPhamModel.NoiDungXyLy;
+                }
                 baoCaoViPham.IdTinhTrang = request.CapNhatBaoCaoViPhamModel.IdTinhTrang;
                 //baoCaoViPham.ApproveDate = DateTime.Now;
                 baoCaoViPham.IdCanBoXuLy = authInfo.Id;             //baoCaoViPham.DanhSachHinhAnhXuLy = JsonConvert.SerializeObject(request.CapNhatBaoCaoViPhamModel.DanhSachHinhAnhXuLy);

@@ -83,32 +83,7 @@ useEffect(()=>{
         title: "Hành động",
         width: 80,
         key: 'function',
-        fixed: 'right',
-        // render: (row:BangQuangCaoModel) => {
-        //     return (
-        //     <Dropdown
-        //     destroyPopupOnHide
-        //     overlayClassName='drop-down-button'
-        //     menu={{ items: [
-        //         {
-        //             label: "Chi tiết",
-        //             key: "1",
-        //             icon: <EditOutlined />,
-        //             onClick: ()=>navigate(`${ConfigRoute.CanBoSo.BangQuangCao}/${row.id}`),
-        //         },
-        //         {
-        //             label: user?.role === 'CanBoSo' ? "Cập nhật" : "Tạo phiếu chỉnh sửa",
-        //             key: "2",
-        //             icon: <EditOutlined />,
-        //             onClick: ()=>navigate(`${ConfigRoute.CanBoSo.BangQuangCao}/capnhat/${row.id}`),
-        //         }
-        //     ]}}
-        //     trigger={['click']}
-        //     >
-        //     <EllipsisOutlined />
-        //     </Dropdown>
-        //     );
-        // }
+        fixed: 'right'
     }
 ];
 
@@ -193,7 +168,9 @@ useEffect(()=>{
             </Col>
         </Row>
         
-        <Table columns={columns} dataSource={bangQuangCaos} scroll={{ x: 'max-content' }}/>
+        <Form.Item label='Danh sách bảng quảng cáo'>
+          <Table columns={columns} dataSource={bangQuangCaos} scroll={{ x: 'max-content' }}/>
+        </Form.Item>
       </Form>
     </Modal>
   );

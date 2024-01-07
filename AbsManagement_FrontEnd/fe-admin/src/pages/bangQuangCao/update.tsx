@@ -145,7 +145,7 @@ export function UpdateBangQuangCao(): JSX.Element {
             //Handle point space panneds
             map.current.addSource("spacePanneds", {
                 type: "geojson",
-                data: SpaceToGeoJson(diemDatQuangCaos, "DaQuyHoach"),
+                data: SpaceToGeoJson(diemDatQuangCaos, true),
                 cluster: true,
                 clusterMaxZoom: 14,
                 clusterRadius: 50,
@@ -160,7 +160,7 @@ export function UpdateBangQuangCao(): JSX.Element {
             //Handle poin space not panned
             map.current.addSource("spaceNotPanneds", {
                 type: "geojson",
-                data: SpaceToGeoJson(diemDatQuangCaos, null),
+                data: SpaceToGeoJson(diemDatQuangCaos, false),
                 cluster: true,
                 clusterMaxZoom: 14,
                 clusterRadius: 50,

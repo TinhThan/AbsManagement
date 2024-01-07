@@ -3,8 +3,7 @@ import mapboxgl from 'mapbox-gl'
 import { CloseCircleOutlined} from '@ant-design/icons'
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder"
 import pointInfo from '../points/pointInfo'
-import PropTypes from 'prop-types'
-import { Layout, Divider, Button, Affix, Radio, Checkbox} from 'antd';
+import { Layout, Divider, Button, Affix, Input, Checkbox, Form} from 'antd';
 import { useState } from 'react';
 import SpaceInfo from '../points/spaceInfo'
 import {ReportToGeoJson, SpaceToGeoJson} from '../../utils/spaceToGeoJson'
@@ -25,14 +24,15 @@ export const tinhTrangReports = {
     "DangXuLy": "Đang xử lý",
     "DaXuLy": "Đã xử lý"
 }
+const { Search } = Input;
 
-export default function Map({spaces,reports}) {
+export default function Map({spaces,reports,setReports}) {
     const mapContainerRef = useRef(null);
     const map = useRef(null);
     const [collapsed, setCollapsed] = useState(true);
     const [location,setLocation] = useState();
     const [surfaces,setSurfaces] = useState([]); // bảng quảng cáo
-    const [email,setEmail] = useState([]);
+    const [loading,setLoading] = useState(false)
 
     mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_KEY;
 
@@ -150,22 +150,21 @@ export default function Map({spaces,reports}) {
             const coordinates = e.features[0].geometry.coordinates.slice();
             const description = e.features[0].properties;
 
-            // await getSurfaceBySpace(description.id)
-
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
             const report = reports.find(t=>t.id === description.id);
-
-            const popup = new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(ReportInfo(report))
-            .addTo(map.current);
-
-            document.querySelector("#report-popup")?.addEventListener('click',(e)=>{
-                onDetailReport(report)
-                popup.remove();
-            })
+            if(report){
+                const popup = new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(ReportInfo(report))
+                .addTo(map.current);
+    
+                document.querySelector("#report-popup")?.addEventListener('click',(e)=>{
+                    onDetailReport(report)
+                    popup.remove();
+                })
+            }
         });
 
         map.current.on('click', 'clusters-report-space', (e) => {
@@ -227,7 +226,7 @@ export default function Map({spaces,reports}) {
             //Handle point space panneds
             map.current.addSource("spacePanneds", {
                 type: "geojson",
-                data: SpaceToGeoJson(spaces,"DaQuyHoach"),
+                data: SpaceToGeoJson(spaces, true),
                 cluster: true,
                 clusterMaxZoom: 14,
                 clusterRadius: 50,
@@ -242,7 +241,7 @@ export default function Map({spaces,reports}) {
             //Handle poin space not panned
             map.current.addSource("spaceNotPanneds", {
                 type: "geojson",
-                data: SpaceToGeoJson(spaces,null),
+                data: SpaceToGeoJson(spaces,false),
                 cluster: true,
                 clusterMaxZoom: 14,
                 clusterRadius: 50,
@@ -342,10 +341,26 @@ export default function Map({spaces,reports}) {
         }
     }
 
+    function resetReportPoint(email){
+        setLoading(true);
+        try {
+            axios.get(`${process.env.REACT_APP_BASE_API}api/baocaovipham` + (email !== undefined | email !== null ?`/email/${email}` : '')).then((response) => {
+                if(response && response.status === 200)
+                {
+                    map.current.getSource('reports').setData(ReportToGeoJson(spaces,response.data))
+                    setReports(response.data)
+                }
+            });
+        } catch (error) {
+        console.log(error);
+        }
+        setLoading(false)
+    }
+
     function onCreateReportClick(){
         if(location){
             const _root = renderModal(<ModalCreateReport onCancel={() => {
-                console.log("cancel")
+                resetReportPoint(undefined)
                 _root?.unmount()
             }} location={location}/> );
         }
@@ -362,16 +377,22 @@ export default function Map({spaces,reports}) {
 
     return (
         <Layout hasSider>
-            <Content style={{height:'100vh', width:'100vw'}}>
-            <Affix offsetTop={10} className='affix-antd-button'>
-                <div className='affix-container'>
-                    <strong>Điểm quảng cáo </strong>
-                    <Checkbox className='space-panned' defaultChecked onChange={checkedSpacePanned}>Đã quy hoạch</Checkbox>
-                    <Checkbox className='space-not-panned' defaultChecked onChange={checkedSpaceNotPanned}>Chưa quy hoạch</Checkbox>
-                    <Checkbox className='space-panned' defaultChecked onChange={checkedReport}><strong>Báo cáo vi phạm </strong></Checkbox>
-                    <Checkbox className='space-panned' defaultChecked={false} onChange={checkedReport}><strong>Báo cáo theo email: {email} </strong></Checkbox>
-                </div>
-            </Affix>
+            <Content style={{height:'100vh', width:'800px'}}>
+                <Affix offsetTop={10} className='affix-antd-button'>
+                    <div className='affix-container'>
+                        <strong>Điểm quảng cáo </strong>
+                        <Checkbox style={{'margin-top':'5px',marginRight:'10px'}} className='space-panned' defaultChecked onChange={checkedSpacePanned}>Đã quy hoạch</Checkbox>
+                        <Checkbox className='space-not-panned' defaultChecked onChange={checkedSpaceNotPanned}>Chưa quy hoạch</Checkbox>
+                        <Checkbox className='space-panned' defaultChecked onChange={checkedReport}><strong>Báo cáo vi phạm </strong></Checkbox>
+                        <Form.Item label={<strong>Báo cáo theo mail</strong>}>
+                            <Search placeholder="Danh sách báo cáo theo email..." style={{width:'300px'}} required type='email' onSearch={(value)=>{
+                                if(value){
+                                    resetReportPoint(value);
+                                }
+                            }} enterButton="Search" loading={loading} />
+                        </Form.Item>
+                    </div>
+                </Affix>
                 <div id="map" ref={mapContainerRef}  />
             </Content>
             <Sider theme='light' 

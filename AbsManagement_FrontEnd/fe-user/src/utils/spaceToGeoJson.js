@@ -1,5 +1,5 @@
-export function SpaceToGeoJson(spaces,tinhTrang) {
-    const geoJSONFeatures = spaces.filter(space=>(tinhTrang ? space.idTinhTrang === tinhTrang : true)).map(space => {
+export function SpaceToGeoJson(spaces,daQuyHoach) {
+    const geoJSONFeatures = spaces.filter(space=>daQuyHoach ? space.idTinhTrang === 'DaQuyHoach' : space.idTinhTrang !== 'DaQuyHoach' ).map(space => {
         return {
             type: 'Feature',
             geometry: {
@@ -21,13 +21,9 @@ export function SpaceToGeoJson(spaces,tinhTrang) {
 
 export function ReportToGeoJson(spaces, reports) {
     const geoJSONFeatures = reports.map(report => {
-        const space = spaces.find(t=>t.id === report.idDiemDatQuangCao);
         let coordinates = report.danhSachViTri;
         console.log("coordinates",coordinates)
-        if(space)
-        {
-            coordinates = [report.danhSachViTri[0] -  0.00002696274,report.danhSachViTri[1]]
-        }
+        coordinates = [report.danhSachViTri[0] -  (report.idBangQuangCao | report.idDiemDatQuangCao ?  0.00003696274 : 0),report.danhSachViTri[1]]
         return {
             type: 'Feature',
             geometry: {

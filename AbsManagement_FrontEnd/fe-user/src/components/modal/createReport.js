@@ -51,7 +51,7 @@ export default function ModalCreateReport(props) {
                 console.log("response",response)
                 if(response && response.status === 200)
                 {
-                    Notification.Success(response.data)
+                    Notification.Success("Báo cáo vi phạm thành công.")
                 }else{
                     Notification.Fail("Thêm báo cáo vi phạm thất bại.")
                 }

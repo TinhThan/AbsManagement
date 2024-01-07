@@ -136,11 +136,11 @@ export const cluterLayersReport = {
         'circle-color': [
             'step',
             ['get', 'point_count'],
-            '#51bbd6',
+            '#dc143c',
             100,
-            '#f1f075',
+            '#dc143c',
             750,
-            '#f28cb1'
+            '#dc143c'
         ],
         'circle-radius': [
             'step',

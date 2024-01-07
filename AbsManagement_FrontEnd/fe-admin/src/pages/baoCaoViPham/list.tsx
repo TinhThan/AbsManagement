@@ -10,11 +10,14 @@ import UserInfoStorage from '../../storages/user-info';
 import { UserStorage } from '../../apis/auth/user';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { ConfigRoute } from '../../routes/ConfigRoute';
+import { renderModal } from '../../utils/render-modal';
+import ModalDetailBaoCaoViPham from './detail';
 
 const { Search } = Input;
 
 export const tinhTrangBaoCaoViPham = {
     ChuaXuLy: "Chưa xử lý",
+    DangXuLy:"Đang xử lý",
     DaXuLy: "Đã xử lý"
 }
 
@@ -24,23 +27,16 @@ export default function ListBaoCaoViPham(): JSX.Element {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [idUpdate, setIdUpdate] = useState<number>(0);
     const [UserStorage, setUserStorage] = useState<UserStorage | null>()
 
-    const handleOk = () => {
+    const handleOk = (row: BaoCaoViPhamModel) => {
         setConfirmLoading(true);
-        const baocao: any = baoCaoViPhams.map(ele => {
-            if (ele.id == idUpdate) return { ...ele }
-        })
         const payload = {
-            noiDungXyLy: 'Update',
-            idTinhTrang: 'DaXuLy',
-            DanhSachHinhAnhXuLy: baocao[0].danhSachHinhAnh,
-            userName: baocao ? baocao[0].hoTen : ' ',
-            userEmail: baocao ? baocao[0].email : 'user@gmail.com'
+            noiDungXyLy: '',
+            idTinhTrang: 'DaXuLy'
         }
 
-        baoCaoViPhamAPI.CapNhat(idUpdate, payload)
+        baoCaoViPhamAPI.CapNhat(row.id, payload)
             .then((res: any) => {
                 if (res && res.status === 200) {
                     getBaoCaoViPhams(UserStorage);
@@ -50,6 +46,13 @@ export default function ListBaoCaoViPham(): JSX.Element {
         setOpen(false);
         setConfirmLoading(false);
     };
+
+    function onUpdateClick(model: BaoCaoViPhamModel){
+        const _root = renderModal(<ModalDetailBaoCaoViPham onCancel={() => {
+          _root?.unmount()
+          getBaoCaoViPhams(UserStorage)
+        }} baoCaoViPham={model} />);
+    }
 
     const handleCancel = () => {
         setOpen(false);
@@ -74,14 +77,10 @@ export default function ListBaoCaoViPham(): JSX.Element {
         setLoading(false);
     }
 
-    const updateReportStatus = (id: number) => {
-        setOpen(true);
-        setIdUpdate(id);
-    }
-
     useEffect(() => {
-        if (UserInfoStorage) setUserStorage(UserInfoStorage.get());
-        getBaoCaoViPhams(UserStorage);
+        const user = UserInfoStorage.get();
+        setUserStorage(user);
+        getBaoCaoViPhams(user);
     }, [])
 
     const columns: TableColumnType<BaoCaoViPhamModel>[] = [
@@ -159,6 +158,7 @@ export default function ListBaoCaoViPham(): JSX.Element {
             render: (value: string) => {
                 return tinhTrangBaoCaoViPham[value];
             },
+            fixed:'right',
         },
         {
             title: "Hành động",
@@ -173,24 +173,19 @@ export default function ListBaoCaoViPham(): JSX.Element {
                         menu={{
                             items: [
                                 {
-                                    label: "Chi tiết",
+                                    label: "Xử lý",
                                     key: "1",
+                                    disabled: row.idTinhTrang === "DangXuLy" || row.idTinhTrang === "DaXuLy" ,
                                     icon: <EditOutlined />,
-                                    // onClick: () => navigate(`${ConfigRoute.CanBoSo.BaoCaoViPham}/${row.id}`),
-                                    onClick: () => navigate({
-                                        pathname: `${ConfigRoute.CanBoSo.BaoCaoViPham}/chitiet`,
-                                        search: `?${createSearchParams({
-                                            id: row.id.toString()
-                                        })}`
-                                    })
+                                    onClick: ()=>onUpdateClick(row)
                                 },
-                                (row.idTinhTrang != "DaXuLy") ? // Thêm điều kiện tại đây
-                                    {
-                                        label: "Cập nhật trạng thái",
-                                        key: "2",
-                                        icon: <EditOutlined />,
-                                        onClick: () => updateReportStatus(row.id)
-                                    } : null
+                                {
+                                    label: "Hoàn thành Xử lý",
+                                    key: "1",
+                                    disabled: row.idTinhTrang === "ChuaXuLy" || row.idTinhTrang === "DaXuLy" ,
+                                    icon: <EditOutlined />,
+                                    onClick:()=> handleOk(row)
+                                }
                             ]
                         }}
                         trigger={['click']}
@@ -216,15 +211,6 @@ export default function ListBaoCaoViPham(): JSX.Element {
                     </Space>
                 </Spin>
             </PageContainer>
-
-            <Popconfirm
-                title=" "
-                description="Xác nhận cập nhật thông tin!"
-                open={open}
-                onConfirm={handleOk}
-                okButtonProps={{ loading: confirmLoading }}
-                onCancel={handleCancel}
-            />
         </Suspense>
     );
 }

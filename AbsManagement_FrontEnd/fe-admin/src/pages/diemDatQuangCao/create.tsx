@@ -311,6 +311,7 @@ export function CreateDiemDatQuangCao(): JSX.Element {
                                         setPhuong(undefined)
                                         form.setFieldValue('diaChi',undefined);
                                         marketMap.current.setLngLat([0,0]);
+                                        map.current.setZoom(14)
                                         if(map.current)
                                         {
                                             map.current.flyTo({
@@ -344,7 +345,7 @@ export function CreateDiemDatQuangCao(): JSX.Element {
                                         <TextArea rows={4}/>
                                 </Form.Item>
                                 <Form.Item label={"Tình trạng"}>
-                                        <Input value={tinhTrangDiemDatQuangCao[1].ten}  disabled/>
+                                        <Input value={tinhTrangDiemDatQuangCao[0].ten}  disabled/>
                                 </Form.Item>
                             </Card>
                         </Col>

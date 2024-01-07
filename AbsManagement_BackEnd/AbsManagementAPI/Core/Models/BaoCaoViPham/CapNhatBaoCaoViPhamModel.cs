@@ -4,8 +4,5 @@
     {
         public string IdTinhTrang { get; set; }
         public string NoiDungXyLy { get; set; }
-        public string userName { get; set; }
-        public string userEmail { get; set; }
-        //public List<string> DanhSachHinhAnhXuLy { get; set; } = new List<string>();
     }
 }

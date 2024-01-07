@@ -5,6 +5,7 @@ namespace AbsManagementAPI.Core.HubSignalR
     public interface INotifyService
     {
         Task SendMessageNotify(string type, string message);
+        Task SendMessageNotifyByEmail(string type, string message, int id);
         Task SendMessageNotifyOnPhuongQuan(string type, string message, string quan, string phuong);
     }
 
@@ -22,10 +23,15 @@ namespace AbsManagementAPI.Core.HubSignalR
             await _hubContext.Clients.All.SendAsync("onNotify", type, message);
         }
 
-
-        public async Task SendMessageNotifyOnPhuongQuan(string type, string message,string quan,string phuong)
+        public async Task SendMessageNotifyByEmail(string type, string message, int id)
         {
-            await _hubContext.Clients.All.SendAsync("onNotify", type, message,phuong,quan);
+            await _hubContext.Clients.All.SendAsync("onNotify", type, message, id);
+        }
+
+
+        public async Task SendMessageNotifyOnPhuongQuan(string type, string message, string quan, string phuong)
+        {
+            await _hubContext.Clients.All.SendAsync("onNotify", type, message, phuong, quan);
         }
     }
 }

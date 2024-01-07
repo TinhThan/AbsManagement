@@ -23,7 +23,7 @@ namespace AbsManagementAPI.Core.CQRS.DiemDatQuangCao.CommandHandler
 
             try
             {
-                diemDatQuangCaoMoi.IdTinhTrang = "DaQuyHoach";
+                diemDatQuangCaoMoi.IdTinhTrang = "ChuaQuyHoach";
                 await _dataContext.AddAsync(diemDatQuangCaoMoi);
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
                 if (resultThemMoi > 0)
