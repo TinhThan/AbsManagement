@@ -1,11 +1,11 @@
 ﻿using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.CQRS.BangQuangCao.Command;
 using AbsManagementAPI.Core.CQRS.BaoCaoViPham.Command;
-using AbsManagementAPI.Core.CQRS.Log;
+using AbsManagementAPI.Core.CQRS.Logged;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
 using AbsManagementAPI.Core.HubSignalR;
-using AbsManagementAPI.Core.Log.Command;
+using AbsManagementAPI.Core.Logged.Command;
 using AutoMapper;
 using MediatR;
 using Newtonsoft.Json;
