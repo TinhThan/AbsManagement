@@ -18,6 +18,7 @@ export const ConfigRoute = {
         DuyetDiemQuangCao: '/duyet-diem-dat-quang-cao',
         DuyetBangQuangCao: '/duyet-bang-quang-cao',
         DuyetCapPhepQuangCao: '/duyet-cap-phep-quang-cao',
+        DuyetCapPhepSuaQuangCao: '/duyet-cap-phep-sua-quang-cao',
         ThongKe_Phuong: '/thong-ke-phuong',
         ThongKe_Quan: '/thong-ke-quan'
     }

@@ -22,6 +22,7 @@ import dataHCM from '../../assets/new-dataHCM.json';
 import { ThemPhieuChinhSuaModel } from '../../apis/phieuChinhSua/model';
 import { phieuChinhSuaAPI } from '../../apis/phieuChinhSua';
 import { MessageBox } from '../../utils/messagebox';
+import { messageValidate } from '../../utils/validator';
 
 const tinhTrangDiemDatQuangCao = [
     {
@@ -328,7 +329,7 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
                     <Row gutter={[10,10]}>
                         <Col span={14}>
                             <Card title={<b>Thông tin điểm đặt quảng cáo</b>} bordered={false}>
-                                <Form.Item label={"Loại vị trí"} name={'idLoaiViTri'} rules={[{ required: true ,message: }]}>
+                                <Form.Item label={"Loại vị trí"} name={'idLoaiViTri'} rules={[{ required: true ,message: messageValidate.RequireLoaiViTri}]}>
                                     <Select placeholder="Vui lòng chọn loại vị trí" >
                                         {loaiViTris && loaiViTris.map((option) => (
                                             <Select.Option key={option.id} value={option.id}>{option.ma} - {option.ten}</Select.Option>
