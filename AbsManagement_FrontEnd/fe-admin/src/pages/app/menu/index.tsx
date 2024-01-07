@@ -66,7 +66,8 @@ export default function MenuLayout(props: Props): JSX.Element {
             getItem(<Link to={`${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao`}>Sửa bảng quảng cáo</Link>, `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao`),
           ],
           'group'
-        )
+        ),
+        getItem(<Link to={ConfigRoute.CanBoSo.DuyetCapPhepQuangCao}>Phiếu cấp phép quảng cáo</Link>, ConfigRoute.CanBoSo.DuyetCapPhepQuangCao)
         , ...itemDefaults])
     }
   }, [role])

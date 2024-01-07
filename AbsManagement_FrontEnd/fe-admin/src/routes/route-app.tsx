@@ -30,6 +30,7 @@ import ListFixLocation from "../pages/capphepsuaquangcao/listFixLocation";
 import ListFixBoard from "../pages/capphepsuaquangcao/listFixBoard";
 import DetailFixLocation from "../pages/capphepsuaquangcao/detailFixLocation";
 import DetailFixBoard from "../pages/capphepsuaquangcao/detailFixBoard";
+import ListAcceptAds from "../pages/capPhepQuangCao/list";
 
 const router = createBrowserRouter([
   {
@@ -150,6 +151,11 @@ const router = createBrowserRouter([
         path: ConfigRoute.CanBoSo.HinhThucBaoCao,
         loader:protectedCanBoLoader,
         Component:HinhThucBaoCaoFeature
+      },
+      {
+        path: ConfigRoute.CanBoSo.DuyetCapPhepQuangCao,
+        loader:protectedCanBoLoader,
+        Component: ListAcceptAds
       },
       {
         path: ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao,

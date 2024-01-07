@@ -67,6 +67,8 @@ export const ConfigUrlApi = {
         },
         PhieuCapPhep:{
             TaoMoi: "/phieucapphepquangcao/taomoi",
+            DanhSach: "/phieucapphepquangcao",
+            Duyet: "/phieucapphepquangcao/duyet/"
         }
     }
 }
