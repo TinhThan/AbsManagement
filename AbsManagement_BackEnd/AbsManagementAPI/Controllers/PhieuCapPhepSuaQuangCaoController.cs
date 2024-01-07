@@ -26,6 +26,10 @@ namespace AbsManagementAPI.Controllers
         /// Chi tiết Phiếu cấp phép sửa Quảng Cáo
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Lấy Chi tiết Phiếu cấp phép sửa Quảng Cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet("chitiet/bangquangcao/{id}")]
         public async Task<PhieuCapPhepSuaBangQuangCaoModel> ChiTiet(int id)
         {
@@ -40,6 +44,10 @@ namespace AbsManagementAPI.Controllers
         /// Chi tiết Phiếu cấp phép sửa Quảng Cáo
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Lấy Chi tiết Phiếu cấp phép sửa Quảng Cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet("chitiet/diemdatquangcao/{id}")]
         public async Task<PhieuCapPhepSuaDiemDatQuangCaoModel> ChiTietDiemDat(int id)
         {
@@ -52,6 +60,10 @@ namespace AbsManagementAPI.Controllers
         /// <summary>
         /// Danh sách Phiếu cấp phép sửa điểm đặt Quảng Cáo
         /// </summary>
+        /// <response code="200">Lấy Danh sách Phiếu cấp phép sửa điểm đặt Quảng Cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet("danhsach/diemdatquangcao")]
         public async Task<List<PhieuCapPhepSuaDiemDatQuangCaoModel>> DanhSach()
         {
@@ -61,6 +73,10 @@ namespace AbsManagementAPI.Controllers
         /// <summary>
         /// Danh sách Phiếu cấp phép sửa bảng Quảng Cáo
         /// </summary>
+        /// <response code="200">Lấy Danh sách Phiếu cấp phép sửa bảng Quảng Cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet("danhsach/bangquangcao")]
         public async Task<List<PhieuCapPhepSuaBangQuangCaoModel>> DanhSachDiemDat()
         {
@@ -72,6 +88,10 @@ namespace AbsManagementAPI.Controllers
         /// Thêm mới Phiếu cấp phép sửa Quảng Cáo
         /// </summary>
         /// <param name="model"></param>
+        /// <response code="200">Lấy Thêm mới Phiếu cấp phép sửa Quảng Cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [Authorize]
         [HttpPost("taomoi")]
         public async Task<string> TaoMoi(ThemPhieuCapPhepSuaQuangCaoModel model)
@@ -87,6 +107,10 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
+        /// <response code="200">Lấy Cập nhật Phiếu cấp phép sửa Quảng Cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [Authorize]
         [HttpPost("capnhat/{id}")]
         public async Task<string> CapNhat(int id, CapNhatPhieuCapPhepSuaQuangCaoModel model)
@@ -102,6 +126,10 @@ namespace AbsManagementAPI.Controllers
         /// Xóa Phiếu cấp phép sửa Quảng Cáo
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Lấy Xóa Phiếu cấp phép sửa Quảng Cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("xoa/{id}")]
         public async Task<string> Xoa(int id)
         {

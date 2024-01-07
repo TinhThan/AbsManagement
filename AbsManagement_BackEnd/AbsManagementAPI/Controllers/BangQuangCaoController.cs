@@ -26,6 +26,10 @@ namespace AbsManagementAPI.Controllers
         /// Chi tiết bảng quảng cáo
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Lấy chi tiết bảng quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest,Type = typeof(ExceptionResponse))]
         [HttpGet("chitiet/{id}")]
         public async Task<BangQuangCaoModel> ChiTiet(int id)
         {
@@ -39,6 +43,10 @@ namespace AbsManagementAPI.Controllers
         /// Danh sách bảng quảng cáo
         /// </summary>
         /// <param name="addressSearchModel"></param>
+        /// <response code="200">Lấy danh sách bảng quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet()]
         public async Task<List<BangQuangCaoModel>> DanhSach([FromQuery] AddressSearchModel addressSearchModel)
         {
@@ -52,6 +60,10 @@ namespace AbsManagementAPI.Controllers
         /// Danh sách bảng quảng cáo theo điểm đặt quảng cáo
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Lấy danh sách bảng quảng cáo theo điểm đặt quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet("diemdatquangcao/{id}")]
         public async Task<List<BangQuangCaoModel>> DanhSachDiemDatQuangCao(int id)
         {
@@ -65,6 +77,10 @@ namespace AbsManagementAPI.Controllers
         /// Thêm mới bảng quảng cáo
         /// </summary>
         /// <param name="model"></param>
+        /// <response code="200">Lấy tạo mới bảng quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("taomoi")]
         [Authorize]
         public async Task<string> TaoMoi(ThemBangQuangCaoModel model)
@@ -80,6 +96,10 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
+        /// <response code="200">Lấy cập nhật bảng quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("capnhat/{id}")]
         [Authorize]
         public async Task<string> CapNhat(int id, CapNhatBangQuangCaoModel model)
@@ -95,6 +115,10 @@ namespace AbsManagementAPI.Controllers
         /// Xóa bảng quảng cáo
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Lấy xóa bảng quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("xoa/{id}")]
         [Authorize]
         public async Task<string> Xoa(int id)
@@ -109,6 +133,10 @@ namespace AbsManagementAPI.Controllers
         /// Gửi duyệt bảng quảng cáo
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Lấy gữi duyệt bảng quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(CustomException))]
         [HttpPost("gui/{id}")]
         [Authorize]
         public async Task<string> GuiDuyet(int id)

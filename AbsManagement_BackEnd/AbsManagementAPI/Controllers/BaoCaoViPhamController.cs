@@ -26,9 +26,13 @@ namespace AbsManagementAPI.Controllers
         }
 
         /// <summary>
-        /// Báo cáo vi phạm
+        /// chi tiết báo cáo vi phạm
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Lấy chi tiết báo cáo vi phạm thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet("{id}")]
         public async Task<BaoCaoViPhamModel> ChiTiet(int id)
         {
@@ -39,9 +43,13 @@ namespace AbsManagementAPI.Controllers
         }
 
         /// <summary>
-        /// Báo cáo vi phạm
+        /// danh sách báo cáo vi phạm
         /// </summary>
         /// <param name="addressSearchModel"></param>
+        /// <response code="200">Lấy danh sách báo cáo vi phạm thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet()]
         public async Task<List<BaoCaoViPhamModel>> DanhSach([FromQuery] AddressSearchModel addressSearchModel)
         {
@@ -51,11 +59,31 @@ namespace AbsManagementAPI.Controllers
             });
         }
 
+        /// <summary>
+        /// danh sách báo cáo vi phạm theo email
+        /// </summary>
+        /// <param name="email"></param>        
+        /// <response code="200">Lấy danh sách báo cáo vi phạm theo email thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
+        [HttpGet("email/{email}")]
+        public async Task<List<BaoCaoViPhamModel>> DanhSachByEmail(string email)
+        {
+            return await _mediator.Send(new DanhSachBaoCaoViPhamByEmailQuery()
+            {
+                Email = email
+            });
+        }
 
         /// <summary>
         /// Thêm mới báo cáo vi phạm
         /// </summary>
         /// <param name="model"></param>
+        /// <response code="200">Thêm mới báo cáo vi phạm thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("taomoi")]
         public async Task<string> TaoMoi(ThemBaoCaoViPhamModel model)
         {
@@ -70,6 +98,10 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
+        /// <response code="200">Cập nhật báo cáo vi phạm thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("capnhat/{id}")]
         [Authorize]
         public async Task<string> CapNhat(int id, CapNhatBaoCaoViPhamModel model)
@@ -86,6 +118,10 @@ namespace AbsManagementAPI.Controllers
         /// Xóa báo cáo vi phạm
         /// </summary>
         /// <param name="model"></param>
+        /// <response code="200">Xóa báo cáo vi phạm thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("xoa")]
         public async Task<string> Xoa(XoaBaoCaoViPhamModel model)
         {

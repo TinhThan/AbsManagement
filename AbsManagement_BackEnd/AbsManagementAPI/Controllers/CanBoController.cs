@@ -23,6 +23,10 @@ namespace AbsManagementAPI.Controllers
         /// <summary>
         /// Danh sách cán bộ
         /// </summary>
+        /// <response code="200">Lấy danh sách cán bộ thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet("danhsach")]
         public async Task<List<CanBoModel>> DanhSach()
         {
@@ -33,6 +37,10 @@ namespace AbsManagementAPI.Controllers
         /// Thêm mới cán bộ
         /// </summary>
         /// <param name="taoCanBoModel"></param>
+        /// <response code="200">Lấy thêm mới cán bộ thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("taomoi")]
         public async Task<string> TaoMoi(TaoCanBoModel taoCanBoModel)
         {
@@ -47,6 +55,10 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="capNhatCanBoModel"></param>
+        /// <response code="200">Lấy cập nhật cán bộ thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("capnhat/{id}")]
         public async Task<string> CapNhat(int id, CapNhatCanBoModel capNhatCanBoModel)
         {
@@ -61,6 +73,10 @@ namespace AbsManagementAPI.Controllers
         /// Xóa cán bộ
         /// </summary>
         /// <param name="model"></param>
+        /// <response code="200">Lấy xóa cán bộ thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("xoa")]
         public async Task<string> Xoa(XoaCanBoModel model)
         {

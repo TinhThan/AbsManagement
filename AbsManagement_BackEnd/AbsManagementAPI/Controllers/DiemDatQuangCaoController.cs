@@ -25,6 +25,10 @@ namespace AbsManagementAPI.Controllers
         /// Chi tiếtđiểm đặt quảng cáo
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Lấy chi tiết điểm đặt quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet("chitiet/{id}")]
         public async Task<DiemDatQuangCaoModel> ChiTiet(int id)
         {
@@ -35,9 +39,13 @@ namespace AbsManagementAPI.Controllers
         }
 
         /// <summary>
-        /// Danh sáchđiểm đặt quảng cáo
+        /// Danh sách điểm đặt quảng cáo
         /// </summary>
         /// <param name="addressSearchModel"></param>
+        /// <response code="200">Lấy Danh sách điểm đặt quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet()]
         public async Task<List<DiemDatQuangCaoModel>> DanhSach([FromQuery]AddressSearchModel addressSearchModel)
         {
@@ -51,6 +59,10 @@ namespace AbsManagementAPI.Controllers
         /// Thêm mới điểm đặt quảng cáo
         /// </summary>
         /// <param name="model"></param>
+        /// <response code="200">Lấy Thêm mới điểm đặt quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("taomoi")]
         [Authorize]
         public async Task<string> TaoMoi(ThemDiemDatQuangCaoModel model)
@@ -66,6 +78,10 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
+        /// <response code="200">Lấy Cập nhật điểm đặt quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("capnhat/{id}")]
         [Authorize]
         public async Task<string> CapNhat(int id, CapNhatDiemDatQuangCaoModel model)
@@ -78,9 +94,13 @@ namespace AbsManagementAPI.Controllers
         }
 
         /// <summary>
-        /// Xóađiểm đặt quảng cáo
+        /// Xóa điểm đặt quảng cáo
         /// </summary>
         /// <param name="model"></param>
+        /// <response code="200">Lấy Xóa điểm đặt quảng cáo thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("xoa")]
         public async Task<string> Xoa(XoaDiemDatQuangCaoModel model)
         {

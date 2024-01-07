@@ -26,6 +26,10 @@ namespace AbsManagementAPI.Controllers
         /// Chi tiết loại vị trí
         /// </summary>
         /// <param name="id"></param>
+        /// <response code="200">Lấy Chi tiết loại vị trí thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet("chitiet/{id}")]
         public async Task<LoaiViTriModel> ChiTiet(int id)
         {
@@ -38,6 +42,10 @@ namespace AbsManagementAPI.Controllers
         /// <summary>
         /// Danh sách loại vị trí
         /// </summary>
+        /// <response code="200">Lấy Danh sách loại vị trí thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpGet()]
         public async Task<List<LoaiViTriModel>> DanhSach()
         {
@@ -48,6 +56,10 @@ namespace AbsManagementAPI.Controllers
         /// Thêm mới loại vị trí
         /// </summary>
         /// <param name="model"></param>
+        /// <response code="200">Lấy Thêm mới loại vị trí thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost()]
         [Authorize]
         public async Task<string> TaoMoi(ThemLoaiViTriModel model)
@@ -63,6 +75,10 @@ namespace AbsManagementAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <param name="model"></param>
+        /// <response code="200">Lấy Cập nhật loại vị trí thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("{id}")]
         [Authorize]
         public async Task<string> CapNhat(int id, CapNhatLoaiViTriModel model)
@@ -78,6 +94,10 @@ namespace AbsManagementAPI.Controllers
         /// Xóa loại vị trí
         /// </summary>
         /// <param name="model"></param>
+        /// <response code="200">Lấy Xóa loại vị trí thành công</response>
+        /// <response code="400">1 vài thông tin truyền vào không hợp lệ</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ExceptionResponse))]
         [HttpPost("xoa")]
         [Authorize]
         public async Task<string> Xoa(XoaLoaiViTriModel model)
