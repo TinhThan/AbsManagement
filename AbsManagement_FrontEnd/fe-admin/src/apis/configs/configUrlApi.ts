@@ -63,12 +63,15 @@ export const ConfigUrlApi = {
             TaoMoi: "/phieucapphepsuaquangcao/taomoi",
             DanhSachDiemDatQuangCao: "/phieucapphepsuaquangcao/danhsach/diemdatquangcao",
             DanhSachBangQuangCao: "/phieucapphepsuaquangcao/danhsach/bangquangcao",
-            CapNhat: "/phieucapphepsuaquangcao/capnhat/"
+            CapNhat: "/phieucapphepsuaquangcao/capnhat/",
+            ChiTietDiemDatQuangCao:"/phieucapphepsuaquangcao/chitiet/diemdatquangcao/",
+            ChiTietBangQuangCao:"/phieucapphepsuaquangcao/chitiet/bangquangcao/",
         },
         PhieuCapPhep:{
             TaoMoi: "/phieucapphepquangcao/taomoi",
             DanhSach: "/phieucapphepquangcao",
-            Duyet: "/phieucapphepquangcao/duyet/"
+            Duyet: "/phieucapphepquangcao/duyet/",
+            ChiTiet: "/phieucapphepquangcao/chitiet/",
         }
     }
 }

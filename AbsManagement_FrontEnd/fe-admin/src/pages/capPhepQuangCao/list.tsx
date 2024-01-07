@@ -5,6 +5,8 @@ import { DanhSachPhieuCapPhepModel } from "../../apis/phieuCapPhepBangQuangCao/m
 import { EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { phieuCapPhepBangQuangCaoAPI } from "../../apis/phieuCapPhepBangQuangCao";
 import moment from 'moment';
+import { useNavigate, createSearchParams } from "react-router-dom";
+import { ConfigRoute } from "../../routes/ConfigRoute";
 
 const { Search } = Input;
 
@@ -14,6 +16,7 @@ export const tinhTrangType = {
 }
 
 const ListAcceptAds : FC = () => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -128,10 +131,21 @@ const ListAcceptAds : FC = () => {
                         overlayClassName='drop-down-button'
                         menu={{
                             items: [
+                                {
+                                    label: "Chi tiết",
+                                    key: "1",
+                                    icon: <EditOutlined />,
+                                    onClick: () => navigate({
+                                        pathname: `${ConfigRoute.CanBoSo.DuyetCapPhepQuangCao}/chitiet`,
+                                        search: `?${createSearchParams({
+                                            id: row.id.toString()
+                                        })}`
+                                    })
+                                },
                                 (row.idTinhTrang != "DaDuyet") ?
                                     {
                                         label: "Duyệt phiếu",
-                                        key: "1",
+                                        key: "2",
                                         icon: <EditOutlined />,
                                         onClick: () => updateFixLocationStatus(row.id)
                                     } : null

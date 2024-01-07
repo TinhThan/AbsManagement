@@ -1,10 +1,12 @@
 import { PageContainer, PageLoading } from "@ant-design/pro-components";
 import { Col, Dropdown, Input, Popconfirm, Row, Space, Spin, Table, TableColumnType } from "antd";
 import { FC, Suspense, useEffect, useState } from "react";
-import { DanhSachPhieuCapPhepSuaDiemDat } from "../../apis/phieuChinhSua/model";
+import { PhieuCapPhepSuaDiemDatModel } from "../../apis/phieuChinhSua/model";
 import { EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { phieuChinhSuaAPI } from "../../apis/phieuChinhSua";
 import moment from 'moment';
+import { useNavigate, createSearchParams } from "react-router-dom";
+import { ConfigRoute } from "../../routes/ConfigRoute";
 
 const { Search } = Input;
 
@@ -14,10 +16,11 @@ export const tinhTrangType = {
 }
 
 const ListFixLocation: FC = () => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [data, setData] = useState<DanhSachPhieuCapPhepSuaDiemDat[]>([]);
+    const [data, setData] = useState<PhieuCapPhepSuaDiemDatModel[]>([]);
     const [idUpdate, setIdUpdate] = useState<number>(0);
 
     const handleOk = () => {
@@ -69,7 +72,7 @@ const ListFixLocation: FC = () => {
         getDanhSachSuaDiemDat();
     }, [])
 
-    const columns: TableColumnType<DanhSachPhieuCapPhepSuaDiemDat>[] = [
+    const columns: TableColumnType<PhieuCapPhepSuaDiemDatModel>[] = [
         {
             title: 'Id',
             dataIndex: 'id',
@@ -116,17 +119,28 @@ const ListFixLocation: FC = () => {
             width: 80,
             key: 'function',
             fixed: 'right',
-            render: (row: DanhSachPhieuCapPhepSuaDiemDat) => {
+            render: (row: PhieuCapPhepSuaDiemDatModel) => {
                 return (
                     <Dropdown
                         destroyPopupOnHide
                         overlayClassName='drop-down-button'
                         menu={{
                             items: [
+                                {
+                                    label: "Chi tiết",
+                                    key: "1",
+                                    icon: <EditOutlined />,
+                                    onClick: () => navigate({
+                                        pathname: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao/chitiet`,
+                                        search: `?${createSearchParams({
+                                            id: row.id.toString()
+                                        })}`
+                                    })
+                                },
                                 (row.tinhTrang != "DaDuyet") ?
                                     {
                                         label: "Cập nhật trạng thái",
-                                        key: "1",
+                                        key: "2",
                                         icon: <EditOutlined />,
                                         onClick: () => updateFixLocationStatus(row.id)
                                     } : null

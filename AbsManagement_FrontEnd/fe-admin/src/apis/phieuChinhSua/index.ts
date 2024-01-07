@@ -9,14 +9,26 @@ class PhieuChinhSuaAPI extends BaseApi {
         return this.get(API_URL + ConfigUrlApi.Urls.PhieuChinhSua.DanhSachDiemDatQuangCao);
     }
 
+    async ChiTietPhieuSuaDiemDat(id: number | null) {
+        return this.get(
+            API_URL + ConfigUrlApi.Urls.PhieuChinhSua.ChiTietDiemDatQuangCao + id
+        );
+    }
+
     async DanhSachPhieuSuaBangQuangCao() {
         return this.get(API_URL + ConfigUrlApi.Urls.PhieuChinhSua.DanhSachBangQuangCao);
     }
 
+    async ChiTietPhieuSuaBangQuangCao(id: number | null) {
+        return this.get(
+            API_URL + ConfigUrlApi.Urls.PhieuChinhSua.ChiTietBangQuangCao + id
+        );
+    }
+
     async TaoMoi(model: ThemPhieuChinhSuaModel) {
         return this.post(
-        API_URL + ConfigUrlApi.Urls.PhieuChinhSua.TaoMoi,
-        model
+            API_URL + ConfigUrlApi.Urls.PhieuChinhSua.TaoMoi,
+            model
         );
     }
 
@@ -28,8 +40,11 @@ class PhieuChinhSuaAPI extends BaseApi {
 export interface IPhieuChinhSuaAPI {
     DanhSachPhieuSuaDiemDat(): Promise<AxiosResponse>;
     DanhSachPhieuSuaBangQuangCao(): Promise<AxiosResponse>;
+    ChiTietPhieuSuaDiemDat(id:number | null): Promise<AxiosResponse>;
+    ChiTietPhieuSuaBangQuangCao(id:number | null): Promise<AxiosResponse>;
     TaoMoi(model: ThemPhieuChinhSuaModel): Promise<AxiosResponse>;
-    CapNhat(id:number, payload: any): Promise<AxiosResponse>;
+    CapNhat(id: number, payload: any): Promise<AxiosResponse>;
+
 }
 
 export const phieuChinhSuaAPI: IPhieuChinhSuaAPI = new PhieuChinhSuaAPI();

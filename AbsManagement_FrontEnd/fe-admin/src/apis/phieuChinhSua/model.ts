@@ -27,5 +27,5 @@ export interface DanhSachPhieuCapPhepSuaBase extends CanBoYeuCau, CanBoCapPhepBa
     tinhTrang: string
 }
 
-export interface DanhSachPhieuCapPhepSuaDiemDat extends DanhSachPhieuCapPhepSuaBase, BaseDiemDatQuangCao {}
+export interface PhieuCapPhepSuaDiemDatModel extends DanhSachPhieuCapPhepSuaBase, BaseDiemDatQuangCao {}
 export interface DanhSachPhieuCapPhepSuaBangQuangCao extends DanhSachPhieuCapPhepSuaBase, BaseBangQuangCao {}

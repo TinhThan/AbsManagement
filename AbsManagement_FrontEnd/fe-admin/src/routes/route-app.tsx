@@ -31,6 +31,7 @@ import ListFixBoard from "../pages/capphepsuaquangcao/listFixBoard";
 import DetailFixLocation from "../pages/capphepsuaquangcao/detailFixLocation";
 import DetailFixBoard from "../pages/capphepsuaquangcao/detailFixBoard";
 import ListAcceptAds from "../pages/capPhepQuangCao/list";
+import DetailAcceptAds from "../pages/capPhepQuangCao/detail";
 
 const router = createBrowserRouter([
   {
@@ -155,7 +156,16 @@ const router = createBrowserRouter([
       {
         path: ConfigRoute.CanBoSo.DuyetCapPhepQuangCao,
         loader:protectedCanBoLoader,
-        Component: ListAcceptAds
+        children: [
+          {
+            path: ConfigRoute.CanBoSo.DuyetCapPhepQuangCao,
+            Component: ListAcceptAds
+          },
+          {
+            path: `${ConfigRoute.CanBoSo.DuyetCapPhepQuangCao}/:id`,
+            Component: DetailAcceptAds
+          },
+        ]
       },
       {
         path: ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao,
@@ -163,15 +173,15 @@ const router = createBrowserRouter([
         children: [
           {
             path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao`,
-            Component: ListFixLocation
-          },
-          {
-            path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao`,
-            Component: ListFixBoard
+            Component: ListFixLocation,
           },
           {
             path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/diem-dat-quang-cao/:id`,
             Component: DetailFixLocation
+          },
+          {
+            path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao`,
+            Component: ListFixBoard
           },
           {
             path: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao/:id`,
