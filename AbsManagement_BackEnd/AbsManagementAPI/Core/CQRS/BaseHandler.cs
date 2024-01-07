@@ -26,9 +26,8 @@ namespace AbsManagementAPI.Core.CQRS
             authInfo = HelperIdentity.GetUserContext(_context.HttpContext);
         }
 
-        public async Task<string> AddLog(ThemLogCommand request)
+        public async Task AddLog(ThemLogCommand request)
         {
-            //var log = _mapper.Map<LogEntity>(request.ThemLogModel);
             var log = new LogEntity
             {
                 UserId = authInfo.Id,
@@ -41,21 +40,14 @@ namespace AbsManagementAPI.Core.CQRS
                 Type = request.ThemLogModel.Type,
                 CreateDate = DateTime.Now,
             };
-            //log.UserId = authInfo.Id;
-            //log.CreateDate = DateTime.Now;
             try
             {
                 await _dataContext.AddAsync(log);
                 var resultThemMoi = await _dataContext.SaveChangesAsync();
-                if (resultThemMoi > 0)
-                {
-                    return MessageSystem.ADD_SUCCESS;
-                }
-                throw new CustomMessageException(MessageSystem.ADD_FAIL);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new CustomMessageException(MessageSystem.ADD_FAIL, ex.Message);
+                return;
             }
         }
     }
