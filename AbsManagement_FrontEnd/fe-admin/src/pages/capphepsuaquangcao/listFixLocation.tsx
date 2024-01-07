@@ -1,9 +1,7 @@
 import { PageContainer, PageLoading } from "@ant-design/pro-components";
 import { Col, Dropdown, Input, Popconfirm, Row, Space, Spin, Table, TableColumnType } from "antd";
 import { FC, Suspense, useEffect, useState } from "react";
-import { createSearchParams, useNavigate } from "react-router-dom";
 import { DanhSachPhieuCapPhepSuaDiemDat } from "../../apis/phieuChinhSua/model";
-import { ConfigRoute } from "../../routes/ConfigRoute";
 import { EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { phieuChinhSuaAPI } from "../../apis/phieuChinhSua";
 import moment from 'moment';
@@ -16,7 +14,6 @@ export const tinhTrangType = {
 }
 
 const ListFixLocation: FC = () => {
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);

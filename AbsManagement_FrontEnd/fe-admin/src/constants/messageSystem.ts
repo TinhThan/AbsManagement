@@ -16,7 +16,7 @@ export const messageRoute ={
     DiemDatQuangCao:'Điểm đặt quảng cáo',
     DuyetDiemQuangCao: 'Duyệt điểm đặt quảng cáo',
     DuyetBangQuangCao: 'Duyệt bảng quảng cáo',
-    DuyetCapPhepQuangCao: 'Quyệt cấp phép quảng cáo',
+    DuyetCapPhepQuangCao: 'Duyệt cấp phép quảng cáo',
     ThongKe_Phuong: 'Thống kê phường',
     ThongKe_Quan: 'Thống kê quận',
     BangQuangCao: "Bảng quảng cáo",

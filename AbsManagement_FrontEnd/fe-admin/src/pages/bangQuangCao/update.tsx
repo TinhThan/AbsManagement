@@ -27,10 +27,7 @@ import { SpaceToGeoJson } from '../../utils/anyToGeoJson';
 import { LayerSpaceNotPanned, LayerSpaceNotPannedLabel, LayerSpaceNotPannedPoint, LayerSpacePanned, LayerSpacePannedLabel, LayerSpacePannedPoint } from '../../utils/layerMap';
 import dayjs from 'dayjs';
 import { tinhTrangBangQuangCao } from './create';
-<<<<<<< HEAD
 import { messageValidate } from '../../utils/validator';
-=======
->>>>>>> origin/thinh_update
 
 const getBase64 = (file) =>
     new Promise((resolve, reject) => {

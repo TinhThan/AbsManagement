@@ -1,40 +1,38 @@
 import { PageContainer, PageLoading } from "@ant-design/pro-components";
 import { Col, Dropdown, Input, Popconfirm, Row, Space, Spin, Table, TableColumnType } from "antd";
 import { FC, Suspense, useEffect, useState } from "react";
-import { DanhSachPhieuCapPhepSuaBangQuangCao } from "../../apis/phieuChinhSua/model";
+import { DanhSachPhieuCapPhepModel } from "../../apis/phieuCapPhepBangQuangCao/model";
 import { EditOutlined, EllipsisOutlined } from '@ant-design/icons';
-import { phieuChinhSuaAPI } from "../../apis/phieuChinhSua";
+import { phieuCapPhepBangQuangCaoAPI } from "../../apis/phieuCapPhepBangQuangCao";
 import moment from 'moment';
-import { tinhTrangType } from "./listFixLocation";
 
 const { Search } = Input;
 
-const tinhTrangDiemDatQuangCao = {
-    DaQuyHoach: "Đã quy hoạch",
-    ChuaQuyHoach: "Chưa quy hoạch"
+export const tinhTrangType = {
+    ChoDuyet: "Chờ duyệt",
+    DaDuyet: "Đã duyệt"
 }
 
-const ListFixBoard : FC = () => {
+const ListAcceptAds : FC = () => {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [data, setData] = useState<DanhSachPhieuCapPhepSuaBangQuangCao[]>([]);
+    const [data, setData] = useState<DanhSachPhieuCapPhepModel[]>([]);
     const [idUpdate, setIdUpdate] = useState<number>(0);
 
     const handleOk = () => {
         setConfirmLoading(true);
-        const payload = {
-            tinhTrang: 'DaDuyet',
-        }
+        setLoading(true);
 
-        phieuChinhSuaAPI.CapNhat(idUpdate, payload)
+        phieuCapPhepBangQuangCaoAPI.Duyet(idUpdate)
             .then((res: any) => {
                 if (res && res.status === 200) {
-                    getDanhSachSuaBang();
+                    getDanhSachSuaDiemDat();
                 }
             })
 
         setOpen(false);
+        setLoading(false);
         setConfirmLoading(false);
     }
 
@@ -42,15 +40,15 @@ const ListFixBoard : FC = () => {
         setOpen(false);
     };
 
-    const updateReportStatus = (id: number) => {
+    const updateFixLocationStatus = (id: number) => {
         setOpen(true);
         setIdUpdate(id);
     }
 
-    async function getDanhSachSuaBang() {
+    async function getDanhSachSuaDiemDat() {
         setLoading(true);
-        phieuChinhSuaAPI
-            .DanhSachPhieuSuaBangQuangCao()
+        phieuCapPhepBangQuangCaoAPI
+            .DanhSach()
             .then((response) => {
                 if (response && response.status === 200) {
                     const newData = response.data.map((item: any) => {
@@ -67,10 +65,10 @@ const ListFixBoard : FC = () => {
     }
 
     useEffect(() => {
-        getDanhSachSuaBang();
+        getDanhSachSuaDiemDat();
     }, [])
 
-    const columns: TableColumnType<DanhSachPhieuCapPhepSuaBangQuangCao>[] = [
+    const columns: TableColumnType<DanhSachPhieuCapPhepModel>[] = [
         {
             title: 'Id',
             dataIndex: 'id',
@@ -79,8 +77,8 @@ const ListFixBoard : FC = () => {
             fixed: true
         },
         {
-            title: "Tên người gữi",
-            width: 250,
+            title: "Tên cán bộ gửi",
+            width: 150,
             sorter: true,
             dataIndex: 'tenCanBoGui',
             key: 'tenCanBoGui'
@@ -94,35 +92,25 @@ const ListFixBoard : FC = () => {
             render: (value: string) => moment(value).format('DD-MM-YYYY HH:mm')
         },
         {
+            title: "Tên loại bảng",
+            width: 250,
+            sorter: true,
+            dataIndex: 'tenLoaiBangQuangCao',
+            key: 'tenLoaiBangQuangCao'
+        },
+        {
             title: "Địa điểm",
-            width: 150,
+            width: 250,
             sorter: true,
-            dataIndex: 'bangQuangCao',
-            key: 'diaChi',
-            render: (value: any) => value?.diaChiCongTy || 'N/A',
-        },
-        {
-            title: "Kích thước",
-            width: 150,
-            sorter: true,
-            dataIndex: 'bangQuangCao',
-            key: 'kichthuoc',
-            render: (value: any) => value?.kichThuoc || 'N/A',
-        },
-        {
-            title: "Tình trạng bảng quảng cáo",
-            width: 150,
-            sorter: true,
-            dataIndex: 'bangQuangCao',
-            key: 'idTinhTrang',
-            render: (value: any) => tinhTrangDiemDatQuangCao[value?.idTinhTrang] || 'N/A',
+            dataIndex: 'diaChi',
+            key: 'diaChi'
         },
         {
             title: "Tình trạng",
             width: 150,
             sorter: true,
-            dataIndex: 'tinhTrang',
-            key: 'tinhTrang',
+            dataIndex: 'idTinhTrang',
+            key: 'idTinhTrang',
             showSorterTooltip: false,
             render: (value: string) => {
                 return tinhTrangType[value];
@@ -133,19 +121,19 @@ const ListFixBoard : FC = () => {
             width: 80,
             key: 'function',
             fixed: 'right',
-            render: (row: DanhSachPhieuCapPhepSuaBangQuangCao) => {
+            render: (row: DanhSachPhieuCapPhepModel) => {
                 return (
                     <Dropdown
                         destroyPopupOnHide
                         overlayClassName='drop-down-button'
                         menu={{
                             items: [
-                                (row.tinhTrang != "DaDuyet") ?
+                                (row.idTinhTrang != "DaDuyet") ?
                                     {
-                                        label: "Cập nhật trạng thái",
+                                        label: "Duyệt phiếu",
                                         key: "1",
                                         icon: <EditOutlined />,
-                                        onClick: () => updateReportStatus(row.id)
+                                        onClick: () => updateFixLocationStatus(row.id)
                                     } : null
                             ]
                         }}
@@ -160,7 +148,7 @@ const ListFixBoard : FC = () => {
 
     return (
         <Suspense fallback={<PageLoading />}>
-            <PageContainer title="Danh sách bảng quảng cáo cần sửa chửa">
+            <PageContainer title="Danh sách biển quảng cáo cần cấp phép">
                 <Spin spinning={loading}>
                     <Space direction='vertical' size={0} className='layout-basic-page'>
                         <Row wrap={false} gutter={[5, 5]} style={{ marginBottom: '10px' }}>
@@ -175,7 +163,7 @@ const ListFixBoard : FC = () => {
 
             <Popconfirm
                 title=" "
-                description="Xác nhận cập nhật thông tin!"
+                description="Xác nhận duyệt!"
                 open={open}
                 onConfirm={handleOk}
                 okButtonProps={{ loading: confirmLoading }}
@@ -185,4 +173,4 @@ const ListFixBoard : FC = () => {
     )
 }
 
-export default ListFixBoard
+export default ListAcceptAds;
