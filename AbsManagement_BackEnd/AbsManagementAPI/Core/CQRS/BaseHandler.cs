@@ -3,7 +3,7 @@ using AbsManagementAPI.Core.Constants;
 using AbsManagementAPI.Core.CQRS.PhieuCapPhepSuaQuangCao.Command;
 using AbsManagementAPI.Core.Entities;
 using AbsManagementAPI.Core.Exceptions.Common;
-using AbsManagementAPI.Core.Log.Command;
+using AbsManagementAPI.Core.Logged.Command;
 using AbsManagementAPI.Entities;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;

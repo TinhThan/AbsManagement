@@ -7,8 +7,8 @@ using AbsManagementAPI.Core.Exceptions.Common;
 using AutoMapper;
 using MediatR;
 using Newtonsoft.Json;
-using AbsManagementAPI.Core.Log.Command;
-using AbsManagementAPI.Core.CQRS.Log;
+using AbsManagementAPI.Core.Logged.Command;
+using AbsManagementAPI.Core.CQRS.Logged;
 
 namespace AbsManagementAPI.Core.CQRS.LoaiBangQuangCao.CommandHandler
 {
