@@ -21,17 +21,32 @@ const ListFixLocation: FC = () => {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [data, setData] = useState<DanhSachPhieuCapPhepSuaDiemDat[]>([]);
+    const [idUpdate, setIdUpdate] = useState<number>(0);
 
     const handleOk = () => {
+        setConfirmLoading(true);
+        const payload = {
+            tinhTrang: 'DaDuyet',
+        }
 
+        phieuChinhSuaAPI.CapNhat(idUpdate, payload)
+            .then((res: any) => {
+                if (res && res.status === 200) {
+                    getDanhSachSuaDiemDat();
+                }
+            })
+
+        setOpen(false);
+        setConfirmLoading(false);
     }
 
     const handleCancel = () => {
         setOpen(false);
     };
 
-    const updateReportStatus = (id: number) => {
+    const updateFixLocationStatus = (id: number) => {
         setOpen(true);
+        setIdUpdate(id);
     }
 
     async function getDanhSachSuaDiemDat() {
@@ -111,24 +126,12 @@ const ListFixLocation: FC = () => {
                         overlayClassName='drop-down-button'
                         menu={{
                             items: [
-                                {
-                                    label: "Chi tiết",
-                                    key: "1",
-                                    icon: <EditOutlined />,
-
-                                    onClick: () => navigate({
-                                        pathname: `${ConfigRoute.CanBoSo.BaoCaoViPham}/chitiet`,
-                                        search: `?${createSearchParams({
-                                            id: row.id.toString()
-                                        })}`
-                                    })
-                                },
-                                (row.idTinhTrang != "DaXuLy") ?
+                                (row.tinhTrang != "DaDuyet") ?
                                     {
                                         label: "Cập nhật trạng thái",
-                                        key: "2",
+                                        key: "1",
                                         icon: <EditOutlined />,
-                                        onClick: () => updateReportStatus(row.id)
+                                        onClick: () => updateFixLocationStatus(row.id)
                                     } : null
                             ]
                         }}

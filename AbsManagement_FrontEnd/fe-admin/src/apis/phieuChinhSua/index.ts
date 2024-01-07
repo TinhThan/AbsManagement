@@ -20,8 +20,8 @@ class PhieuChinhSuaAPI extends BaseApi {
         );
     }
 
-    async CapNhat(id: number) {
-        return this.post(API_URL + ConfigUrlApi.Urls.PhieuChinhSua.CapNhat + id);
+    async CapNhat(id: number, payload: any) {
+        return this.post(API_URL + ConfigUrlApi.Urls.PhieuChinhSua.CapNhat + id, payload);
     }
 }
 
@@ -29,7 +29,7 @@ export interface IPhieuChinhSuaAPI {
     DanhSachPhieuSuaDiemDat(): Promise<AxiosResponse>;
     DanhSachPhieuSuaBangQuangCao(): Promise<AxiosResponse>;
     TaoMoi(model: ThemPhieuChinhSuaModel): Promise<AxiosResponse>;
-    CapNhat(id:number): Promise<AxiosResponse>;
+    CapNhat(id:number, payload: any): Promise<AxiosResponse>;
 }
 
 export const phieuChinhSuaAPI: IPhieuChinhSuaAPI = new PhieuChinhSuaAPI();
