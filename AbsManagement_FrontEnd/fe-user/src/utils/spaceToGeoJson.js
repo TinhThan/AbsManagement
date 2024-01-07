@@ -1,5 +1,5 @@
 export function SpaceToGeoJson(spaces,tinhTrang) {
-    const geoJSONFeatures = spaces.filter(space=>space.idTinhTrang === tinhTrang).map(space => {
+    const geoJSONFeatures = spaces.filter(space=>(tinhTrang ? space.idTinhTrang === tinhTrang : true)).map(space => {
         return {
             type: 'Feature',
             geometry: {

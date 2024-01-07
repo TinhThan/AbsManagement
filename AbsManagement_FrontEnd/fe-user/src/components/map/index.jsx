@@ -16,8 +16,15 @@ import CardPoint from '../card/point'
 import CardSurface from '../card/surface'
 import { cluterLayersReport, unclusteredLabelLayerReport, unclusteredLayerReport, LayerSpacePanned, LayerSpacePannedLabel, LayerSpacePannedPoint, LayerSpaceNotPanned, LayerSpaceNotPannedLabel, LayerSpaceNotPannedPoint } from './layers'
 import ReportInfo from '../points/reportInfo'
+import ModalDetailReport from '../modal/detailReport'
 
 const { Content, Sider } = Layout;
+
+export const tinhTrangReports = {
+    "ChuaXuLy": "Chưa xử lý",
+    "DangXuLy": "Đang xử lý",
+    "DaXuLy": "Đã xử lý"
+}
 
 export default function Map({spaces,reports}) {
     const mapContainerRef = useRef(null);
@@ -25,6 +32,7 @@ export default function Map({spaces,reports}) {
     const [collapsed, setCollapsed] = useState(true);
     const [location,setLocation] = useState();
     const [surfaces,setSurfaces] = useState([]); // bảng quảng cáo
+    const [email,setEmail] = useState([]);
 
     mapboxgl.accessToken = process.env.REACT_APP_MAP_BOX_KEY;
 
@@ -78,19 +86,17 @@ export default function Map({spaces,reports}) {
 
             await getSurfaceBySpace(description.id)
             
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
+
             const space = spaces.find(t=>t.id === description.id);
             setLocation({
                 lng: coordinates[0],
                 lat: coordinates[1],
                 ...space
             })
-            console.log("description",description)
+            
             setCollapsed(false)
             new mapboxgl.Popup()
             .setLngLat(coordinates)
@@ -145,24 +151,21 @@ export default function Map({spaces,reports}) {
             const description = e.features[0].properties;
 
             // await getSurfaceBySpace(description.id)
-            
-            // Ensure that if the map is zoomed out such that multiple
-            // copies of the feature are visible, the popup appears
-            // over the copy being pointed to.
+
             while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
                 coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
             }
             const report = reports.find(t=>t.id === description.id);
-            setLocation({
-                lng: coordinates[0],
-                lat: coordinates[1],
-                ...report
-            })
-            setCollapsed(false)
-            new mapboxgl.Popup()
+
+            const popup = new mapboxgl.Popup()
             .setLngLat(coordinates)
             .setHTML(ReportInfo(report))
             .addTo(map.current);
+
+            document.querySelector("#report-popup")?.addEventListener('click',(e)=>{
+                onDetailReport(report)
+                popup.remove();
+            })
         });
 
         map.current.on('click', 'clusters-report-space', (e) => {
@@ -239,7 +242,7 @@ export default function Map({spaces,reports}) {
             //Handle poin space not panned
             map.current.addSource("spaceNotPanneds", {
                 type: "geojson",
-                data: SpaceToGeoJson(spaces,"ChuaQuyHoach"),
+                data: SpaceToGeoJson(spaces,null),
                 cluster: true,
                 clusterMaxZoom: 14,
                 clusterRadius: 50,
@@ -348,6 +351,15 @@ export default function Map({spaces,reports}) {
         }
     }
 
+    function onDetailReport(report){
+        if(report){
+            const _root = renderModal(<ModalDetailReport onCancel={() => {
+                console.log("cancel")
+                _root?.unmount()
+            }} baoCaoViPham={report}/> );
+        }
+    }
+
     return (
         <Layout hasSider>
             <Content style={{height:'100vh', width:'100vw'}}>
@@ -357,6 +369,7 @@ export default function Map({spaces,reports}) {
                     <Checkbox className='space-panned' defaultChecked onChange={checkedSpacePanned}>Đã quy hoạch</Checkbox>
                     <Checkbox className='space-not-panned' defaultChecked onChange={checkedSpaceNotPanned}>Chưa quy hoạch</Checkbox>
                     <Checkbox className='space-panned' defaultChecked onChange={checkedReport}><strong>Báo cáo vi phạm </strong></Checkbox>
+                    <Checkbox className='space-panned' defaultChecked={false} onChange={checkedReport}><strong>Báo cáo theo email: {email} </strong></Checkbox>
                 </div>
             </Affix>
                 <div id="map" ref={mapContainerRef}  />

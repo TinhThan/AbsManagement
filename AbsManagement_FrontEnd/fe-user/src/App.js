@@ -22,8 +22,6 @@ function App() {
             {
                 setSpaces(response.data)
             }
-        }).catch((e)=>{
-            console.log("error1",e)
         });
     } catch (error) {
         console.log("error2",error);
@@ -37,8 +35,6 @@ function App() {
               {
                   setReports(response.data)
               }
-          }).catch((e)=>{
-              console.log(e)
           });
       } catch (error) {
       console.log(error);
@@ -46,7 +42,7 @@ function App() {
   }
   return (
     <>
-    {spaces && spaces.length > 0 &&         <Map spaces={spaces} reports={reports}/>}
+    {spaces && spaces.length > 0 && <Map spaces={spaces} reports={reports}/>}
     </>
   )
 }
