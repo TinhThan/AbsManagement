@@ -5,6 +5,7 @@ import { canBoAPI } from '../../../apis/canBo/canBoAPI';
 import { useState } from 'react';
 import dataHCM from '../../../assets/new-dataHCM.json';
 import { getDistrictsAndWards } from '../../../utils/getWard';
+import { messageValidate, validateDatePicker } from '../../../utils/validator';
 
 interface Props {
   onCancel:()=>void;
@@ -103,19 +104,20 @@ export function ModalCreateCanBo(props: Props): JSX.Element {
         onFinish={onSubmit}
       >
         <Col>
-          <Form.Item label={"Email"} name={"email"}>
+          <Form.Item label={"Email"} name={"email"}
+              rules={[{ required: true ,message: messageValidate.RequireEmail}, { type:'email',message: messageValidate.RequireEmailInvalid}]}>
             <Input className='input-code' />
           </Form.Item>
-          <Form.Item label={"Họ và tên"} name={"hoTen"}>
+          <Form.Item label={"Họ và tên"} name={"hoTen"} rules={[{ required: true ,message: messageValidate.RequireName}]}>
               <Input/>
           </Form.Item>
-          <Form.Item label={"Số điện thoại"} name={"soDienThoai"}>
+          <Form.Item label={"Số điện thoại"} name={"soDienThoai"} rules={[{ required: true ,message: messageValidate.RequireSoDienThoai}]}>
             <Input/>
           </Form.Item>
-          <Form.Item label={"Ngày sinh"} name={"ngaySinh"}>
+          <Form.Item label={"Ngày sinh"} name={"ngaySinh"} rules={[{ required: true ,type: 'date',message: messageValidate.RequireNgaySinh}, {validator : validateDatePicker}]}>
             <DatePicker/>
           </Form.Item>
-          <Form.Item label={"Quyền"} name={'role'}>
+          <Form.Item label={"Quyền"} name={'role'} rules={[{ required: true ,message:  messageValidate.RequireQuyen}]}>
             <Radio.Group style={{ width: '100%' }} onChange={(value)=>setRole(value.target.value)}>
               <Row gutter={5}>
                 {roleCanBo.map((option) => (
@@ -130,7 +132,7 @@ export function ModalCreateCanBo(props: Props): JSX.Element {
           </Form.Item>
         {role && role !== roleCanBo[2].ma && 
           <>
-            <Form.Item label={"Quận"} name={'quan'}>
+            <Form.Item label={"Quận"} name={'quan'} rules={[{ required: true ,message:  messageValidate.RequireQuan}]}>
               <Select placeholder="Vui lòng chọn quận" onChange={(value)=>{
                 setWards(getDistrictsAndWards(value))
                 form.setFieldValue('phuong',undefined)
@@ -141,7 +143,7 @@ export function ModalCreateCanBo(props: Props): JSX.Element {
                 </Select>
             </Form.Item>
             {
-              role === roleCanBo[0].ma && <Form.Item label={"Phường"} name={'phuong'}>
+              role === roleCanBo[0].ma && <Form.Item label={"Phường"} name={'phuong'} rules={[{ required: true ,message:  messageValidate.RequirePhuong}]}>
               <Select placeholder="Vui lòng chọn phường">
                   {wards.map((option) => (
                     <Select.Option key={option.postcode} value={option.postcode}>Phường {option.name}</Select.Option>

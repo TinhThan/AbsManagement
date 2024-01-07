@@ -21,6 +21,7 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import dataHCM from '../../assets/new-dataHCM.json';
 import { ThemPhieuChinhSuaModel } from '../../apis/phieuChinhSua/model';
 import { phieuChinhSuaAPI } from '../../apis/phieuChinhSua';
+import { MessageBox } from '../../utils/messagebox';
 
 const tinhTrangDiemDatQuangCao = [
     {
@@ -254,6 +255,11 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
 
     async function onSubmit(_model: CapNhatDiemDatQuangCaoModel) {
         setLoading(true)
+        if(!danhSachViTri || danhSachViTri.length <2)
+        {
+            MessageBox.Warning("Vui lòng chọn vị trí điểm đặt quảng cáo.");
+            return;
+        }
         if (_model &&  diemDatQuangCao) {
             console.log("_model",_model)
             _model.danhSachHinhAnh = await uploadImages();
@@ -322,14 +328,14 @@ export function UpdateDiemDatQuangCao(): JSX.Element {
                     <Row gutter={[10,10]}>
                         <Col span={14}>
                             <Card title={<b>Thông tin điểm đặt quảng cáo</b>} bordered={false}>
-                                <Form.Item label={"Loại vị trí"} name={'idLoaiViTri'}>
+                                <Form.Item label={"Loại vị trí"} name={'idLoaiViTri'} rules={[{ required: true ,message: }]}>
                                     <Select placeholder="Vui lòng chọn loại vị trí" >
                                         {loaiViTris && loaiViTris.map((option) => (
                                             <Select.Option key={option.id} value={option.id}>{option.ma} - {option.ten}</Select.Option>
                                         ))}
                                     </Select>
                                 </Form.Item>
-                                <Form.Item label={"Hình thức quảng cáo"} name={'idHinhThucQuangCao'}>
+                                <Form.Item label={"Hình thức quảng cáo"} name={'idHinhThucQuangCao'} rules={[{ required: true ,message:"Thông tin bắt buộc."}]}>
                                     <Select placeholder="Vui lòng chọn hình thức quảng cáo" >
                                         {hinhThucQuangCaos && hinhThucQuangCaos.map((option) => (
                                             <Select.Option key={option.id} value={option.id}>{option.ma} - {option.ten}</Select.Option>

@@ -27,6 +27,7 @@ import { SpaceToGeoJson } from '../../utils/anyToGeoJson';
 import { LayerSpaceNotPanned, LayerSpaceNotPannedLabel, LayerSpaceNotPannedPoint, LayerSpacePanned, LayerSpacePannedLabel, LayerSpacePannedPoint } from '../../utils/layerMap';
 import dayjs from 'dayjs';
 import { tinhTrangBangQuangCao } from './create';
+import { messageValidate } from '../../utils/validator';
 
 const getBase64 = (file) =>
     new Promise((resolve, reject) => {
@@ -366,23 +367,28 @@ export function UpdateBangQuangCao(): JSX.Element {
                     <Row gutter={[10,10]}>
                         <Col span={14}>
                             <Card title={<b>Thông tin bảng quảng cáo</b>} bordered={false}>
-                                <Form.Item label={"Loại bảng quảng cáo"} name={'idLoaiBangQuangCao'}>
-                                    <Select placeholder="Vui lòng chọn loại vị trí" >
+                                <Form.Item label={"Loại bảng quảng cáo"} name={'idLoaiBangQuangCao'}
+                                rules={[{ required: true ,message: messageValidate.RequireLoaiBangQuangCao}]}>
+                                    <Select placeholder="Vui lòng chọn loại bảng quảng cáo" >
                                         {loaiBangQuangCaos && loaiBangQuangCaos.map((option) => (
                                             <Select.Option key={option.id} value={option.id}>{option.ma} - {option.ten}</Select.Option>
                                         ))}
                                     </Select>
                                 </Form.Item>
-                                <Form.Item label={"Kích thước"} name={'kichThuoc'}>
+                                <Form.Item label={"Kích thước"} name={'kichThuoc'}
+                                rules={[{ required: true ,message: messageValidate.RequireKichThuoc}]}>
                                     <Input/>
                                 </Form.Item>
-                                <Form.Item label={"Ngày bắt đầu"} name={"ngayBatDau"}>
+                                <Form.Item label={"Ngày bắt đầu"} name={"ngayBatDau"}
+                                rules={[{ required: true ,type:'date' ,message: messageValidate.RequireNgayBatDau}]}>
                                     <DatePicker />
                                 </Form.Item>
-                                <Form.Item label={"Ngày hết hạn"} name={"ngayHetHan"}>
+                                <Form.Item label={"Ngày hết hạn"} name={"ngayHetHan"}
+                                rules={[{ required: true ,type:'date' ,message: messageValidate.RequireNgayHetHan}]}>
                                     <DatePicker />
                                 </Form.Item>
-                                <Form.Item label={"Tình trạng"} name={'idTinhTrang'}>
+                                <Form.Item label={"Tình trạng"} name={'idTinhTrang'}
+                                rules={[{ required: true ,message: messageValidate.RequireTinhTrang}]}>
                                     <Select placeholder="Vui lòng chọn tình trạng">
                                         {tinhTrangBangQuangCao && tinhTrangBangQuangCao.map((option) => (
                                             <Select.Option key={option.ma} value={option.ma}>{option.ten}</Select.Option>
@@ -409,16 +415,20 @@ export function UpdateBangQuangCao(): JSX.Element {
                         <Col span={10}>
                         <Space direction='vertical' style={{width:'100%'}}>
                                 <Card title={<b>Thông tin công ty</b>} bordered={false}>
-                                    <Form.Item label={"Tên công ty"} name='tenCongTy'>
+                                    <Form.Item label={"Tên công ty"} name='tenCongTy'
+                                rules={[{ required: true ,message: messageValidate.RequireTenCongTy}]}>
                                         <Input/>
                                     </Form.Item>
-                                    <Form.Item label={"Email"} name='email'>
+                                    <Form.Item label={"Email"} name='email'
+                                rules={[{ required: true ,message: messageValidate.RequireEmail}]}>
                                         <Input type='email'/>
                                     </Form.Item>
-                                    <Form.Item label={"Số điện thoại"} name='soDienThoai'>
+                                    <Form.Item label={"Số điện thoại"} name='soDienThoai'
+                                rules={[{ required: true ,message: messageValidate.RequireSoDienThoai}]}>
                                         <Input/>
                                     </Form.Item>
-                                    <Form.Item label={"Địa chỉ"} name='diaChiCongTy'>
+                                    <Form.Item label={"Địa chỉ"} name='diaChiCongTy'
+                                rules={[{ required: true ,message: messageValidate.RequireDiaChi}]}>
                                         <TextArea rows={2}/>
                                     </Form.Item>
                                 </Card>
