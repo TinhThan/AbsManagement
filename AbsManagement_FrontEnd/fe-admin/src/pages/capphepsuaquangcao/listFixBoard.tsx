@@ -6,6 +6,8 @@ import { EditOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { phieuChinhSuaAPI } from "../../apis/phieuChinhSua";
 import moment from 'moment';
 import { tinhTrangType } from "./listFixLocation";
+import { useNavigate, createSearchParams } from "react-router-dom";
+import { ConfigRoute } from "../../routes/ConfigRoute";
 
 const { Search } = Input;
 
@@ -15,6 +17,7 @@ const tinhTrangDiemDatQuangCao = {
 }
 
 const ListFixBoard : FC = () => {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -140,10 +143,21 @@ const ListFixBoard : FC = () => {
                         overlayClassName='drop-down-button'
                         menu={{
                             items: [
+                                {
+                                    label: "Chi tiết",
+                                    key: "1",
+                                    icon: <EditOutlined />,
+                                    onClick: () => navigate({
+                                        pathname: `${ConfigRoute.CanBoSo.DuyetCapPhepSuaQuangCao}/bang-quang-cao/chitiet`,
+                                        search: `?${createSearchParams({
+                                            id: row.id.toString()
+                                        })}`
+                                    })
+                                },
                                 (row.tinhTrang != "DaDuyet") ?
                                     {
                                         label: "Cập nhật trạng thái",
-                                        key: "1",
+                                        key: "2",
                                         icon: <EditOutlined />,
                                         onClick: () => updateReportStatus(row.id)
                                     } : null

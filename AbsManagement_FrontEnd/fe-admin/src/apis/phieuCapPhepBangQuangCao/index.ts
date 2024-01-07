@@ -16,6 +16,12 @@ class PhieuCapPhepBangQuangCaoAPI extends BaseApi {
         );
     }
 
+    async ChiTiet(id: number | null) {
+        return this.get(
+            API_URL + ConfigUrlApi.Urls.PhieuCapPhep.ChiTiet + id
+        );
+    }
+
     async Duyet(id: number) {
         return this.post(API_URL + ConfigUrlApi.Urls.PhieuCapPhep.Duyet + id);
     }
@@ -24,6 +30,7 @@ class PhieuCapPhepBangQuangCaoAPI extends BaseApi {
 export interface IPhieuCapPhepBangQuangCaoAPI {
     DanhSach(): Promise<AxiosResponse>;
     TaoMoi(model: ThemPhieuCapPhepModel): Promise<AxiosResponse>;
+    ChiTiet(id:number | null): Promise<AxiosResponse>;
     Duyet(id:number): Promise<AxiosResponse>;
 }
 
